@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of, Observable, BehaviorSubject, Subscription } from 'rxjs';
-import {
-  tap,
-  distinctUntilChanged,
-  map,
-  switchMap,
-  catchError
-} from 'rxjs/operators';
+import { tap, distinctUntilChanged, map } from 'rxjs/operators';
 import { ApiService } from '../services/admin/api.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '@app/shared/services';
@@ -67,6 +61,9 @@ export class AuthService {
                 .then(res => {
                   subscription.unsubscribe();
                   user.organizationLocationView = `${res.results[0].name}, ${res.results[0].state.country.name}`;
+                })
+                .catch(e => {
+                  console.warn(e);
                 });
             } else {
               user.organizationLocationView = 'Organization';

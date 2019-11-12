@@ -165,40 +165,47 @@ module.exports = {
     if (params.searchKey !== "" && params.searchValue !== "") {
       objWhere[params.searchKey] = { $like: `%${params.searchValue}%` };
     }
+    const attributes = [
+      "id",
+      "title",
+      "updatedAt",
+      "createdAt",
+      "json",
+      "status",
+      "isFavorite"
+    ];
+    const include = [];
 
-    return surveyFormsModel.findAll({
-      attributes: [
-        "id",
-        "title",
-        "updatedAt",
-        "createdAt",
-        "json",
-        "status",
-        "isFavorite",
-        [
+    if (params.countColumn) {
+      if (params.countColumn === "collector") {
+        attributes.push([
           Sequelize.fn("COUNT", Sequelize.col("survey_collectors.id")),
           "collector"
-        ],
-        [
-          Sequelize.fn("COUNT", Sequelize.col("survey_responses.id")),
-          "response"
-        ]
-      ],
-      where: objWhere,
-      limit: params.paging.pageSize,
-      offset: (params.paging.page - 1) * params.paging.pageSize,
-      include: [
-        {
+        ]);
+        include.push({
           model: surveyCollectorsModel,
           attributes: [],
           duplicating: false
-        },
-        {
+        });
+      } else if (params.countColumn === "response") {
+        attributes.push([
+          Sequelize.fn("COUNT", Sequelize.col("survey_responses.id")),
+          "response"
+        ]);
+        include.push({
           model: surveyResponsesModel,
           attributes: [],
           duplicating: false
-        }
-      ],
+        });
+      }
+    }
+
+    return surveyFormsModel.findAll({
+      where: objWhere,
+      attributes,
+      limit: params.paging.pageSize,
+      offset: (params.paging.page - 1) * params.paging.pageSize,
+      include,
       group: ["survey_forms.id"],
       order
     });

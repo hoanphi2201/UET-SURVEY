@@ -7,13 +7,15 @@ import { CreateFormRouting } from './create-form.routing';
 import { CollectResponsesComponent } from './pages/collect-responses/collect-responses.component';
 import { CollectLinkComponent } from './pages/collect-link/collect-link.component';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { AnalyzeResultsComponent } from './pages/analyze-results/analyze-results.component';
 
 const COMPONENTS = [
   DesignSurveyComponent,
   SummaryComponent,
   PreviewScoreComponent,
   CollectResponsesComponent,
-  CollectLinkComponent
+  CollectLinkComponent,
+  AnalyzeResultsComponent
 ];
 
 @NgModule({

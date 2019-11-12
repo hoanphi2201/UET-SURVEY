@@ -170,6 +170,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
       this.filterKey = '';
     }
     this.loaderService.display(true);
+    const countColumn = 'response';
     this.dSurveyFormService
       .getDefaultSurveyFormList(
         this.pagging.page,
@@ -179,7 +180,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
         this.searchKey,
         this.searchValue || '',
         this.filterKey,
-        JSON.stringify(this.filterValue)
+        JSON.stringify(this.filterValue),
+        countColumn
       )
       .subscribe(
         res => {

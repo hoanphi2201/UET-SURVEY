@@ -6,6 +6,7 @@ import { PreviewScoreComponent } from './pages/preview-score/preview-score.compo
 import { CollectResponsesComponent } from './pages/collect-responses/collect-responses.component';
 import { CollectLinkComponent } from './pages/collect-link/collect-link.component';
 import { AuthGuard } from '@app/core';
+import { AnalyzeResultsComponent } from './pages/analyze-results/analyze-results.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,11 @@ const routes: Routes = [
     path: 'collector-responses/:surveyFormId',
     canActivate: [AuthGuard],
     component: CollectResponsesComponent
+  },
+  {
+    path: 'analyze-results/:surveyFormId',
+    canActivate: [AuthGuard],
+    component: AnalyzeResultsComponent
   },
   {
     path: 'collector-responses/collector-link/:collectorId',

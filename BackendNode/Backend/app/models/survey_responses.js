@@ -115,13 +115,37 @@ module.exports = {
       return surveyResponsesModel.create(surveyResponse);
     }
   },
-  getSurveyResponsesByIpAddress: (ipAddress, options = null) => {
-    return surveyResponsesModel.findOne({ ipAddress });
+  getSurveyResponsesByIpAddress: (params, options = null) => {
+    return surveyResponsesModel.findOne({
+      where: params
+    });
   },
   countSurveyResponsesByFormAndCollector: (params, options = {}) => {
     let objWhere = params;
     return surveyResponsesModel.count({
       where: objWhere
     });
+  },
+  countAllSurveyResponses: params => {
+    return surveyResponsesModel.count({
+      where: params
+    });
+  },
+  countTypicalTimeSpent: params => {
+    return surveyResponsesModel.findOne({
+      attributes: [
+        [
+          Sequelize.fn("SUM", Sequelize.col("survey_responses.totalTime")),
+          "typicalTimeSpent"
+        ]
+      ],
+      raw: true
+    });
+  },
+  clearResponsesByCollector: params => {
+    return surveyResponsesModel.destroy({ where: params });
+  },
+  getResponsesBySurveyForm: params => {
+    return surveyResponsesModel.findAll({ where: params });
   }
 };

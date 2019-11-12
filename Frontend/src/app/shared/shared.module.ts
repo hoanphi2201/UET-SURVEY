@@ -19,6 +19,7 @@ import { RenameCollectorComponent } from './modals/rename-collector/rename-colle
 import { CloseCollectorComponent } from './modals/close-collector/close-collector.component';
 import { OpenCollectorComponent } from './modals/open-collector/open-collector.component';
 import { SurveyResponseComponent } from './components/survey-response/survey-response.component';
+import { SurveyAnalyticsComponent } from './components/survey-analytics/survey-analytics.component';
 
 const COMPONENTS = [
   SurveyComponent,
@@ -33,7 +34,8 @@ const COMPONENTS = [
   RenameCollectorComponent,
   CloseCollectorComponent,
   OpenCollectorComponent,
-  SurveyResponseComponent
+  SurveyResponseComponent,
+  SurveyAnalyticsComponent
 ];
 
 @NgModule({

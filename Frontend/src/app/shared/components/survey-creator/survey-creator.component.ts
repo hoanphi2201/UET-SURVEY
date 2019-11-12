@@ -12,16 +12,12 @@ import * as Survey from 'survey-angular';
 import * as widgets from 'surveyjs-widgets';
 import * as SurveyKo from 'survey-knockout';
 
-widgets.icheck(SurveyKo);
-widgets.select2(SurveyKo);
-widgets.inputmask(SurveyKo);
 widgets.jquerybarrating(SurveyKo);
 widgets.jqueryuidatepicker(SurveyKo);
 widgets.nouislider(SurveyKo);
 widgets.select2tagbox(SurveyKo);
 widgets.signaturepad(SurveyKo);
 widgets.sortablejs(SurveyKo);
-widgets.autocomplete(SurveyKo);
 
 import 'inputmask/dist/inputmask/phone-codes/phone.js';
 import { NzModalService } from 'ng-zorro-antd';
@@ -46,36 +42,7 @@ export class SurveyCreatorComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     // Change theme
     setTimeout(() => {
-      const mainColor = '#001629';
-      const mainHoverColor = '#6fe06f';
-      const textColor = '#4a4a4a';
-      const headerColor = '#001629';
-      const headerBackgroundColor = '#4a4a4a';
-      const bodyContainerBackgroundColor = '#f8f8f8';
-
-      const defaultThemeColorsSurvey =
-        Survey.StylesManager.ThemeColors['default'];
-      defaultThemeColorsSurvey['$main-color'] = mainColor;
-      defaultThemeColorsSurvey['$main-hover-color'] = mainHoverColor;
-      defaultThemeColorsSurvey['$text-color'] = textColor;
-      defaultThemeColorsSurvey['$header-color'] = headerColor;
-      defaultThemeColorsSurvey[
-        '$header-background-color'
-      ] = headerBackgroundColor;
-      defaultThemeColorsSurvey[
-        '$body-container-background-color'
-      ] = bodyContainerBackgroundColor;
-
-      const defaultThemeColorsEditor =
-        SurveyCreator.StylesManager.ThemeColors['default'];
-      defaultThemeColorsEditor['$primary-color'] = mainColor;
-      defaultThemeColorsEditor['$secondary-color'] = mainColor;
-      defaultThemeColorsEditor['$primary-hover-color'] = mainHoverColor;
-      defaultThemeColorsEditor['$primary-text-color'] = textColor;
-      defaultThemeColorsEditor['$selection-border-color'] = mainColor;
-
-      Survey.StylesManager.applyTheme();
-      SurveyCreator.StylesManager.applyTheme();
+      this.setTheme();
 
       const options = {
         showJSONEditorTab: false,
@@ -136,5 +103,37 @@ export class SurveyCreatorComponent implements OnInit, AfterViewInit {
         this.saveMySurvey();
       }
     });
+  }
+  setTheme() {
+    const mainColor = '#00bf6f';
+    const mainHoverColor = '#6fe06f';
+    const textColor = '#4a4a4a';
+    const headerColor = '#001629';
+    const headerBackgroundColor = '#4a4a4a';
+    const bodyContainerBackgroundColor = '#f8f8f8';
+
+    const defaultThemeColorsSurvey =
+      Survey.StylesManager.ThemeColors['default'];
+    defaultThemeColorsSurvey['$main-color'] = mainColor;
+    defaultThemeColorsSurvey['$main-hover-color'] = mainHoverColor;
+    defaultThemeColorsSurvey['$text-color'] = textColor;
+    defaultThemeColorsSurvey['$header-color'] = headerColor;
+    defaultThemeColorsSurvey[
+      '$header-background-color'
+    ] = headerBackgroundColor;
+    defaultThemeColorsSurvey[
+      '$body-container-background-color'
+    ] = bodyContainerBackgroundColor;
+
+    const defaultThemeColorsEditor =
+      SurveyCreator.StylesManager.ThemeColors['default'];
+    defaultThemeColorsEditor['$primary-color'] = mainColor;
+    defaultThemeColorsEditor['$secondary-color'] = mainColor;
+    defaultThemeColorsEditor['$primary-hover-color'] = mainHoverColor;
+    defaultThemeColorsEditor['$primary-text-color'] = textColor;
+    defaultThemeColorsEditor['$selection-border-color'] = mainColor;
+
+    Survey.StylesManager.applyTheme();
+    SurveyCreator.StylesManager.applyTheme();
   }
 }

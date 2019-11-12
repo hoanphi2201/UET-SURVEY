@@ -195,7 +195,7 @@ module.exports = {
           {
             model: surveyFormsModel,
             as: "surveyForm",
-            attributes: ["id", "title", "json"]
+            attributes: ["id", "title", "json", "description"]
           }
         ]
       })
@@ -205,7 +205,18 @@ module.exports = {
         }
         throw new NotFound("admin.layout.NOT_BE_BOUND");
       });
+  },
+  compareSurveyCollectorPassword: params => {
+    return surveyCollectorsModel
+      .findOne({
+        attributes: ["id"],
+        where: { id: params.surveyCollectorId, password: params.password }
+      })
+      .then(surveyCollector => {
+        if (surveyCollector) {
+          return surveyCollector;
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
   }
 };
-// "id", "name", "surveyFormId", "userId", "type", "status", "url", "thankYouMessage",
-// "allowMultipleResponses", "password", "responseLimit", "closeDate", "displaySurveyResults"

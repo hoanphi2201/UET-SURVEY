@@ -229,7 +229,7 @@
                 >default.layout.TOTAL_RESPONSES</span
               >
               <span class="value"
-                >0
+                >{{ totalResponse ? totalResponse : 0 }}
                 <span class="smf-icon tooltip-trigger">i</span>
               </span>
             </div>
@@ -242,7 +242,7 @@
                 >default.layout.AVERAGE_COMPLETION_RATE</span
               >
               <span class="value"
-                >—
+                >{{ averageCompletionRate ? averageCompletionRate + '%' : '—' }}
                 <span class="smf-icon tooltip-trigger">i</span>
               </span>
             </div>
@@ -255,7 +255,16 @@
                 >default.layout.TYPICAL_TIME_SPENT</span
               >
               <span class="value"
-                >—
+                >{{
+                  typicalTimeSpent
+                    ? msToHMSTypicalTimeSpent.hours +
+                      'h:' +
+                      msToHMSTypicalTimeSpent.minutes +
+                      'm:' +
+                      msToHMSTypicalTimeSpent.seconds +
+                      's'
+                    : '—'
+                }}
                 <span class="smf-icon tooltip-trigger">i</span>
               </span>
             </div>
@@ -487,7 +496,14 @@
                                   #menuAction="nzDropdownMenu"
                                 >
                                   <ul class="dropdown-action" nz-menu>
-                                    <li nz-menu-item>
+                                    <li
+                                      nz-menu-item
+                                      [routerLink]="[
+                                        '/create',
+                                        'analyze-results',
+                                        survey.id
+                                      ]"
+                                    >
                                       <i
                                         nz-icon
                                         nzType="bar-chart"
@@ -515,7 +531,14 @@
                                         'default.layout.EDIT_SURVEY' | translate
                                       }}
                                     </li>
-                                    <li nz-menu-item>
+                                    <li
+                                      nz-menu-item
+                                      [routerLink]="[
+                                        '/create',
+                                        'collector-responses',
+                                        survey.id
+                                      ]"
+                                    >
                                       <i
                                         nz-icon
                                         nzType="link"

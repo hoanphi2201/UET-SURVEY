@@ -89,8 +89,9 @@ export class DSurveyFormService {
     sortType: string,
     searchKey: string,
     searchValue: string,
-    filterKey: string = '',
-    filterValue: any = JSON.stringify([])
+    filterKey: string,
+    filterValue: any,
+    countColumn: string
   ) {
     let params = new HttpParams()
       .set('page', page.toString())
@@ -98,7 +99,8 @@ export class DSurveyFormService {
       .set('searchKey', searchKey)
       .set('searchValue', searchValue)
       .set('filterKey', filterKey)
-      .set('filterValue', filterValue);
+      .set('filterValue', filterValue)
+      .set('countColumn', countColumn);
     if (sortField) {
       params = params.set('sortField', sortField);
       params = params.set('sortType', sortType);

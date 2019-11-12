@@ -9,7 +9,7 @@ export class FieldErrorDisplayComponent {
   @Input() set errors(errors: any) {
     if (errors) {
       if (errors.required) {
-        this.errorMsg = 'Required';
+        this.errorMsg = 'This field is not empty';
       } else if (errors.minlength) {
         this.errorMsg =
           'Min length is ' + errors.minlength.requiredLength + ' character';

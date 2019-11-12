@@ -13,7 +13,7 @@ ul {
   width: 100%;
   max-width: 1030px;
   margin: 20px auto;
-  .sm-survey-progress-bar__link {
+  .sm-survey-progress-bar-link {
     text-decoration: none;
   }
 }
@@ -382,4 +382,21 @@ ul {
       }
     }
   }
+}
+.ribbon-and-button {
+  position: relative;
+  margin-top: 20px;
+  height: 65px;
+}
+.airplane {
+  position: absolute;
+  height: 100%;
+  width: 80%;
+  background-image: url(/assets/images/airplane_and_twirly_trail.png);
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+.button-holder {
+  padding-top: 14px;
+  text-align: center;
 }

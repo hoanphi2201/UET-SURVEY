@@ -1,0 +1,20 @@
+<div class="container">
+  <nz-card [style.marginTop.px]="24" [style.marginBottom.px]="24">
+    <ng-container
+      *ngIf="
+        listOfAllDataSurveyResponse && surveyFormDetail?.json;
+        else loadingTpl
+      "
+    >
+      <app-survey-analytics
+        [data]="listOfAllDataSurveyResponse"
+        [json]="surveyFormDetail.json"
+      >
+      </app-survey-analytics>
+    </ng-container>
+  </nz-card>
+
+  <ng-template #loadingTpl>
+    <nz-skeleton [nzLoading]="true"></nz-skeleton>
+  </ng-template>
+</div>

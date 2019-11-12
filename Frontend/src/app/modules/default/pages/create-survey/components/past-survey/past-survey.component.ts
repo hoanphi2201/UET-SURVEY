@@ -119,6 +119,7 @@ export class PastSurveyComponent implements OnInit, OnChanges {
 
   getListSurvey(pagging: Pagging, listOfData: SurveyForm[], filter: Filter) {
     this.loaderService.display(true);
+    const countColumn = 'response';
     this.dSurveyFormService
       .getDefaultSurveyFormList(
         pagging.page,
@@ -128,7 +129,8 @@ export class PastSurveyComponent implements OnInit, OnChanges {
         filter.searchKey,
         filter.searchValue || '',
         filter.filterKey || '',
-        JSON.stringify(filter.filterValue || [])
+        JSON.stringify(filter.filterValue || []),
+        countColumn
       )
       .subscribe(
         res => {

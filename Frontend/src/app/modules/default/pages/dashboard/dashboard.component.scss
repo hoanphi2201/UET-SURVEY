@@ -554,16 +554,16 @@ a {
         height: 78px;
         width: 78px;
         border-radius: 50%;
-        border: 1px dashed #00bf6f;
+        border: 1px dashed $theme-color;
         background-color: white;
         font-size: 32px;
         .smf-icon {
-          color: #00bf6f;
+          color: $theme-color;
           line-height: 78px;
         }
       }
       &.active .circle {
-        background-color: #00bf6f;
+        background-color: $theme-color;
         .smf-icon {
           color: white;
         }
@@ -578,20 +578,12 @@ a {
         padding: 10px;
         font-size: 0.82em;
         font-weight: 500;
-        color: #00bf6f;
+        color: $theme-color;
       }
     }
   }
 }
-.no-gutters {
-  margin-right: 0;
-  margin-left: 0;
-}
-.no-gutters > .col,
-.no-gutters > [class*="col-"] {
-  padding-right: 0;
-  padding-left: 0;
-}
+
 .create-survey-ribbon {
   padding: 70px 0;
   .title-line {

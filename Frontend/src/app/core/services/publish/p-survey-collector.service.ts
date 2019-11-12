@@ -10,4 +10,8 @@ export class PSurveyCollectorService {
   getSurveyCollectorByUrl(url: string): Observable<any> {
     return this.apiService.get('/survey-collectors/' + url);
   }
+
+  compareSurveyCollectorPassword(data: any) {
+    return this.apiService.post('/survey-collectors/compare-password', data);
+  }
 }

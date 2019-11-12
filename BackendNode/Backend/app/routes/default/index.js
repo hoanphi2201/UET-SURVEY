@@ -19,4 +19,5 @@ router.use(
 );
 router.use("/users", authHelper.isAuthenticated, require("./users"));
 router.use("/cities", authHelper.isAuthenticated, require("./cities"));
+router.use("/survey-responses", require("./survey_responses"));
 module.exports = router;

@@ -370,7 +370,26 @@
     "SURVEY_STATUS": "Survey status",
     "NOTIFICATIONS": "Notifications",
     "VIEW_MORE": "View more",
-    "RESPONSES_VOLUME": "Responses volume"
+    "RESPONSES_VOLUME": "Responses volume",
+    "YOUR_SURVEY_RESPONSE": "Your survey response",
+    "THE_PASSWORD_ENTERED_WAS_INCORRECT_PLEASE_CHECK_YOUR_DATA_AND_TRY_AGAIN": "The password entered was incorrect please check your data and try again.",
+    "THIS_SURVEY_REQUIRES_A_PASSWORD_IF_YOU_DO_NOT_KNOW_THE_PASSWORD_CONTACT_THE_AUTHOR_OF_THIS_SURVEY_FOR_FURTHER_ASSISTANCE.": "This survey requires a password.If you do not know the password, contact the author of this survey for further assistance.",
+    "SUBMIT_PASSWORD": "Submit password",
+    "INCORRECT_PASSWORD": "The password entered was incorrect please check your data and try again",
+    "NOT_HAVE_RESPONSE": "Invalid response please check your submit",
+    "COLLECTOR_NOT_EXIST": "This survey collector is not exist",
+    "HAVE_BEEN_CLOSE": "This survey collector have been close",
+    "HAVE_ALREADY_SUBMIT_RESPONSE": "You have already submit response for this form",
+    "OH_BANANAS": "Oh bananas!",
+    "WANT_TO_CREATE_YOUR_OWN_SURVEY": "Want to create your own survey?",
+    "SIGN_UP_FREE": "Sign Up FREE",
+    "WE_CANT_FIND_THE_PAGE_YOU_REQUESTED": "We can't find the page you requested.",
+    "POWERED_BY": "Powered by",
+    "CREATE_A_SURVEY": "create a survey",
+    "SEE_HOW_EASY_IT_IS_TO": "See how easy it is to",
+    "PARAMETER_IS_MISSING": "Parameter is missing",
+    "CREATE_SURVEY_COLLECTOR": "Create survey collector",
+    "RESPONSES_AND_STATUS": "Responses and status"
   },
   "shared": {}
 }

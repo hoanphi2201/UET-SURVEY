@@ -1,8 +1,10 @@
+@import "../../../../../styles/variables.scss";
 ::ng-deep .sv_header {
   background-color: #fff;
+  padding-left: 0px !important;
   h3 {
-    font-weight: 500;
-    color: #19b394;
+    font-weight: 700 !important;
+    color: $theme-color;
   }
 }
 .wrapper {
@@ -61,13 +63,19 @@
     font-style: normal;
     font-weight: 700;
     text-decoration: none;
-    color: #00bf6f;
+    color: $theme-color;
     line-height: 1.25;
   }
   .title-text {
     word-wrap: break-word;
     white-space: normal;
     display: block;
+  }
+  .description-text {
+    word-wrap: break-word;
+    white-space: normal;
+    display: block;
+    color: #6d7072;
   }
   .survey-footer {
     text-align: center;

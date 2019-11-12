@@ -4,16 +4,12 @@ import * as widgets from 'surveyjs-widgets';
 import * as SurveyPDF from 'survey-pdf';
 import 'inputmask/dist/inputmask/phone-codes/phone.js';
 
-widgets.icheck(Survey);
-widgets.select2(Survey);
-widgets.inputmask(Survey);
 widgets.jquerybarrating(Survey);
 widgets.jqueryuidatepicker(Survey);
 widgets.nouislider(Survey);
 widgets.select2tagbox(Survey);
 widgets.signaturepad(Survey);
 widgets.sortablejs(Survey);
-widgets.autocomplete(Survey);
 
 @Component({
   selector: 'app-survey',
@@ -30,18 +26,21 @@ export class SurveyComponent implements OnInit {
   private result: any;
 
   ngOnInit() {
-    const surveyModel = new Survey.Model(this.json);
-    if (this.disabled) {
-      surveyModel.mode = 'display';
-    }
-    if (this.data) {
-      surveyModel.data = this.data;
-    }
-    surveyModel.onComplete.add((result, options) => {
-      this.submitSurvey.emit(result.data);
-      this.result = result.data;
-    });
-    Survey.SurveyNG.render('surveyElement', { model: surveyModel });
+    this.setTheme();
+    try {
+      const surveyModel = new Survey.Model(this.json);
+      if (this.disabled) {
+        surveyModel.mode = 'display';
+      }
+      if (this.data) {
+        surveyModel.data = this.data;
+      }
+      surveyModel.onComplete.add((result, options) => {
+        this.submitSurvey.emit(result.data);
+        this.result = result.data;
+      });
+      Survey.SurveyNG.render('surveyElement', { model: surveyModel });
+    } catch (error) {}
   }
 
   saveSurveyPdf() {
@@ -101,5 +100,28 @@ export class SurveyComponent implements OnInit {
       var previewDiv = document.getElementById('pdf-preview');
       previewDiv.appendChild(pdfEmbed);
     });
+  }
+  setTheme() {
+    const mainColor = '#00bf6f';
+    const mainHoverColor = '#6fe06f';
+    const textColor = '#4a4a4a';
+    const headerColor = '#001629';
+    const headerBackgroundColor = '#4a4a4a';
+    const bodyContainerBackgroundColor = '#f8f8f8';
+
+    const defaultThemeColorsSurvey =
+      Survey.StylesManager.ThemeColors['default'];
+    defaultThemeColorsSurvey['$main-color'] = mainColor;
+    defaultThemeColorsSurvey['$main-hover-color'] = mainHoverColor;
+    defaultThemeColorsSurvey['$text-color'] = textColor;
+    defaultThemeColorsSurvey['$header-color'] = headerColor;
+    defaultThemeColorsSurvey[
+      '$header-background-color'
+    ] = headerBackgroundColor;
+    defaultThemeColorsSurvey[
+      '$body-container-background-color'
+    ] = bodyContainerBackgroundColor;
+
+    Survey.StylesManager.applyTheme();
   }
 }

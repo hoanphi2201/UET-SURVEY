@@ -13,7 +13,8 @@ import {
   Filter,
   TableListColumn,
   User,
-  AuthService
+  AuthService,
+  DSurveyResponseService
 } from '@app/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -56,6 +57,7 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
     private activatedRoute: ActivatedRoute,
     private dSurveyFormService: DSurveyFormService,
     private dSurveyCollectorService: DSurveyCollectorService,
+    private dSurveyResponseService: DSurveyResponseService,
     private nzMessageService: NzMessageService,
     private translateService: TranslateService,
     private loaderService: LoaderService,
@@ -372,10 +374,34 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
       nzContent: tplContent,
       nzOnOk: () => {
         if (surveyCollector) {
-          // return this.onDeleteSurveyCollector(surveyCollector.id);
+          return this.clearResponsesByCollector(surveyCollector.id);
         }
       }
     });
+  }
+  private clearResponsesByCollector(surveyCollectorId: string) {
+    this.loaderService.display(true);
+    this.dSurveyResponseService
+      .clearResponsesByCollector(surveyCollectorId)
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.nzMessageService.success(
+              this.translateService.instant(res.status.message)
+            );
+            this.getListSurveyCollector();
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
+      );
   }
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());

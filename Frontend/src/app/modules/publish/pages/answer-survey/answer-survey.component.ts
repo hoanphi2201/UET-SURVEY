@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
-import { LoaderService } from '@app/shared';
+import { LoaderService, Helpers } from '@app/shared';
 import {
   SurveyForm,
   SurveyCollector,
@@ -30,6 +30,7 @@ export class AnswerSurveyComponent implements OnInit {
   collectorPassword: string;
   isCorrectPassword: boolean;
   form: FormGroup;
+  errorPasswordMessage: string;
   constructor(
     private activatedRoute: ActivatedRoute,
     private loaderService: LoaderService,
@@ -108,7 +109,7 @@ export class AnswerSurveyComponent implements OnInit {
       surveyCollectorId: this.surveyCollectorDetail.id,
       totalTime: endTime - this.startTime,
       ipAddress: this.ipAddress,
-      json,
+      json: json && Object.keys(json).length > 0 ? json : null,
       geoLocation: this.geoLocation,
       collectorPassword: this.collectorPassword
     };
@@ -146,7 +147,49 @@ export class AnswerSurveyComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required, Validators.minLength(2)]]
     });
+  }
+
+  onSubmitPassword(formData: FormGroup) {
+    this.errorPasswordMessage = null;
+    if (formData.invalid) {
+      Helpers.validateAllFormFields(formData);
+      return;
+    }
+    this.errorPasswordMessage = null;
+    this.loaderService.display(true);
+    Object.keys(formData.value).forEach(key => {
+      if (Helpers.isString(formData.value[key])) {
+        formData.value[key] = formData.value[key].trim();
+      }
+    });
+    const data = Object.assign(formData.value, {
+      surveyCollectorId: this.surveyCollectorDetail.id
+    });
+    this.pSurveyCollectorService.compareSurveyCollectorPassword(data).subscribe(
+      res => {
+        if (
+          res.status.code === 200 &&
+          res.results[0].id === this.surveyCollectorDetail.id
+        ) {
+          this.nzMessageService.success(
+            this.translateService.instant(res.status.message)
+          );
+          this.isCorrectPassword = true;
+          this.collectorPassword = formData.value.password;
+        }
+      },
+      err => {
+        this.errorPasswordMessage = this.translateService.instant(
+          'default.layout.THE_PASSWORD_ENTERED_WAS_INCORRECT_PLEASE_CHECK_YOUR_DATA_AND_TRY_AGAIN'
+        );
+        this.isCorrectPassword = false;
+        this.loaderService.display(false);
+      },
+      () => {
+        this.loaderService.display(false);
+      }
+    );
   }
 }

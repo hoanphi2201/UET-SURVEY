@@ -47,7 +47,10 @@ router.post("/", async (req, res, next) => {
   }
   if (!surveyCollector.allowMultipleResponses) {
     const ipResponse = await surveyResponsesModel
-      .getSurveyResponsesByIpAddress(surveyResponse.ipAddress)
+      .getSurveyResponsesByIpAddress({
+        ipAddress: surveyResponse.ipAddress,
+        surveyCollectorId: surveyCollector.id
+      })
       .catch(error => {
         return res
           .status(error.statusCode || 400)

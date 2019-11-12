@@ -47,14 +47,10 @@
             >
           </li>
           <li routerLinkActive="selected" class=" progressive ">
-            <a href="">{{
-              'default.layout.ANALYZE_RESULTS' | translate | uppercase
-            }}</a>
-          </li>
-          <li routerLinkActive="selected" class=" progressive ">
-            <a href="">{{
-              'default.layout.PRESENT_RESULTS' | translate | uppercase
-            }}</a>
+            <a
+              [routerLink]="['/create', 'analyze-results', surveyFormDetail.id]"
+              >{{ 'default.layout.ANALYZE_RESULTS' | translate | uppercase }}</a
+            >
           </li>
         </ul>
       </div>

@@ -7,7 +7,8 @@ import {
   User,
   SlideInOutAnimation,
   appConfig,
-  UserService
+  UserService,
+  DSurveyResponseService
 } from '@app/core';
 import { LoaderService } from '@app/shared';
 import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
@@ -61,9 +62,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   modalForm: NzModalRef;
   listOfAllJobRole = environment.jobRole;
   progressPanelState: 'in' | 'out' = 'in';
+  totalResponse: number;
+  typicalTimeSpent: number;
+  averageCompletionRate: number;
   private subscriptions: Subscription[] = [];
   constructor(
     private dSurveyFormService: DSurveyFormService,
+    private dSurveyResponseService: DSurveyResponseService,
     private dUserService: UserService,
     private nzMessageService: NzMessageService,
     private translateService: TranslateService,
@@ -96,6 +101,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.getListSurvey();
     this.countSurveyFormStatus();
+    this.countAllResponsesAndTypicalTimeSpent();
     const getUserList = (title: string) =>
       this.dSurveyFormService.searchDashboardSurveyFormList(title, 5).pipe(
         map((res: any) => {
@@ -114,6 +120,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     });
   }
+  private countAllResponsesAndTypicalTimeSpent() {
+    this.dSurveyResponseService
+      .countAllResponsesAndTypicalTimeSpent()
+      .subscribe(res => {
+        if (res.status.code === 200) {
+          this.typicalTimeSpent = res.results[0].typicalTimeSpent;
+          this.totalResponse = res.results[0].totalResponse;
+          this.averageCompletionRate = Math.floor(
+            (res.results[0].totalResponseComplete / this.totalResponse) * 100
+          );
+        }
+      });
+  }
+
   private updateIfCompleteAccount() {
     if (
       this.percentDoneProfile === 100 &&
@@ -168,6 +188,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.filterKey = '';
     }
     this.loaderService.display(true);
+    const countColumn = 'collector';
     this.dSurveyFormService
       .getDefaultSurveyFormList(
         this.pagging.page,
@@ -177,7 +198,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.searchKey,
         this.searchValue || '',
         this.filterKey,
-        JSON.stringify(this.filterValue)
+        JSON.stringify(this.filterValue),
+        countColumn
       )
       .subscribe(
         res => {
@@ -409,7 +431,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return current;
   }
   formatInfoProgress = (percent: number) => `${percent}%`;
+  get msToHMSTypicalTimeSpent() {
+    let s = +this.typicalTimeSpent;
+    function pad(n, z = 2) {
+      z = z || 2;
+      return ('00' + n).slice(-z);
+    }
 
+    var ms = s % 1000;
+    s = (s - ms) / 1000;
+    var secs = s % 60;
+    s = (s - secs) / 60;
+    var mins = s % 60;
+    var hrs = (s - mins) / 60;
+    return {
+      hours: pad(hrs),
+      minutes: pad(mins),
+      seconds: pad(secs)
+    };
+  }
   ngOnDestroy() {
     this.destroyInterval$.next(true);
     this.subscriptions.forEach(sub => sub.unsubscribe());

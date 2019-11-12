@@ -5,7 +5,7 @@
         <div *ngIf="surveyFormDetail" class="sm-survey-progress-bar__steps">
           <a
             [routerLink]="['/create', 'design-survey', surveyFormDetail.id]"
-            class="sm-survey-progress-bar__link"
+            class="sm-survey-progress-bar-link"
           >
             <div class="sm-survey-progress-bar-step">
               <div
@@ -43,7 +43,13 @@
           </a>
           <div class="sm-survey-progress-bar-path"></div>
           <div class="sm-survey-progress-bar-step">
-            <div class="sm-survey-progress-bar-step-circle">
+            <div
+              [ngClass]="{
+                'sm-survey-progress-bar-step-circle-active':
+                  listOfAllSurveyCollect.length > 0
+              }"
+              class="sm-survey-progress-bar-step-circle"
+            >
               <svg
                 class="wds-icon-svg"
                 preserveAspectRatio="xMidYMid meet"
@@ -59,6 +65,10 @@
               </svg>
             </div>
             <span
+              [ngClass]="{
+                'sm-survey-progress-bar-step-label-active':
+                  listOfAllSurveyCollect.length > 0
+              }"
               class="sm-survey-progress-bar-step-label wds-display-none wds-display-sm-block"
             >
               {{ 'default.layout.GO_TO_COLLECT' | translate | uppercase }}
@@ -69,7 +79,13 @@
             data-testid="SurveyProgressBar_Step"
             class="sm-survey-progress-bar-step"
           >
-            <div class="sm-survey-progress-bar-step-circle">
+            <div
+              [ngClass]="{
+                'sm-survey-progress-bar-step-circle-active':
+                  surveyFormDetail?.response > 0
+              }"
+              class="sm-survey-progress-bar-step-circle"
+            >
               <svg
                 class="wds-icon-svg"
                 preserveAspectRatio="xMidYMid meet"
@@ -85,6 +101,10 @@
               </svg>
             </div>
             <span
+              [ngClass]="{
+                'sm-survey-progress-bar-step-label-active':
+                  surveyFormDetail?.response > 0
+              }"
               class="sm-survey-progress-bar-step-label wds-display-none wds-display-sm-block"
             >
               {{
@@ -97,6 +117,7 @@
     </div>
   </div>
 </div>
+
 <div class="summary-grid">
   <div class="row">
     <div class="col-6 col-md-3">
@@ -219,13 +240,19 @@
     <div class="col-6 col-md-9">
       <div class="row">
         <div class="col-md-6">
-          <div class="summary-card-title inline-block">
-            Responses and Status
+          <div class="summary-card-title inline-block" translate>
+            default.layout.RESPONSES_AND_STATUS
           </div>
         </div>
         <div class="col-md-6">
-          <button class="btn-analyze-result" nz-button nzType="primary">
-            ANALYZE RESULTS
+          <button
+            *ngIf="surveyFormDetail"
+            [routerLink]="['/create', 'analyze-results', surveyFormDetail.id]"
+            class="btn-analyze-result"
+            nz-button
+            nzType="primary"
+          >
+            {{ 'default.layout.ANALYZE_RESULTS' | translate | uppercase }}
           </button>
         </div>
       </div>
@@ -237,7 +264,7 @@
             </span>
             <div class="summary-card-title">
               <a class="status-card-response-count" href="#">{{
-                surveyFormDetail?.response
+                surveyFormDetail?.response ? surveyFormDetail?.response : 0
               }}</a>
             </div>
           </nz-card>
@@ -326,9 +353,47 @@
               </div>
             </div>
           </ng-container>
-          <button nz-button nzType="link" class="wds-button-text">
-            {{ 'default.layout.VIEW_MORE' | translate }}
-          </button>
+          <ng-container
+            *ngIf="listOfAllSurveyCollect.length > 0; else createCollectorTpl"
+          >
+            <button
+              *ngIf="surveyFormDetail"
+              [routerLink]="[
+                '/create',
+                'collector-responses',
+                surveyFormDetail.id
+              ]"
+              nz-button
+              nzType="link"
+              class="wds-button-text"
+            >
+              {{ 'default.layout.VIEW_MORE' | translate }}
+            </button>
+          </ng-container>
+
+          <ng-template #createCollectorTpl>
+            <div class="row ribbon-and-button no-gutters">
+              <div class="airplane hidden-sm-down"></div>
+              <div class="button-holder">
+                <button
+                  *ngIf="surveyFormDetail"
+                  [routerLink]="[
+                    '/create',
+                    'collector-responses',
+                    surveyFormDetail.id
+                  ]"
+                  nz-button
+                  nzType="primary"
+                >
+                  {{
+                    'default.layout.CREATE_SURVEY_COLLECTOR'
+                      | translate
+                      | uppercase
+                  }}
+                </button>
+              </div>
+            </div>
+          </ng-template>
         </div>
         <div class="col-md-12">
           <div class="summary-card-title" translate>

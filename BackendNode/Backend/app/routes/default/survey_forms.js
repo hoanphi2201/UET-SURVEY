@@ -70,7 +70,10 @@ router.get("/", async (req, res, next) => {
     sortField: paramsHelper.getParam(req.query, "sortField", "id"),
     sortType: paramsHelper.getParam(req.query, "sortType", "asc"),
     filterKey: paramsHelper.getParam(req.query, "filterKey", ""),
-    filterValue: JSON.parse(paramsHelper.getParam(req.query, "filterValue", ""))
+    filterValue: JSON.parse(
+      paramsHelper.getParam(req.query, "filterValue", "")
+    ),
+    countColumn: paramsHelper.getParam(req.query, "countColumn", "")
   };
 
   params.paging.total = await surveyFormsModel
