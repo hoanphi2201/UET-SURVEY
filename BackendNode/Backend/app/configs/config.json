@@ -1,0 +1,26 @@
+{
+  "development": {
+    "userName": "postgres",
+    "password": "hoanpx",
+    "database": "uet_survey",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "userName": "hoanpx",
+    "password": null,
+    "database": "uet_survey",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "userName": "hoanpx",
+    "password": null,
+    "database": "uet_survey",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}

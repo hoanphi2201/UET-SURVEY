@@ -8,7 +8,9 @@
   (nzOnClose)="isCollapsed = !isCollapsed"
 >
   <div style="margin-bottom:24px;">
-    <h3 class="title">整体风格设置</h3>
+    <h3 class="title">
+      {{ 'header.sidebar.OVERALL_STYLE_SETTING' | translate }}
+    </h3>
     <div class="blockChecbox">
       <div
         *ngFor="let theme of themes"
@@ -19,13 +21,13 @@
       >
         <img [src]="theme.image" [alt]="theme.title" />
         <div class="selectIcon" *ngIf="theme.key == setting.theme">
-          <i class="anticon anticon-check"></i>
+          <i nz-icon nzType="check" nzTheme="outline"></i>
         </div>
       </div>
     </div>
   </div>
   <div class="themeColor">
-    <h3 class="title">主题色</h3>
+    <h3 class="title">{{ 'header.sidebar.THEME_COLOR' | translate }}</h3>
     <div class="content">
       <div
         *ngFor="let color of colors"
@@ -35,13 +37,18 @@
         [style.backgroundColor]="color.color"
         (click)="setting.color = color.key"
       >
-        <i class="anticon anticon-check" *ngIf="color.key == setting.color"></i>
+        <i
+          nz-icon
+          nzType="check"
+          nzTheme="outline"
+          *ngIf="color.key == setting.color"
+        ></i>
       </div>
     </div>
   </div>
   <nz-divider></nz-divider>
   <div style="margin-bottom:24px;">
-    <h3 class="title">导航模式</h3>
+    <h3 class="title">{{ 'header.sidebar.NAVIGATION_MODE' | translate }}</h3>
     <div class="blockChecbox">
       <div
         *ngFor="let mode of modes"
@@ -52,7 +59,7 @@
       >
         <img [src]="mode.image" [alt]="mode.title" />
         <div class="selectIcon" *ngIf="mode.key == setting.mode">
-          <i class="anticon anticon-check"></i>
+          <i nz-icon nzType="check" nzTheme="outline"></i>
         </div>
       </div>
     </div>
@@ -65,7 +72,7 @@
     <ng-template #layoutItem let-item>
       <nz-list-item
         [style.opacity]="item.disabled && item.disabled(setting) ? '0.5' : ''"
-        [nzContent]="item.title"
+        [nzContent]="item.title | translate"
         [nzActions]="[layoutAction]"
       >
         <ng-template #layoutAction>
@@ -80,14 +87,17 @@
   </nz-list>
   <nz-divider></nz-divider>
   <div style="margin-bottom:24px;">
-    <h3 class="title">其他设置</h3>
+    <h3 class="title">{{ 'header.sidebar.OTHER_SETTINGS' | translate }}</h3>
     <nz-list
       [nzSplit]="false"
       [nzDataSource]="others"
       [nzRenderItem]="otherItem"
     >
       <ng-template #otherItem let-item>
-        <nz-list-item [nzContent]="item.title" [nzActions]="[otherAction]">
+        <nz-list-item
+          [nzContent]="item.title | translate"
+          [nzActions]="[otherAction]"
+        >
           <ng-template #otherAction>
             <nz-switch
               nzSize="small"

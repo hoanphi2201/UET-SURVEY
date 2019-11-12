@@ -1,0 +1,25 @@
+<div class="inner-modal-body">
+  <div class="warning">
+    <div class="title">
+      <h3 class="wds-type-card-title">
+        Are you sure you want to open this collector?
+      </h3>
+      By opening this collector, you may begin receiving responses from people
+      with access to your survey.
+    </div>
+  </div>
+</div>
+
+<div class="actions">
+  <button (click)="onCancel()" nz-button nzType="default">
+    <span translate>default.layout.CANCEL</span>
+  </button>
+  <button
+    (click)="onSaveSurveyCollector(form)"
+    nz-button
+    nzType="primary"
+    [nzLoading]="buttonLoading"
+  >
+    <span translate>default.layout.OPEN_COLLECTOR</span>
+  </button>
+</div>

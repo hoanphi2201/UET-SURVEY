@@ -1,0 +1,84 @@
+.pbt-12 {
+  padding-bottom: 12px;
+  padding-top: 12px;
+}
+.container {
+  margin-top: 24px;
+}
+td.activity {
+  color: #6b787f;
+  a {
+    color: #007faa;
+    text-decoration: none;
+    border: none;
+    background: none;
+    font-weight: inherit;
+    font-size: inherit;
+    outline: none;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+}
+.action-icon {
+  a {
+    color: #333e48;
+    font-size: 18px;
+  }
+  a:hover {
+    text-decoration: none;
+    color: #007faa;
+  }
+}
+.select-folder {
+  width: calc(100% - 56px);
+  margin-right: 12px;
+  text-align: left;
+  .icon {
+    float: right;
+    margin-top: 5px;
+  }
+}
+.icon-folder {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.buttons-ctnr {
+  position: absolute;
+  bottom: 15px;
+}
+.buttons {
+  width: 270px;
+  background-color: #edeeee;
+}
+.buttons,
+div.add-folder-form {
+  padding: 8px 10px 8px 8px !important;
+}
+.dropdown-folder-top {
+  width: 270px;
+  max-height: 360px;
+  overflow-y: auto;
+  font-size: 13px;
+  box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0.15) !important;
+}
+div.add-folder-form {
+  clear: both;
+  background-color: #edeeee;
+  input.folder-name {
+    margin-bottom: 10px;
+    display: block;
+    padding: 3px;
+  }
+  form button {
+    margin-right: 5px;
+  }
+}
+
+::ng-deep .manage-folders-dialog {
+  .ant-modal-body {
+    background: #f4f5f5 !important;
+  }
+}

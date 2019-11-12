@@ -1,0 +1,52 @@
+:host ::ng-deep #surveyCreatorContainer {
+  .navbar-default {
+    display: none;
+  }
+}
+.sm-full-screen-modal-without-side {
+  width: 100%;
+}
+.sm-full-screen-modal-with-side {
+  width: calc(100% - 320px);
+}
+.sm-full-screen-modal-header {
+  border-bottom: 1px solid #d0d2d3;
+  height: 62px;
+  box-sizing: border-box;
+}
+.sm-copy-survey-modal-back {
+  margin-left: 8px;
+}
+.sm-full-screen-modal-side-content {
+  max-height: 100vh;
+  width: 320px;
+  border-left: 1px solid #d0d2d3;
+}
+.sm-copy-survey-modal-title-container {
+  padding: 24px 24px 12px;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+.sm-survey-tile-badge-favorite {
+  color: #f9be00;
+  opacity: 1;
+}
+.sm-copy-survey-modal-overview-container {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 0 24px 24px;
+}
+.sm-copy-survey-modal-score:first-child {
+  margin-top: 0;
+}
+.sm-copy-survey-modal-body {
+  height: calc(100vh - 58px);
+  width: 100%;
+  position: relative;
+  overflow: auto;
+}
+.sm-copy-survey-modal-actions {
+  width: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid #d0d2d3;
+}

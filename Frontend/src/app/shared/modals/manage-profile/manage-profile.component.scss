@@ -1,0 +1,29 @@
+.inner-modal-body {
+  padding: 24px;
+  .steps-content {
+    margin-top: 16px;
+    min-height: 200px;
+  }
+}
+
+.steps-action {
+  padding: 10px 16px;
+  background: #fff;
+  text-align: right;
+  border-top: 1px solid #e8e8e8;
+  border-radius: 0 0 4px 4px;
+}
+
+button {
+  margin-right: 8px;
+}
+.modal-body-title {
+  padding: 16px 24px;
+  background: #fff;
+  border-radius: 4px 4px 0px 0px;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  word-wrap: break-word;
+}

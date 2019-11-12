@@ -1,0 +1,242 @@
+@import "../../../../../../../styles/variables.scss";
+h1 {
+  margin: 0;
+  padding: 0;
+}
+.collectors {
+  margin-top: 15px;
+  padding-bottom: 80px;
+}
+.back-nav {
+  margin-bottom: 1em;
+}
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#edit-name {
+  max-width: 30rem;
+}
+#edit-name,
+#edit-name-icon {
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+}
+#edit-name-icon {
+  margin-left: 1rem;
+  font-size: 20px;
+}
+#collector-created-date {
+  color: #333e48;
+  float: right;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.5;
+}
+#edit-weblink {
+  border-bottom: solid 1px #d0d2d3;
+  margin-bottom: 2em;
+  padding-bottom: 1em;
+}
+#collector-status {
+  margin-bottom: 0.75em;
+}
+#action-menu-link {
+  float: right;
+  font-size: 13px;
+  &.open {
+    color: $theme-color;
+  }
+  &.closed {
+    color: #f05b24;
+  }
+}
+#manual-entry {
+  float: right;
+  font-size: 13px;
+  margin-right: 2em;
+}
+.view-url,
+.customize {
+  border-radius: 2px;
+  background-clip: padding-box;
+  background-color: white;
+  padding: 0.9em 1.5em;
+  position: relative;
+}
+.view-url .buttons,
+.customize .buttons {
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  position: absolute;
+  right: 1.5em;
+  top: 50%;
+}
+.weblink-domain,
+#weblink-url,
+#weblink-slug {
+  font-size: 26px;
+  position: relative;
+  vertical-align: middle;
+}
+.view-url #weblink-url,
+.customize #weblink-url {
+  border: 0;
+}
+.collect-link-icon {
+  font-size: 26px;
+  position: relative;
+  vertical-align: middle;
+  margin-right: 0.5em;
+}
+.btn-copy {
+  margin-left: 1em;
+}
+#qrcode-container {
+  margin-top: 1rem;
+}
+#qrcode-container > .q {
+  margin-left: 0.5rem;
+}
+.q {
+  cursor: help;
+  display: inline-block;
+  -webkit-transition: color 0.2s linear;
+  transition: color 0.2s linear;
+}
+.q > span {
+  font-family: "Mateo";
+  font-weight: normal !important;
+  font-size: 10px;
+  background-color: #9da5aa;
+  color: #fff;
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+}
+#qrcode-container #qrcode {
+  clip: rect(0, 0, 0, 0);
+  padding-top: 1em;
+}
+
+::ng-deep .rename-collector-dialog {
+  .ant-modal-body {
+    background: #f4f5f5 !important;
+    padding: 0 !important;
+    border-radius: 4px 4px 4px 4px;
+  }
+}
+.collector-ads {
+  border-top: 1px solid #d0d2d3;
+  margin-top: 2em;
+  padding-top: 2em;
+  a {
+    text-decoration: none;
+  }
+  > ul {
+    border-spacing: 15px;
+    display: table;
+    left: -15px;
+    margin-top: 1em;
+    position: relative;
+    width: calc(100% + 30px);
+    li {
+      position: relative;
+    }
+  }
+  li {
+    background-color: white;
+    border: 1px solid #d0d2d3;
+    border-radius: 2px;
+    box-sizing: border-box;
+    display: table-cell;
+    font-size: 0.8125rem;
+    margin-right: 10px;
+    min-height: 9.35em;
+    padding: 2em;
+    width: 14%;
+  }
+  p {
+    color: #6b787f;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 0;
+  }
+  i.icon-collector {
+    color: #333e48;
+    font-size: 26px;
+    margin-bottom: 0.5em;
+  }
+}
+::ng-deep .ant-collapse-header {
+  padding: 16px 16px 16px 40px !important;
+}
+::ng-deep .ant-collapse {
+  border-radius: 0px !important;
+}
+::ng-deep .ant-collapse-item:last-child > .ant-collapse-content,
+::ng-deep .ant-collapse > .ant-collapse-item:last-child,
+::ng-deep .ant-collapse > .ant-collapse-item:last-child > .ant-collapse-header {
+  border-radius: 0px !important;
+}
+::ng-deep .ant-collapse-header {
+  background: #fff;
+}
+::ng-deep .ant-collapse-content {
+  background-color: #edeeee;
+}
+.sidebar {
+  .aside-audience-ad {
+    position: relative;
+  }
+  .aside-audience-ad {
+    position: relative;
+  }
+}
+.aside-audience-ad {
+  background: #fff;
+  border: 1px solid #d0d2d3;
+  border-radius: 2px;
+  color: #6b787f;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 1.5em;
+  .icon-collector {
+    color: #2dccd3;
+    font-size: 42px;
+    margin-right: 0.25em;
+    vertical-align: middle;
+    float: left;
+  }
+  p {
+    margin: 13px 0px;
+  }
+}
+.add-fb-messenger-collector {
+  background-color: #fff;
+  border: 1px solid #d0d2d3;
+  border-radius: 2px;
+  color: #6b787f;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 2em;
+  padding: 1.5em;
+  .icon-collector {
+    color: #0084ff;
+    float: left;
+    font-size: 42px;
+    margin-right: 0.25em;
+  }
+  p {
+    margin: 13px 0px;
+  }
+}
+.child-radio-margin {
+  margin-left: 23px;
+}

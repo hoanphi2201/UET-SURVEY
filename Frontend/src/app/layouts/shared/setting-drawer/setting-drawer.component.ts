@@ -1,11 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-interface SettingInterface {
-  theme: string;
-  color: string;
-  mode: string;
-  fixedWidth: boolean;
-  colorweak: boolean;
-}
+import { Setting } from '@app/core';
+
 @Component({
   selector: 'app-setting-drawer',
   templateUrl: './setting-drawer.component.html',
@@ -13,13 +8,12 @@ interface SettingInterface {
 })
 export class SettingDrawerComponent implements OnInit {
   @Output() settingChange = new EventEmitter();
-
   @Input() innerClass: object = {};
   @Input()
-  get setting(): SettingInterface {
+  get setting(): Setting {
     return this.options;
   }
-  set setting(val: SettingInterface) {
+  set setting(val: Setting) {
     this.options = val;
     this.settingChange.emit(this.options);
   }
@@ -37,12 +31,12 @@ export class SettingDrawerComponent implements OnInit {
     {
       key: 'dark',
       image: './assets/images/theme-dark.svg',
-      title: '暗色菜单风格'
+      title: 'Dark menu style'
     },
     {
       key: 'light',
       image: './assets/images/theme-light.svg',
-      title: '亮色菜单风格'
+      title: 'Light menu style'
     }
   ];
 
@@ -50,42 +44,42 @@ export class SettingDrawerComponent implements OnInit {
     {
       key: 'dust',
       color: '#F5222D',
-      title: '薄暮'
+      title: 'dusk'
     },
     {
       key: 'volcano',
       color: '#FA541C',
-      title: '火山'
+      title: 'volcanic'
     },
     {
       key: 'sunset',
       color: '#FAAD14',
-      title: '日暮'
+      title: 'Sundial'
     },
     {
       key: 'cyan',
       color: '#13C2C2',
-      title: '明青'
+      title: 'Mingqing'
     },
     {
       key: 'green',
       color: '#52C41A',
-      title: '极光绿'
+      title: 'Aurora green'
     },
     {
       key: 'daybreak',
       color: '#1890FF',
-      title: '拂晓蓝（默认）'
+      title: 'Xiao Xiaolan (default)'
     },
     {
       key: 'geekblue',
       color: '#2F54EB',
-      title: '极客蓝'
+      title: 'Geek blue'
     },
     {
       key: 'purple',
       color: '#722ED1',
-      title: '酱紫'
+      title: 'Sauce purple'
     }
   ];
 
@@ -93,19 +87,19 @@ export class SettingDrawerComponent implements OnInit {
     {
       key: 'side',
       image: './assets/images/menu-side.svg',
-      title: '侧边菜单布局'
+      title: 'Side menu layout'
     },
     {
       key: 'top',
       image: './assets/images/menu-top.svg',
-      title: '顶部菜单布局'
+      title: 'Top menu layout'
     }
   ];
 
   layouts = [
     {
       key: 'fixedWidth',
-      title: '固定宽度',
+      title: 'header.sidebar.FIXED_WIDTH',
       disabled: function(setting: any) {
         return setting.mode == 'side';
       }
@@ -115,8 +109,14 @@ export class SettingDrawerComponent implements OnInit {
   others = [
     {
       key: 'colorweak',
-      title: '色弱模式'
+      title: 'header.sidebar.WEAK_MODE'
     }
   ];
-  ngOnInit() {}
+  ngOnInit() {
+    if (!localStorage.getItem('options')) {
+    }
+  }
+  setStorageOption() {
+    localStorage.setItem('options', JSON.stringify(this.options));
+  }
 }

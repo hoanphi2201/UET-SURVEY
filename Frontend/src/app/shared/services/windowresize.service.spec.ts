@@ -10,7 +10,10 @@ describe('Service: Windowresize', () => {
     });
   });
 
-  it('should ...', inject([WindowresizeService], (service: WindowresizeService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should ...', inject(
+    [WindowresizeService],
+    (service: WindowresizeService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

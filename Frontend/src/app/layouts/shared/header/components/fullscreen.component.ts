@@ -9,7 +9,11 @@ import * as screenfull from 'screenfull';
   selector: 'header-fullscreen',
   template: `
     <i nz-icon [nzType]="status ? 'fullscreen-exit' : 'fullscreen'"></i>
-    {{ (status ? 'menu.fullscreen.exit' : 'menu.fullscreen') | translate }}
+    {{
+      (status
+        ? 'header.sidebar.MENU_FULLSCREEN_EXIT'
+        : 'header.sidebar.MENU_FULLSCREEN') | translate
+    }}
   `,
   // tslint:disable-next-line: no-host-metadata-property
   host: {

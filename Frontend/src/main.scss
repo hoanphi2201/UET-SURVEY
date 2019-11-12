@@ -3,3 +3,63 @@
 .svd_commercial_container {
   display: none;
 }
+.search-button {
+  margin-right: 8px;
+}
+.footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  border-top: 1px solid rgb(232, 232, 232);
+  padding: 10px 16px;
+  text-align: right;
+  left: 0px;
+  background: #fff;
+}
+.icon-action {
+  font-size: 35px;
+  color: #cccccc;
+  font-weight: bold;
+}
+.dropdown-action {
+  width: 150px;
+}
+@media screen and (max-width: 769px) {
+  .search-box {
+    width: 100%;
+  }
+}
+
+ul,
+ol,
+li {
+  margin: 0;
+  padding: 0;
+  list-style-position: outside;
+  list-style-type: none;
+}
+.svd_container {
+  .svd_properties .svd_object_editor {
+    height: 100vh !important;
+  }
+  .svd_content .svd_survey_designer .svd_editors .svd_questions_editor {
+    height: 100vh !important;
+  }
+}
+.ant-input,
+.ant-select-selection,
+.ant-btn-lg,
+.ant-btn,
+.ant-dropdown-menu {
+  border-radius: 0 !important;
+}
+a {
+  color: #007faa;
+  text-decoration: none;
+  border: none;
+  background: none;
+  font-weight: inherit;
+  font-size: inherit;
+  outline: none;
+  cursor: pointer;
+}

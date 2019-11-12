@@ -4,7 +4,7 @@
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
-    "comment-format": [true, "check-space"],
+    "comment-format": [false, "check-space"],
     "curly": true,
     "eofline": true,
     "forin": true,

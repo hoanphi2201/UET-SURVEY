@@ -1,5 +1,11 @@
 @import '~ng-zorro-antd/style/themes/default.less';
 @nav-header-height: 64px;
+.header-right {
+  margin-right: 40px !important;
+}
+.alt {
+  border: 1px solid #333e48;
+}
 .logo {
   height: @nav-header-height;
   position: relative;
@@ -7,7 +13,7 @@
   transition: all 0.3s;
   background: #002140;
   overflow: hidden;
-  padding-left: 24px;
+  padding-left: 40px;
   img {
     display: inline-block;
     vertical-align: middle;
@@ -29,5 +35,27 @@
     h1 {
       color: @primary-color;
     }
+  }
+}
+:host ::ng-deep app-header {
+  .ant-menu-horizontal {
+    line-height: 59px !important;
+    li:not(.ant-menu-item-selected) {
+      border-bottom: 5px solid transparent !important;
+    }
+    li.ant-menu-item {
+      margin-left: 16px;
+    }
+    li.ant-menu-item:hover {
+      border-bottom: 5px solid #ffffff !important;
+    }
+    li.ant-menu-item-selected {
+      background-color: transparent !important;
+      border-bottom: 5px solid #ffffff !important;
+    }
+  }
+  .action:hover {
+    background-color: transparent !important;
+    border-bottom: 5px solid #ffffff !important;
   }
 }

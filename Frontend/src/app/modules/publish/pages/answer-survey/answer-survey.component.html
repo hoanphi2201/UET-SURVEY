@@ -1,0 +1,219 @@
+<ng-container
+  *ngIf="surveyCollectorDetail?.status === 'OPEN' && isCorrectPassword"
+>
+  <div class="survey-page">
+    <div class="container">
+      <ng-container>
+        <app-survey
+          [id]="1"
+          (submitSurvey)="onSubmitSurveyResponse($event)"
+          [json]="surveyFormDetail.json"
+        ></app-survey>
+      </ng-container>
+      <ng-container *ngIf="displaySurveyResults">
+        <div style="color: #19b394;" class="wds-type-section-title">
+          Your survey response
+        </div>
+        <app-survey-response
+          [id]="2"
+          [data]="dataSurveyResults"
+          [disabled]="true"
+          [json]="surveyFormDetail.json"
+        ></app-survey-response>
+      </ng-container>
+    </div>
+    <footer class="survey-footer bottom">
+      <div class="standard-footer notranslate">
+        <p class="survey-footer-title">
+          Powered by
+          <a target="_blank" class="footer-brand-name survey-footer-link">
+            <img
+              src="https://secure.surveymonkey.com/assets/responseweb/smlib.surveytemplates/4.2.42/assets/sm_logo_footer.svg"
+              alt="SurveyMonkey"
+              class="responsive-logo"
+            />
+          </a>
+        </p>
+        See how easy it is to
+        <a target="_blank" class="survey-footer-link create-a-survey" href=""
+          >create a survey</a
+        >.
+      </div>
+      <div class="survey-footer-privacy-link-container">
+        <a
+          target="_blank"
+          class="survey-footer-link survey-footer-privacy-link"
+          href=""
+          >Privacy</a
+        >
+        <span class="survey-footer-privacy-text"> &amp; </span>
+        <a
+          target="_blank"
+          class="survey-footer-link survey-footer-privacy-link"
+          href=""
+          >Cookie Policy</a
+        >
+      </div>
+    </footer>
+  </div>
+</ng-container>
+
+<ng-container
+  *ngIf="surveyCollectorDetail?.status === 'OPEN' && !isCorrectPassword"
+>
+  <div class="survey-page">
+    <div class="container survey-page-body question-body-font-theme">
+      <div
+        class="survey-title-container clearfix survey-title-align-left has-survey-title "
+      >
+        <div class="survey-title-table-wrapper">
+          <table role="presentation" class="survey-title-table table-reset">
+            <tbody>
+              <tr>
+                <td class="survey-title-cell">
+                  <h1 class="survey-title user-generated notranslate">
+                    <span class="title-text">
+                      Copy of 3453454
+                    </span>
+                  </h1>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="password-invalid-message user-generated clearfix">
+          <span class="password-validation-icon">!</span>
+          The password entered was incorrect please check your data and try
+          again.
+        </div>
+        <div class="password-message user-generated clearfix">
+          This survey requires a password.If you do not know the password,
+          contact the author of this survey for further assistance.
+        </div>
+        <div class="password-field">
+          <form nz-form [formGroup]="form">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password"
+                >Enter Password</nz-form-label
+              >
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="24"
+                nzErrorTip="Please input your password!"
+              >
+                <input nz-input type="password" formControlName="password" />
+              </nz-form-control>
+            </nz-form-item>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="surveyCollectorDetail?.status === 'CLOSED'">
+  <div class="wrapper">
+    <div class="error-message-wrapper">
+      <h1 class="wds-type-page-title">
+        Oh bananas!
+      </h1>
+      <div class="error-message-container">
+        <h2 class="wds-type-section-title">
+          {{ surveyCollectorDetail?.closedMessage }}
+        </h2>
+        <a href="" class="error-logo" target="_top">
+          <img
+            src="https://secure.surveymonkey.com/assets/responseweb/smlib.errorviews/3.2.4/assets/logo-onwhite.png"
+            alt="SurveyMonkey"
+          />
+        </a>
+        <h3 class="wds-type-card-title">
+          Want to create your own survey?
+        </h3>
+        <button nz-button nzType="primary" nzSize="large">Sign Up FREE</button>
+        <div class="links">
+          <a href="" target="_top">
+            SurveyMonkey Home
+          </a>
+          |
+          <a href="" target="_top">
+            Sitemap
+          </a>
+          |
+          <a href="" target="_top">
+            How It Works
+          </a>
+        </div>
+        <div class="links">
+          <a href="" target="_top">
+            Survey Types
+          </a>
+          |
+          <a href="" target="_top">
+            Customer Satisfaction Surveys
+          </a>
+          |
+          <a href="" target="_top">
+            Employee Surveys
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!surveyFormDetail && !surveyCollectorDetail">
+  <div class="wrapper">
+    <div class="error-message-wrapper">
+      <h1 class="wds-type-page-title">
+        Oh bananas!
+      </h1>
+      <div class="error-message-container">
+        <h2 class="wds-type-section-title">
+          We can't find the page you requested.
+        </h2>
+        <p>
+          If you are trying to access a survey, please contact the survey
+          administrator. The URL may have been changed or the survey may no
+          longer exist.
+        </p>
+        <a href="" class="error-logo" target="_top">
+          <img
+            src="https://secure.surveymonkey.com/assets/responseweb/smlib.errorviews/3.2.4/assets/logo-onwhite.png"
+            alt="SurveyMonkey"
+          />
+        </a>
+        <h3 class="wds-type-card-title">
+          Want to create your own survey?
+        </h3>
+        <button nz-button nzType="primary" nzSize="large">Sign Up FREE</button>
+        <div class="links">
+          <a href="" target="_top">
+            SurveyMonkey Home
+          </a>
+          |
+          <a href="" target="_top">
+            Sitemap
+          </a>
+          |
+          <a href="" target="_top">
+            How It Works
+          </a>
+        </div>
+        <div class="links">
+          <a href="" target="_top">
+            Survey Types
+          </a>
+          |
+          <a href="" target="_top">
+            Customer Satisfaction Surveys
+          </a>
+          |
+          <a href="" target="_top">
+            Employee Surveys
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

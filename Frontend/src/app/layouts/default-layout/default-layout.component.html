@@ -23,63 +23,83 @@
         <i
           nz-icon
           class="anticon trigger"
-          [type]="layout.collapsed ? 'menu-unfold' : 'menu-fold'"
+          [nzType]="layout.collapsed ? 'menu-unfold' : 'menu-fold'"
           (click)="layout.collapsed = !layout.collapsed"
         ></i>
       </ng-container>
       <ng-container left *ngIf="layout.topMode()">
         <div class="logo">
-          <img src="./assets/images/logo/logo.svg" alt="Image Logo" />
+          <a [routerLink]="['/dashboad']">
+            <img src="./assets/images/logo/logo.svg" alt="Image Logo" />
+          </a>
         </div>
         <app-sidebar [data]="menu" mode="horizontal"></app-sidebar>
       </ng-container>
       <ng-container right>
-        <a
-          class="action"
-          nz-tooltip
-          nzPlacement="bottom"
-          nzTitle="获取源码"
-          target="_blank"
-          href="https://github.com/repertory/ng-antd-admin"
+        <button
+          [routerLink]="['/create-survey']"
+          class="alt"
+          nz-button
+          nzType="default"
         >
-          <i nz-icon type="github"></i>
-        </a>
+          {{ 'header.sidebar.CREATE_SURVEY' | translate | uppercase }}
+        </button>
         <app-notice-popover
-          [spinning]="user.notice.spinning"
-          [data]="user.notice.data"
+          [spinning]="notice.spinning"
+          [data]="notice.data"
           [innerClass]="{ action: true, notice: true }"
-          (clear)="user.notice.clear($event)"
-          (visibleChange)="user.notice.visibleChange($event)"
-          *ngIf="user.current"
+          (clear)="notice.clear($event)"
+          (visibleChange)="notice.visibleChange($event)"
         >
-          <i nz-icon type="bell"></i>
+          <i nz-icon nzType="bell" nzTheme="outline"></i>
         </app-notice-popover>
-        <nz-dropdown nzPlacement="bottomRight" *ngIf="user.current">
-          <span nz-dropdown class="action account">
-            <nz-avatar nzSize="small" nzIcon="anticon anticon-user"></nz-avatar>
-            <span class="name" *ngIf="user.current?.name">{{
-              user.current?.name
-            }}</span>
-          </span>
+        <span nz-dropdown class="action account" [nzDropdownMenu]="menuUser">
+          <nz-avatar nzSize="small" nzIcon="user"></nz-avatar>
+          <span class="name" *ngIf="currentUser">
+            {{ currentUser?.firstName + ' ' + currentUser?.lastName }}</span
+          >
+        </span>
+        <nz-dropdown-menu nzPlacement="bottomRight" #menuUser="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item routerLink="/account/center">
-              <i nz-icon type="user"></i>个人中心
+              <i nz-icon nzType="user"></i>User
             </li>
             <li nz-menu-item routerLink="/account/setting">
-              <i nz-icon type="setting"></i>个人设置
+              <i nz-icon nzType="setting"></i>Setting
+            </li>
+            <li nz-menu-item routerLink="/admin/dashboard">
+              <i nz-icon nzType="qrcode" nzTheme="outline"></i>System Admin
             </li>
             <li nz-menu-divider></li>
             <li nz-menu-item (click)="logout()">
-              <i nz-icon type="logout"></i>退出登录
+              <i nz-icon nzType="logout"></i>Logout
             </li>
           </ul>
-        </nz-dropdown>
-        <app-setting-drawer
-          [(setting)]="layout.setting"
-          [innerClass]="{ action: true, setting: true }"
+        </nz-dropdown-menu>
+        <span
+          nzTrigger="click"
+          nz-dropdown
+          class="action account header-right"
+          [nzDropdownMenu]="menuConfig"
         >
-          <i nz-icon type="setting"></i>
-        </app-setting-drawer>
+          <i nz-icon style="font-size: 20px;" nzType="appstore"></i>
+        </span>
+        <nz-dropdown-menu
+          nzPlacement="bottomCenter"
+          #menuConfig="nzDropdownMenu"
+        >
+          <ul nz-menu>
+            <li nz-menu-item>
+              <header-fullscreen></header-fullscreen>
+            </li>
+            <li nz-menu-item>
+              <header-storage></header-storage>
+            </li>
+            <li nz-menu-item>
+              <header-i18n></header-i18n>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
       </ng-container>
     </app-header>
   </ng-container>
@@ -88,7 +108,5 @@
     <router-outlet></router-outlet>
   </ng-container>
 
-  <ng-container footer>
-    <div style="text-align: center;">Copyright ©2018 Powered By wangdong</div>
-  </ng-container>
+  <app-footer></app-footer>
 </app-layout>

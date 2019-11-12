@@ -1,0 +1,371 @@
+<app-page [header]="header" [title]="'Welcome to SurveyUet!'">
+  <div class="container">
+    <div class="row">
+      <nz-card [style.marginBottom.px]="24">
+        <div nz-row>
+          <div class="pbt-12 col-sm-12 col-md-5">
+            <button
+              nz-dropdown
+              nzTrigger="click"
+              [nzDropdownMenu]="menuFolder"
+              nz-button
+              class="select-folder"
+              [nzSize]="'large'"
+              nzType="default"
+            >
+              {{ folderSelectTitle }}
+              <i class="icon" nz-icon nzType="caret-down" nzTheme="outline"></i>
+            </button>
+            <nz-dropdown-menu
+              nzPlacement="bottomRight"
+              #menuFolder="nzDropdownMenu"
+            >
+              <div class="folders-menu">
+                <ul class="dropdown-folder-top" nz-menu>
+                  <li nz-menu-item (click)="showSurveyInFolder('all')">
+                    {{ 'default.layout.ALL' | translate }}
+                    <i
+                      class="float-right"
+                      *ngIf="folderSelectId === 'all'"
+                      nz-icon
+                      nzType="check"
+                      nzTheme="outline"
+                    ></i>
+                  </li>
+                  <ng-container
+                    *ngFor="let surveyFolder of listOfAllSurveyFolder"
+                  >
+                    <li
+                      nz-menu-item
+                      (click)="showSurveyInFolder(surveyFolder.id)"
+                    >
+                      {{ surveyFolder.title }}
+                      <i
+                        class="float-right"
+                        *ngIf="folderSelectId === surveyFolder.id"
+                        nz-icon
+                        nzType="check"
+                        nzTheme="outline"
+                      ></i>
+                    </li>
+                  </ng-container>
+                </ul>
+                <div class="buttons">
+                  <button
+                    (click)="openModal()"
+                    nz-button
+                    [nzSize]="'large'"
+                    nzType="default"
+                  >
+                    {{
+                      'default.layout.MANAGE_FOLDERS' | translate | uppercase
+                    }}
+                  </button>
+                </div>
+              </div>
+            </nz-dropdown-menu>
+            <button
+              nz-button
+              (click)="onShowMoveToFolder()"
+              [nzSize]="'large'"
+              nzType="default"
+            >
+              <i
+                class="icon-folder"
+                nz-icon
+                [nzType]="showMoveToFolder ? 'folder-open' : 'folder'"
+                nzTheme="outline"
+              ></i>
+            </button>
+          </div>
+          <div class="pbt-12 col-sm-12 col-md-offset-2 col-md-5">
+            <nz-input-group [nzSize]="'large'" [nzSuffix]="suffixIconSearch">
+              <input
+                [(ngModel)]="searchValue"
+                (keyup.enter)="search()"
+                type="text"
+                nz-input
+                placeholder="Search by survey name"
+              />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <i nz-icon nzType="search"></i>
+            </ng-template>
+          </div>
+        </div>
+        <div nz-row>
+          <div class="col-sm-12">
+            <nz-table
+              #userTable
+              nzShowPagination
+              nzShowSizeChanger
+              [nzData]="listOfAllSurveyForm"
+              [nzPageSize]="pagging.pageSize"
+              [nzTotal]="pagging.total"
+              [nzFrontPagination]="false"
+              (nzPageIndexChange)="pageIndexChange($event)"
+              (nzPageSizeChange)="pageSizeChange($event)"
+              [nzBordered]="true"
+              [nzTitle]="titleTemplate"
+            >
+              <thead (nzSortChange)="sort($event)" nzSingleSort>
+                <tr *ngIf="columns.length > 0">
+                  <th>
+                    {{ 'default.layout.TABLE_NO' | translate | uppercase }}
+                  </th>
+                  <th
+                    *ngIf="showMoveToFolder"
+                    nzShowCheckbox
+                    [(nzChecked)]="isAllDisplayDataChecked"
+                    (nzCheckedChange)="checkAll($event)"
+                    [nzIndeterminate]="isIndeterminate"
+                  ></th>
+                  <ng-container *ngIf="showMoveToFolder">
+                    <th [nzAlign]="'left'" colspan="8">
+                      <button
+                        nz-dropdown
+                        nzTrigger="click"
+                        [nzDropdownMenu]="menuMoveToFolder"
+                        [nzDisabled]="numberOfChecked <= 0"
+                        nz-button
+                        nzType="dashed"
+                      >
+                        Move to...
+                        <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+                      </button>
+                      <nz-dropdown-menu
+                        class="move-to-menu"
+                        nzPlacement="bottomRight"
+                        #menuMoveToFolder="nzDropdownMenu"
+                      >
+                        <ul
+                          id="#move-to-menu"
+                          class="dropdown-folder-top"
+                          nz-menu
+                        >
+                          <ng-container
+                            *ngFor="let surveyFolder of listOfAllSurveyFolder"
+                          >
+                            <li
+                              nz-menu-item
+                              (click)="onMoveSurveyToFolder(surveyFolder.id)"
+                            >
+                              {{ surveyFolder.title }}
+                              <span class="float-right">{{
+                                surveyFolder.totalForm
+                              }}</span>
+                            </li>
+                          </ng-container>
+                        </ul>
+                        <div *ngIf="!newFolder" class="buttons">
+                          <button
+                            (click)="updateNewFolder(true)"
+                            nz-button
+                            nzType="default"
+                            class="secondary"
+                          >
+                            +
+                            {{
+                              'default.layout.NEW_FOLDERS'
+                                | translate
+                                | uppercase
+                            }}
+                          </button>
+                        </div>
+                        <div *ngIf="newFolder" class="add-folder-form">
+                          <form [formGroup]="addFolderForm">
+                            <input
+                              formControlName="title"
+                              nz-input
+                              class="folder-name"
+                            />
+                            <field-error-display
+                              [displayError]="
+                                isFieldValid(addFolderForm, 'title')
+                              "
+                              [errors]="f.title.errors"
+                            ></field-error-display>
+                            <div>
+                              <button
+                                (click)="onAddNewFolder(addFolderForm)"
+                                nz-button
+                                nzType="primary"
+                              >
+                                {{
+                                  'default.layout.SAVE_AND_MOVE'
+                                    | translate
+                                    | uppercase
+                                }}
+                              </button>
+                              <button
+                                (click)="updateNewFolder(false)"
+                                nz-button
+                                nzType="default"
+                              >
+                                {{
+                                  'default.layout.CANCEL'
+                                    | translate
+                                    | uppercase
+                                }}
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </nz-dropdown-menu>
+                    </th>
+                  </ng-container>
+                  <ng-container *ngIf="!showMoveToFolder">
+                    <ng-container *ngFor="let column of columns">
+                      <th
+                        [nzAlign]="'center'"
+                        nzCustomFilter
+                        *ngIf="!column.hidden"
+                        [nzShowSort]="column.sortable"
+                        [nzSortKey]="column.id"
+                        [nzShowFilter]="column.filter"
+                        [nzFilters]="column.filter ? column.filter : []"
+                        (nzFilterChange)="
+                          filter($event, column.filterKey || column.id)
+                        "
+                      >
+                        {{ column.header | translate | uppercase }}
+                        <i
+                          *ngIf="column.search"
+                          class="ant-table-filter-icon"
+                          nz-icon
+                          nz-dropdown
+                          #dropdown="nzDropdown"
+                          nzType="search"
+                          [nzDropdownMenu]="menuSearch"
+                          [class.ant-table-filter-open]="dropdown.nzVisible"
+                          nzTrigger="click"
+                          nzPlacement="bottomRight"
+                          [nzClickHide]="false"
+                          nzTableFilter
+                          (click)="searchKey = column.id"
+                        ></i>
+                      </th>
+                    </ng-container>
+                  </ng-container>
+                  <th *ngIf="!showMoveToFolder" [nzAlign]="'center'">
+                    {{ 'default.layout.MORE' | translate | uppercase }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of userTable.data; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td
+                    *ngIf="showMoveToFolder"
+                    nzShowCheckbox
+                    [(nzChecked)]="mapOfCheckedId[data.id]"
+                    [nzDisabled]="data.disabled"
+                    (nzCheckedChange)="checkItem(data.id, $event)"
+                  ></td>
+                  <ng-container *ngFor="let column of columns">
+                    <td
+                      [nzAlign]="'center'"
+                      [ngClass]="column.className"
+                      *ngIf="!column.hidden"
+                    >
+                      <ng-container [ngSwitch]="column.type">
+                        <ng-container *ngSwitchCase="'text'">
+                          <div
+                            *ngIf="data[column.id].length > 20"
+                            [nzTooltipTitle]="data[column.id]"
+                            nzTooltipPlacement="top"
+                            nz-tooltip
+                          >
+                            <a
+                              *ngIf="column.action"
+                              routerLink="column.action.link(data.id)"
+                            >
+                              {{ data[column.id] | summary }}
+                            </a>
+                            <ng-container *ngIf="!column.action">
+                              {{ data[column.id] | summary }}
+                            </ng-container>
+                          </div>
+                          <div *ngIf="data[column.id].length <= 20">
+                            <a
+                              *ngIf="column.action"
+                              [routerLink]="column.action.link(data.id)"
+                            >
+                              {{ data[column.id] | summary }}
+                            </a>
+                            <ng-container *ngIf="!column.action">
+                              {{ data[column.id] | summary }}
+                            </ng-container>
+                          </div>
+                          <div *ngIf="column.td_two">
+                            {{ 'default.layout.CREATED' | translate }}
+                            {{ data[column.td_two] | date: 'yyyy-MM-dd' }}
+                          </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'date'">
+                          <i
+                            nz-icon
+                            nzType="clock-circle"
+                            nzTheme="outline"
+                          ></i>
+                          {{ data[column.id] | date: 'yyyy-MM-dd hh:mm' }}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'action'">
+                          <span class="action-icon">
+                            <a [routerLink]="column.action.link(data.id)">
+                              <i
+                                nz-icon
+                                [nzType]="column?.action?.icon"
+                                nzTheme="outline"
+                              ></i>
+                            </a>
+                          </span>
+                        </ng-container>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                  <td [nzAlign]="'center'">
+                    <a
+                      [nzTrigger]="'click'"
+                      [nzDropdownMenu]="menuAction"
+                      [nzPlacement]="'bottomCenter'"
+                      nz-dropdown
+                    >
+                      <i
+                        nz-icon
+                        nzType="ellipsis"
+                        nzTheme="outline"
+                        class="icon-action"
+                      ></i>
+                    </a>
+                    <nz-dropdown-menu #menuAction="nzDropdownMenu">
+                      <ul class="dropdown-action" nz-menu nzSelectable>
+                        <li (click)="openForm(data)" nz-menu-item>
+                          <i nz-icon nzType="edit" nzTheme="outline"></i>
+                          {{ 'admin.layout.EDIT' | translate }}
+                        </li>
+                        <li (click)="showDeleteConfirm(data.id)" nz-menu-item>
+                          <i nz-icon nzType="delete" nzTheme="outline"></i>
+                          {{ 'admin.layout.DELETE' | translate }}
+                        </li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+            <div class="buttons-ctnr">
+              <button
+                [routerLink]="['/create-survey']"
+                nz-button
+                nzType="primary"
+              >
+                {{ 'header.sidebar.CREATE_SURVEY' | translate | uppercase }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+</app-page>

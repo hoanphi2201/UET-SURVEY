@@ -1,0 +1,35 @@
+@import "../../../../../../../styles/variables.scss";
+
+.wds-type-section-title {
+  i {
+    color: #333e48;
+    line-height: 1.5;
+    margin: 0;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+  }
+}
+.sm-survey-card-preview {
+  display: none;
+  border-left: 0 !important;
+}
+.sm-survey-card-preview:hover {
+  .wds-type-section-title i {
+    color: $theme-color !important;
+  }
+  .wds-type-body-sm {
+    color: $theme-color !important;
+  }
+}
+.sm-base-list-item-inner {
+  &:hover {
+    border: 1px solid $theme-color;
+    .sm-survey-card-actions > * {
+      display: none;
+    }
+    .sm-survey-card-preview {
+      text-align: center;
+      display: block !important;
+    }
+  }
+}

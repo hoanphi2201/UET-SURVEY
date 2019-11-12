@@ -1,5 +1,16 @@
 @import '~ng-zorro-antd/style/themes/default.less';
+
 @nav-header-height: 64px;
+::ng-deep app-admin-layout app-page {
+  .content {
+    margin: 24px 24px 0;
+  }
+  @media screen and (max-width: 795px) {
+    .content {
+      margin: 24px 10px 0;
+    }
+  }
+}
 .logo {
   height: @nav-header-height;
   position: relative;

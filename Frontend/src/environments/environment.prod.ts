@@ -10,7 +10,28 @@ export const environment = {
   production: true,
   hmr: false,
   version: '0.0.1',
-  serverUrl: 'https://api.chucknorris.io',
+  serverAdminUrl: 'http://localhost:8080/api/v1/admin',
+  serverDefaultUrl: 'http://localhost:8080/api/v1/default',
+  serverPublishUrl: 'http://localhost:8080/api/v1/publish',
   defaultLanguage: 'en-US',
-  supportedLanguages: ['en-US', 'fr-FR']
+  supportedLanguages: ['en-US', 'fr-FR', 'vi-VN', 'zh-CN'],
+  dbTable: ['users', 'roles', 'user_grants', 'role_grants'],
+  languages: {
+    'en-US': {
+      text: 'English',
+      abbr: '🇬🇧'
+    },
+    'zh-CN': {
+      text: '简体中文',
+      abbr: '🇨🇳'
+    },
+    'vi-VN': {
+      text: 'VietNam',
+      abbr: '🇭🇰'
+    },
+    'fr-FR': {
+      text: 'French',
+      abbr: '🇫🇷'
+    }
+  }
 };

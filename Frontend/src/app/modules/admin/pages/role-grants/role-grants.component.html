@@ -1,0 +1,317 @@
+<ng-template #header>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>{{
+      'admin.layout.ADMIN' | translate
+    }}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{
+      'admin.layout.ROLE_GRANTS' | translate
+    }}</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</ng-template>
+
+<app-page
+  [header]="header"
+  [title]="'admin.layout.ROLE_GRANT_MANAGERMENT' | translate"
+>
+  <div nz-row [nzGutter]="24">
+    <div
+      nz-col
+      [nzLg]="24"
+      [nzMd]="24"
+      [nzSm]="24"
+      [nzXs]="24"
+      [style.marginBottom.px]="24"
+    >
+      <nz-card [style.marginBottom.px]="24">
+        <div nz-row>
+          <nz-table
+            #userTable
+            nzShowPagination
+            nzShowSizeChanger
+            [nzData]="listOfAllData"
+            [nzPageSize]="pagging.pageSize"
+            [nzTotal]="pagging.total"
+            [nzFrontPagination]="false"
+            (nzPageIndexChange)="pageIndexChange($event)"
+            (nzPageSizeChange)="pageSizeChange($event)"
+            [nzBordered]="true"
+            [nzTitle]="titleTemplate"
+          >
+            <thead (nzSortChange)="sort($event)" nzSingleSort>
+              <tr>
+                <th>{{ 'admin.layout.TABLE_NO' | translate }}</th>
+                <th
+                  nzShowCheckbox
+                  [(nzChecked)]="isAllDisplayDataChecked"
+                  (nzCheckedChange)="checkAll($event)"
+                  [nzIndeterminate]="isIndeterminate"
+                ></th>
+                <ng-container *ngFor="let column of columns">
+                  <th
+                    nzCustomFilter
+                    *ngIf="!column.hidden"
+                    [nzShowSort]="column.sortable"
+                    [nzSortKey]="column.id"
+                    [nzShowFilter]="column.filter"
+                    [nzFilters]="column.filter ? column.filter : []"
+                    (nzFilterChange)="
+                      filter($event, column.filterKey || column.id)
+                    "
+                  >
+                    {{ column.header | translate }}
+                    <i
+                      *ngIf="column.search"
+                      class="ant-table-filter-icon"
+                      nz-icon
+                      nz-dropdown
+                      #dropdown="nzDropdown"
+                      nzType="search"
+                      [nzDropdownMenu]="menuSearch"
+                      [class.ant-table-filter-open]="dropdown.nzVisible"
+                      nzTrigger="click"
+                      nzPlacement="bottomRight"
+                      [nzClickHide]="false"
+                      nzTableFilter
+                      (click)="searchKey = column.id"
+                    ></i>
+                  </th>
+                </ng-container>
+                <th [nzAlign]="'center'">
+                  {{ 'admin.layout.ACTION' | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of userTable.data; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td
+                  nzShowCheckbox
+                  [(nzChecked)]="mapOfCheckedId[data.id]"
+                  [nzDisabled]="data.disabled"
+                  (nzCheckedChange)="checkItem(data.id, $event)"
+                ></td>
+                <ng-container *ngFor="let column of columns">
+                  <td *ngIf="!column.hidden">
+                    <ng-container [ngSwitch]="column.type">
+                      <ng-container *ngSwitchCase="'text'">
+                        <p
+                          *ngIf="data[column.id].length > 12"
+                          [nzTooltipTitle]="data[column.id]"
+                          nzTooltipPlacement="top"
+                          nz-tooltip
+                        >
+                          {{ data[column.id] | summary }}
+                        </p>
+                        <p *ngIf="data[column.id].length <= 12">
+                          {{ data[column.id] }}
+                        </p>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'date'">
+                        <i nz-icon nzType="clock-circle" nzTheme="outline"></i
+                        >{{ data[column.id] | date: 'yyyy-MM-dd hh:mm' }}
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'checkbox'">
+                        <label
+                          (ngModelChange)="onUpdateAction(data.id, column.id)"
+                          nz-checkbox
+                          [(ngModel)]="data[column.id]"
+                        ></label>
+                      </ng-container>
+                    </ng-container>
+                  </td>
+                </ng-container>
+                <td [nzAlign]="'center'">
+                  <a
+                    [nzTrigger]="'click'"
+                    [nzDropdownMenu]="menuAction"
+                    [nzPlacement]="'bottomCenter'"
+                    nz-dropdown
+                  >
+                    <i
+                      nz-icon
+                      nzType="ellipsis"
+                      nzTheme="outline"
+                      class="icon-action"
+                    ></i>
+                  </a>
+                  <nz-dropdown-menu #menuAction="nzDropdownMenu">
+                    <ul class="dropdown-action" nz-menu nzSelectable>
+                      <li (click)="openForm(data)" nz-menu-item>
+                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                        {{ 'admin.layout.EDIT' | translate }}
+                      </li>
+                      <li (click)="showDeleteConfirm(data.id)" nz-menu-item>
+                        <i nz-icon nzType="delete" nzTheme="outline"></i>
+                        {{ 'admin.layout.DELETE' | translate }}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+</app-page>
+<!-- Title Table -->
+<ng-template #titleTemplate>
+  <app-title-table
+    [numberOfChecked]="numberOfChecked"
+    [results]="pagging.total"
+    [columns]="columns"
+    (openForm)="openForm($event)"
+  >
+    <ul
+      #action
+      class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-light ant-dropdown-menu-vertical"
+    >
+      <li class="ant-dropdown-menu-item" (click)="showDeleteConfirm()">
+        {{ 'admin.layout.DELETE_CHECK_ROLE_GRANTS' | translate }}
+      </li>
+    </ul>
+  </app-title-table>
+</ng-template>
+<!-- End Title Table -->
+<!-- Form -->
+<nz-drawer
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+  [nzMaskClosable]="false"
+  [nzVisible]="visible"
+  [nzTitle]="
+    (editing
+      ? 'admin.layout.EDIT_ROLE_GRANT'
+      : 'admin.layout.CREATE_NEW_ROLE_GRANT') | translate
+  "
+  (nzOnClose)="closeForm()"
+  [nzWidth]="screenWidth < 768 ? 256 : 560"
+>
+  <form #formDirective="ngForm" [formGroup]="form" nz-form>
+    <div nz-row nzGutter="16">
+      <div nz-col nzXl="12" nzMd="12" nzSm="24">
+        <nz-form-item>
+          <nz-form-label>{{ 'admin.layout.ROLE' | translate }}</nz-form-label>
+          <nz-form-control
+            [ngClass]="{ 'has-error': isFieldValid(form, 'roleId') }"
+          >
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [nzPlaceHolder]="'admin.layout.SELECT_ROLE' | translate"
+              formControlName="roleId"
+              [(ngModel)]="selectedEdit.role.id"
+            >
+              <ng-container *ngFor="let o of listOfAllRole">
+                <nz-option [nzValue]="o.value" [nzLabel]="o.text"></nz-option>
+              </ng-container>
+            </nz-select>
+          </nz-form-control>
+          <field-error-display
+            [displayError]="isFieldValid(form, 'roleId')"
+            [errors]="f.roleId.errors"
+          ></field-error-display>
+        </nz-form-item>
+      </div>
+      <div nz-col nzXl="12" nzMd="12" nzSm="24">
+        <nz-form-item>
+          <nz-form-label>{{ 'admin.layout.TABLE' | translate }}</nz-form-label>
+          <nz-form-control
+            [ngClass]="{ 'has-error': isFieldValid(form, 'tableName') }"
+          >
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [nzPlaceHolder]="'admin.layout.SELECT_TABLE' | translate"
+              formControlName="tableName"
+              [(ngModel)]="selectedEdit.tableName"
+            >
+              <ng-container *ngFor="let o of listOfAllTable">
+                <nz-option [nzValue]="o.value" [nzLabel]="o.text"></nz-option>
+              </ng-container>
+            </nz-select>
+          </nz-form-control>
+          <field-error-display
+            [displayError]="isFieldValid(form, 'tableName')"
+            [errors]="f.tableName.errors"
+          ></field-error-display>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row nzGutter="16">
+      <div nz-col nzXl="24" nzMd="24" nzSm="24">
+        <nz-table
+          [nzBordered]="true"
+          [nzData]="[null]"
+          [nzShowPagination]="false"
+        >
+          <thead>
+            <tr>
+              <th>{{ 'admin.layout.CAN_VIEW_ALL' | translate }}</th>
+              <th>{{ 'admin.layout.CAN_SELF_VIEW' | translate }}</th>
+              <th>{{ 'admin.layout.CAN_INSERT' | translate }}</th>
+              <th>{{ 'admin.layout.CAN_UPDATE' | translate }}</th>
+              <th>{{ 'admin.layout.CAN_DELETE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <label
+                  nz-checkbox
+                  [(ngModel)]="selectedEdit.canViewAll"
+                  formControlName="canViewAll"
+                ></label>
+              </td>
+              <td>
+                <label
+                  nz-checkbox
+                  [(ngModel)]="selectedEdit.canSelfView"
+                  formControlName="canSelfView"
+                ></label>
+              </td>
+              <td>
+                <label
+                  nz-checkbox
+                  [(ngModel)]="selectedEdit.canInsert"
+                  formControlName="canInsert"
+                ></label>
+              </td>
+              <td>
+                <label
+                  nz-checkbox
+                  [(ngModel)]="selectedEdit.canUpdate"
+                  formControlName="canUpdate"
+                ></label>
+              </td>
+              <td>
+                <label
+                  nz-checkbox
+                  [(ngModel)]="selectedEdit.canDelete"
+                  formControlName="canDelete"
+                ></label>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </form>
+  <div class="footer">
+    <button nz-button nzType="default" (click)="closeForm()" class="mr-8">
+      <span>{{ 'admin.layout.CANCEL' | translate }}</span>
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="onAddRoleGrant(form, formDirective)"
+    >
+      <span>{{ 'admin.layout.SUBMIT' | translate }}</span>
+    </button>
+  </div>
+</nz-drawer>
+<!-- End Form -->

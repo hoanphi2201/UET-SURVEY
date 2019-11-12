@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
+
+export interface WindowSize {
+  innerWidth: number;
+  innerHeight: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class WindowresizeService {
-  currentSize$: Subject<number | string> = new Subject<number | string>();
+  currentSize$: BehaviorSubject<WindowSize> = new BehaviorSubject<WindowSize>(
+    null
+  );
 
-  getSize(): Observable<number | string> {
+  getSize(): Observable<WindowSize> {
     return this.currentSize$.asObservable();
   }
 
-  setSize(size: number | string): void {
+  setSize(size: WindowSize): void {
     this.currentSize$.next(size);
   }
 }

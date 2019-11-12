@@ -1,0 +1,99 @@
+@import "../../../../../../styles/variables.scss";
+h2,
+ul {
+  margin: 0 !important;
+}
+.global-navigation-header {
+  position: relative;
+  font-weight: normal;
+  background-color: #fff;
+  &::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    content: "";
+    height: 1px;
+    bottom: 0;
+    background: #d0d2d3;
+  }
+}
+.global-navigation-header-centered {
+  min-width: 320px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.global-navigation-header-title-container {
+  display: block;
+  padding-top: 24px;
+  padding-bottom: 12px;
+  position: relative;
+  &::before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    content: "";
+    height: 1px;
+    bottom: -2px;
+    background: #edeeee;
+    z-index: 3;
+  }
+}
+.global-navigation-header-title {
+  display: block;
+  white-space: nowrap;
+  font-size: 26px;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 300;
+  vertical-align: bottom;
+  cursor: pointer;
+}
+.global-navigation-header-tabs-container {
+  background: #fff;
+  border-bottom: 1px solid transparent !important;
+  border-top: 1px solid transparent !important;
+}
+.global-navigation-header-tabs-left {
+  float: left;
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+  .selected {
+    a {
+      color: $theme-color !important;
+      border-bottom: 3px solid $theme-color !important;
+    }
+  }
+  a {
+    color: #333e48;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    padding: 16px 2px;
+    box-sizing: border-box;
+    transition: color 100ms linear;
+    background-color: #fff;
+  }
+  li {
+    display: inline-block;
+    margin-right: 16px;
+    &.progressive:not(:last-child)::after {
+      content: "\f178";
+      font-family: FontAwesome;
+      font-weight: normal;
+      font-size: 12px;
+      display: inline-block;
+      color: #dadad8;
+      vertical-align: middle;
+      margin-left: 8px;
+      margin-right: -8px;
+    }
+    &.progressive:not(.selected):hover {
+      border-bottom: 3px solid #d0d2d3;
+    }
+  }
+}

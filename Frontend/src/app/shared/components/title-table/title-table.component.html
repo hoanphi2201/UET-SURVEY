@@ -1,0 +1,88 @@
+<div class="custom-title">
+  <div class="left-buttons">
+    <button
+      nz-button
+      (click)="onOpenForm()"
+      [nzTooltipTitle]="'admin.layout.CREATE' | translate"
+      nzTooltipPlacement="top"
+      nz-tooltip
+    >
+      <i nz-icon nzType="plus"></i>
+    </button>
+    <span
+      [nzTooltipTitle]="'admin.layout.BULK_ACTION' | translate"
+      nzTooltipPlacement="top"
+      nz-tooltip
+      class="custom-button"
+    >
+      <button
+        nz-button
+        [nzTrigger]="'click'"
+        [nzDropdownMenu]="menuBulkAction"
+        nz-dropdown
+        [nzDisabled]="numberOfChecked <= 0"
+      >
+        <i nz-icon nzType="more" nzTheme="outline"></i>
+      </button>
+    </span>
+    <div *ngIf="customerBottomActions" class="customer-container">
+      <ng-container *ngTemplateOutlet="customerBottomActions"></ng-container>
+    </div>
+    <nz-dropdown-menu #menuBulkAction="nzDropdownMenu">
+      <ng-content action></ng-content>
+    </nz-dropdown-menu>
+  </div>
+  <nz-divider nzType="vertical"></nz-divider>
+  <div class="number-in-list">
+    <span class="highlighted-text">{{ results }}</span>
+    <span> {{ 'admin.layout.RESULTS' | translate }} </span>
+  </div>
+  <div class="pull-right buttons">
+    <button
+      nz-button
+      [nzTooltipTitle]="'admin.layout.DOWNLOAD' | translate"
+      nzTooltipPlacement="top"
+      nz-tooltip
+      [nzTrigger]="'click'"
+      [nzDropdownMenu]="menuExport"
+      nz-dropdown
+    >
+      <i nz-icon nzType="export" nzTheme="outline"></i>
+    </button>
+    <nz-dropdown-menu #menuExport="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li nz-menu-item>
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          {{ 'admin.layout.DOWNLOAD_EXCEL' | translate }}
+        </li>
+        <li nz-menu-item>
+          <i nz-icon nzType="file-excel" nzTheme="outline"></i>
+          {{ 'admin.layout.DOWNLOAD_CSV' | translate }}
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <button
+      nz-button
+      [nzTooltipTitle]="'admin.layout.COLUMNS' | translate"
+      nzTooltipPlacement="top"
+      nz-tooltip
+      [nzTrigger]="'click'"
+      nz-dropdown
+      [nzDropdownMenu]="menuColumns"
+    >
+      <i nz-icon nzType="layout" nzTheme="outline"></i>
+    </button>
+    <nz-dropdown-menu #menuColumns="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li *ngFor="let column of columns" nz-menu-item>
+          <label
+            nz-checkbox
+            (ngModelChange)="onChangeHidden($event, column)"
+            [ngModel]="!column.hidden"
+            >{{ column.header | translate }}</label
+          >
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </div>
+</div>

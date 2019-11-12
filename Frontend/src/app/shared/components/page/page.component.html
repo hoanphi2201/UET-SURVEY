@@ -3,7 +3,7 @@
     <ng-container [ngTemplateOutlet]="header"></ng-container>
   </div>
 </div>
-<div class="main">
+<div [style.min-height.px]="screenHeight - 64 - 144" class="main">
   <div class="content">
     <ng-content></ng-content>
   </div>

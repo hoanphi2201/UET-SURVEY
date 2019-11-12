@@ -9,7 +9,7 @@ import { NzModalService, NzMessageService } from 'ng-zorro-antd';
   selector: 'header-storage',
   template: `
     <i nz-icon nzType="tool"></i>
-    {{ 'menu.clear.local.storage' | translate }}
+    {{ 'header.sidebar.MENU_CLEAR_LOCAL_STORAGE' | translate }}
   `,
   // tslint:disable-next-line: no-host-metadata-property
   host: {

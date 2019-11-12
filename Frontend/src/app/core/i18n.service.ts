@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-
+import { vi_VN, zh_CN, fr_FR, en_US, NzI18nService } from 'ng-zorro-antd/i18n';
 import { Logger } from './logger.service';
+
 import enUS from '../../translations/en-US.json';
 import frFR from '../../translations/fr-FR.json';
+import vnVN from '../../translations/vi-Vn.json';
+import zhCN from '../../translations/zh-CN.json';
 
 const log = new Logger('I18nService');
 const languageKey = 'language';
@@ -28,10 +31,15 @@ export class I18nService {
 
   private langChangeSubscription!: Subscription;
 
-  constructor(private translateService: TranslateService) {
+  constructor(
+    private translateService: TranslateService,
+    private nzI18nService: NzI18nService
+  ) {
     // Embed languages to avoid extra HTTP requests
     translateService.setTranslation('en-US', enUS);
     translateService.setTranslation('fr-FR', frFR);
+    translateService.setTranslation('zh-CN', zhCN);
+    translateService.setTranslation('vi-VN', vnVN);
   }
 
   /**
@@ -46,9 +54,17 @@ export class I18nService {
     this.language = '';
 
     // Warning: this subscription will always be alive for the app's lifetime
-    this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-      localStorage.setItem(languageKey, event.lang);
-    });
+    this.langChangeSubscription = this.translateService.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        localStorage.setItem(languageKey, event.lang);
+      }
+    );
+  }
+
+  getCurrentLanguage() {
+    return localStorage.getItem(languageKey)
+      ? localStorage.getItem(languageKey)
+      : this.defaultLanguage;
   }
 
   /**
@@ -67,13 +83,19 @@ export class I18nService {
    * @param language The IETF language code to set.
    */
   set language(language: string) {
-    language = language || localStorage.getItem(languageKey) || this.translateService.getBrowserCultureLang();
+    language =
+      language ||
+      localStorage.getItem(languageKey) ||
+      this.translateService.getBrowserCultureLang();
     let isSupportedLanguage = this.supportedLanguages.includes(language);
 
     // If no exact match is found, search without the region
     if (language && !isSupportedLanguage) {
       language = language.split('-')[0];
-      language = this.supportedLanguages.find(supportedLanguage => supportedLanguage.startsWith(language)) || '';
+      language =
+        this.supportedLanguages.find(supportedLanguage =>
+          supportedLanguage.startsWith(language)
+        ) || '';
       isSupportedLanguage = Boolean(language);
     }
 
@@ -84,6 +106,23 @@ export class I18nService {
 
     log.debug(`Language set to ${language}`);
     this.translateService.use(language);
+    switch (language) {
+      case 'en-US':
+        this.nzI18nService.setLocale(en_US);
+        break;
+      case 'fr-FR':
+        this.nzI18nService.setLocale(fr_FR);
+        break;
+      case 'vi-VN':
+        this.nzI18nService.setLocale(vi_VN);
+        break;
+      case 'zh-CN':
+        this.nzI18nService.setLocale(zh_CN);
+        break;
+      default:
+        this.nzI18nService.setLocale(en_US);
+        break;
+    }
   }
 
   /**

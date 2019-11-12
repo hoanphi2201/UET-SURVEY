@@ -16,7 +16,7 @@ export class LayoutComponent implements OnInit {
     content: true,
     footer: true
   };
-  @Input() siderWidth: number = 200;
+  @Input() siderWidth: number = 256;
   @Input() siderMode: string = 'side';
   @Input() topMode: boolean = false;
   @Input() setting: any = {};

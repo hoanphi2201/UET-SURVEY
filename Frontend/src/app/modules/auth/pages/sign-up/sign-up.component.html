@@ -8,19 +8,27 @@
       <p class="m-b-30 ">Create your account to get access</p>
       <form class="login-form" nz-form>
         <nz-form-item>
-          <nz-form-label nzFor="userName" nzRequired>
-            UserName
-          </nz-form-label>
+          <nz-form-label nzFor="userName" nzRequired>UserName</nz-form-label>
           <nz-form-control>
-            <input formcontrolname="userName" id="userName" nz-input placeholder="Username" type="text" />
+            <input
+              formcontrolname="userName"
+              id="userName"
+              nz-input
+              placeholder="Username"
+              type="text"
+            />
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-label nzFor="email" nzRequired>
-            Email
-          </nz-form-label>
+          <nz-form-label nzFor="email" nzRequired>Email</nz-form-label>
           <nz-form-control>
-            <input formcontrolname="email" id="email" nz-input placeholder="Email" type="text" />
+            <input
+              formcontrolname="email"
+              id="email"
+              nz-input
+              placeholder="Email"
+              type="text"
+            />
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -28,7 +36,13 @@
             Password
           </nz-form-label>
           <nz-form-control>
-            <input formcontrolname="password" id="password" nz-input="" placeholder="Password" type="password" />
+            <input
+              formcontrolname="password"
+              id="password"
+              nz-input=""
+              placeholder="Password"
+              type="password"
+            />
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -36,18 +50,27 @@
             Confirm Password
           </nz-form-label>
           <nz-form-control>
-            <input formcontrolname="checkPassword" id="checkPassword" nz-input placeholder="Confirm Password" />
+            <input
+              formcontrolname="checkPassword"
+              id="checkPassword"
+              nz-input
+              placeholder="Confirm Password"
+            />
           </nz-form-control>
         </nz-form-item>
         <div class="d-flex align-items-center justify-content-between">
           <nz-form-item>
             <nz-form-control>
-              <label nz-checkbox formcontrolname="agree">I have read the <a>agreement</a></label>
+              <label nz-checkbox formcontrolname="agree"
+                >I have read the <a>agreement</a></label
+              >
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
             <nz-form-control>
-              <button class="login-form-button" [nzType]="'primary'" nz-button><span>Sign Up</span></button>
+              <button class="login-form-button" [nzType]="'primary'" nz-button>
+                <span>Sign Up</span>
+              </button>
             </nz-form-control>
           </nz-form-item>
         </div>

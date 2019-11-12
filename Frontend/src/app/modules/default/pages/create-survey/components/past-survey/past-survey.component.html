@@ -1,0 +1,200 @@
+<div class="sm-my-surveys-tab-container w-100 h-100">
+  <div class="sm-my-surveys-tab-action-buttons">
+    <div *ngIf="!searching" class="sm-my-surveys-tab-action-buttons-inner">
+      <div class="wds-flex wds-flex-x">
+        <div class="wds-button-group">
+          <button
+            (click)="onChangeTab('all')"
+            [nzTooltipTitle]="'default.layout.ALL_SURVEYS' | translate"
+            nzTooltipPlacement="top"
+            nz-tooltip
+            class="sm-my-surveys-tab-all-button"
+            nz-button
+            nzType="default"
+            [ngClass]="{ secondary: currentTab === 'all' }"
+          >
+            {{ 'default.layout.ALL' | translate }}
+          </button>
+          <button
+            (click)="onChangeTab('favorites')"
+            [nzTooltipTitle]="'default.layout.FAVORITES_SURVEYS' | translate"
+            nzTooltipPlacement="top"
+            nz-tooltip
+            class="sm-my-surveys-tab-all-button"
+            nz-button
+            nzType="default"
+            [ngClass]="{ secondary: currentTab === 'favorites' }"
+          >
+            <i nz-icon nzType="star" [nzTheme]="'fill'"></i>
+            {{ 'default.layout.FAVORITES' | translate }}
+          </button>
+        </div>
+        <div class="sm-list-view-toggle">
+          <div class="wds-button-group">
+            <button
+              (click)="onChangeViewType('grid')"
+              [nzTooltipTitle]="'default.layout.GIRD_VIEW' | translate"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              class="sm-list-view-toggle-grid-button"
+              nz-button
+              nzType="default"
+              [ngClass]="{ secondary: viewType === 'grid' }"
+            >
+              <i class="fa fa-th"></i>
+            </button>
+            <button
+              (click)="onChangeViewType('list')"
+              [nzTooltipTitle]="'default.layout.LIST_VIEW' | translate"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              class="sm-list-view-toggle-grid-button"
+              nz-button
+              nzType="default"
+              [ngClass]="{ secondary: viewType === 'list' }"
+            >
+              <i class="fa fa-th-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!searching; else listSearch">
+    <ng-container *ngIf="currentTab === 'all'; else favoritesTemplate">
+      <div class="sm-my-surveys-tab-row">
+        <div class="wds-flex wds-flex-y">
+          <span class="wds-type-section-title"
+            >{{ 'default.layout.RECENT' | translate }}
+          </span>
+          <ng-container [ngSwitch]="viewType">
+            <ng-container *ngSwitchCase="'grid'">
+              <app-grid-survey
+                [listOfAllData]="listOfRecentData"
+                [pagging]="paggingRecent"
+                [filter]="filterRecent"
+                (loadMore)="loadMore($event)"
+                (previewSurvey)="openModalPreview($event)"
+              >
+              </app-grid-survey>
+            </ng-container>
+            <ng-container *ngSwitchCase="'list'">
+              <app-list-survey
+                [listOfAllData]="listOfRecentData"
+                [pagging]="paggingRecent"
+                [filter]="filterRecent"
+                (loadMore)="loadMore($event)"
+                (previewSurvey)="openModalPreview($event)"
+              >
+              </app-list-survey>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="sm-my-surveys-tab-row">
+        <div class="wds-flex wds-flex-y">
+          <span class="wds-type-section-title"
+            >{{ 'default.layout.ALL' | translate }}
+          </span>
+          <ng-container [ngSwitch]="viewType">
+            <ng-container *ngSwitchCase="'grid'">
+              <app-grid-survey
+                [listOfAllData]="listOfAllData"
+                [pagging]="paggingAll"
+                [filter]="filterAll"
+                (loadMore)="loadMore($event)"
+                (previewSurvey)="openModalPreview($event)"
+              >
+              </app-grid-survey>
+            </ng-container>
+            <ng-container *ngSwitchCase="'list'">
+              <app-list-survey
+                [listOfAllData]="listOfAllData"
+                [pagging]="paggingAll"
+                [filter]="filterAll"
+                (loadMore)="loadMore($event)"
+                (previewSurvey)="openModalPreview($event)"
+              >
+              </app-list-survey>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #favoritesTemplate>
+      <div class="sm-my-surveys-tab-row">
+        <div class="wds-flex wds-flex-y">
+          <div class="w-100">
+            <div class="w-100 wds-flex wds-flex-y">
+              <ng-container [ngSwitch]="viewType">
+                <ng-container *ngSwitchCase="'grid'">
+                  <app-grid-survey
+                    [listOfAllData]="listOfFavoriteData"
+                    [pagging]="paggingFavorite"
+                    [filter]="filterFavorite"
+                    (loadMore)="loadMore($event)"
+                    (previewSurvey)="openModalPreview($event)"
+                  >
+                  </app-grid-survey>
+                </ng-container>
+                <ng-container *ngSwitchCase="'list'">
+                  <app-list-survey
+                    [listOfAllData]="listOfFavoriteData"
+                    [pagging]="paggingFavorite"
+                    [filter]="filterFavorite"
+                    (loadMore)="loadMore($event)"
+                    (previewSurvey)="openModalPreview($event)"
+                  >
+                  </app-list-survey>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #listSearch>
+    <ng-container>
+      <div class="sm-my-surveys-tab-row">
+        <div class="wds-flex wds-flex-y">
+          <span class="wds-type-section-title"
+            >{{ 'default.layout.MY_SURVEYS' | translate }}
+          </span>
+          <ng-container [ngSwitch]="viewType">
+            <ng-container *ngSwitchCase="'grid'">
+              <app-grid-survey
+                [listOfAllData]="listOfSearchData"
+                [pagging]="paggingSearch"
+                [filter]="filterSearch"
+                (loadMore)="loadMore($event)"
+                (previewSurvey)="openModalPreview($event)"
+                [emptyDescription]="
+                  'default.layout.SORRY_WE_COULDN_FIND_ANYTHING_RELATED_TO'
+                "
+              >
+              </app-grid-survey>
+            </ng-container>
+            <ng-container *ngSwitchCase="'list'">
+              <app-list-survey
+                [listOfAllData]="listOfSearchData"
+                [pagging]="paggingSearch"
+                [filter]="filterASearch"
+                (loadMore)="loadMore($event)"
+                (previewSurvey)="openModalPreview($event)"
+                [emptyDescription]="
+                  'default.layout.SORRY_WE_COULDN_FIND_ANYTHING_RELATED_TO'
+                "
+              >
+              </app-list-survey>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>
+</div>

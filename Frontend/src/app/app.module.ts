@@ -6,11 +6,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from '@app/core';
-import { SharedModule } from '@app/shared';
+import { SharedModule, LoaderService } from '@app/shared';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
 
 import { LayoutsModule } from './layouts/layouts.module';
+import { AppRouting } from './app.routing';
 
 @NgModule({
   imports: [
@@ -21,11 +21,11 @@ import { LayoutsModule } from './layouts/layouts.module';
     BrowserAnimationsModule,
     CoreModule,
     SharedModule,
-    AppRoutingModule,
+    AppRouting,
     LayoutsModule
   ],
   declarations: [AppComponent],
-  providers: [],
+  providers: [LoaderService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

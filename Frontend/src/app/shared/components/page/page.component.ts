@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef, Input } from '@angular/core';
 import { LayoutComponent } from '@app/layouts/shared/layout/layout.component';
 import { Title } from '@angular/platform-browser';
+import { WindowresizeService } from '@app/shared/services';
 
 @Component({
   selector: 'app-page',
@@ -12,6 +13,7 @@ import { Title } from '@angular/platform-browser';
   }
 })
 export class PageComponent implements OnInit {
+  screenHeight: number;
   private data = {
     title: '',
     region: { sider: false, header: false, content: true, footer: false }
@@ -42,10 +44,18 @@ export class PageComponent implements OnInit {
     return this.layout.setting.mode == 'top' && this.layout.setting.fixedWidth;
   }
 
-  constructor(private layout: LayoutComponent, private pageTitle: Title) {
+  constructor(
+    private layout: LayoutComponent,
+    private pageTitle: Title,
+    private windowresizeService: WindowresizeService
+  ) {
     this.region = { sider: true, header: true, content: true, footer: true };
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.windowresizeService.getSize().subscribe(size => {
+      this.screenHeight = +size.innerHeight;
+    });
+  }
 
   ngAfterViewInit() {
     if (!this.title) {

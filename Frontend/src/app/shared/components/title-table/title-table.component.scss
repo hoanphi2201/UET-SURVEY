@@ -1,0 +1,30 @@
+.left-buttons {
+  display: inline-block;
+  margin-left: 15px;
+  position: relative;
+}
+.custom-title button {
+  margin-right: 15px;
+}
+.number-in-list {
+  color: #818181;
+  min-width: 180px;
+  font-size: 14px;
+  font-family: Roboto-Regular;
+  text-transform: uppercase;
+  display: inline-block;
+}
+.custom-button {
+  display: inline-block;
+  button {
+    margin-right: 0px;
+  }
+}
+.number-in-list .highlighted-text {
+  font-family: Roboto-Medium;
+  color: #8b4794;
+  font-size: 14px;
+}
+.customer-container {
+  display: inline-block;
+}

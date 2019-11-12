@@ -1,0 +1,6 @@
+<ng-container *ngIf="surveyFormDetail">
+  <survey-creator
+    [json]="surveyFormDetail.json"
+    (surveySaved)="onSurveySaved($event)"
+  ></survey-creator>
+</ng-container>
