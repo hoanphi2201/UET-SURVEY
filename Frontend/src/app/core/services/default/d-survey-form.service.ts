@@ -14,12 +14,8 @@ import { HttpParams } from '@angular/common/http';
 })
 export class DSurveyFormService {
   surveyFormDetail: SurveyForm;
-  surveyFormDetail$: BehaviorSubject<SurveyForm> = new BehaviorSubject<
-    SurveyForm
-  >(null);
-  updateSurveyFormDetail$: BehaviorSubject<string> = new BehaviorSubject<
-    string
-  >(null);
+  surveyFormDetail$: BehaviorSubject<SurveyForm> = new BehaviorSubject<SurveyForm>(null);
+  updateSurveyFormDetail$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   urlSurveyFormId$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   constructor(
     private apiService: ApiService,
@@ -31,27 +27,24 @@ export class DSurveyFormService {
     this.updateSurveyFormDetail$.subscribe(surveyFormId => {
       if (surveyFormId) {
         this.loaderService.display(true);
-        this.getSurveyFormById(surveyFormId).subscribe(
-          res => {
-            if (res.status.code === 200) {
-              if (res.results && res.results[0]) {
-                this.surveyFormDetail = res.results[0];
-                this.setSurveyFormDetail(this.surveyFormDetail);
-              }
+        this.getSurveyFormById(surveyFormId).subscribe(res => {
+          if (res.status.code === 200) {
+            if (res.results && res.results[0]) {
+              this.surveyFormDetail = res.results[0];
+              this.setSurveyFormDetail(this.surveyFormDetail);
             }
-          },
-          err => {
-            this.loaderService.display(false);
-            this.nzMessageService.warning(
-              this.translateService.instant(
-                'default.layout.SURVEY_FORM_NOT_EXIST'
-              )
-            );
-            this.router.navigate(['/dashboard']);
-          },
-          () => {
-            this.loaderService.display(false);
           }
+        }, err => {
+          this.loaderService.display(false);
+          this.nzMessageService.warning(
+            this.translateService.instant(
+              'default.layout.SURVEY_FORM_NOT_EXIST'
+            )
+          );
+          this.router.navigate(['/dashboard']);
+        }, () => {
+          this.loaderService.display(false);
+        }
         );
         this.updateSurveyFormDetail$.next(null);
       }
@@ -81,18 +74,7 @@ export class DSurveyFormService {
   setUrlSurveyFormId(value: string): void {
     this.urlSurveyFormId$.next(value);
   }
-  // tslint:disable-next-line:max-line-length
-  getDefaultSurveyFormList(
-    page: number,
-    pageSize: number,
-    sortField: string,
-    sortType: string,
-    searchKey: string,
-    searchValue: string,
-    filterKey: string,
-    filterValue: any,
-    countColumn: string
-  ) {
+  getDefaultSurveyFormList(page: number, pageSize: number, sortField: string, sortType: string, searchKey: string, searchValue: string, filterKey: string, filterValue: any, countColumn: string) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('pageSize', pageSize.toString())
@@ -130,21 +112,15 @@ export class DSurveyFormService {
     return this.apiService.get('/survey-forms/' + surveyFormId);
   }
 
-  updateSurveyForm(
-    surveyForm: any,
-    surveyFormId: string,
-    updateCache?: boolean
-  ): Observable<any> {
-    return this.apiService
-      .put(`/survey-forms/${surveyFormId}`, surveyForm)
-      .pipe(
-        tap(res => {
-          if (res.status.code === 200) {
-            this.surveyFormDetail = res.results[0];
-            this.setSurveyFormDetail(this.surveyFormDetail);
-          }
-        })
-      );
+  updateSurveyForm(surveyForm: any, surveyFormId: string, updateCache?: boolean): Observable<any> {
+    return this.apiService.put(`/survey-forms/${surveyFormId}`, surveyForm).pipe(
+      tap(res => {
+        if (res.status.code === 200) {
+          this.surveyFormDetail = res.results[0];
+          this.setSurveyFormDetail(this.surveyFormDetail);
+        }
+      })
+    );
   }
 
   deleteSurveyForm(surveyFormId: string): Observable<any> {

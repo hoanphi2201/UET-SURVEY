@@ -8,18 +8,9 @@ import { HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router) { }
   // tslint:disable-next-line:max-line-length
-  getUserList(
-    page: number,
-    pageSize: number,
-    sortField: string,
-    sortType: string,
-    searchKey: string,
-    searchValue: string,
-    filterKey: string,
-    filterValue: string
-  ) {
+  getUserList(page: number, pageSize: number, sortField: string, sortType: string, searchKey: string, searchValue: string, filterKey: string, filterValue: string) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('pageSize', pageSize.toString())

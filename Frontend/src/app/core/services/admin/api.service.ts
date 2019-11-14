@@ -14,12 +14,9 @@ export class ApiService {
     headers: new HttpHeaders().set('Content-Type', 'application/json')
   };
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
-  public get(
-    path: string,
-    params: HttpParams = new HttpParams()
-  ): Observable<any> {
+  public get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.httpClient
       .get(BASE_URL + path, { params })
       .pipe(catchError(this.formatErrors));

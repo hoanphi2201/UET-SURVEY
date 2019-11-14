@@ -8,18 +8,8 @@ import { SurveyCollector } from '@app/core/domain';
   providedIn: 'root'
 })
 export class DSurveyCollectorService {
-  constructor(private apiService: ApiService) {}
-  // tslint:disable-next-line:max-line-length
-  getDefaultSurveyCollectorList(
-    page: number,
-    pageSize: number,
-    sortField: string,
-    sortType: string,
-    searchKey: string,
-    searchValue: string,
-    filterKey: string = '',
-    filterValue: any = JSON.stringify([])
-  ) {
+  constructor(private apiService: ApiService) { }
+  getDefaultSurveyCollectorList(page: number, pageSize: number, sortField: string, sortType: string, searchKey: string, searchValue: string, filterKey: string = '', filterValue: any = JSON.stringify([])) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('pageSize', pageSize.toString())

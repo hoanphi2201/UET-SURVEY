@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DUserService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
   updateUser(user: any, userId: string): Observable<any> {
     return this.apiService.put(`/users/${userId}`, user);
   }

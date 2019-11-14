@@ -7,16 +7,8 @@ import { HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class RoleService {
-  constructor(private apiService: ApiService) {}
-  // tslint:disable-next-line:max-line-length
-  getRoleList(
-    page: number,
-    pageSize: number,
-    sortField: string,
-    sortType: string,
-    searchKey: string,
-    searchValue: string
-  ) {
+  constructor(private apiService: ApiService) { }
+  getRoleList(page: number, pageSize: number, sortField: string, sortType: string, searchKey: string, searchValue: string) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('pageSize', pageSize.toString())

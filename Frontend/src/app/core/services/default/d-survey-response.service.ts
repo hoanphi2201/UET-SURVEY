@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DSurveyResponseService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   getResponsesBySurveyForm(surveyFormId: string): Observable<any> {
     return this.apiService.get(

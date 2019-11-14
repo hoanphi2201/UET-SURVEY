@@ -7,16 +7,9 @@ import { HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class SurveyFolderService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
   // tslint:disable-next-line:max-line-length
-  getSurveyFolderList(
-    page: number,
-    pageSize: number,
-    sortField: string,
-    sortType: string,
-    searchKey: string,
-    searchValue: string
-  ) {
+  getSurveyFolderList(page: number, pageSize: number, sortField: string, sortType: string, searchKey: string, searchValue: string) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('pageSize', pageSize.toString())
