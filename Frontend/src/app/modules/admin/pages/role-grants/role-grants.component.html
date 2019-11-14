@@ -87,27 +87,14 @@
                         <i nz-icon nzType="clock-circle" nzTheme="outline"></i>{{ data[column.id] | date: 'yyyy-MM-dd hh:mm' }}
                       </ng-container>
                       <ng-container *ngSwitchCase="'checkbox'">
-                        <label
-                          (ngModelChange)="onUpdateAction(data.id, column.id)"
-                          nz-checkbox
-                          [(ngModel)]="data[column.id]">
-                        </label>
+                        <label (ngModelChange)="onUpdateAction(data.id, column.id)" nz-checkbox [(ngModel)]="data[column.id]"> </label>
                       </ng-container>
                     </ng-container>
                   </td>
                 </ng-container>
                 <td [nzAlign]="'center'">
-                  <a
-                    [nzTrigger]="'click'"
-                    [nzDropdownMenu]="menuAction"
-                    [nzPlacement]="'bottomCenter'"
-                    nz-dropdown>
-                    <i
-                      nz-icon
-                      nzType="ellipsis"
-                      nzTheme="outline"
-                      class="icon-action">
-                    </i>
+                  <a [nzTrigger]="'click'" [nzDropdownMenu]="menuAction" [nzPlacement]="'bottomCenter'" nz-dropdown>
+                    <i nz-icon nzType="ellipsis" nzTheme="outline" class="icon-action"></i>
                   </a>
                   <nz-dropdown-menu #menuAction="nzDropdownMenu">
                     <ul class="dropdown-action" nz-menu nzSelectable>
@@ -177,12 +164,7 @@
         <nz-form-item>
           <nz-form-label>{{ 'admin.layout.TABLE' | translate }}</nz-form-label>
           <nz-form-control [ngClass]="{ 'has-error': isFieldValid(form, 'tableName') }">
-            <nz-select
-              nzShowSearch
-              nzAllowClear
-              [nzPlaceHolder]="'admin.layout.SELECT_TABLE' | translate"
-              formControlName="tableName"
-              [(ngModel)]="selectedEdit.tableName">
+            <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'admin.layout.SELECT_TABLE' | translate" formControlName="tableName" [(ngModel)]="selectedEdit.tableName">
               <ng-container *ngFor="let o of listOfAllTable">
                 <nz-option [nzValue]="o.value" [nzLabel]="o.text"></nz-option>
               </ng-container>
@@ -194,10 +176,7 @@
     </div>
     <div nz-row nzGutter="16">
       <div nz-col nzXl="24" nzMd="24" nzSm="24">
-        <nz-table
-          [nzBordered]="true"
-          [nzData]="[null]"
-          [nzShowPagination]="false">
+        <nz-table [nzBordered]="true" [nzData]="[null]" [nzShowPagination]="false">
           <thead>
             <tr>
               <th>{{ 'admin.layout.CAN_VIEW_ALL' | translate }}</th>
@@ -210,39 +189,19 @@
           <tbody>
             <tr>
               <td>
-                <label
-                  nz-checkbox
-                  [(ngModel)]="selectedEdit.canViewAll"
-                  formControlName="canViewAll">
-                </label>
+                <label nz-checkbox [(ngModel)]="selectedEdit.canViewAll" formControlName="canViewAll"></label>
               </td>
               <td>
-                <label
-                  nz-checkbox
-                  [(ngModel)]="selectedEdit.canSelfView"
-                  formControlName="canSelfView">
-                </label>
+                <label nz-checkbox [(ngModel)]="selectedEdit.canSelfView" formControlName="canSelfView"></label>
               </td>
               <td>
-                <label
-                  nz-checkbox
-                  [(ngModel)]="selectedEdit.canInsert"
-                  formControlName="canInsert">
-                </label>
+                <label nz-checkbox [(ngModel)]="selectedEdit.canInsert" formControlName="canInsert"></label>
               </td>
               <td>
-                <label
-                  nz-checkbox
-                  [(ngModel)]="selectedEdit.canUpdate"
-                  formControlName="canUpdate">
-                </label>
+                <label nz-checkbox [(ngModel)]="selectedEdit.canUpdate" formControlName="canUpdate"></label>
               </td>
               <td>
-                <label
-                  nz-checkbox
-                  [(ngModel)]="selectedEdit.canDelete"
-                  formControlName="canDelete">
-                </label>
+                <label nz-checkbox [(ngModel)]="selectedEdit.canDelete" formControlName="canDelete"></label>
               </td>
             </tr>
           </tbody>

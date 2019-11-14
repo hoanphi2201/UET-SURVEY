@@ -1,20 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-// tslint:disable-next-line:max-line-length
-import {
-  FormGroup,
-  NgForm,
-  FormBuilder,
-  Validators,
-  FormGroupDirective,
-  FormControl
-} from '@angular/forms';
-import {
-  Role,
-  RoleService,
-  IValidators,
-  TableListColumn,
-  Pagging
-} from '@app/core';
+import { FormGroup, NgForm, FormBuilder, Validators, FormGroupDirective, } from '@angular/forms';
+import { Role, RoleService, IValidators, TableListColumn, Pagging } from '@app/core';
 import { LoaderService, Helpers } from '@app/shared';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
@@ -53,7 +39,7 @@ export class RolesComponent implements OnInit {
     private loaderService: LoaderService,
     private roleService: RoleService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
   ngOnInit() {
     this.selectedEdit = {} as Role;
     this.buildForm();
@@ -68,18 +54,8 @@ export class RolesComponent implements OnInit {
       { id: 'id', type: 'text', hidden: true, header: 'admin.layout.ID' },
       { id: 'name', type: 'text', sortable: true, header: 'admin.layout.NAME' },
       { id: 'lastName', type: 'select', header: 'admin.layout.ROLE_ACP' },
-      {
-        id: 'createdAt',
-        type: 'date',
-        sortable: true,
-        header: 'admin.layout.CREATED_AT'
-      },
-      {
-        id: 'createdAt',
-        type: 'date',
-        sortable: true,
-        header: 'admin.layout.UPDATED_AT'
-      }
+      { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.CREATED_AT' },
+      { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.UPDATED_AT' }
     ];
   }
   buildForm() {
@@ -92,32 +68,19 @@ export class RolesComponent implements OnInit {
   }
   getRoleList() {
     this.loaderService.display(true);
-    // tslint:disable-next-line:max-line-length
-    this.roleService
-      .getRoleList(
-        this.pagging.page,
-        this.pagging.pageSize,
-        this.sortField,
-        this.sortType,
-        this.searchKey,
-        this.searchValue
-      )
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.listOfAllData = res.results;
-            this.pagging.total = res.paging.total;
-            this.refreshStatus();
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(err.message);
-        },
-        () => {
-          this.loaderService.display(false);
-        }
-      );
+    this.roleService.getRoleList(this.pagging.page, this.pagging.pageSize, this.sortField, this.sortType, this.searchKey, this.searchValue).subscribe(res => {
+      if (res.status.code === 200) {
+        this.listOfAllData = res.results;
+        this.pagging.total = res.paging.total;
+        this.refreshStatus();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(err.message);
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   sort(sort: { key: string; value: string }): void {
     this.sortField = sort.key;
@@ -143,15 +106,9 @@ export class RolesComponent implements OnInit {
     this.refreshStatus();
   }
   refreshStatus(): void {
-    this.isAllDisplayDataChecked = this.listOfAllData.every(
-      item => this.mapOfCheckedId[item.id]
-    );
-    this.isIndeterminate =
-      this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) &&
-      !this.isAllDisplayDataChecked;
-    this.numberOfChecked = this.listOfAllData.filter(
-      item => this.mapOfCheckedId[item.id]
-    ).length;
+    this.isAllDisplayDataChecked = this.listOfAllData.every(item => this.mapOfCheckedId[item.id]);
+    this.isIndeterminate = this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) && !this.isAllDisplayDataChecked;
+    this.numberOfChecked = this.listOfAllData.filter(item => this.mapOfCheckedId[item.id]).length;
   }
   checkItem(id: string, $event: any) {
     this.mapOfCheckedId[id] = $event;
@@ -202,43 +159,29 @@ export class RolesComponent implements OnInit {
       }
     });
     if (!this.editing) {
-      return this.roleService.addRole(formData.value).subscribe(
-        res => {
-          this.resetFormAfterSubmit(formDirective);
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+      return this.roleService.addRole(formData.value).subscribe(res => {
+        this.resetFormAfterSubmit(formDirective);
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+      }, err => {
+        this.loaderService.display(false);
+        this.nzMessageService.error(
+          this.translateService.instant(err.message)
+        );
+      }, () => {
+        this.loaderService.display(false);
+      }
       );
     }
-    return this.roleService
-      .updateRole(formData.value, this.selectedEdit.id)
-      .subscribe(
-        res => {
-          this.resetFormAfterSubmit(formDirective);
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
-      );
+    return this.roleService.updateRole(formData.value, this.selectedEdit.id).subscribe(res => {
+      this.resetFormAfterSubmit(formDirective);
+      this.nzMessageService.success(this.translateService.instant(res.status.message));
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   resetFormAfterSubmit(formDirective: FormGroupDirective) {
     this.getRoleList();
@@ -249,43 +192,33 @@ export class RolesComponent implements OnInit {
   }
   onDeleteRole(roleId: string) {
     this.loaderService.display(true);
-    this.roleService.deleteRole(roleId).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-          this.getRoleList();
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.roleService.deleteRole(roleId).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+        this.getRoleList();
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   onDeleteMultyRole() {
     const roleIds = _.keys(_.pickBy(this.mapOfCheckedId));
-    this.roleService.deleteMultyRole({ roleIds }).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.mapOfCheckedId = {};
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-          this.getRoleList();
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.roleService.deleteMultyRole({ roleIds }).subscribe(res => {
+      if (res.status.code === 200) {
+        this.mapOfCheckedId = {};
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+        this.getRoleList();
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   onChangeRoleAcp(roleId: string) {
@@ -293,17 +226,13 @@ export class RolesComponent implements OnInit {
     this.roleService.changeRoleAcp(roleId).subscribe(
       res => {
         if (res.status.code === 200) {
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
+          this.nzMessageService.success(this.translateService.instant(res.status.message));
           this.getRoleList();
         }
-      },
-      err => {
+      }, err => {
         this.loaderService.display(false);
         this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
+      }, () => {
         this.loaderService.display(false);
       }
     );

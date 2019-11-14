@@ -1,27 +1,13 @@
 <ng-template #header>
   <nz-breadcrumb>
-    <nz-breadcrumb-item>{{
-      'admin.layout.ADMIN' | translate
-    }}</nz-breadcrumb-item>
-    <nz-breadcrumb-item>{{
-      'admin.layout.SURVEY_FOLDERS' | translate
-    }}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{'admin.layout.ADMIN' | translate}}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{'admin.layout.SURVEY_FOLDERS' | translate}}</nz-breadcrumb-item>
   </nz-breadcrumb>
 </ng-template>
 
-<app-page
-  [header]="header"
-  [title]="'admin.layout.SURVEY_FOLDER_MANAGERMENT' | translate"
->
+<app-page [header]="header" [title]="'admin.layout.SURVEY_FOLDER_MANAGERMENT' | translate">
   <div nz-row [nzGutter]="24">
-    <div
-      nz-col
-      [nzLg]="24"
-      [nzMd]="24"
-      [nzSm]="24"
-      [nzXs]="24"
-      [style.marginBottom.px]="24"
-    >
+    <div nz-col [nzLg]="24" [nzMd]="24" [nzSm]="24" [nzXs]="24" [style.marginBottom.px]="24">
       <nz-card [style.marginBottom.px]="24">
         <div nz-row>
           <nz-table
@@ -35,8 +21,7 @@
             (nzPageIndexChange)="pageIndexChange($event)"
             (nzPageSizeChange)="pageSizeChange($event)"
             [nzBordered]="true"
-            [nzTitle]="titleTemplate"
-          >
+            [nzTitle]="titleTemplate">
             <thead (nzSortChange)="sort($event)" nzSingleSort>
               <tr>
                 <th>{{ 'admin.layout.TABLE_NO' | translate }}</th>
@@ -44,8 +29,7 @@
                   nzShowCheckbox
                   [(nzChecked)]="isAllDisplayDataChecked"
                   (nzCheckedChange)="checkAll($event)"
-                  [nzIndeterminate]="isIndeterminate"
-                ></th>
+                  [nzIndeterminate]="isIndeterminate"></th>
                 <ng-container *ngFor="let column of columns">
                   <th
                     nzCustomFilter
@@ -54,9 +38,8 @@
                     [nzSortKey]="column.id"
                     [nzShowFilter]="column.filter"
                     [nzFilters]="column.filter ? column.filter : []"
-                    (nzFilterChange)="filter($event, column.id)"
-                  >
-                    {{ column.header | translate }}
+                    (nzFilterChange)="filter($event, column.id)">
+                      {{ column.header | translate }}
                     <i
                       *ngIf="column.search"
                       class="ant-table-filter-icon"
@@ -70,13 +53,11 @@
                       nzPlacement="bottomRight"
                       [nzClickHide]="false"
                       nzTableFilter
-                      (click)="searchKey = column.id"
-                    ></i>
+                      (click)="searchKey = column.id">
+                    </i>
                   </th>
                 </ng-container>
-                <th [nzAlign]="'center'">
-                  {{ 'admin.layout.ACTION' | translate }}
-                </th>
+                <th [nzAlign]="'center'"> {{ 'admin.layout.ACTION' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -86,8 +67,8 @@
                   nzShowCheckbox
                   [(nzChecked)]="mapOfCheckedId[data.id]"
                   [nzDisabled]="data.disabled"
-                  (nzCheckedChange)="checkItem(data.id, $event)"
-                ></td>
+                  (nzCheckedChange)="checkItem(data.id, $event)">
+                </td>
                 <ng-container *ngFor="let column of columns">
                   <td *ngIf="!column.hidden">
                     <ng-container [ngSwitch]="column.type">
@@ -96,13 +77,9 @@
                           *ngIf="data[column.id].length > 12"
                           [nzTooltipTitle]="data[column.id]"
                           nzTooltipPlacement="top"
-                          nz-tooltip
-                        >
-                          {{ data[column.id] | summary }}
+                          nz-tooltip>{{ data[column.id] | summary }}
                         </p>
-                        <p *ngIf="data[column.id].length <= 12">
-                          {{ data[column.id] }}
-                        </p>
+                        <p *ngIf="data[column.id].length <= 12">{{ data[column.id] }}</p>
                       </ng-container>
                       <ng-container *ngSwitchCase="'date'">
                         <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
@@ -112,18 +89,8 @@
                   </td>
                 </ng-container>
                 <td [nzAlign]="'center'">
-                  <a
-                    [nzTrigger]="'click'"
-                    [nzDropdownMenu]="menuAction"
-                    [nzPlacement]="'bottomCenter'"
-                    nz-dropdown
-                  >
-                    <i
-                      nz-icon
-                      nzType="ellipsis"
-                      nzTheme="outline"
-                      class="icon-action"
-                    ></i>
+                  <a [nzTrigger]="'click'" [nzDropdownMenu]="menuAction" [nzPlacement]="'bottomCenter'" nz-dropdown>
+                    <i nz-icon nzType="ellipsis" nzTheme="outline" class="icon-action"></i>
                   </a>
                   <nz-dropdown-menu #menuAction="nzDropdownMenu">
                     <ul class="dropdown-action" nz-menu nzSelectable>
@@ -149,19 +116,8 @@
 <!-- Box Search -->
 <nz-dropdown-menu #menuSearch="nzDropdownMenu">
   <div class="search-box">
-    <input
-      type="text"
-      nz-input
-      [placeholder]="'admin.layout.SEARCH' | translate"
-      [(ngModel)]="searchValue"
-    />
-    <button
-      nz-button
-      nzSize="small"
-      nzType="primary"
-      (click)="search()"
-      class="search-button"
-    >
+    <input type="text" nz-input [placeholder]="'admin.layout.SEARCH' | translate" [(ngModel)]="searchValue"/>
+    <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
       {{ 'admin.layout.SEARCH' | translate }}
     </button>
     <button nz-button nzSize="small" (click)="reset()">
@@ -176,12 +132,8 @@
     [numberOfChecked]="numberOfChecked"
     [results]="pagging.total"
     [columns]="columns"
-    (openForm)="openForm($event)"
-  >
-    <ul
-      #action
-      class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-light ant-dropdown-menu-vertical"
-    >
+    (openForm)="openForm($event)">
+    <ul #action class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-light ant-dropdown-menu-vertical">
       <li class="ant-dropdown-menu-item" (click)="showDeleteConfirm()">
         {{ 'admin.layout.DELETE_CHECK_SURVEY_FOLDERS' | translate }}
       </li>
@@ -191,39 +143,20 @@
 <!-- End Title Table -->
 <!-- Form -->
 <nz-drawer
-  [nzBodyStyle]="{
-    height: 'calc(100% - 55px)',
-    overflow: 'auto',
-    'padding-bottom': '53px'
-  }"
+  [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px'}"
   [nzMaskClosable]="false"
   [nzVisible]="visible"
-  [nzTitle]="
-    (editing
-      ? 'admin.layout.EDIT_SURVEY_FOLDER'
-      : 'admin.layout.CREATE_NEW_SURVEY_FOLDER') | translate
-  "
-  (nzOnClose)="closeForm()"
->
+  [nzTitle]="(editing ? 'admin.layout.EDIT_SURVEY_FOLDER' : 'admin.layout.CREATE_NEW_SURVEY_FOLDER') | translate"
+  (nzOnClose)="closeForm()">
   <form #formDirective="ngForm" [formGroup]="form" nz-form>
     <div nz-row nzGutter="24">
       <div nz-col nzSpan="24">
         <nz-form-item>
           <nz-form-label>{{ 'admin.layout.TITLE' | translate }}</nz-form-label>
-          <nz-form-control
-            [ngClass]="{ 'has-error': isFieldValid(form, 'title') }"
-          >
-            <input
-              formControlName="title"
-              [(ngModel)]="selectedEdit.title"
-              nz-input
-              [placeholder]="'admin.layout.ENTER_TITLE' | translate"
-            />
+          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(form, 'title') }">
+            <input formControlName="title" [(ngModel)]="selectedEdit.title" nz-input [placeholder]="'admin.layout.ENTER_TITLE' | translate"/>
           </nz-form-control>
-          <field-error-display
-            [displayError]="isFieldValid(form, 'title')"
-            [errors]="f.title.errors"
-          ></field-error-display>
+          <field-error-display [displayError]="isFieldValid(form, 'title')" [errors]="f.title.errors" ></field-error-display>
         </nz-form-item>
       </div>
     </div>
@@ -231,9 +164,7 @@
       <div nz-col nzSpan="24">
         <nz-form-item>
           <nz-form-label>{{ 'admin.layout.USER' | translate }}</nz-form-label>
-          <nz-form-control
-            [ngClass]="{ 'has-error': isFieldValid(form, 'userId') }"
-          >
+          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(form, 'userId') }">
             <nz-select
               [(ngModel)]="selectedEdit.userId"
               [nzPlaceHolder]="'admin.layout.SELECT_USER' | translate"
@@ -241,14 +172,9 @@
               nzShowSearch
               [nzServerSearch]="true"
               formControlName="userId"
-              (nzOnSearch)="onSearch($event)"
-            >
+              (nzOnSearch)="onSearch($event)">
               <ng-container *ngFor="let o of listOfUser">
-                <nz-option
-                  *ngIf="!isLoading"
-                  [nzValue]="o.id"
-                  [nzLabel]="o.userName"
-                ></nz-option>
+                <nz-option *ngIf="!isLoading" [nzValue]="o.id" [nzLabel]="o.userName"></nz-option>
               </ng-container>
               <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
                 <i nz-icon nzType="loading" class="loading-icon"></i>
@@ -256,10 +182,7 @@
               </nz-option>
             </nz-select>
           </nz-form-control>
-          <field-error-display
-            [displayError]="isFieldValid(form, 'userId')"
-            [errors]="f.userId.errors"
-          ></field-error-display>
+          <field-error-display [displayError]="isFieldValid(form, 'userId')" [errors]="f.userId.errors"></field-error-display>
         </nz-form-item>
       </div>
     </div>
@@ -268,11 +191,7 @@
     <button nz-button nzType="default" (click)="closeForm()" class="mr-8">
       <span>{{ 'admin.layout.CANCEL' | translate }}</span>
     </button>
-    <button
-      nz-button
-      nzType="primary"
-      (click)="onAddSurveyFolder(form, formDirective)"
-    >
+    <button nz-button nzType="primary" (click)="onAddSurveyFolder(form, formDirective)">
       <span>{{ 'admin.layout.SUBMIT' | translate }}</span>
     </button>
   </div>

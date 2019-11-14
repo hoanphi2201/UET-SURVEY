@@ -1,22 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-// tslint:disable-next-line:max-line-length
-import {
-  FormGroup,
-  FormControl,
-  NgForm,
-  FormBuilder,
-  Validators,
-  FormGroupDirective
-} from '@angular/forms';
-import {
-  TableListColumn,
-  Pagging,
-  SurveyFolderService,
-  SurveyFolder,
-  IValidators,
-  User,
-  UserService
-} from '@app/core';
+import { FormGroup, NgForm, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { TableListColumn, Pagging, SurveyFolderService, SurveyFolder, IValidators, User, UserService } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { LoaderService, Helpers } from '@app/shared';
@@ -61,7 +45,7 @@ export class SurveyFoldersComponent implements OnInit {
     private surveyFolderService: SurveyFolderService,
     private userService: UserService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
   ngOnInit() {
     this.selectedEdit = {} as SurveyFolder;
     this.buildForm();
@@ -93,24 +77,9 @@ export class SurveyFoldersComponent implements OnInit {
     this.columns = [
       { id: 'id', type: 'text', hidden: true, header: 'admin.layout.ID' },
       { id: 'userName', type: 'text', header: 'admin.layout.USER_NAME' },
-      {
-        id: 'title',
-        type: 'text',
-        sortable: true,
-        header: 'admin.layout.TITLE'
-      },
-      {
-        id: 'createdAt',
-        type: 'date',
-        sortable: true,
-        header: 'admin.layout.CREATED_AT'
-      },
-      {
-        id: 'createdAt',
-        type: 'date',
-        sortable: true,
-        header: 'admin.layout.UPDATED_AT'
-      }
+      { id: 'title', type: 'text', sortable: true, header: 'admin.layout.TITLE' },
+      { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.CREATED_AT' },
+      { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.UPDATED_AT' }
     ];
   }
   buildForm() {
@@ -124,34 +93,21 @@ export class SurveyFoldersComponent implements OnInit {
   }
   getSurveyFolderList() {
     this.loaderService.display(true);
-    // tslint:disable-next-line:max-line-length
-    this.surveyFolderService
-      .getSurveyFolderList(
-        this.pagging.page,
-        this.pagging.pageSize,
-        this.sortField,
-        this.sortType,
-        this.searchKey,
-        this.searchValue
-      )
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.listOfAllData = res.results.map((o: any) => {
-              return Object.assign(o, { userName: o.user.userName });
-            });
-            this.pagging.total = res.paging.total;
-            this.refreshStatus();
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(err.message);
-        },
-        () => {
-          this.loaderService.display(false);
-        }
-      );
+    this.surveyFolderService.getSurveyFolderList(this.pagging.page, this.pagging.pageSize, this.sortField, this.sortType, this.searchKey, this.searchValue).subscribe(res => {
+      if (res.status.code === 200) {
+        this.listOfAllData = res.results.map((o: any) => {
+          return Object.assign(o, { userName: o.user.userName });
+        });
+        this.pagging.total = res.paging.total;
+        this.refreshStatus();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(err.message);
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   sort(sort: { key: string; value: string }): void {
     this.sortField = sort.key;
@@ -177,15 +133,9 @@ export class SurveyFoldersComponent implements OnInit {
     this.refreshStatus();
   }
   refreshStatus(): void {
-    this.isAllDisplayDataChecked = this.listOfAllData.every(
-      item => this.mapOfCheckedId[item.id]
-    );
-    this.isIndeterminate =
-      this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) &&
-      !this.isAllDisplayDataChecked;
-    this.numberOfChecked = this.listOfAllData.filter(
-      item => this.mapOfCheckedId[item.id]
-    ).length;
+    this.isAllDisplayDataChecked = this.listOfAllData.every(item => this.mapOfCheckedId[item.id]);
+    this.isIndeterminate = this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) && !this.isAllDisplayDataChecked;
+    this.numberOfChecked = this.listOfAllData.filter(item => this.mapOfCheckedId[item.id]).length;
   }
   checkItem(id: string, $event: any) {
     this.mapOfCheckedId[id] = $event;
@@ -201,9 +151,7 @@ export class SurveyFoldersComponent implements OnInit {
   }
   showDeleteConfirm(surveyFolderId?: string): void {
     this.modalService.confirm({
-      nzTitle: this.translateService.instant(
-        'admin.layout.DELETE_SURVEY_TITLE'
-      ),
+      nzTitle: this.translateService.instant('admin.layout.DELETE_SURVEY_TITLE'),
       nzCancelText: this.translateService.instant('admin.layout.NO'),
       nzOkText: this.translateService.instant('admin.layout.YES'),
       nzOnOk: () => {
@@ -238,43 +186,31 @@ export class SurveyFoldersComponent implements OnInit {
       }
     });
     if (!this.editing) {
-      return this.surveyFolderService.addSurveyFolder(formData.value).subscribe(
-        res => {
-          this.resetFormAfterSubmit(formDirective);
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-        },
+      return this.surveyFolderService.addSurveyFolder(formData.value).subscribe(res => {
+        this.resetFormAfterSubmit(formDirective);
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+      },
         err => {
           this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
+          this.nzMessageService.error(this.translateService.instant(err.message));
         },
         () => {
           this.loaderService.display(false);
         }
       );
     }
-    return this.surveyFolderService
-      .updateSurveyFolder(formData.value, this.selectedEdit.id)
-      .subscribe(
-        res => {
-          this.resetFormAfterSubmit(formDirective);
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    return this.surveyFolderService.updateSurveyFolder(formData.value, this.selectedEdit.id).subscribe(res => {
+      this.resetFormAfterSubmit(formDirective);
+      this.nzMessageService.success(this.translateService.instant(res.status.message));
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   resetFormAfterSubmit(formDirective: FormGroupDirective) {
     this.getSurveyFolderList();
@@ -285,48 +221,34 @@ export class SurveyFoldersComponent implements OnInit {
   }
   onDeleteSurveyFolder(surveyFolderId: string) {
     this.loaderService.display(true);
-    this.surveyFolderService.deleteSurveyFolder(surveyFolderId).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-          this.getSurveyFolderList();
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.surveyFolderService.deleteSurveyFolder(surveyFolderId).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+        this.getSurveyFolderList();
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   onDeleteMultySurveyFolder() {
     const surveyFolderIds = _.keys(_.pickBy(this.mapOfCheckedId));
-    this.surveyFolderService
-      .deleteMultySurveyFolder({ surveyFolderIds })
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.mapOfCheckedId = {};
-            this.nzMessageService.success(
-              this.translateService.instant(res.status.message)
-            );
-            this.getSurveyFolderList();
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
-      );
+    this.surveyFolderService.deleteMultySurveyFolder({ surveyFolderIds }).subscribe(res => {
+      if (res.status.code === 200) {
+        this.mapOfCheckedId = {};
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+        this.getSurveyFolderList();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   onSearch(value: string): void {
     this.isLoading = true;
