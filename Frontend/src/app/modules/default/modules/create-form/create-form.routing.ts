@@ -7,6 +7,10 @@ import { CollectResponsesComponent } from './pages/collect-responses/collect-res
 import { CollectLinkComponent } from './pages/collect-link/collect-link.component';
 import { AuthGuard } from '@app/core';
 import { AnalyzeResultsComponent } from './pages/analyze-results/analyze-results.component';
+import { CollectEmailManageComponent } from './pages/collect-email-manage/collect-email-manage.component';
+import { CollectEmailComposeComponent } from './pages/collect-email-compose/collect-email-compose.component';
+import { CollectEmailOptionsComponent } from './pages/collect-email-options/collect-email-options.component';
+import { CollectEmailScheduleComponent } from './pages/collect-email-schedule/collect-email-schedule.component';
 
 const routes: Routes = [
   {
@@ -40,9 +44,41 @@ const routes: Routes = [
     component: AnalyzeResultsComponent
   },
   {
-    path: 'collector-responses/collector-link/:collectorId',
+    path: 'collector-responses',
     canActivate: [AuthGuard],
-    component: CollectLinkComponent
+    children: [
+      {
+        path: 'collector-link/:collectorId',
+        canActivate: [AuthGuard],
+        component: CollectLinkComponent
+      },
+      {
+        path: 'collector-email',
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: 'manage/:collectorId',
+            canActivate: [AuthGuard],
+            component: CollectEmailManageComponent
+          },
+          {
+            path: 'compose/:collectorId',
+            canActivate: [AuthGuard],
+            component: CollectEmailComposeComponent
+          },
+          {
+            path: 'options/:collectorId',
+            canActivate: [AuthGuard],
+            component: CollectEmailOptionsComponent
+          },
+          {
+            path: 'schedule/:collectorId',
+            canActivate: [AuthGuard],
+            component: CollectEmailScheduleComponent
+          }
+        ]
+      }
+    ]
   }
 ];
 

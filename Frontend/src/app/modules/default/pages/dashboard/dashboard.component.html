@@ -255,16 +255,7 @@
                 >default.layout.TYPICAL_TIME_SPENT</span
               >
               <span class="value"
-                >{{
-                  typicalTimeSpent
-                    ? msToHMSTypicalTimeSpent.hours +
-                      'h:' +
-                      msToHMSTypicalTimeSpent.minutes +
-                      'm:' +
-                      msToHMSTypicalTimeSpent.seconds +
-                      's'
-                    : '—'
-                }}
+                >{{ msToHMSTypicalTimeSpent ? msToHMSTypicalTimeSpent : '—' }}
                 <span class="smf-icon tooltip-trigger">i</span>
               </span>
             </div>

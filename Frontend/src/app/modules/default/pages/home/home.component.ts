@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  AfterContentInit
-} from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import {
   Pagging,
   TableListColumn,
@@ -295,9 +290,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
           );
           if (res.results.length > 0) {
             this.getListSurveyFolder();
-            if (folderId === this.folderSelectId) {
-              this.getListSurvey();
-            }
+            this.getListSurvey();
           }
         },
         err => {

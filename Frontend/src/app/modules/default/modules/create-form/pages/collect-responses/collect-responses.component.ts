@@ -234,11 +234,21 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
       surveyFormId: this.surveyFormDetail.id,
       userId: this.currentUser.id
     };
+    let navigateUrl = ['/dashboard'];
     switch (type) {
       case 'WEBLINK':
         surveyCollector.name = 'Web link';
+        navigateUrl = ['/create', 'collector-responses', 'collector-link'];
         break;
-
+      case 'EMAIL':
+        surveyCollector.name = 'Email Invitation';
+        navigateUrl = [
+          '/create',
+          'collector-responses',
+          'collector-email',
+          'compose'
+        ];
+        break;
       default:
         break;
     }
@@ -249,12 +259,11 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
             this.nzMessageService.success(
               this.translateService.instant(res.status.message)
             );
-            return this.router.navigate([
-              '/create',
-              'collector-responses',
-              'collector-link',
-              res.results[0].id
-            ]);
+            navigateUrl.push(res.results[0].id);
+            console.log(navigateUrl.join('/'));
+
+            debugger;
+            return this.router.navigate(navigateUrl);
           }
           return this.router.navigate(['/dashboard']);
         }

@@ -444,11 +444,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     s = (s - secs) / 60;
     var mins = s % 60;
     var hrs = (s - mins) / 60;
-    return {
-      hours: pad(hrs),
-      minutes: pad(mins),
-      seconds: pad(secs)
-    };
+    return `${pad(hrs)}h:${pad(mins)}m:${pad(secs)}s`;
   }
   ngOnDestroy() {
     this.destroyInterval$.next(true);

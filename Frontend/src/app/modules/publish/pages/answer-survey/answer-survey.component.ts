@@ -24,7 +24,7 @@ export class AnswerSurveyComponent implements OnInit {
   surveyCollectorDetail: SurveyCollector;
   ipAddress: string;
   geoLocation: any;
-  startTime: number;
+  startTime: Date;
   displaySurveyResults: boolean;
   dataSurveyResults: any;
   collectorPassword: string;
@@ -50,7 +50,7 @@ export class AnswerSurveyComponent implements OnInit {
         this.getSurveyCollectorByUrl(url);
       })
     );
-    this.startTime = new Date().getTime();
+    this.startTime = new Date();
   }
 
   getIpAndGeoLocation() {
@@ -103,11 +103,13 @@ export class AnswerSurveyComponent implements OnInit {
     if (!json) {
       return;
     }
-    const endTime = new Date().getTime();
+    const endTime = new Date();
     const surveyResponse: any = {
       surveyFormId: this.surveyFormDetail.id,
       surveyCollectorId: this.surveyCollectorDetail.id,
-      totalTime: endTime - this.startTime,
+      totalTime: endTime.getTime() - this.startTime.getTime(),
+      startTime: this.startTime,
+      endTime: endTime,
       ipAddress: this.ipAddress,
       json: json && Object.keys(json).length > 0 ? json : null,
       geoLocation: this.geoLocation,

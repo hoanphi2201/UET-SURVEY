@@ -5,6 +5,9 @@ const surveyFormsModel = require(__pathSchemas)[
 const surveyResponsesModel = require(__pathSchemas)[
   databaseConfig.col_survey_responses
 ];
+const surveyCollectorsModel = require(__pathSchemas)[
+  databaseConfig.col_survey_collectors
+];
 const usersModel = require(__pathSchemas)[databaseConfig.col_users];
 const Sequelize = require("sequelize");
 const NotFound = require(__pathHelper + "error");
@@ -146,6 +149,21 @@ module.exports = {
     return surveyResponsesModel.destroy({ where: params });
   },
   getResponsesBySurveyForm: params => {
-    return surveyResponsesModel.findAll({ where: params });
+    return surveyResponsesModel.findAll({
+      where: params,
+      include: [
+        {
+          model: surveyCollectorsModel,
+          as: "surveyCollector",
+          attributes: ["id", "name", "type"]
+        },
+        {
+          model: surveyFormsModel,
+          as: "surveyForm",
+          attributes: ["json"]
+        }
+      ],
+      order: [["createdAt", "DESC"]]
+    });
   }
 };

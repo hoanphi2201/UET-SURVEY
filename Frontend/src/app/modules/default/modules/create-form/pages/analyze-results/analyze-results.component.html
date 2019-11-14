@@ -6,15 +6,180 @@
         else loadingTpl
       "
     >
-      <app-survey-analytics
-        [data]="listOfAllDataSurveyResponse"
-        [json]="surveyFormDetail.json"
-      >
-      </app-survey-analytics>
+      <nz-tabset (nzSelectedIndexChange)="confirmTabSwitch($event)">
+        <nz-tab
+          [nzTitle]="'default.layout.STATISTIC_RESULTS' | translate | uppercase"
+        >
+          <app-survey-analytics
+            [data]="listOfAllDataSurveyResponse"
+            [json]="surveyFormDetail.json"
+          >
+          </app-survey-analytics>
+        </nz-tab>
+        <nz-tab
+          [nzTitle]="
+            'default.layout.STATISTIC_LOCATION_RESULTS' | translate | uppercase
+          "
+        >
+          <div data-role="mapcontent">
+            <app-map
+              *ngIf="loadmapComponent"
+              [height]="height"
+              [config]="configMap"
+              (oncomponentsetup)="onComponentSetup()"
+              (onpointermove)="onPointerMove($event)"
+              (onclick)="onMapClick($event)"
+            >
+            </app-map>
+          </div>
+        </nz-tab>
+        <nz-tab
+          [nzTitle]="
+            'default.layout.INDIVIDUAL_RESPONSES' | translate | uppercase
+          "
+        >
+          <div class="analyze-nav-content">
+            <button
+              [nzTrigger]="'click'"
+              [nzDropdownMenu]="menuCollectorType"
+              [nzPlacement]="'bottomCenter'"
+              nz-dropdown
+              nz-button
+              nzType="primary"
+              [nzSize]="'large'"
+            >
+              {{ 'default.layout.RESPONDENT' | translate }} #{{
+                selectedIndex + 1
+              }}
+              <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+            </button>
+            <nz-dropdown-menu #menuCollectorType="nzDropdownMenu">
+              <div class="respondent-goto-menu">
+                <nz-input-number
+                  [nzMin]="1"
+                  [nzMax]="this.listOfAllSurveyResponse.length"
+                  [(ngModel)]="selectedIndex"
+                ></nz-input-number>
+              </div>
+            </nz-dropdown-menu>
+            <button
+              [disabled]="this.selectedIndex <= 0"
+              (click)="pre()"
+              nz-button
+              nzType="primary"
+              [nzSize]="'large'"
+            >
+              <i nz-icon nzType="caret-left" nzTheme="outline"></i>
+            </button>
+            <button
+              [disabled]="
+                this.selectedIndex >= this.listOfAllSurveyResponse.length - 1
+              "
+              (click)="next()"
+              nz-button
+              nzType="primary"
+              [nzSize]="'large'"
+            >
+              <i nz-icon nzType="caret-right" nzTheme="outline"></i>
+            </button>
+          </div>
+          <div class="analyze-pages-content">
+            <div class="respondent-window fadeable">
+              <nz-tabset
+                id="preview-tab"
+                [(nzSelectedIndex)]="selectedIndex"
+                (nzSelectedIndexChange)="onChangeTabPreview($event)"
+              >
+                <nz-tab
+                  *ngFor="
+                    let response of listOfAllSurveyResponse;
+                    let i = index
+                  "
+                >
+                  <div class="respondent">
+                    <div
+                      class="respondent-profile clearfix spacer-phm spacer-ptm sm-corner-a fadeable"
+                    >
+                      <div class="respondent-data">
+                        <h5
+                          class="sm-label respondent-completion-status completed"
+                        >
+                          COMPLETE
+                        </h5>
+                        <ul class="respondent-info-fields">
+                          <li>
+                            <span class="sm-label respondent-info-label"
+                              >Collector:</span
+                            >
+                            <span class="sm-label value">
+                              {{ response.surveyCollector?.name }}
+                            </span>
+                            <span class="sm-label value collector-type">
+                              ({{ response.surveyCollector?.type }})
+                            </span>
+                          </li>
+                          <li>
+                            <span class="sm-label respondent-info-label"
+                              >Started:</span
+                            >
+                            <span class="sm-label value">
+                              {{ response?.startTime | date: 'medium' }}
+                            </span>
+                          </li>
+                          <li>
+                            <span class="sm-label respondent-info-label"
+                              >Last Modified:</span
+                            >
+                            <span class="sm-label value">
+                              {{ response?.endTime | date: 'medium' }}
+                            </span>
+                          </li>
+                          <li>
+                            <span class="sm-label respondent-info-label"
+                              >Time Spent:</span
+                            >
+                            <span class="sm-label value">
+                              {{ msToHMSTypicalTimeSpent(response.totalTime) }}
+                            </span>
+                          </li>
+                          <li>
+                            <span class="sm-label respondent-info-label"
+                              >IP Address:</span
+                            >
+                            <span class="sm-label value">
+                              {{ response.ipAddress }}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </nz-tab>
+              </nz-tabset>
+            </div>
+            <div class="response-question-list">
+              <app-survey-response
+                *ngIf="surveyResponsePreview"
+                [disabled]="true"
+                [data]="surveyResponsePreview?.json"
+                [json]="surveyResponsePreview?.surveyForm?.json"
+              ></app-survey-response>
+            </div>
+          </div>
+        </nz-tab>
+      </nz-tabset>
     </ng-container>
   </nz-card>
 
   <ng-template #loadingTpl>
     <nz-skeleton [nzLoading]="true"></nz-skeleton>
   </ng-template>
+</div>
+
+<div #popup id="popup" class="ol-popup">
+  <div id="popup-content" [innerHTML]="popupContent"></div>
+</div>
+<div #popup_click id="popup" class="ol-popup">
+  <a id="popup-closer" class="ol-popup-closer1" (click)="closePopup()"></a>
+  <div id="popup-content1" [innerHTML]="popupContent1"></div>
 </div>

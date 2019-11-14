@@ -67,13 +67,6 @@ router.delete("/:surveyFolderId", async (req, res, next) => {
     "surveyFolderId",
     ""
   );
-  const surveyForms = await surveyFormsModel.listSurveyFormByFolderId(
-    surveyFolderId
-  );
-  const surveyFormIds = surveyForms.map(o => o.id);
-  if (surveyFormIds.length > 0) {
-    await surveyFormsModel.moveSurveyToFolder(null, surveyFormIds);
-  }
   surveyFoldersModel
     .deleteSurveyFolders(surveyFolderId, { task: "delete-one" })
     .then(surveyFolder => {

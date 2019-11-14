@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges
+} from '@angular/core';
 import * as Survey from 'survey-angular';
 import * as widgets from 'surveyjs-widgets';
 import 'inputmask/dist/inputmask/phone-codes/phone.js';
@@ -20,9 +27,13 @@ export class SurveyResponseComponent implements OnInit {
   @Input() disabled: boolean = false;
   @Input('json') json: any;
   @Input('data') data: any;
-
-  ngOnInit() {
-    setTimeout(() => {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes.json &&
+      changes.json.currentValue &&
+      changes.data &&
+      changes.data.currentValue
+    ) {
       this.setTheme();
       const surveyModel = new Survey.Model(this.json);
 
@@ -34,8 +45,10 @@ export class SurveyResponseComponent implements OnInit {
       }
       surveyModel.showTitle = false;
       Survey.SurveyNG.render('surveyResponseElement', { model: surveyModel });
-    }, 100);
+    }
   }
+  ngOnInit() {}
+
   setTheme() {
     const mainColor = '#00bf6f';
     const mainHoverColor = '#6fe06f';

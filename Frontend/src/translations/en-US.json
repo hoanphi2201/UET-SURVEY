@@ -389,7 +389,11 @@
     "SEE_HOW_EASY_IT_IS_TO": "See how easy it is to",
     "PARAMETER_IS_MISSING": "Parameter is missing",
     "CREATE_SURVEY_COLLECTOR": "Create survey collector",
-    "RESPONSES_AND_STATUS": "Responses and status"
+    "RESPONSES_AND_STATUS": "Responses and status",
+    "STATISTIC_RESULTS": "Statistic results",
+    "STATISTIC_LOCATION_RESULTS": "Statistic location results",
+    "INDIVIDUAL_RESPONSES": "individual responses",
+    "RESPONDENT": "Respondent"
   },
   "shared": {}
 }

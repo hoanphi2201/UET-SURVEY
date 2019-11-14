@@ -122,19 +122,19 @@ router.post("/", async (req, res, next) => {
       params,
       { user }
     );
-    if (numberCollector === 0) {
-      const paramsStatus = {
-        status: "OPEN",
-        surveyFormId: surveyCollector.surveyFormId
-      };
-      try {
-        await surveyFormsModel.changeSurveyStatus(paramsStatus);
-      } catch (error) {
-        res
-          .status(error.statusCode || 400)
-          .json(new Response(true, 400, "error", error.message || "Error"));
-      }
-    }
+    // if (numberCollector === 0) {
+    //   const paramsStatus = {
+    //     status: "OPEN",
+    //     surveyFormId: surveyCollector.surveyFormId
+    //   };
+    //   try {
+    //     await surveyFormsModel.changeSurveyStatus(paramsStatus);
+    //   } catch (error) {
+    //     res
+    //       .status(error.statusCode || 400)
+    //       .json(new Response(true, 400, "error", error.message || "Error"));
+    //   }
+    // }
     surveyCollector.name = surveyCollector.name + " " + (numberCollector + 1);
     surveyCollector.url = generateLink.generateLink(7);
     surveyCollectorsModel

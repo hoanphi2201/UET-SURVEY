@@ -20,6 +20,7 @@ import { CloseCollectorComponent } from './modals/close-collector/close-collecto
 import { OpenCollectorComponent } from './modals/open-collector/open-collector.component';
 import { SurveyResponseComponent } from './components/survey-response/survey-response.component';
 import { SurveyAnalyticsComponent } from './components/survey-analytics/survey-analytics.component';
+import { MapComponent } from './components/map/map.component';
 
 const COMPONENTS = [
   SurveyComponent,
@@ -35,7 +36,8 @@ const COMPONENTS = [
   CloseCollectorComponent,
   OpenCollectorComponent,
   SurveyResponseComponent,
-  SurveyAnalyticsComponent
+  SurveyAnalyticsComponent,
+  MapComponent
 ];
 
 @NgModule({

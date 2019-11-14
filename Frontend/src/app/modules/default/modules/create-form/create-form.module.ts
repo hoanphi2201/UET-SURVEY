@@ -8,6 +8,10 @@ import { CollectResponsesComponent } from './pages/collect-responses/collect-res
 import { CollectLinkComponent } from './pages/collect-link/collect-link.component';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { AnalyzeResultsComponent } from './pages/analyze-results/analyze-results.component';
+import { CollectEmailManageComponent } from './pages/collect-email-manage/collect-email-manage.component';
+import { CollectEmailComposeComponent } from './pages/collect-email-compose/collect-email-compose.component';
+import { CollectEmailOptionsComponent } from './pages/collect-email-options/collect-email-options.component';
+import { CollectEmailScheduleComponent } from './pages/collect-email-schedule/collect-email-schedule.component';
 
 const COMPONENTS = [
   DesignSurveyComponent,
@@ -15,7 +19,11 @@ const COMPONENTS = [
   PreviewScoreComponent,
   CollectResponsesComponent,
   CollectLinkComponent,
-  AnalyzeResultsComponent
+  AnalyzeResultsComponent,
+  CollectEmailManageComponent,
+  CollectEmailComposeComponent,
+  CollectEmailOptionsComponent,
+  CollectEmailScheduleComponent
 ];
 
 @NgModule({
