@@ -25,7 +25,7 @@ export class AuthService {
     private loaderService: LoaderService,
     private dCityService: DCityService,
     private modalService: NzModalService
-  ) {}
+  ) { }
   public getCurrentUser(): Observable<User> {
     return this.currentUserSubject$.asObservable().pipe(distinctUntilChanged());
   }
@@ -35,36 +35,22 @@ export class AuthService {
         async userData => {
           if (userData) {
             const { jobRole } = user;
-            if (
-              (!update && jobRole) ||
-              (update && jobRole !== userData.jobRole)
-            ) {
+            if ((!update && jobRole) || (update && jobRole !== userData.jobRole)) {
               try {
-                user.jobRoleView = this.listOfAllJobRole.filter(
-                  o => o.value === jobRole
-                )[0].viewValue;
+                user.jobRoleView = this.listOfAllJobRole.filter(o => o.value === jobRole)[0].viewValue;
               } catch (error) {
                 user.jobRoleView = 'Job Role';
               }
             } else {
               user.jobRoleView = 'Job Role';
             }
-            if (
-              (!update && user.organization && user.organization.location) ||
-              (update &&
-                user.organization &&
-                user.organization.location &&
-                user.organization.location !== userData.organization.location)
-            ) {
-              await this.dCityService
-                .getCityById(user.organization.location)
-                .then(res => {
-                  subscription.unsubscribe();
-                  user.organizationLocationView = `${res.results[0].name}, ${res.results[0].state.country.name}`;
-                })
-                .catch(e => {
-                  console.warn(e);
-                });
+            if ((!update && user.organization && user.organization.location) || (update && user.organization && user.organization.location && user.organization.location !== userData.organization.location)) {
+              await this.dCityService.getCityById(user.organization.location).then(res => {
+                subscription.unsubscribe();
+                user.organizationLocationView = `${res.results[0].name}, ${res.results[0].state.country.name}`;
+              }).catch(e => {
+                console.warn(e);
+              });
             } else {
               user.organizationLocationView = 'Organization';
             }
@@ -75,18 +61,17 @@ export class AuthService {
 
     if (update) {
       const codeError = [400, 404, 403];
-      this.refreshTokenPromise()
-        .then(res => {
-          if (res.status.code === 200) {
-            const decoded: User = jwt_decode(res.results[0].access_token);
-            this.setCurrentUser(decoded);
-            this.storeJwtToken(res.results[0].access_token);
-          } else if (codeError.includes(res.status.code)) {
-            this.doLogoutUser();
-            this.router.navigate(['/auth/login']);
-            this.modalService.closeAll();
-          }
-        })
+      this.refreshTokenPromise().then(res => {
+        if (res.status.code === 200) {
+          const decoded: User = jwt_decode(res.results[0].access_token);
+          this.setCurrentUser(decoded);
+          this.storeJwtToken(res.results[0].access_token);
+        } else if (codeError.includes(res.status.code)) {
+          this.doLogoutUser();
+          this.router.navigate(['/auth/login']);
+          this.modalService.closeAll();
+        }
+      })
         .catch(e => {
           this.modalService.closeAll();
           this.doLogoutUser();
@@ -130,24 +115,20 @@ export class AuthService {
   }
 
   refreshTokenPromise(): Promise<any> {
-    return this.apiService
-      .post(`/auth/refresh_token`, { refresh_token: this.getRefreshToken() })
-      .toPromise();
+    return this.apiService.post(`/auth/refresh_token`, { refresh_token: this.getRefreshToken() }).toPromise();
   }
 
   refreshToken() {
-    return this.apiService
-      .post(`/auth/refresh_token`, { refresh_token: this.getRefreshToken() })
-      .pipe(
-        tap(res => {
-          const codeError = [400, 404, 403];
-          if (res.status.code === 200) {
-            this.storeJwtToken(res.results[0].access_token);
-          } else if (codeError.includes(res.status.code)) {
-            this.doLogoutUser();
-          }
-        })
-      );
+    return this.apiService.post(`/auth/refresh_token`, { refresh_token: this.getRefreshToken() }).pipe(
+      tap(res => {
+        const codeError = [400, 404, 403];
+        if (res.status.code === 200) {
+          this.storeJwtToken(res.results[0].access_token);
+        } else if (codeError.includes(res.status.code)) {
+          this.doLogoutUser();
+        }
+      })
+    );
   }
 
   getJwtToken() {
