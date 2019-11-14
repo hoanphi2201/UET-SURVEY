@@ -100,7 +100,7 @@ export class SettingDrawerComponent implements OnInit {
     {
       key: 'fixedWidth',
       title: 'header.sidebar.FIXED_WIDTH',
-      disabled: function(setting: any) {
+      disabled: function (setting: any) {
         return setting.mode == 'side';
       }
     }

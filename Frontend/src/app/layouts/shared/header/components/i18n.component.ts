@@ -45,9 +45,7 @@ export class I18nComponent implements OnInit {
     this.change(this.currentLanguage.code);
   }
   getCurrentLanguage() {
-    this.currentLanguage = this.langs.filter(
-      o => o.code === this.i18nService.getCurrentLanguage()
-    )[0];
+    this.currentLanguage = this.langs.filter(o => o.code === this.i18nService.getCurrentLanguage())[0];
   }
   change(lang: string) {
     this.i18nService.language = lang;

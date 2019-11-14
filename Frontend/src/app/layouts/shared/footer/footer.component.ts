@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { I18nService } from '@app/core';
 import { environment } from '@env/environment';
-import { WindowresizeService } from '@app/shared';
 
 @Component({
   selector: 'app-footer',
@@ -15,14 +14,12 @@ export class FooterComponent implements OnInit {
     const item = this.LANGS[code];
     return { code, text: item.text, abbr: item.abbr };
   });
-  constructor(private i18nService: I18nService) {}
+  constructor(private i18nService: I18nService) { }
   ngOnInit() {
     this.getCurrentLanguage();
   }
   getCurrentLanguage() {
-    this.currentLanguage = this.langs.filter(
-      o => o.code === this.i18nService.getCurrentLanguage()
-    )[0];
+    this.currentLanguage = this.langs.filter(o => o.code === this.i18nService.getCurrentLanguage())[0];
   }
   change(lang: string) {
     this.i18nService.language = lang;

@@ -50,7 +50,7 @@ export class NoticePopoverComponent implements OnInit {
         text: '你已完成所有待办'
       },
       rows: [],
-      map: function(row: any) {
+      map: function (row: any) {
         row['color'] = {
           todo: 'magenta',
           processing: 'blue',
@@ -66,12 +66,7 @@ export class NoticePopoverComponent implements OnInit {
     return this.tabs.map(tab => tab.rows).reduce((x, y) => x.concat(y));
   }
   set data(rows: any[]) {
-    this.tabs.forEach(
-      tab =>
-        (tab.rows = rows
-          .filter(row => row.type == tab.type)
-          .map(row => (tab.map ? tab.map(row) : row)))
-    );
+    this.tabs.forEach(tab => (tab.rows = rows.filter(row => row.type == tab.type).map(row => (tab.map ? tab.map(row) : row))));
   }
-  ngOnInit() {}
+  ngOnInit() { }
 }

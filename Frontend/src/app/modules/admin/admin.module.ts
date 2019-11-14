@@ -27,4 +27,4 @@ const COMPONENTS = [
   imports: [SharedModule, AdminRouting],
   declarations: [...COMPONENTS]
 })
-export class AdminModule {}
+export class AdminModule { }

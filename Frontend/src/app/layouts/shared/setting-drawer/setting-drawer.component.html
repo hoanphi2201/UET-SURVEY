@@ -5,20 +5,16 @@
 <nz-drawer
   [nzWidth]="300"
   [nzVisible]="!isCollapsed"
-  (nzOnClose)="isCollapsed = !isCollapsed"
->
+  (nzOnClose)="isCollapsed = !isCollapsed">
   <div style="margin-bottom:24px;">
-    <h3 class="title">
-      {{ 'header.sidebar.OVERALL_STYLE_SETTING' | translate }}
-    </h3>
+    <h3 class="title">{{ 'header.sidebar.OVERALL_STYLE_SETTING' | translate }}</h3>
     <div class="blockChecbox">
       <div
         *ngFor="let theme of themes"
         class="item"
         nz-tooltip
         [nzTitle]="theme.title"
-        (click)="setting.theme = theme.key"
-      >
+        (click)="setting.theme = theme.key">
         <img [src]="theme.image" [alt]="theme.title" />
         <div class="selectIcon" *ngIf="theme.key == setting.theme">
           <i nz-icon nzType="check" nzTheme="outline"></i>
@@ -35,14 +31,13 @@
         nz-tooltip
         [nzTitle]="color.title"
         [style.backgroundColor]="color.color"
-        (click)="setting.color = color.key"
-      >
+        (click)="setting.color = color.key">
         <i
           nz-icon
           nzType="check"
           nzTheme="outline"
-          *ngIf="color.key == setting.color"
-        ></i>
+          *ngIf="color.key == setting.color">
+        </i>
       </div>
     </div>
   </div>
@@ -55,8 +50,7 @@
         class="item"
         nz-tooltip
         [nzTitle]="mode.title"
-        (click)="setting.mode = mode.key"
-      >
+        (click)="setting.mode = mode.key">
         <img [src]="mode.image" [alt]="mode.title" />
         <div class="selectIcon" *ngIf="mode.key == setting.mode">
           <i nz-icon nzType="check" nzTheme="outline"></i>
@@ -67,14 +61,12 @@
   <nz-list
     [nzSplit]="false"
     [nzDataSource]="layouts"
-    [nzRenderItem]="layoutItem"
-  >
+    [nzRenderItem]="layoutItem">
     <ng-template #layoutItem let-item>
       <nz-list-item
         [style.opacity]="item.disabled && item.disabled(setting) ? '0.5' : ''"
         [nzContent]="item.title | translate"
-        [nzActions]="[layoutAction]"
-      >
+        [nzActions]="[layoutAction]">
         <ng-template #layoutAction>
           <nz-switch
             nzSize="small"
@@ -91,13 +83,11 @@
     <nz-list
       [nzSplit]="false"
       [nzDataSource]="others"
-      [nzRenderItem]="otherItem"
-    >
+      [nzRenderItem]="otherItem">
       <ng-template #otherItem let-item>
         <nz-list-item
           [nzContent]="item.title | translate"
-          [nzActions]="[otherAction]"
-        >
+          [nzActions]="[otherAction]">
           <ng-template #otherAction>
             <nz-switch
               nzSize="small"

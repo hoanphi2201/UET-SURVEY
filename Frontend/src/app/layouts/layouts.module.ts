@@ -33,4 +33,4 @@ const DEFAULT_LAYOUT = [DefaultLayoutComponent];
   declarations: [AuthLayoutComponent, ...ADMIN_LAYOUT, ...DEFAULT_LAYOUT],
   exports: [AuthLayoutComponent, ...ADMIN_LAYOUT, ...DEFAULT_LAYOUT]
 })
-export class LayoutsModule {}
+export class LayoutsModule { }

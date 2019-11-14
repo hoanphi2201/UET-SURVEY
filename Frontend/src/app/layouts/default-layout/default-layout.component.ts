@@ -166,16 +166,12 @@ export class DefaultLayoutComponent implements OnInit {
     private authService: AuthService,
     private modal: NzModalService
   ) {
-    breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.XSmall])
-      .subscribe(result => {
+    breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe(result => {
         this.layout.siderMode = result.matches ? 'over' : 'side';
         this.layout.collapsed = result.matches;
       });
 
-    router.events
-      .pipe(filter(event => event instanceof ActivationStart))
-      .subscribe(() => {
+    router.events.pipe(filter(event => event instanceof ActivationStart)).subscribe(() => {
         if (this.layout.siderMode == 'over') {
           this.layout.collapsed = true;
         }

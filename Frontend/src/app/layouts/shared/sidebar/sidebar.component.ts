@@ -22,6 +22,6 @@ export class SidebarComponent implements OnInit {
     return this.layout.setting;
   }
 
-  constructor(private layout: LayoutComponent) {}
-  ngOnInit() {}
+  constructor(private layout: LayoutComponent) { }
+  ngOnInit() { }
 }

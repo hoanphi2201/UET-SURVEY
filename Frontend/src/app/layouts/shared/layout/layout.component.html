@@ -3,21 +3,18 @@
     <ng-template #sider>
       <ng-content select="ng-container[sider]"></ng-content>
     </ng-template>
-
     <nz-drawer
       *ngIf="siderMode == 'over'"
       [nzClosable]="false"
       [nzVisible]="!collapsed"
       nzPlacement="left"
       (nzOnClose)="collapsed = true"
-      [nzBodyStyle]="{ padding: 0 }"
-    >
+      [nzBodyStyle]="{ padding: 0 }">
       <nz-layout>
         <nz-sider
           [nzWidth]="siderWidth"
           [nzTrigger]="null"
-          [class.light]="setting?.theme == 'light'"
-        >
+          [class.light]="setting?.theme == 'light'">
           <ng-container [ngTemplateOutlet]="sider"></ng-container>
         </nz-sider>
       </nz-layout>
@@ -29,8 +26,7 @@
       [(nzCollapsed)]="collapsed"
       [nzWidth]="siderWidth"
       [nzTrigger]="null"
-      [class.light]="setting?.theme == 'light'"
-    >
+      [class.light]="setting?.theme == 'light'">
       <ng-container [ngTemplateOutlet]="sider"></ng-container>
     </nz-sider>
   </ng-container>

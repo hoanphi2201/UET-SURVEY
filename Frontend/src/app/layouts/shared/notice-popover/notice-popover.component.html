@@ -6,8 +6,7 @@
   nzPlacement="bottomRight"
   nzOverlayClassName="notice-popover"
   [nzVisible]="visible"
-  (nzVisibleChange)="visibleChange.emit($event)"
->
+  (nzVisibleChange)="visibleChange.emit($event)">
   <nz-badge [nzCount]="data.length">
     <ng-content></ng-content>
   </nz-badge>
@@ -15,10 +14,7 @@
     <nz-tabset>
       <nz-tab
         *ngFor="let tab of tabs"
-        nzTitle="{{ tab.title }} {{
-          tab.rows.length ? '(' + tab.rows.length + ')' : ''
-        }}"
-      >
+        nzTitle="{{ tab.title }} {{tab.rows.length ? '(' + tab.rows.length + ')' : ''}}">
         <nz-spin [nzSpinning]="spinning">
           <div class="notFound" *ngIf="!tab.rows.length">
             <img [src]="tab.empty.image" alt="not found" />
@@ -27,21 +23,19 @@
           <nz-list
             [nzDataSource]="tab.rows"
             [nzRenderItem]="item"
-            *ngIf="tab.rows.length"
-          >
+            *ngIf="tab.rows.length">
             <ng-template #item let-item>
               <nz-list-item [ngClass]="{ read: item.read }">
                 <nz-list-item-meta
                   [nzAvatar]="nzAvatar"
                   [nzTitle]="nzTitle"
-                  [nzDescription]="nzDescription"
-                >
+                  [nzDescription]="nzDescription">
                   <ng-template #nzAvatar>
                     <span class="iconElement" *ngIf="item.avatar">
                       <nz-avatar
                         nzIcon="user"
-                        [nzSrc]="item.avatar"
-                      ></nz-avatar>
+                        [nzSrc]="item.avatar">
+                      </nz-avatar>
                     </span>
                   </ng-template>
                   <ng-template #nzTitle>

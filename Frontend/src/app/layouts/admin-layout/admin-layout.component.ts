@@ -15,7 +15,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   layout = {
     collapsed: true,
     siderMode: 'side',
-    topMode: function() {
+    topMode: function () {
       return this.siderMode != 'over' && this.setting.mode == 'top';
     },
     setting: {
@@ -186,10 +186,10 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
         type: 'event'
       }
     ],
-    clear: function(type: any) {
+    clear: function (type: any) {
       this.data = this.data.filter((x: any) => x.type != type);
     },
-    visibleChange: function(status: any) {
+    visibleChange: function (status: any) {
       if (status) {
         this.spinning = true;
         setTimeout(() => (this.spinning = false), 1000);
@@ -204,20 +204,16 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
     private modal: NzModalService,
     router: Router
   ) {
-    breakpointObserver
-      .observe([Breakpoints.Small, Breakpoints.XSmall])
-      .subscribe(result => {
-        this.layout.siderMode = result.matches ? 'over' : 'side';
-        this.layout.collapsed = result.matches;
-      });
+    breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe(result => {
+      this.layout.siderMode = result.matches ? 'over' : 'side';
+      this.layout.collapsed = result.matches;
+    });
 
-    router.events
-      .pipe(filter(event => event instanceof ActivationStart))
-      .subscribe(() => {
-        if (this.layout.siderMode == 'over') {
-          this.layout.collapsed = true;
-        }
-      });
+    router.events.pipe(filter(event => event instanceof ActivationStart)).subscribe(() => {
+      if (this.layout.siderMode == 'over') {
+        this.layout.collapsed = true;
+      }
+    });
     // get user login
     this.authService.getCurrentUser().subscribe(userData => {
       if (userData) {
@@ -225,7 +221,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
       }
     });
   }
-  ngOnInit() {}
+  ngOnInit() { }
 
   logout() {
     this.modal.confirm({
@@ -234,5 +230,5 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
       nzOnOk: () => this.authService.logout()
     });
   }
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 }

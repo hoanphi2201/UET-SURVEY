@@ -29,5 +29,5 @@ export class LayoutComponent implements OnInit {
     this.isCollapsed = val;
     this.collapsedChange.emit(this.isCollapsed);
   }
-  ngOnInit() {}
+  ngOnInit() { }
 }

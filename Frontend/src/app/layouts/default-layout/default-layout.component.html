@@ -2,8 +2,7 @@
   [(collapsed)]="layout.collapsed"
   [siderMode]="layout.siderMode"
   [topMode]="layout.topMode()"
-  [setting]="layout.setting"
->
+  [setting]="layout.setting">
   <ng-container sider>
     <div class="logo" [class.light]="layout.setting.theme == 'light'">
       <a href="#">
@@ -13,8 +12,8 @@
     </div>
     <app-sidebar
       [data]="menu"
-      [inlineCollapsed]="layout.siderMode == 'over' ? false : layout.collapsed"
-    ></app-sidebar>
+      [inlineCollapsed]="layout.siderMode == 'over' ? false : layout.collapsed">
+    </app-sidebar>
   </ng-container>
 
   <ng-container header>
@@ -24,8 +23,8 @@
           nz-icon
           class="anticon trigger"
           [nzType]="layout.collapsed ? 'menu-unfold' : 'menu-fold'"
-          (click)="layout.collapsed = !layout.collapsed"
-        ></i>
+          (click)="layout.collapsed = !layout.collapsed">
+        </i>
       </ng-container>
       <ng-container left *ngIf="layout.topMode()">
         <div class="logo">
@@ -40,8 +39,7 @@
           [routerLink]="['/create-survey']"
           class="alt"
           nz-button
-          nzType="default"
-        >
+          nzType="default">
           {{ 'header.sidebar.CREATE_SURVEY' | translate | uppercase }}
         </button>
         <app-notice-popover
@@ -49,15 +47,12 @@
           [data]="notice.data"
           [innerClass]="{ action: true, notice: true }"
           (clear)="notice.clear($event)"
-          (visibleChange)="notice.visibleChange($event)"
-        >
+          (visibleChange)="notice.visibleChange($event)">
           <i nz-icon nzType="bell" nzTheme="outline"></i>
         </app-notice-popover>
         <span nz-dropdown class="action account" [nzDropdownMenu]="menuUser">
           <nz-avatar nzSize="small" nzIcon="user"></nz-avatar>
-          <span class="name" *ngIf="currentUser">
-            {{ currentUser?.firstName + ' ' + currentUser?.lastName }}</span
-          >
+          <span class="name" *ngIf="currentUser">{{ currentUser?.firstName + ' ' + currentUser?.lastName }}</span>
         </span>
         <nz-dropdown-menu nzPlacement="bottomRight" #menuUser="nzDropdownMenu">
           <ul nz-menu>
@@ -80,14 +75,10 @@
           nzTrigger="click"
           nz-dropdown
           class="action account header-right"
-          [nzDropdownMenu]="menuConfig"
-        >
+          [nzDropdownMenu]="menuConfig">
           <i nz-icon style="font-size: 20px;" nzType="appstore"></i>
         </span>
-        <nz-dropdown-menu
-          nzPlacement="bottomCenter"
-          #menuConfig="nzDropdownMenu"
-        >
+        <nz-dropdown-menu nzPlacement="bottomCenter" #menuConfig="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item>
               <header-fullscreen></header-fullscreen>

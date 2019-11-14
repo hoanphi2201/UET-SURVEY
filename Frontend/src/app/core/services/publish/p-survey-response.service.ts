@@ -7,7 +7,7 @@ import { SurveyResponse } from '@app/core/domain';
   providedIn: 'root'
 })
 export class PSurveyResponseService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   addSurveySurveyResponse(surveyResponse: SurveyResponse): Observable<any> {
     return this.apiService.post('/survey-responses', surveyResponse);

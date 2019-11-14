@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LayoutComponent } from '../layout/layout.component';
 
 @Component({
@@ -15,6 +15,6 @@ export class HeaderComponent implements OnInit {
     return this.layout.topMode;
   }
 
-  constructor(private layout: LayoutComponent) {}
-  ngOnInit() {}
+  constructor(private layout: LayoutComponent) { }
+  ngOnInit() { }
 }
