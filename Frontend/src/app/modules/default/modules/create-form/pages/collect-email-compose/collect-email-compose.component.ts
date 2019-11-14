@@ -53,35 +53,24 @@ export class CollectEmailComposeComponent implements OnInit {
   }
   getSurveyCollectorById(surveyCollectorId: string) {
     this.loaderService.display(true);
-    this.dSurveyCollectorService
-      .getSurveyCollectorById(surveyCollectorId)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            if (res.results && res.results[0]) {
-              this.surveyCollectorDetail = res.results[0];
-              this.dSurveyFormService.setSurveyFormDetail(
-                this.surveyCollectorDetail.surveyForm
-              );
-            } else {
-              this.nzMessageService.warning(
-                this.translateService.instant(
-                  'admin.layout.SURVEY_COLLECTOR_NOT_EXIST'
-                )
-              );
-              this.router.navigate(['/dashboard']);
-            }
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
+    this.dSurveyCollectorService.getSurveyCollectorById(surveyCollectorId).subscribe(res => {
+      if (res.status.code === 200) {
+        if (res.results && res.results[0]) {
+          this.surveyCollectorDetail = res.results[0];
+          this.dSurveyFormService.setSurveyFormDetail(this.surveyCollectorDetail.surveyForm);
+        } else {
+          this.nzMessageService.warning(
+            this.translateService.instant('admin.layout.SURVEY_COLLECTOR_NOT_EXIST')
           );
-        },
-        () => {
-          this.loaderService.display(false);
+          this.router.navigate(['/dashboard']);
         }
-      );
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
 }
