@@ -2,13 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LoaderService, Helpers } from '@app/shared';
-import {
-  SurveyForm,
-  SurveyCollector,
-  VisitorsService,
-  PSurveyCollectorService,
-  PSurveyResponseService
-} from '@app/core';
+import { SurveyForm, SurveyCollector, VisitorsService, PSurveyCollectorService, PSurveyResponseService } from '@app/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -40,7 +34,7 @@ export class AnswerSurveyComponent implements OnInit {
     private pSurveyResponseService: PSurveyResponseService,
     private visitorsService: VisitorsService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getIpAndGeoLocation();
@@ -64,23 +58,20 @@ export class AnswerSurveyComponent implements OnInit {
 
   getSurveyCollectorByUrl(url: string) {
     this.loaderService.display(true);
-    this.pSurveyCollectorService.getSurveyCollectorByUrl(url).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.surveyCollectorDetail = res.results[0];
-          if (this.surveyCollectorDetail.surveyForm) {
-            this.surveyFormDetail = this.surveyCollectorDetail.surveyForm;
-            this.customFormByCollector();
-          }
+    this.pSurveyCollectorService.getSurveyCollectorByUrl(url).subscribe(res => {
+      if (res.status.code === 200) {
+        this.surveyCollectorDetail = res.results[0];
+        if (this.surveyCollectorDetail.surveyForm) {
+          this.surveyFormDetail = this.surveyCollectorDetail.surveyForm;
+          this.customFormByCollector();
         }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   customFormByCollector() {
@@ -116,27 +107,22 @@ export class AnswerSurveyComponent implements OnInit {
       collectorPassword: this.collectorPassword
     };
     this.loaderService.display(true);
-    this.pSurveyResponseService
-      .addSurveySurveyResponse(surveyResponse)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            if (this.surveyCollectorDetail.displaySurveyResults) {
-              this.displaySurveyResults = true;
-              this.dataSurveyResults = json;
-            }
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
+    this.pSurveyResponseService.addSurveySurveyResponse(surveyResponse).subscribe(res => {
+      if (res.status.code === 200) {
+        if (this.surveyCollectorDetail.displaySurveyResults) {
+          this.displaySurveyResults = true;
+          this.dataSurveyResults = json;
         }
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
 
   get f() {
@@ -169,29 +155,26 @@ export class AnswerSurveyComponent implements OnInit {
     const data = Object.assign(formData.value, {
       surveyCollectorId: this.surveyCollectorDetail.id
     });
-    this.pSurveyCollectorService.compareSurveyCollectorPassword(data).subscribe(
-      res => {
-        if (
-          res.status.code === 200 &&
-          res.results[0].id === this.surveyCollectorDetail.id
-        ) {
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-          this.isCorrectPassword = true;
-          this.collectorPassword = formData.value.password;
-        }
-      },
-      err => {
-        this.errorPasswordMessage = this.translateService.instant(
-          'default.layout.THE_PASSWORD_ENTERED_WAS_INCORRECT_PLEASE_CHECK_YOUR_DATA_AND_TRY_AGAIN'
+    this.pSurveyCollectorService.compareSurveyCollectorPassword(data).subscribe(res => {
+      if (
+        res.status.code === 200 &&
+        res.results[0].id === this.surveyCollectorDetail.id
+      ) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
         );
-        this.isCorrectPassword = false;
-        this.loaderService.display(false);
-      },
-      () => {
-        this.loaderService.display(false);
+        this.isCorrectPassword = true;
+        this.collectorPassword = formData.value.password;
       }
+    }, err => {
+      this.errorPasswordMessage = this.translateService.instant(
+        'default.layout.THE_PASSWORD_ENTERED_WAS_INCORRECT_PLEASE_CHECK_YOUR_DATA_AND_TRY_AGAIN'
+      );
+      this.isCorrectPassword = false;
+      this.loaderService.display(false);
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
 }

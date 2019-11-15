@@ -11,7 +11,7 @@ import * as SurveyAnalytics from 'survey-analytics';
 export class SurveyAnalyticsComponent implements OnInit {
   @Input() json: any;
   @Input() data: any;
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -32,7 +32,7 @@ export class SurveyAnalyticsComponent implements OnInit {
           normalizedData
         );
         visPanel.render();
-      } catch (error) {}
+      } catch (error) { }
     }, 100);
   }
 }

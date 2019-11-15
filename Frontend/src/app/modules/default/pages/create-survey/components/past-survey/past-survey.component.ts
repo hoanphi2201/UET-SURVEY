@@ -1,17 +1,5 @@
-import {
-  Component,
-  OnInit,
-  SimpleChanges,
-  OnChanges,
-  Input
-} from '@angular/core';
-import {
-  DSurveyFormService,
-  AuthService,
-  Pagging,
-  SurveyForm,
-  Filter
-} from '@app/core';
+import { Component, OnInit, SimpleChanges, OnChanges, Input } from '@angular/core';
+import { DSurveyFormService, Pagging, SurveyForm, Filter } from '@app/core';
 import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { LoaderService } from '@app/shared';
@@ -71,7 +59,7 @@ export class PastSurveyComponent implements OnInit, OnChanges {
     private translateService: TranslateService,
     private loaderService: LoaderService,
     private modalService: NzModalService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getDataForPageAll();
@@ -80,11 +68,7 @@ export class PastSurveyComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.listOfSearchData = [];
     this.searching = false;
-    if (
-      changes.searchValue &&
-      changes.searchValue.currentValue &&
-      changes.searchValue.currentValue !== ''
-    ) {
+    if (changes.searchValue && changes.searchValue.currentValue && changes.searchValue.currentValue !== '') {
       this.filterSearch.searchValue = changes.searchValue.currentValue;
       this.searching = true;
       this.getListSurvey(
@@ -101,63 +85,36 @@ export class PastSurveyComponent implements OnInit, OnChanges {
     this.paggingAll.page = 1;
     this.paggingRecent.page = 1;
     this.getListSurvey(this.paggingAll, this.listOfAllData, this.filterAll);
-    this.getListSurvey(
-      this.paggingRecent,
-      this.listOfRecentData,
-      this.filterRecent
-    );
+    this.getListSurvey(this.paggingRecent, this.listOfRecentData, this.filterRecent);
   }
   getDataForPageFavorite() {
     this.listOfFavoriteData = [];
     this.paggingFavorite.page = 1;
-    this.getListSurvey(
-      this.paggingFavorite,
-      this.listOfFavoriteData,
-      this.filterFavorite
-    );
+    this.getListSurvey(this.paggingFavorite, this.listOfFavoriteData, this.filterFavorite);
   }
 
   getListSurvey(pagging: Pagging, listOfData: SurveyForm[], filter: Filter) {
     this.loaderService.display(true);
     const countColumn = 'response';
-    this.dSurveyFormService
-      .getDefaultSurveyFormList(
-        pagging.page,
-        pagging.pageSize,
-        filter.sortField,
-        filter.sortType,
-        filter.searchKey,
-        filter.searchValue || '',
-        filter.filterKey || '',
-        JSON.stringify(filter.filterValue || []),
-        countColumn
-      )
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            res.results.forEach(o => {
-              listOfData.push(o);
-            });
-            pagging.total = res.paging.total;
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    this.dSurveyFormService.getDefaultSurveyFormList(pagging.page, pagging.pageSize, filter.sortField, filter.sortType, filter.searchKey, filter.searchValue || '', filter.filterKey || '', JSON.stringify(filter.filterValue || []), countColumn).subscribe(res => {
+      if (res.status.code === 200) {
+        res.results.forEach(o => {
+          listOfData.push(o);
+        });
+        pagging.total = res.paging.total;
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
 
-  loadMore($event: {
-    pagging: Pagging;
-    filter: Filter;
-    listOfData: SurveyForm[];
-  }) {
+  loadMore($event: { pagging: Pagging; filter: Filter; listOfData: SurveyForm[]; }) {
     this.getListSurvey($event.pagging, $event.listOfData, $event.filter);
   }
 

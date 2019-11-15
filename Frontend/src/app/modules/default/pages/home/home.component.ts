@@ -1,13 +1,5 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
-import {
-  Pagging,
-  TableListColumn,
-  DSurveyFormService,
-  SurveyForm,
-  DSurveyFolderService,
-  SurveyFolder,
-  IValidators
-} from '@app/core';
+import { Pagging, TableListColumn, DSurveyFormService, SurveyForm, DSurveyFolderService, SurveyFolder, IValidators } from '@app/core';
 import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { LoaderService, Helpers } from '@app/shared';
@@ -53,7 +45,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
     private modalService: NzModalService,
     private dSurveyFolderService: DSurveyFolderService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.buildForm();
@@ -68,14 +60,12 @@ export class HomeComponent implements OnInit, AfterContentInit {
   }
   buildForm() {
     this.addFolderForm = this.formBuilder.group({
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(120),
-          IValidators.spaceStringValidator()
-        ]
+      title: ['', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(120),
+        IValidators.spaceStringValidator()
+      ]
       ]
     });
   }
@@ -83,7 +73,6 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.initTable();
   }
   initTable() {
-    // tslint:disable-next-line:max-line-length
     this.columns = [
       {
         id: 'title',
@@ -98,18 +87,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
         sortable: true,
         header: 'default.layout.TITLE'
       },
-      {
-        id: 'updatedAt',
-        type: 'date',
-        sortable: true,
-        header: 'default.layout.MODIFIED'
-      },
-      {
-        id: 'response',
-        type: 'text',
-        sortable: true,
-        header: 'default.layout.RESPONSES'
-      },
+      { id: 'updatedAt', type: 'date', sortable: true, header: 'default.layout.MODIFIED' },
+      { id: 'response', type: 'text', sortable: true, header: 'default.layout.RESPONSES' },
       {
         id: '',
         type: 'action',
@@ -166,50 +145,32 @@ export class HomeComponent implements OnInit, AfterContentInit {
     }
     this.loaderService.display(true);
     const countColumn = 'response';
-    this.dSurveyFormService
-      .getDefaultSurveyFormList(
-        this.pagging.page,
-        this.pagging.pageSize,
-        this.sortField,
-        this.sortType,
-        this.searchKey,
-        this.searchValue || '',
-        this.filterKey,
-        JSON.stringify(this.filterValue),
-        countColumn
-      )
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.listOfAllSurveyForm = res.results;
-            this.pagging.total = res.paging.total;
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    this.dSurveyFormService.getDefaultSurveyFormList(this.pagging.page, this.pagging.pageSize, this.sortField, this.sortType, this.searchKey, this.searchValue || '', this.filterKey, JSON.stringify(this.filterValue), countColumn).subscribe(res => {
+      if (res.status.code === 200) {
+        this.listOfAllSurveyForm = res.results;
+        this.pagging.total = res.paging.total;
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   getListSurveyFolder() {
-    this.dSurveyFolderService.getAllSurveyFolderList().subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.listOfAllSurveyFolder = res.results;
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.dSurveyFolderService.getAllSurveyFolderList().subscribe(res => {
+      if (res.status.code === 200) {
+        this.listOfAllSurveyFolder = res.results;
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   sort(sort: { key: string; value: string }): void {
@@ -236,24 +197,16 @@ export class HomeComponent implements OnInit, AfterContentInit {
     this.refreshStatus();
   }
   refreshStatus(): void {
-    this.isAllDisplayDataChecked = this.listOfAllSurveyForm.every(
-      item => this.mapOfCheckedId[item.id]
-    );
-    this.isIndeterminate =
-      this.listOfAllSurveyForm.some(item => this.mapOfCheckedId[item.id]) &&
-      !this.isAllDisplayDataChecked;
-    this.numberOfChecked = this.listOfAllSurveyForm.filter(
-      item => this.mapOfCheckedId[item.id]
-    ).length;
+    this.isAllDisplayDataChecked = this.listOfAllSurveyForm.every(item => this.mapOfCheckedId[item.id]);
+    this.isIndeterminate = this.listOfAllSurveyForm.some(item => this.mapOfCheckedId[item.id]) && !this.isAllDisplayDataChecked;
+    this.numberOfChecked = this.listOfAllSurveyForm.filter(item => this.mapOfCheckedId[item.id]).length;
   }
   checkItem(id: string, $event: any) {
     this.mapOfCheckedId[id] = $event;
     this.refreshStatus();
   }
   checkAll(value: boolean): void {
-    this.listOfAllSurveyForm.forEach(
-      item => (this.mapOfCheckedId[item.id] = value)
-    );
+    this.listOfAllSurveyForm.forEach(item => (this.mapOfCheckedId[item.id] = value));
     this.refreshStatus();
   }
   pageSizeChange($event: any) {
@@ -272,37 +225,26 @@ export class HomeComponent implements OnInit, AfterContentInit {
     if (folderId === 'all') {
       this.folderSelectTitle = 'All';
     } else {
-      this.folderSelectTitle = this.listOfAllSurveyFolder.filter(
-        folder => folder.id === folderId
-      )[0].title;
+      this.folderSelectTitle = this.listOfAllSurveyFolder.filter(folder => folder.id === folderId)[0].title;
     }
     this.getListSurvey();
   }
   onMoveSurveyToFolder(folderId: string) {
     const surveyFormIds = _.keys(_.pickBy(this.mapOfCheckedId));
     this.loaderService.display(true);
-    this.dSurveyFormService
-      .moveSurveyFormToFolder(folderId, surveyFormIds)
-      .subscribe(
-        res => {
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-          if (res.results.length > 0) {
-            this.getListSurveyFolder();
-            this.getListSurvey();
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
-      );
+    this.dSurveyFormService.moveSurveyFormToFolder(folderId, surveyFormIds).subscribe(res => {
+      this.nzMessageService.success(this.translateService.instant(res.status.message));
+      if (res.results.length > 0) {
+        this.getListSurveyFolder();
+        this.getListSurvey();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   openModal(): void {
     this.modalForm = this.modalService.create({
@@ -338,21 +280,18 @@ export class HomeComponent implements OnInit, AfterContentInit {
         formData.value[key] = formData.value[key].trim();
       }
     });
-    this.dSurveyFolderService.addSurveyFolder(formData.value).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.onMoveSurveyToFolder(res.results[0].id);
-          formData.reset();
-          this.updateNewFolder(false);
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.dSurveyFolderService.addSurveyFolder(formData.value).subscribe(res => {
+      if (res.status.code === 200) {
+        this.onMoveSurveyToFolder(res.results[0].id);
+        formData.reset();
+        this.updateNewFolder(false);
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   isFieldValid(form: FormGroup, field: string) {

@@ -1,14 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ElementRef,
-  Input,
-  Output,
-  EventEmitter,
-  AfterViewInit,
-  SimpleChanges,
-  OnChanges
-} from '@angular/core';
+import { Component, OnInit, ElementRef, Input, Output, EventEmitter, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 
 import 'ol/ol.css';
 import { fromLonLat } from 'ol/proj';
@@ -18,14 +8,7 @@ import RenderEvent from 'ol/render/Event';
 import ObjectEvent from 'ol/Object';
 import { bbox } from 'ol/loadingstrategy';
 
-import {
-  Zoom,
-  ZoomToExtent,
-  Rotate,
-  MousePosition,
-  ScaleLine,
-  FullScreen
-} from 'ol/control.js';
+import { Zoom, ZoomToExtent, Rotate, MousePosition, ScaleLine, FullScreen } from 'ol/control.js';
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
 import { Tile, Group, Image, Vector as VectorLayer } from 'ol/layer.js';
@@ -235,7 +218,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
           source: oSource
         });
         if (this.mapStyle[layerId]) {
-          const s = function(feature: any, resolution: any) {
+          const s = function (feature: any, resolution: any) {
             const styles = this.mapStyle[layerId];
             return styles[feature.getGeometry().getType()];
           };
@@ -253,7 +236,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
           source: clusterSource
         });
         if (this.mapStyle[layerId]) {
-          const s = function(feature: any, resolution: any) {
+          const s = function (feature: any, resolution: any) {
             const styles = this.mapStyle[layerId];
             return styles[feature.getGeometry().getType()];
           };
@@ -374,7 +357,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void { }
 
   setDefaultControls(map: any, controls: any) {
     if (controls.indexOf('Zoom') > -1) {
@@ -395,7 +378,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
           undefinedHTML: '&nbsp;',
           target: document.getElementById('mouse-position'),
           projection: this.mapDefault['layerProjection'],
-          coordinateFormat: function(coordinate: any) {
+          coordinateFormat: function (coordinate: any) {
             return `${coordinate[0].toFixed(4)}, ${coordinate[1].toFixed(4)}`;
           }
         })
@@ -408,7 +391,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
   getLayersRecursive(lyr: any, fn: any) {
     lyr.getLayers().forEach(
-      function(_lyr: any, idx: any, a: any) {
+      function (_lyr: any, idx: any, a: any) {
         fn(_lyr, idx, a);
         if (_lyr.getLayers) {
           this.getLayersRecursive(_lyr, fn);
@@ -421,7 +404,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     let findLayer;
     this.getLayersRecursive(
       this.instance,
-      function(l: any, idx: any, a: any) {
+      function (l: any, idx: any, a: any) {
         if (l.get('name') === layerId || l.get('id') === layerId) {
           findLayer = l;
         }
@@ -438,7 +421,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     const newLocal: any = this.getLayer(layername);
     newLocal
       .getSource()
-      .forEachFeatureIntersectingExtent(extent, function(
+      .forEachFeatureIntersectingExtent(extent, function (
         feature: any,
         layer: any
       ) {

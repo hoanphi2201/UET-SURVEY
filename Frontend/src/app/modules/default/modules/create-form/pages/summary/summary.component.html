@@ -3,113 +3,50 @@
     <div class="wds-pane__body">
       <div class="sm-survey-progress-bar">
         <div *ngIf="surveyFormDetail" class="sm-survey-progress-bar__steps">
-          <a
-            [routerLink]="['/create', 'design-survey', surveyFormDetail.id]"
-            class="sm-survey-progress-bar-link"
-          >
+          <a [routerLink]="['/create', 'design-survey', surveyFormDetail.id]" class="sm-survey-progress-bar-link">
             <div class="sm-survey-progress-bar-step">
-              <div
-                [ngClass]="{
-                  'sm-survey-progress-bar-step-circle-active': displayPageSurvey()
-                }"
-                class="sm-survey-progress-bar-step-circle"
-              >
-                <svg
-                  class="wds-icon-svg"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 16 16"
-                  aria-label="PencilBox"
-                  title="PencilBox"
-                >
+              <div [ngClass]="{'sm-survey-progress-bar-step-circle-active': displayPageSurvey()}" class="sm-survey-progress-bar-step-circle">
+                <svg class="wds-icon-svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16" aria-label="PencilBox" title="PencilBox">
                   <g>
-                    <path
-                      d="m12.1787 8.1489a.75.75 0 0 0 -.75.75v5.3462h-9.8467v-9.8467h5.9629a.75.75 0 0 0 0-1.5h-6.7129a.75.75 0 0 0 -.75.75v11.3467a.75.75 0 0 0 .75.75h11.3467a.75.75 0 0 0 .75-.75v-6.0962a.75.75 0 0 0 -.75-.75z"
-                    ></path>
-                    <path
-                      d="m15.6982 2.6489-2.1738-2.1743a.75.75 0 0 0 -1.0605 0l-1.64 1.64-.0015.001-.001.0015-4.8458 4.8458a.75.75 0 0 0 -.22.53v2.1746a.75.75 0 0 0 .75.75h2.1744a.7494.7494 0 0 0 .53-.22l4.8462-4.8462.001-.0005.0014-.0019 1.64-1.64a.75.75 0 0 0 -.0004-1.06zm-2.7041-.5835 1.1133 1.1138-.58.58-1.114-1.113zm-4.625 6.8521h-1.1132v-1.1138l4.097-4.097 1.1136 1.1133z"
-                    ></path>
+                    <path d="m12.1787 8.1489a.75.75 0 0 0 -.75.75v5.3462h-9.8467v-9.8467h5.9629a.75.75 0 0 0 0-1.5h-6.7129a.75.75 0 0 0 -.75.75v11.3467a.75.75 0 0 0 .75.75h11.3467a.75.75 0 0 0 .75-.75v-6.0962a.75.75 0 0 0 -.75-.75z"></path>
+                    <path d="m15.6982 2.6489-2.1738-2.1743a.75.75 0 0 0 -1.0605 0l-1.64 1.64-.0015.001-.001.0015-4.8458 4.8458a.75.75 0 0 0 -.22.53v2.1746a.75.75 0 0 0 .75.75h2.1744a.7494.7494 0 0 0 .53-.22l4.8462-4.8462.001-.0005.0014-.0019 1.64-1.64a.75.75 0 0 0 -.0004-1.06zm-2.7041-.5835 1.1133 1.1138-.58.58-1.114-1.113zm-4.625 6.8521h-1.1132v-1.1138l4.097-4.097 1.1136 1.1133z"></path>
                   </g>
                 </svg>
               </div>
-              <span
-                [ngClass]="{
-                  'sm-survey-progress-bar-step-label-active': displayPageSurvey()
-                }"
-                class="sm-survey-progress-bar-step-label wds-display-none wds-display-sm-block"
-              >
+              <span [ngClass]="{'sm-survey-progress-bar-step-label-active': displayPageSurvey()}" class="sm-survey-progress-bar-step-label wds-display-none wds-display-sm-block">
                 {{ 'default.layout.ADD_QUESTIONS' | translate | uppercase }}
               </span>
             </div>
           </a>
           <div class="sm-survey-progress-bar-path"></div>
           <div class="sm-survey-progress-bar-step">
-            <div
-              [ngClass]="{
-                'sm-survey-progress-bar-step-circle-active':
-                  listOfAllSurveyCollect.length > 0
-              }"
-              class="sm-survey-progress-bar-step-circle"
-            >
-              <svg
-                class="wds-icon-svg"
-                preserveAspectRatio="xMidYMid meet"
-                viewBox="0 0 16 16"
-                aria-label="Airplane"
-                title="Airplane"
-              >
+            <div [ngClass]="{'sm-survey-progress-bar-step-circle-active': listOfAllSurveyCollect.length > 0}" class="sm-survey-progress-bar-step-circle">
+              <svg class="wds-icon-svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16" aria-label="Airplane" title="Airplane">
                 <g>
-                  <path
-                    d="m15.89 1.1893-.001-.0092a.6981.6981 0 0 0 -.1324-.2468c-.0128-.0154-.0311-.0222-.0449-.0362-.0089-.009-.01-.0225-.02-.0311-.0151-.0138-.0367-.0147-.0527-.0271a.6751.6751 0 0 0 -.229-.1178.66.66 0 0 0 -.08-.0235.6882.6882 0 0 0 -.33.0224l-.01.0007-14.1487 4.9079a1.12 1.12 0 0 0 -.1929 2.0278l4.0235 2.3215.0009 4.0863a1.1819 1.1819 0 0 0 .7319 1.1543 1.182 1.182 0 0 0 1.3369-.2925l2.2522-2.4545 1.97 1.1366a1.4349 1.4349 0 0 0 2.1074-.8906l2.8262-11.1641c.0035-.0141-.0036-.0278-.0009-.042a.691.691 0 0 0 -.0065-.3221zm-4.07 2.1121-6.5134 5.4262-3.4273-1.9776zm-5.7478 10.2838v-2.7994l1.68.9691zm5.5913-1.19-5.0643-2.9219 7.4014-6.1659z"
-                  ></path>
+                  <path d="m15.89 1.1893-.001-.0092a.6981.6981 0 0 0 -.1324-.2468c-.0128-.0154-.0311-.0222-.0449-.0362-.0089-.009-.01-.0225-.02-.0311-.0151-.0138-.0367-.0147-.0527-.0271a.6751.6751 0 0 0 -.229-.1178.66.66 0 0 0 -.08-.0235.6882.6882 0 0 0 -.33.0224l-.01.0007-14.1487 4.9079a1.12 1.12 0 0 0 -.1929 2.0278l4.0235 2.3215.0009 4.0863a1.1819 1.1819 0 0 0 .7319 1.1543 1.182 1.182 0 0 0 1.3369-.2925l2.2522-2.4545 1.97 1.1366a1.4349 1.4349 0 0 0 2.1074-.8906l2.8262-11.1641c.0035-.0141-.0036-.0278-.0009-.042a.691.691 0 0 0 -.0065-.3221zm-4.07 2.1121-6.5134 5.4262-3.4273-1.9776zm-5.7478 10.2838v-2.7994l1.68.9691zm5.5913-1.19-5.0643-2.9219 7.4014-6.1659z"></path>
                 </g>
               </svg>
             </div>
             <span
-              [ngClass]="{
-                'sm-survey-progress-bar-step-label-active':
-                  listOfAllSurveyCollect.length > 0
-              }"
-              class="sm-survey-progress-bar-step-label wds-display-none wds-display-sm-block"
-            >
+              [ngClass]="{'sm-survey-progress-bar-step-label-active': listOfAllSurveyCollect.length > 0}"
+              class="sm-survey-progress-bar-step-label wds-display-none wds-display-sm-block">
               {{ 'default.layout.GO_TO_COLLECT' | translate | uppercase }}
             </span>
           </div>
           <div class="sm-survey-progress-bar-path"></div>
-          <div
-            data-testid="SurveyProgressBar_Step"
-            class="sm-survey-progress-bar-step"
-          >
+          <div data-testid="SurveyProgressBar_Step" class="sm-survey-progress-bar-step">
             <div
-              [ngClass]="{
-                'sm-survey-progress-bar-step-circle-active':
-                  surveyFormDetail?.response > 0
-              }"
-              class="sm-survey-progress-bar-step-circle"
-            >
-              <svg
-                class="wds-icon-svg"
-                preserveAspectRatio="xMidYMid meet"
-                viewBox="0 0 16 16"
-                aria-label="ChartBarVert"
-                title="ChartBarVert"
+              [ngClass]="{'sm-survey-progress-bar-step-circle-active': surveyFormDetail?.response > 0}"
+              class="sm-survey-progress-bar-step-circle">
+              <svg class="wds-icon-svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16" aria-label="ChartBarVert" title="ChartBarVert"
               >
                 <g>
-                  <path
-                    d="m15.0185 14.1387h-1.2744v-12.9776a.7.7 0 0 0 -.7-.7h-3.3625a.7.7 0 0 0 -.7.7v1.6055h-2.6632a.7.7 0 0 0 -.7.7v4.3654h-2.6624a.7.7 0 0 0 -.7.7v5.6065h-1.2746a.7.7 0 0 0 0 1.4h14.0372a.7.7 0 1 0 0-1.4zm-4.6367-12.2774h1.9619v12.2764h-1.9619zm-3.3633 2.3057h1.9629v9.9707h-1.9629zm-3.3623 5.0654h1.962v4.9053h-1.962z"
-                  ></path>
+                  <path d="m15.0185 14.1387h-1.2744v-12.9776a.7.7 0 0 0 -.7-.7h-3.3625a.7.7 0 0 0 -.7.7v1.6055h-2.6632a.7.7 0 0 0 -.7.7v4.3654h-2.6624a.7.7 0 0 0 -.7.7v5.6065h-1.2746a.7.7 0 0 0 0 1.4h14.0372a.7.7 0 1 0 0-1.4zm-4.6367-12.2774h1.9619v12.2764h-1.9619zm-3.3633 2.3057h1.9629v9.9707h-1.9629zm-3.3623 5.0654h1.962v4.9053h-1.962z"></path>
                 </g>
               </svg>
             </div>
-            <span
-              [ngClass]="{
-                'sm-survey-progress-bar-step-label-active':
-                  surveyFormDetail?.response > 0
-              }"
-              class="sm-survey-progress-bar-step-label wds-display-none wds-display-sm-block"
-            >
-              {{
-                'default.layout.ANALYZE_YOUR_RESULTS' | translate | uppercase
-              }}
+            <span [ngClass]="{'sm-survey-progress-bar-step-label-active': surveyFormDetail?.response > 0 }" class="sm-survey-progress-bar-step-label wds-display-none wds-display-sm-block">
+              {{'default.layout.ANALYZE_YOUR_RESULTS' | translate | uppercase}}
             </span>
           </div>
         </div>
@@ -121,19 +58,17 @@
 <div class="summary-grid">
   <div class="row">
     <div class="col-6 col-md-3">
-      <div class="summary-card-title" translate>
-        default.layout.SURVEY_DESIGN
-      </div>
+      <div class="summary-card-title" translate>default.layout.SURVEY_DESIGN</div>
       <div class="card">
         <div class="item-summary">
           <div class="survey-info-header">
             <div class="survey-info-header-title card-title">
               {{ surveyFormDetail?.title }}
             </div>
-            <span class="type-body-sm"
-              >{{ 'default.layout.CREATED_ON' | translate }}
-              {{ surveyFormDetail?.createdAt | date: 'dd/MM/yyyy' }}</span
-            >
+            <span class="type-body-sm">
+              {{ 'default.layout.CREATED_ON' | translate }}
+              {{ surveyFormDetail?.createdAt | date: 'dd/MM/yyyy' }}
+            </span>
           </div>
           <div class="survey-info-stats w-100">
             <div class="survey-info-stats-cell w-50">
@@ -159,74 +94,47 @@
           </div>
         </div>
         <div class="item-text">
-          <span class="text-sm"
-            ><span
-              >{{ 'default.layout.SURVEY_LANGUAGE' | translate }}:
-              <b>English</b></span
-            ></span
-          >
+          <span class="text-sm"><span>{{ 'default.layout.SURVEY_LANGUAGE' | translate }}:<b>English</b></span></span>
         </div>
         <div class="item-text">
-          <span class="text-sm"
-            ><span>
-              {{ 'default.layout.THEME' | translate }}: <b>Simple</b></span
-            ></span
-          >
+          <span class="text-sm"><span>{{ 'default.layout.THEME' | translate }}: <b>Simple</b></span></span>
         </div>
         <div class="item-action">
           <ul *ngIf="surveyFormDetail" class="action-list">
             <li class="action-list-item">
-              <a
-                [routerLink]="['/create', 'design-survey', surveyFormDetail.id]"
-                class="action-item"
-              >
+              <a [routerLink]="['/create', 'design-survey', surveyFormDetail.id]" class="action-item">
                 <div class="addon">
                   <i class="fa fa-pencil-square-o"></i>
                 </div>
                 <span class="item-label">
-                  {{
-                    'default.layout.EDIT_DESIGN' | translate | uppercase
-                  }}</span
-                >
+                  {{ 'default.layout.EDIT_DESIGN' | translate | uppercase }}
+                </span>
               </a>
             </li>
             <li class="action-list-item">
-              <a
-                [routerLink]="['/create', 'preview-score', surveyFormDetail.id]"
-                class="action-item"
-              >
+              <a [routerLink]="['/create', 'preview-score', surveyFormDetail.id]" class="action-item">
                 <div class="addon">
                   <i class="fa fa-link"></i>
                 </div>
                 <span class="item-label">
-                  {{
-                    'default.layout.PREVIEW_SURVEY' | translate | uppercase
-                  }}</span
-                >
+                  {{ 'default.layout.PREVIEW_SURVEY' | translate | uppercase }}
+                </span>
               </a>
             </li>
           </ul>
         </div>
       </div>
-      <div class="summary-card-title">
-        {{ 'default.layout.DID_YOU_KNOW' | translate }}?
-      </div>
+      <div class="summary-card-title">{{ 'default.layout.DID_YOU_KNOW' | translate }}?</div>
       <div class="card">
         <div class="mod-body">
           <div class="ucs-img-wrapper">
             <a href="#">
-              <img
-                src="https://cdn.smassets.net/assets/usercontentsvc/usercontentsvc/200.18.0/assets/UCS_Survey_Summary_BM_withoutBQ.svg"
-                class="ucs-benchmarks-img-no-bq"
-              />
+              <img src="https://cdn.smassets.net/assets/usercontentsvc/usercontentsvc/200.18.0/assets/UCS_Survey_Summary_BM_withoutBQ.svg" class="ucs-benchmarks-img-no-bq"/>
             </a>
           </div>
           <div class="ucs-description">
             <p>
-              {{
-                'default.layout.BENCHMARKS_ALLOWS_YOU_TO_COMPARE_YOUR_RESULTS_TO_INDUSTRY_LEADERS_AND_GET_THE_CONTEXT_YOU_NEED_TO'
-                  | translate
-              }}:
+              {{ 'default.layout.BENCHMARKS_ALLOWS_YOU_TO_COMPARE_YOUR_RESULTS_TO_INDUSTRY_LEADERS_AND_GET_THE_CONTEXT_YOU_NEED_TO'| translate}}:
             </p>
           </div>
           <div class="ucs-footer">
@@ -240,9 +148,7 @@
     <div class="col-6 col-md-9">
       <div class="row">
         <div class="col-md-6">
-          <div class="summary-card-title inline-block" translate>
-            default.layout.RESPONSES_AND_STATUS
-          </div>
+          <div class="summary-card-title inline-block" translate>default.layout.RESPONSES_AND_STATUS</div>
         </div>
         <div class="col-md-6">
           <button
@@ -250,61 +156,46 @@
             [routerLink]="['/create', 'analyze-results', surveyFormDetail.id]"
             class="btn-analyze-result"
             nz-button
-            nzType="primary"
-          >
-            {{ 'default.layout.ANALYZE_RESULTS' | translate | uppercase }}
+            nzType="primary">
+             {{ 'default.layout.ANALYZE_RESULTS' | translate | uppercase }}
           </button>
         </div>
       </div>
       <div class="row">
         <div class="sm-mt-12 col-sm-6 col-md-4">
           <nz-card>
-            <span
-              >{{ 'default.layout.TOTAL_RESPONSES' | translate | uppercase }}
-            </span>
+            <span>{{ 'default.layout.TOTAL_RESPONSES' | translate | uppercase }}</span>
             <div class="summary-card-title">
-              <a class="status-card-response-count" href="#">{{
-                surveyFormDetail?.response ? surveyFormDetail?.response : 0
-              }}</a>
+              <a class="status-card-response-count" href="#">{{surveyFormDetail?.response ? surveyFormDetail?.response : 0 }}</a>
             </div>
           </nz-card>
         </div>
         <div class="sm-mt-12 col-sm-6 col-md-4">
           <nz-card>
             <div class="item-label-container">
-              <span class="item-label-text"
-                >{{ 'default.layout.SURVEY_STATUS' | translate | uppercase }}
+              <span class="item-label-text">{{ 'default.layout.SURVEY_STATUS' | translate | uppercase }}
               </span>
               <nz-badge
                 class="indicator-draft"
-                [nzColor]="
-                  surveyFormDetail?.status === 'DRAFT' ? '#f05b24' : '#00bf6f'
-                "
+                [nzColor]="surveyFormDetail?.status === 'DRAFT' ? '#f05b24' : '#00bf6f'"
               ></nz-badge>
             </div>
             <div class="summary-card-title">
               <a
                 class="overall-status"
-                [ngClass]="
-                  surveyFormDetail?.status === 'DRAFT'
-                    ? 'status-draft'
-                    : 'status-open'
-                "
-                href="#"
-                >{{ surveyFormDetail?.status }}</a
-              >
+                [ngClass]="surveyFormDetail?.status === 'DRAFT' ? 'status-draft' : 'status-open'">
+                {{ surveyFormDetail?.status }}
+              </a>
             </div>
           </nz-card>
         </div>
         <div class="sm-mt-12 col-sm-12 col-md-4">
           <nz-card>
-            <span
-              >{{ 'default.layout.NOTIFICATIONS' | translate | uppercase }}
-            </span>
+            <span>{{ 'default.layout.NOTIFICATIONS' | translate | uppercase }}</span>
             <div class="response-alerts-status">
               <div class="response-alerts-status-text">Only you</div>
               <span class="popout-clickable">
-                <a href="">Edit</a>
+                <a >Edit</a>
               </span>
             </div>
           </nz-card>
@@ -312,9 +203,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="summary-card-title" translate>
-            default.layout.COLLECTORS
-          </div>
+          <div class="summary-card-title" translate>default.layout.COLLECTORS</div>
           <ng-container *ngFor="let collect of listOfAllSurveyCollect">
             <div class="card collector-card">
               <div class="card-body">
@@ -322,12 +211,8 @@
                   <div class="responses-count">{{ collect.response }}</div>
                   <div class="responses-label">
                     <span class="responses-label-title">
-                      <span
-                        >{{
-                          'default.layout.RESPONSES' | translate | uppercase
-                        }}
-                        <br />
-                        {{ 'default.layout.COLLECTED' | translate }}
+                      <span>{{'default.layout.RESPONSES' | translate | uppercase}}
+                        <br />{{ 'default.layout.COLLECTED' | translate }}
                       </span>
                     </span>
                   </div>
@@ -337,36 +222,29 @@
                     <a href="">{{ collect.name }}</a>
                   </div>
                   <div class="collector-date-created">
-                    <span class="collector-date-created-title"
-                      >{{ 'default.layout.CREATED' | translate }}:
-                      {{ collect.createdAt | date: 'yyyy-MM-dd' }}</span
-                    >
+                    <span class="collector-date-created-title">
+                      {{ 'default.layout.CREATED' | translate }}:
+                      {{ collect.createdAt | date: 'yyyy-MM-dd' }}
+                    </span>
                   </div>
                 </div>
                 <div class="card-status">
                   <span
                     [ngClass]="collect.status === 'OPEN' ? 'open' : 'closed'"
-                    class="status-badge-primary"
-                    >{{ collect.status }}</span
-                  >
+                    class="status-badge-primary">
+                    {{ collect.status }}
+                  </span>
                 </div>
               </div>
             </div>
           </ng-container>
-          <ng-container
-            *ngIf="listOfAllSurveyCollect.length > 0; else createCollectorTpl"
-          >
+          <ng-container *ngIf="listOfAllSurveyCollect.length > 0; else createCollectorTpl">
             <button
               *ngIf="surveyFormDetail"
-              [routerLink]="[
-                '/create',
-                'collector-responses',
-                surveyFormDetail.id
-              ]"
+              [routerLink]="['/create', 'collector-responses', surveyFormDetail.id]"
               nz-button
               nzType="link"
-              class="wds-button-text"
-            >
+              class="wds-button-text">
               {{ 'default.layout.VIEW_MORE' | translate }}
             </button>
           </ng-container>
@@ -377,19 +255,10 @@
               <div class="button-holder">
                 <button
                   *ngIf="surveyFormDetail"
-                  [routerLink]="[
-                    '/create',
-                    'collector-responses',
-                    surveyFormDetail.id
-                  ]"
+                  [routerLink]="['/create', 'collector-responses', surveyFormDetail.id]"
                   nz-button
-                  nzType="primary"
-                >
-                  {{
-                    'default.layout.CREATE_SURVEY_COLLECTOR'
-                      | translate
-                      | uppercase
-                  }}
+                  nzType="primary">
+                  {{ 'default.layout.CREATE_SURVEY_COLLECTOR' | translate | uppercase}}
                 </button>
               </div>
             </div>

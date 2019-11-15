@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  SurveyCollector,
-  DSurveyCollectorService,
-  IValidators
-} from '@app/core';
+import { SurveyCollector, DSurveyCollectorService, IValidators } from '@app/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,7 +22,7 @@ export class CloseCollectorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dSurveyCollectorService: DSurveyCollectorService,
     private modalService: NzModalService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.buildForm();
@@ -43,13 +39,11 @@ export class CloseCollectorComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      closedMessage: [
-        '',
-        [
-          Validators.required,
-          Validators.maxLength(2000),
-          IValidators.spaceStringValidator()
-        ]
+      closedMessage: ['', [
+        Validators.required,
+        Validators.maxLength(2000),
+        IValidators.spaceStringValidator()
+      ]
       ]
     });
   }
@@ -59,9 +53,7 @@ export class CloseCollectorComponent implements OnInit {
       return;
     }
     this.form.patchValue({
-      closedMessage:
-        this.surveyCollectorClose.closedMessage ||
-        this.translateService.instant('default.layout.DEFAULT_CLOSED_MESSAGE')
+      closedMessage: this.surveyCollectorClose.closedMessage || this.translateService.instant('default.layout.DEFAULT_CLOSED_MESSAGE')
     });
   }
 
@@ -80,35 +72,30 @@ export class CloseCollectorComponent implements OnInit {
     const dataUpdate = Object.assign(formData.value, {
       status: 'CLOSED'
     });
-    this.dSurveyCollectorService
-      .updateSurveyCollector(this.surveyCollectorClose.id, dataUpdate)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.nzMessageService.success(
-              this.translateService.instant(res.status.message)
-            );
-            this.surveyCollectorClose = Object.assign(
-              this.surveyCollectorClose,
-              dataUpdate
-            );
-            this.modalService.closeAll();
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.buttonLoading = false;
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-          this.modalService.closeAll();
-        },
-        () => {
-          this.loaderService.display(false);
-          this.buttonLoading = false;
-          this.modalService.closeAll();
-        }
+    this.dSurveyCollectorService.updateSurveyCollector(this.surveyCollectorClose.id, dataUpdate).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+        this.surveyCollectorClose = Object.assign(
+          this.surveyCollectorClose,
+          dataUpdate
+        );
+        this.modalService.closeAll();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.buttonLoading = false;
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+      this.modalService.closeAll();
+    }, () => {
+      this.loaderService.display(false);
+      this.buttonLoading = false;
+      this.modalService.closeAll();
+    }
+    );
   }
 
   onCancel() {

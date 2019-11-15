@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  AfterViewInit
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { ModalCreateSurveyComponent } from '@app/shared/modals/modal-create-survey/modal-create-survey.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,9 +13,7 @@ type CreateType = 'past' | 'scratch' | 'template';
   styleUrls: ['./create-survey.component.scss', './styles/style.scss']
 })
 export class CreateSurveyComponent implements OnInit, AfterViewInit {
-  @ViewChild('inputSearchPast', { static: false }) inputSearchPast: ElementRef<
-    any
-  >;
+  @ViewChild('inputSearchPast', { static: false }) inputSearchPast: ElementRef<any>;
   createType: CreateType = 'past';
   modalForm: NzModalRef;
   searchPastValue: string;
@@ -29,19 +21,17 @@ export class CreateSurveyComponent implements OnInit, AfterViewInit {
   constructor(
     private modalService: NzModalService,
     private translateService: TranslateService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
   ngAfterViewInit() {
-    fromEvent(this.inputSearchPast.nativeElement, 'keyup')
-      .pipe(
-        debounceTime(250),
-        distinctUntilChanged(),
-        tap((event: KeyboardEvent) => {
-          this.searchPastValue = this.inputSearchPast.nativeElement.value;
-        })
-      )
-      .subscribe();
+    fromEvent(this.inputSearchPast.nativeElement, 'keyup').pipe(
+      debounceTime(250),
+      distinctUntilChanged(),
+      tap((event: KeyboardEvent) => {
+        this.searchPastValue = this.inputSearchPast.nativeElement.value;
+      })
+    ).subscribe();
   }
   changeCreateType(type: CreateType) {
     this.createType = type;

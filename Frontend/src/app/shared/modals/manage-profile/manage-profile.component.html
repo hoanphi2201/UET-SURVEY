@@ -1,10 +1,5 @@
 <div class="modal-body-title">
-  {{
-    (current === 0
-      ? 'default.layout.TELL_US_ABOUT_YOURSELF_SO_WE_CAN_PERSONALIZE_YOUR_EXPERIENCE'
-      : 'default.layout.TELL_US_ABOUT_YOUR_JOB_TO_KNOW_HOW_MANY_RESPONSES_TO_EXPECT')
-      | translate
-  }}
+  {{ (current === 0 ? 'default.layout.TELL_US_ABOUT_YOURSELF_SO_WE_CAN_PERSONALIZE_YOUR_EXPERIENCE' : 'default.layout.TELL_US_ABOUT_YOUR_JOB_TO_KNOW_HOW_MANY_RESPONSES_TO_EXPECT') | translate}}
 </div>
 <div class="inner-modal-body">
   <nz-steps [nzCurrent]="current">
@@ -23,118 +18,62 @@
         <div nz-row nzGutter="16">
           <div nz-col nzXl="12" nzMd="12" nzSm="24">
             <nz-form-item>
-              <nz-form-label>{{
-                'default.layout.FIRST_NAME' | translate
-              }}</nz-form-label>
-              <nz-form-control
-                [ngClass]="{
-                  'has-error': isFieldValid(formProfile, 'firstName')
-                }"
-              >
+              <nz-form-label>{{ 'default.layout.FIRST_NAME' | translate }}</nz-form-label>
+              <nz-form-control [ngClass]="{ 'has-error': isFieldValid(formProfile, 'firstName') }" >
                 <input
                   formControlName="firstName"
                   nz-input
-                  [placeholder]="'default.layout.ENTER_FIRSTNAME' | translate"
-                />
+                  [placeholder]="'default.layout.ENTER_FIRSTNAME' | translate" />
               </nz-form-control>
-              <field-error-display
-                [displayError]="isFieldValid(formProfile, 'firstName')"
-                [errors]="fP.firstName.errors"
-              ></field-error-display>
+              <field-error-display [displayError]="isFieldValid(formProfile, 'firstName')" [errors]="fP.firstName.errors"></field-error-display>
             </nz-form-item>
           </div>
           <div nz-col nzXl="12" nzMd="12" nzSm="24">
             <nz-form-item>
-              <nz-form-label>{{
-                'default.layout.LAST_NAME' | translate
-              }}</nz-form-label>
-              <nz-form-control
-                [ngClass]="{
-                  'has-error': isFieldValid(formProfile, 'lastName')
-                }"
-              >
+              <nz-form-label>{{ 'default.layout.LAST_NAME' | translate }}</nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(formProfile, 'lastName')}">
                 <input
                   formControlName="lastName"
                   nz-input
                   [placeholder]="'default.layout.ENTER_LASTNAME' | translate"
                 />
               </nz-form-control>
-              <field-error-display
-                [displayError]="isFieldValid(formProfile, 'lastName')"
-                [errors]="fP.lastName.errors"
-              ></field-error-display>
+              <field-error-display [displayError]="isFieldValid(formProfile, 'lastName')" [errors]="fP.lastName.errors"></field-error-display>
             </nz-form-item>
           </div>
         </div>
         <div nz-row nzGutter="16">
           <div nz-col nzXl="12" nzMd="12" nzSm="24">
             <nz-form-item>
-              <nz-form-label>{{
-                'default.layout.JOB_ROLE' | translate
-              }}</nz-form-label>
-              <nz-form-control
-                [ngClass]="{
-                  'has-error': isFieldValid(formProfile, 'jobRole')
-                }"
-              >
+              <nz-form-label>{{ 'default.layout.JOB_ROLE' | translate }}</nz-form-label>
+              <nz-form-control [ngClass]="{ 'has-error': isFieldValid(formProfile, 'jobRole')}">
                 <nz-select
                   nzShowSearch
                   nzAllowClear
                   [nzPlaceHolder]="'default.layout.SELECT_JOB_ROLE' | translate"
-                  formControlName="jobRole"
-                >
-                  <nz-option
-                    [nzValue]=""
-                    [nzLabel]="'default.layout.SELECT_JOB_ROLE' | translate"
-                  ></nz-option>
+                  formControlName="jobRole">
+                  <nz-option [nzValue]="" [nzLabel]="'default.layout.SELECT_JOB_ROLE' | translate"></nz-option>
                   <ng-container *ngFor="let o of listOfAllJobRole">
-                    <nz-option
-                      [nzValue]="o.value"
-                      [nzLabel]="o.viewValue"
-                    ></nz-option>
+                    <nz-option [nzValue]="o.value" [nzLabel]="o.viewValue" ></nz-option>
                   </ng-container>
                 </nz-select>
               </nz-form-control>
-              <field-error-display
-                [displayError]="isFieldValid(formProfile, 'jobRole')"
-                [errors]="fP.jobRole.errors"
-              ></field-error-display>
+              <field-error-display [displayError]="isFieldValid(formProfile, 'jobRole')" [errors]="fP.jobRole.errors"></field-error-display>
             </nz-form-item>
           </div>
           <div nz-col nzXl="12" nzMd="12" nzSm="24">
             <nz-form-item>
-              <nz-form-label>{{
-                'default.layout.JOB_LEVEL' | translate
-              }}</nz-form-label>
-              <nz-form-control
-                [ngClass]="{
-                  'has-error': isFieldValid(formProfile, 'jobLevel')
-                }"
-              >
-                <nz-select
-                  nzShowSearch
-                  nzAllowClear
-                  [nzPlaceHolder]="
-                    'default.layout.SELECT_JOB_LEVEL' | translate
-                  "
-                  formControlName="jobLevel"
-                >
-                  <nz-option
-                    [nzValue]=""
-                    [nzLabel]="'default.layout.SELECT_JOB_LEVEL' | translate"
+              <nz-form-label>{{'default.layout.JOB_LEVEL' | translate}}</nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(formProfile, 'jobLevel')}">
+                <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'default.layout.SELECT_JOB_LEVEL' | translate" formControlName="jobLevel">
+                  <nz-option [nzValue]="" [nzLabel]="'default.layout.SELECT_JOB_LEVEL' | translate"
                   ></nz-option>
                   <ng-container *ngFor="let o of listOfAllJobLevel">
-                    <nz-option
-                      [nzValue]="o.value"
-                      [nzLabel]="o.viewValue"
-                    ></nz-option>
+                    <nz-option [nzValue]="o.value" [nzLabel]="o.viewValue"  ></nz-option>
                   </ng-container>
                 </nz-select>
               </nz-form-control>
-              <field-error-display
-                [displayError]="isFieldValid(formProfile, 'jobLevel')"
-                [errors]="fP.jobLevel.errors"
-              ></field-error-display>
+              <field-error-display [displayError]="isFieldValid(formProfile, 'jobLevel')" [errors]="fP.jobLevel.errors"></field-error-display>
             </nz-form-item>
           </div>
         </div>
@@ -146,79 +85,30 @@
         <div nz-row nzGutter="16">
           <div nz-col nzXl="12" nzMd="12" nzSm="24">
             <nz-form-item>
-              <nz-form-label>{{
-                'default.layout.ORGANIZATION_TYPE' | translate
-              }}</nz-form-label>
-              <nz-form-control
-                [ngClass]="{
-                  'has-error': isFieldValid(
-                    formOrganization,
-                    'organizationType'
-                  )
-                }"
-              >
-                <nz-select
-                  nzShowSearch
-                  nzAllowClear
-                  [nzPlaceHolder]="
-                    'default.layout.SELECT_ORGANIZATION_TYPE' | translate
-                  "
-                  formControlName="organizationType"
-                >
-                  <nz-option
-                    [nzValue]=""
-                    [nzLabel]="
-                      'default.layout.SELECT_ORGANIZATION_TYPE' | translate
-                    "
-                  ></nz-option>
+              <nz-form-label>{{'default.layout.ORGANIZATION_TYPE' | translate}}</nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(formOrganization, 'organizationType')}">
+                <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'default.layout.SELECT_ORGANIZATION_TYPE' | translate" formControlName="organizationType">
+                  <nz-option [nzValue]="" [nzLabel]="'default.layout.SELECT_ORGANIZATION_TYPE' | translate"></nz-option>
                   <ng-container *ngFor="let o of listOfAllOrganizationType">
-                    <nz-option
-                      [nzValue]="o.value"
-                      [nzLabel]="o.viewValue"
-                    ></nz-option>
+                    <nz-option [nzValue]="o.value" [nzLabel]="o.viewValue"></nz-option>
                   </ng-container>
                 </nz-select>
               </nz-form-control>
-              <field-error-display
-                [displayError]="
-                  isFieldValid(formOrganization, 'organizationType')
-                "
-                [errors]="fO.organizationType.errors"
-              ></field-error-display>
+              <field-error-display [displayError]="isFieldValid(formOrganization, 'organizationType')" [errors]="fO.organizationType.errors"></field-error-display>
             </nz-form-item>
           </div>
           <div nz-col nzXl="12" nzMd="12" nzSm="24">
             <nz-form-item>
-              <nz-form-label>{{
-                'default.layout.INDUSTRY' | translate
-              }}</nz-form-label>
-              <nz-form-control
-                [ngClass]="{
-                  'has-error': isFieldValid(formOrganization, 'industry')
-                }"
-              >
-                <nz-select
-                  nzShowSearch
-                  nzAllowClear
-                  [nzPlaceHolder]="'default.layout.SELECT_INDUSTRY' | translate"
-                  formControlName="industry"
-                >
-                  <nz-option
-                    [nzValue]=""
-                    [nzLabel]="'default.layout.SELECT_INDUSTRY' | translate"
-                  ></nz-option>
+              <nz-form-label>{{ 'default.layout.INDUSTRY' | translate }}</nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(formOrganization, 'industry')}">
+                <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'default.layout.SELECT_INDUSTRY' | translate" formControlName="industry">
+                  <nz-option [nzValue]="" [nzLabel]="'default.layout.SELECT_INDUSTRY' | translate"></nz-option>
                   <ng-container *ngFor="let o of listOfAllIndustry">
-                    <nz-option
-                      [nzValue]="o.value"
-                      [nzLabel]="o.viewValue"
-                    ></nz-option>
+                    <nz-option [nzValue]="o.value" [nzLabel]="o.viewValue"></nz-option>
                   </ng-container>
                 </nz-select>
               </nz-form-control>
-              <field-error-display
-                [displayError]="isFieldValid(formOrganization, 'industry')"
-                [errors]="fO.industry.errors"
-              ></field-error-display>
+              <field-error-display [displayError]="isFieldValid(formOrganization, 'industry')" [errors]="fO.industry.errors"></field-error-display>
             </nz-form-item>
           </div>
         </div>
@@ -226,28 +116,11 @@
         <div nz-row nzGutter="16">
           <div nz-col nzXl="12" nzMd="12" nzSm="24">
             <nz-form-item>
-              <nz-form-label>{{
-                'default.layout.LOCATION' | translate
-              }}</nz-form-label>
-              <nz-form-control
-                [ngClass]="{
-                  'has-error': isFieldValid(formOrganization, 'location')
-                }"
-              >
-                <nz-select
-                  nzShowSearch
-                  nzAllowClear
-                  [nzPlaceHolder]="'default.layout.SELECT_LOCATION' | translate"
-                  formControlName="location"
-                  [nzServerSearch]="true"
-                  (nzOnSearch)="onSearch($event)"
-                >
+              <nz-form-label>{{'default.layout.LOCATION' | translate}}</nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(formOrganization, 'location')}">
+                <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'default.layout.SELECT_LOCATION' | translate" formControlName="location" [nzServerSearch]="true" (nzOnSearch)="onSearch($event)">
                   <ng-container *ngFor="let o of listOfAllLocation">
-                    <nz-option
-                      *ngIf="!isLoading"
-                      [nzValue]="o.id"
-                      [nzLabel]="o.name"
-                    ></nz-option>
+                    <nz-option *ngIf="!isLoading" [nzValue]="o.id" [nzLabel]="o.name"></nz-option>
                   </ng-container>
                   <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
                     <i nz-icon nzType="loading" class="loading-icon"></i>
@@ -255,44 +128,21 @@
                   </nz-option>
                 </nz-select>
               </nz-form-control>
-              <field-error-display
-                [displayError]="isFieldValid(formOrganization, 'location')"
-                [errors]="fO.location.errors"
-              ></field-error-display>
+              <field-error-display [displayError]="isFieldValid(formOrganization, 'location')" [errors]="fO.location.errors"></field-error-display>
             </nz-form-item>
           </div>
           <div nz-col nzXl="12" nzMd="12" nzSm="24">
             <nz-form-item>
-              <nz-form-label>{{
-                'default.layout.SIZE' | translate
-              }}</nz-form-label>
-              <nz-form-control
-                [ngClass]="{
-                  'has-error': isFieldValid(formOrganization, 'size')
-                }"
-              >
-                <nz-select
-                  nzShowSearch
-                  nzAllowClear
-                  [nzPlaceHolder]="'default.layout.SELECT_SIZE' | translate"
-                  formControlName="size"
-                >
-                  <nz-option
-                    [nzValue]=""
-                    [nzLabel]="'default.layout.SELECT_SIZE' | translate"
-                  ></nz-option>
+              <nz-form-label>{{ 'default.layout.SIZE' | translate }}</nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(formOrganization, 'size')}">
+                <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'default.layout.SELECT_SIZE' | translate" formControlName="size">
+                  <nz-option [nzValue]="" [nzLabel]="'default.layout.SELECT_SIZE' | translate"></nz-option>
                   <ng-container *ngFor="let o of listOfAllSize">
-                    <nz-option
-                      [nzValue]="o.value"
-                      [nzLabel]="o.viewValue"
-                    ></nz-option>
+                    <nz-option [nzValue]="o.value" [nzLabel]="o.viewValue"></nz-option>
                   </ng-container>
                 </nz-select>
               </nz-form-control>
-              <field-error-display
-                [displayError]="isFieldValid(formOrganization, 'size')"
-                [errors]="fO.size.errors"
-              ></field-error-display>
+              <field-error-display [displayError]="isFieldValid(formOrganization, 'size')" [errors]="fO.size.errors"></field-error-display>
             </nz-form-item>
           </div>
         </div>

@@ -3,28 +3,17 @@
     <div nz-row nzGutter="24">
       <div nz-col nzSpan="24">
         <nz-form-item>
-          <nz-form-label>{{
-            'default.layout.COLLECTOR_NICKNAME' | translate
-          }}</nz-form-label>
-          <nz-form-control
-            [ngClass]="{ 'has-error': isFieldValid(form, 'name') }"
-          >
+          <nz-form-label>{{'default.layout.COLLECTOR_NICKNAME' | translate}}</nz-form-label>
+          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(form, 'name') }">
             <input
               formControlName="name"
               nz-input
-              [placeholder]="
-                'default.layout.ENTER_COLLECTOR_NICKNAME' | translate
-              "
-            />
+              [placeholder]="'default.layout.ENTER_COLLECTOR_NICKNAME' | translate"/>
           </nz-form-control>
           <p class="char-limit wds-type-product-ui wds-type-weight-regular">
             ({{ 'default.layout.MAXIMUM_100_CHARACTERS' | translate }})
           </p>
-          <field-error-display
-            [displayError]="isFieldValid(form, 'name')"
-            [errors]="f.name.errors"
-          >
-          </field-error-display>
+          <field-error-display [displayError]="isFieldValid(form, 'name')" [errors]="f.name.errors"></field-error-display>
         </nz-form-item>
       </div>
     </div>
@@ -35,12 +24,7 @@
   <button (click)="onCancel(form)" nz-button nzType="default">
     <span translate>default.layout.CANCEL</span>
   </button>
-  <button
-    (click)="onSaveSurveyCollector(form)"
-    nz-button
-    nzType="primary"
-    [nzLoading]="buttonLoading"
-  >
+  <button (click)="onSaveSurveyCollector(form)" nz-button nzType="primary" [nzLoading]="buttonLoading">
     <span translate>default.layout.SAVE</span>
   </button>
 </div>

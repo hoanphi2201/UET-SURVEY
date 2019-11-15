@@ -3,22 +3,11 @@
     <div id="left-space"></div>
     <div id="mid-space">
       <div class="collectors clearfix">
-        <ng-container
-          *ngIf="listOfAllSurveyCollect?.length > 0; else noCollectResponsesTpl"
-        >
+        <ng-container *ngIf="listOfAllSurveyCollect?.length > 0; else noCollectResponsesTpl">
           <div class="add-collector">
-            <h1 class="wds-type-section-title" translate>
-              default.layout.SURVEY_COLLECTORS
-            </h1>
+            <h1 class="wds-type-section-title" translate>default.layout.SURVEY_COLLECTORS</h1>
             <div class="btn-menu wds-button-group">
-              <button
-                [nzTrigger]="'click'"
-                [nzDropdownMenu]="menuCollectorType"
-                [nzPlacement]="'bottomCenter'"
-                nz-dropdown
-                nz-button
-                nzType="primary"
-              >
+              <button [nzTrigger]="'click'" [nzDropdownMenu]="menuCollectorType" [nzPlacement]="'bottomCenter'" nz-dropdown nz-button nzType="primary">
                 {{ 'default.layout.ADD_NEW_COLLECTOR' | translate }}
                 <i nz-icon nzType="caret-down" nzTheme="outline"></i>
               </button>
@@ -67,22 +56,18 @@
                     (nzPageIndexChange)="pageIndexChange($event)"
                     (nzPageSizeChange)="pageSizeChange($event)"
                     [nzBordered]="true"
-                    [nzTitle]="titleTemplate"
-                  >
+                    [nzTitle]="titleTemplate">
                     <thead (nzSortChange)="sort($event)" nzSingleSort>
                       <tr *ngIf="columns.length > 0">
-                        <th>
-                          {{
-                            'default.layout.TABLE_NO' | translate | uppercase
-                          }}
+                        <th>{{'default.layout.TABLE_NO' | translate | uppercase}}
                         </th>
                         <th
                           *ngIf="showMoveToFolder"
                           nzShowCheckbox
                           [(nzChecked)]="isAllDisplayDataChecked"
                           (nzCheckedChange)="checkAll($event)"
-                          [nzIndeterminate]="isIndeterminate"
-                        ></th>
+                          [nzIndeterminate]="isIndeterminate">
+                        </th>
                         <ng-container *ngFor="let column of columns">
                           <th
                             [nzAlign]="'center'"
@@ -92,11 +77,8 @@
                             [nzSortKey]="column.id"
                             [nzShowFilter]="column.filter"
                             [nzFilters]="column.filter ? column.filter : []"
-                            (nzFilterChange)="
-                              filter($event, column.filterKey || column.id)
-                            "
-                          >
-                            {{ column.header | translate | uppercase }}
+                            (nzFilterChange)="filter($event, column.filterKey || column.id)">
+                              {{ column.header | translate | uppercase }}
                             <i
                               *ngIf="column.search"
                               class="ant-table-filter-icon"
@@ -110,13 +92,11 @@
                               nzPlacement="bottomRight"
                               [nzClickHide]="false"
                               nzTableFilter
-                              (click)="filter.searchKey = column.id"
-                            ></i>
+                              (click)="filter.searchKey = column.id">
+                            </i>
                           </th>
                         </ng-container>
-                        <th *ngIf="!showMoveToFolder" [nzAlign]="'center'">
-                          {{ 'default.layout.MORE' | translate | uppercase }}
-                        </th>
+                        <th *ngIf="!showMoveToFolder" [nzAlign]="'center'">{{ 'default.layout.MORE' | translate | uppercase }}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -127,26 +107,18 @@
                           nzShowCheckbox
                           [(nzChecked)]="mapOfCheckedId[data.id]"
                           [nzDisabled]="data.disabled"
-                          (nzCheckedChange)="checkItem(data.id, $event)"
-                        ></td>
+                          (nzCheckedChange)="checkItem(data.id, $event)">
+                        </td>
                         <ng-container *ngFor="let column of columns">
-                          <td
-                            [nzAlign]="'center'"
-                            [ngClass]="column.className"
-                            *ngIf="!column.hidden"
-                          >
+                          <td [nzAlign]="'center'" [ngClass]="column.className" *ngIf="!column.hidden">
                             <ng-container [ngSwitch]="column.type">
                               <ng-container *ngSwitchCase="'text'">
                                 <div
                                   *ngIf="data[column.id].length > 20"
                                   [nzTooltipTitle]="data[column.id]"
                                   nzTooltipPlacement="top"
-                                  nz-tooltip
-                                >
-                                  <a
-                                    *ngIf="column.action"
-                                    routerLink="column.action.link(data.id)"
-                                  >
+                                  nz-tooltip>
+                                  <a *ngIf="column.action" routerLink="column.action.link(data.id)">
                                     {{ data[column.id] | summary }}
                                   </a>
                                   <ng-container *ngIf="!column.action">
@@ -154,10 +126,7 @@
                                   </ng-container>
                                 </div>
                                 <div *ngIf="data[column.id].length <= 20">
-                                  <a
-                                    *ngIf="column.action"
-                                    [routerLink]="column.action.link(data.id)"
-                                  >
+                                  <a *ngIf="column.action" [routerLink]="column.action.link(data.id)">
                                     {{ data[column.id] | summary }}
                                   </a>
                                   <ng-container *ngIf="!column.action">
@@ -170,20 +139,14 @@
                                 </div>
                               </ng-container>
                               <ng-container *ngSwitchCase="'date'">
-                                <i
-                                  nz-icon
-                                  nzType="clock-circle"
-                                  nzTheme="outline"
-                                ></i>
+                                <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
                                 {{ data[column.id] | date: 'yyyy-MM-dd hh:mm' }}
                               </ng-container>
                               <ng-container *ngSwitchCase="'icon'">
                                 <span class="action-icon">
                                   <i
                                     nz-icon
-                                    [nzType]="
-                                      column?.action?.iconMap(data[column.id])
-                                    "
+                                    [nzType]="column?.action?.iconMap(data[column.id])"
                                     nzTheme="outline"
                                   ></i>
                                 </span>
@@ -191,124 +154,63 @@
                               <ng-container *ngSwitchCase="'status'">
                                 <span
                                   class="sm-badge sm-badge-sm"
-                                  [ngClass]="
-                                    column?.action?.classMap(data[column.id])
-                                  "
-                                >
+                                  [ngClass]="column?.action?.classMap(data[column.id])">
                                   <a
-                                    (click)="
-                                      column?.action?.doChangeStatus(
-                                        data,
-                                        data[column.id]
-                                      )
-                                    "
-                                    sm-tooltip-side="bottom"
-                                    >{{ data[column.id] }}</a
-                                  >
+                                    (click)="column?.action?.doChangeStatus(data, data[column.id])"
+                                    sm-tooltip-side="bottom">{{ data[column.id] }}
+                                  </a>
                                 </span>
                               </ng-container>
                             </ng-container>
                           </td>
                         </ng-container>
                         <td [nzAlign]="'center'">
-                          <a
-                            [nzTrigger]="'click'"
-                            [nzDropdownMenu]="menuAction"
-                            [nzPlacement]="'bottomCenter'"
-                            nz-dropdown
-                          >
-                            <i
-                              nz-icon
-                              nzType="ellipsis"
-                              nzTheme="outline"
-                              class="icon-action"
-                            ></i>
+                          <a [nzTrigger]="'click'" [nzDropdownMenu]="menuAction" [nzPlacement]="'bottomCenter'" nz-dropdown>
+                            <i nz-icon nzType="ellipsis" nzTheme="outline" class="icon-action"></i>
                           </a>
                           <nz-dropdown-menu #menuAction="nzDropdownMenu">
                             <ul nz-menu nzSelectable>
                               <li
-                                (click)="
-                                  data.status === 'OPEN'
-                                    ? showCloseCollectorModal(data)
-                                    : showOpenCollectorModal(data)
-                                "
-                                nz-menu-item
-                              >
+                                (click)="data.status === 'OPEN' ? showCloseCollectorModal(data) : showOpenCollectorModal(data)"
+                                nz-menu-item>
                                 <i
                                   nz-icon
-                                  [nzType]="
-                                    data.status === 'OPEN'
-                                      ? 'eye-invisible'
-                                      : 'eye'
-                                  "
-                                  nzTheme="outline"
-                                ></i>
-                                {{
-                                  (data.status === 'OPEN'
-                                    ? 'default.layout.CLOSE_COLLECTOR'
-                                    : 'default.layout.OPEN_COLLECTOR')
-                                    | translate
-                                }}
+                                  [nzType]="data.status === 'OPEN'? 'eye-invisible': 'eye'"
+                                  nzTheme="outline">
+                                </i>
+                                {{ (data.status === 'OPEN' ? 'default.layout.CLOSE_COLLECTOR' : 'default.layout.OPEN_COLLECTOR') | translate}}
                               </li>
                               <li
-                                [routerLink]="[
-                                  '/create',
-                                  'collector-responses',
-                                  'collector-link',
-                                  data.id
-                                ]"
-                                nz-menu-item
-                              >
+                                [routerLink]="['/create','collector-responses','collector-link',data.id]"
+                                nz-menu-item>
                                 <i nz-icon nzType="form" nzTheme="outline"></i>
-                                {{
-                                  'default.layout.EDIT_COLLECTOR' | translate
-                                }}
+                                {{ 'default.layout.EDIT_COLLECTOR' | translate}}
                               </li>
                               <li
                                 (click)="showRenameCollectorModal(data)"
-                                nz-menu-item
-                              >
+                                nz-menu-item>
                                 <i nz-icon nzType="edit" nzTheme="outline"></i>
-                                {{
-                                  'default.layout.RENAME_COLLECTOR' | translate
-                                }}
+                                {{'default.layout.RENAME_COLLECTOR' | translate}}
                               </li>
                               <li
-                                (click)="
-                                  showClearResponsesConfirm(
-                                    data,
-                                    tplContentClearResponsesCollector
-                                  )
-                                "
-                                nz-menu-item
-                              >
+                                (click)="showClearResponsesConfirm(data, tplContentClearResponsesCollector)"
+                                nz-menu-item>
                                 <i
                                   nz-icon
                                   nzType="close-circle"
-                                  nzTheme="outline"
-                                ></i>
-                                {{
-                                  'default.layout.CLEAR_ALL_RESPONSES'
-                                    | translate
-                                }}
+                                  nzTheme="outline">
+                                </i>
+                                {{ 'default.layout.CLEAR_ALL_RESPONSES' | translate}}
                               </li>
                               <li
-                                (click)="
-                                  showDeleteConfirm(
-                                    data,
-                                    tplContentDeleteCollector
-                                  )
-                                "
-                                nz-menu-item
-                              >
+                                (click)="showDeleteConfirm(data, tplContentDeleteCollector)"
+                                nz-menu-item>
                                 <i
                                   nz-icon
                                   nzType="delete"
-                                  nzTheme="outline"
-                                ></i>
-                                {{
-                                  'default.layout.DELETE_COLLECTOR' | translate
-                                }}
+                                  nzTheme="outline">
+                                </i>
+                                {{'default.layout.DELETE_COLLECTOR' | translate}}
                               </li>
                             </ul>
                           </nz-dropdown-menu>
@@ -316,9 +218,7 @@
                       </tr>
                     </tbody>
                   </nz-table>
-                  <footer
-                    class="collectors-footer wds-type-product-ui wds-type-weight-regular"
-                  >
+                  <footer class="collectors-footer wds-type-product-ui wds-type-weight-regular">
                     <b translate>default.layout.COLLECTORS</b>:
                     {{ 'default.layout.SHOWING' | translate }}
                     {{ 'default.layout.FROM' | translate }}
@@ -349,8 +249,8 @@
                     class="icon-collector"
                     nz-icon
                     nzType="mail"
-                    nzTheme="outline"
-                  ></i>
+                    nzTheme="outline">
+                  </i>
                   <h3 class="wds-type-card-title">
                     Email
                   </h3>
@@ -384,12 +284,7 @@
               </li>
               <li class="add-facebook-collector  ">
                 <a>
-                  <i
-                    class="icon-collector"
-                    nz-icon
-                    nzType="wechat"
-                    nzTheme="outline"
-                  ></i>
+                  <i class="icon-collector" nz-icon nzType="wechat" nzTheme="outline"></i>
                   <h3 class="wds-type-card-title">Facebook Messenger</h3>
                   <p>Get feedback in Messenger</p>
                 </a>

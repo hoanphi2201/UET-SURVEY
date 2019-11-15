@@ -21,7 +21,7 @@ export class PreviewCopyComponent implements OnInit {
     private modalService: NzModalService,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(userData => {
@@ -57,29 +57,24 @@ export class PreviewCopyComponent implements OnInit {
       return;
     }
     this.loaderService.display(true);
-    return this.dSurveyFormService
-      .updateSurveyForm(survey, survey.id)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.nzMessageService.success(
-              this.translateService.instant(
-                this.translateService.instant(res.status.message)
-              )
-            );
-            this.loaderService.display(false);
-          }
-        },
-        err => {
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-          this.loaderService.display(false);
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    return this.dSurveyFormService.updateSurveyForm(survey, survey.id).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(
+            this.translateService.instant(res.status.message)
+          )
+        );
+        this.loaderService.display(false);
+      }
+    }, err => {
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+      this.loaderService.display(false);
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
 
   onMakeCopy(surveyForm: SurveyForm) {
@@ -98,12 +93,10 @@ export class PreviewCopyComponent implements OnInit {
           );
           this.router.navigate(['/create', 'design-survey', res.results[0].id]);
         }
-      },
-      err => {
+      }, err => {
         this.loaderService.display(false);
         this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
+      }, () => {
         this.loaderService.display(false);
       }
     );

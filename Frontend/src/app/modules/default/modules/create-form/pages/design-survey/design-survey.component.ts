@@ -18,7 +18,7 @@ export class DesignSurveyComponent implements OnInit, OnDestroy {
     private nzMessageService: NzMessageService,
     private translateService: TranslateService,
     private dSurveyFormService: DSurveyFormService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.subscriptions.push(
@@ -46,22 +46,18 @@ export class DesignSurveyComponent implements OnInit, OnDestroy {
     this.nzMessageService.loading(
       this.translateService.instant('admin.layout.SAVING')
     );
-    return this.dSurveyFormService
-      .updateSurveyForm({ json }, this.surveyFormDetail.id)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.nzMessageService.success(
-              this.translateService.instant('admin.layout.SAVED')
-            );
-          }
-        },
-        err => {
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        }
+    return this.dSurveyFormService.updateSurveyForm({ json }, this.surveyFormDetail.id).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant('admin.layout.SAVED')
+        );
+      }
+    }, err => {
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }
+    );
   }
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());

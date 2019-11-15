@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SurveyForm, Pagging, Filter, DSurveyFormService } from '@app/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,8 +11,7 @@ import * as _ from 'lodash';
   styleUrls: ['./grid-survey.component.scss', './../../styles/style.scss']
 })
 export class GridSurveyComponent implements OnInit {
-  @Input('emptyDescription') emptyDescription: string =
-    'default.layout.NO_RECENT_SURVEYS_FOUND';
+  @Input('emptyDescription') emptyDescription: string = 'default.layout.NO_RECENT_SURVEYS_FOUND';
   @Input('listOfAllData') listOfAllData: SurveyForm[] = [];
   @Input('pagging') pagging: Pagging;
   @Input('filter') filter: Filter;
@@ -30,9 +22,9 @@ export class GridSurveyComponent implements OnInit {
     private nzMessageService: NzMessageService,
     private translateService: TranslateService,
     private loaderService: LoaderService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
   countQuestionSurvey(json: any) {
     const defaultValue = 0;
     if (!json) {
@@ -67,29 +59,24 @@ export class GridSurveyComponent implements OnInit {
       return;
     }
     this.loaderService.display(true);
-    return this.dSurveyFormService
-      .updateSurveyForm(survey, survey.id)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.nzMessageService.success(
-              this.translateService.instant(
-                this.translateService.instant(res.status.message)
-              )
-            );
-            this.loaderService.display(false);
-          }
-        },
-        err => {
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-          this.loaderService.display(false);
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    return this.dSurveyFormService.updateSurveyForm(survey, survey.id).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(
+            this.translateService.instant(res.status.message)
+          )
+        );
+        this.loaderService.display(false);
+      }
+    }, err => {
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+      this.loaderService.display(false);
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   onPreviewCopy(survey: SurveyForm) {
     if (survey) {

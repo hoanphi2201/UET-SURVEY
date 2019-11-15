@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {
-  IValidators,
-  User,
-  AuthService,
-  UserService,
-  DCityService
-} from '@app/core';
+import { IValidators, User, AuthService, UserService, DCityService } from '@app/core';
 import { Helpers } from '@app/shared/helpers';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
@@ -44,7 +38,7 @@ export class ManageProfileComponent implements OnInit {
     private dUserService: UserService,
     private dCityService: DCityService,
     private modalService: NzModalService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.buildForm();
@@ -101,8 +95,7 @@ export class ManageProfileComponent implements OnInit {
   }
   private buildForm() {
     this.formProfile = this.formBuilder.group({
-      firstName: [
-        '',
+      firstName: ['',
         [Validators.required, IValidators.spaceStringValidator()]
       ],
       lastName: ['', [Validators.required, IValidators.spaceStringValidator()]],
@@ -140,17 +133,11 @@ export class ManageProfileComponent implements OnInit {
     });
   }
   private getOrganizationValue(key: string) {
-    if (
-      key === 'location' &&
-      this.userProfile.organization &&
-      this.userProfile.organization[key]
-    ) {
+    if (key === 'location' && this.userProfile.organization && this.userProfile.organization[key]) {
       const value = this.userProfile.organization[key];
       this.setLocation$.next(value);
     }
-    return this.userProfile.organization && this.userProfile.organization[key]
-      ? this.userProfile.organization[key]
-      : null;
+    return this.userProfile.organization && this.userProfile.organization[key] ? this.userProfile.organization[key] : null;
   }
 
   get fP() {
@@ -179,29 +166,24 @@ export class ManageProfileComponent implements OnInit {
       });
       const { id: userId } = this.userProfile;
       const { userName } = this.userProfile;
-      return this.dUserService
-        .updateUser(Object.assign(formData.value, { userName }), userId)
-        .subscribe(
-          res => {
-            if (res.status.code === 200) {
-              this.authService.setCurrentUser(
-                Object.assign(this.userProfile, formData.value),
-                true
-              );
-            }
-          },
-          err => {
-            this.firstStepLoading = false;
-            this.nzMessageService.error(
-              this.translateService.instant(err.message)
-            );
-          },
-          () => {
-            this.firstStepLoading = false;
-            this.current += 1;
-            this.patchFormOrganization();
-          }
+      return this.dUserService.updateUser(Object.assign(formData.value, { userName }), userId).subscribe(res => {
+        if (res.status.code === 200) {
+          this.authService.setCurrentUser(
+            Object.assign(this.userProfile, formData.value),
+            true
+          );
+        }
+      }, err => {
+        this.firstStepLoading = false;
+        this.nzMessageService.error(
+          this.translateService.instant(err.message)
         );
+      }, () => {
+        this.firstStepLoading = false;
+        this.current += 1;
+        this.patchFormOrganization();
+      }
+      );
     }
     this.current += 1;
     this.patchFormOrganization();
@@ -218,31 +200,23 @@ export class ManageProfileComponent implements OnInit {
       });
       const { id: userId } = this.userProfile;
       const { userName } = this.userProfile;
-      return this.dUserService
-        .updateUser(
-          Object.assign({ organization: formData.value }, { userName }),
-          userId
-        )
-        .subscribe(
-          res => {
-            if (res.status.code === 200) {
-              this.authService.setCurrentUser(
-                Object.assign(this.userProfile, formData.value),
-                true
-              );
-            }
-          },
-          err => {
-            this.secondStepLoading = false;
-            this.nzMessageService.error(
-              this.translateService.instant(err.message)
-            );
-          },
-          () => {
-            this.secondStepLoading = false;
-            this.current = 2;
-          }
+      return this.dUserService.updateUser(Object.assign({ organization: formData.value }, { userName }), userId).subscribe(res => {
+        if (res.status.code === 200) {
+          this.authService.setCurrentUser(
+            Object.assign(this.userProfile, formData.value),
+            true
+          );
+        }
+      }, err => {
+        this.secondStepLoading = false;
+        this.nzMessageService.error(
+          this.translateService.instant(err.message)
         );
+      }, () => {
+        this.secondStepLoading = false;
+        this.current = 2;
+      }
+      );
     }
     this.current = 2;
   }

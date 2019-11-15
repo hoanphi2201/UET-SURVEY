@@ -1,52 +1,37 @@
 <div class="folders folder-list manage-folders-list">
-  <div
-    *ngIf="!listOfAllFolder || listOfAllFolder.length === 0"
-    class="folder no-folders"
-  >
-    <div class="bold" translate>
-      default.layout.YOU_HAVE_NO _FOLDERS
-    </div>
+  <div *ngIf="!listOfAllFolder || listOfAllFolder.length === 0" class="folder no-folders">
+    <div class="bold" translate>default.layout.YOU_HAVE_NO _FOLDERS</div>
   </div>
   <form [formGroup]="editFolderForm">
     <div
       formArrayName="folders"
       *ngFor="let group of getFormData.controls; let i = index"
-      class="folder-item"
-    >
+      class="folder-item">
       <ng-container [ngSwitch]="listOfAllFolder[i].state">
         <ng-container *ngSwitchCase="'info'">
           <div class="info">
             <span class="smf-icon">
-              <i
-                class="icon-folder"
-                nz-icon
-                [nzType]="'folder'"
-                nzTheme="outline"
-              ></i>
+              <i class="icon-folder" nz-icon [nzType]="'folder'" nzTheme="outline"></i>
             </span>
             <div class="folder-title notranslate">
               {{ listOfAllFolder[i].title }}
             </div>
             <div>
-              <span>{{ 'default.layout.SURVEYS' | translate }}: </span
-              ><span class="assign-count notranslate">{{
-                listOfAllFolder[i].totalForm
-              }}</span>
+              <span>{{ 'default.layout.SURVEYS' | translate }}: </span><span class="assign-count notranslate">
+                {{ listOfAllFolder[i].totalForm }}</span>
             </div>
             <div class="actions">
               <a
                 (click)="updateFolderState('edit', listOfAllFolder[i].id)"
                 class="edit-title"
-                translate
-                >default.layout.EDIT</a
-              >
+                translate>default.layout.EDIT
+              </a>
               <span>•</span>
               <a
                 (click)="updateFolderState('delete', listOfAllFolder[i].id)"
                 class="delete-folder"
-                translate
-                >default.layout.DELETE</a
-              >
+                translate>default.layout.DELETE
+              </a>
             </div>
           </div>
         </ng-container>
@@ -54,30 +39,17 @@
           <div class="edit-title-form">
             <form [formGroupName]="i">
               <input formControlName="title" nz-input class="folder-title" />
-              <button
-                (click)="updateFolderState('info', listOfAllFolder[i].id)"
-                nz-button
-                nzType="default"
-              >
+              <button (click)="updateFolderState('info', listOfAllFolder[i].id)" nz-button nzType="default">
                 {{ 'default.layout.CANCEL' | translate | uppercase }}
               </button>
               <button
-                [disabled]="
-                  !group.get('title').valid ||
-                  group.get('title').value === listOfAllFolder[i].title
-                "
+                [disabled]=" !group.get('title').valid || group.get('title').value === listOfAllFolder[i].title"
                 (click)="onUpDateFolder(listOfAllFolder[i].id, group)"
                 nz-button
-                nzType="primary"
-              >
+                nzType="primary">
                 {{ 'default.layout.SAVE' | translate | uppercase }}
               </button>
-              <field-error-display
-                [displayError]="
-                  !group.get('title').valid && group.get('title').dirty
-                "
-                [errors]="group.get('title').errors"
-              ></field-error-display>
+              <field-error-display [displayError]="!group.get('title').valid && group.get('title').dirty" [errors]="group.get('title').errors"></field-error-display>
             </form>
           </div>
         </ng-container>
@@ -86,30 +58,24 @@
             <div>
               <div class="bold question">
                 {{ 'default.layout.DELETE THE FOLDER' | translate }}
-                <span class="folder-title">{{ listOfAllFolder[i].title }}</span
-                >?
+                <span class="folder-title">{{ listOfAllFolder[i].title }}</span>?
               </div>
               <div class="existing-surveys-message">
-                {{
-                  'default.layout.ANY_EXISTING_SURVEYS_WILL_REMAIN_IN_ALL_SURVEYS_AND_SURVEYS_NOT_FILED'
-                    | translate
-                }}.
+                {{ 'default.layout.ANY_EXISTING_SURVEYS_WILL_REMAIN_IN_ALL_SURVEYS_AND_SURVEYS_NOT_FILED' | translate }}.
               </div>
             </div>
             <div class="buttons">
               <button
                 (click)="updateFolderState('info', listOfAllFolder[i].id)"
                 nz-button
-                nzType="default"
-              >
-                {{ 'default.layout.CANCEL' | translate | uppercase }}
+                nzType="default">
+                  {{ 'default.layout.CANCEL' | translate | uppercase }}
               </button>
               <button
                 (click)="onDeleteFolder(listOfAllFolder[i].id)"
                 nz-button
-                nzType="danger"
-              >
-                {{ 'default.layout.DELETE' | translate | uppercase }}
+                nzType="danger">
+                  {{ 'default.layout.DELETE' | translate | uppercase }}
               </button>
             </div>
           </div>
@@ -119,12 +85,7 @@
   </form>
 </div>
 <div *ngIf="!newFolder" class="buttons add-folder-button">
-  <button
-    (click)="updateNewFolder(true)"
-    class="secondary"
-    nz-button
-    nzType="default"
-  >
+  <button (click)="updateNewFolder(true)" class="secondary" nz-button nzType="default">
     + {{ 'default.layout.NEW_FOLDERS' | translate | uppercase }}
   </button>
 </div>

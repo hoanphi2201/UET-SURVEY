@@ -35,28 +35,25 @@ export class LoginComponent implements OnInit {
       this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 
   login() {
     if (this.loginForm.invalid) {
       return;
     }
     this.loaderService.display(true);
-    this.authService.login(this.loginForm.value).subscribe(
-      data => {
-        this.nzMessageService.success('Login success');
-        this.router.navigate(
-          [this.route.snapshot.queryParams.redirect || '/dashboard'],
-          { replaceUrl: true }
-        );
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(err.message);
-      },
-      () => {
-        this.loaderService.display(false);
-      }
+    this.authService.login(this.loginForm.value).subscribe(res => {
+      this.nzMessageService.success('Login success');
+      this.router.navigate(
+        [this.route.snapshot.queryParams.redirect || '/dashboard'],
+        { replaceUrl: true }
+      );
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(err.message);
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
 

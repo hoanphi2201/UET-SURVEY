@@ -3,13 +3,7 @@
     <nz-card>
       <h2 class="m-t-20 ">Sign In</h2>
       <p class="m-b-30 ">Enter your credential to get access</p>
-      <form
-        class="login-form"
-        [formGroup]="loginForm"
-        (ngSubmit)="login()"
-        novalidate
-        nz-form
-      >
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()" novalidate nz-form>
         <nz-form-item>
           <nz-form-label nzFor="userName" nzRequired> Username</nz-form-label>
           <nz-form-control>
@@ -19,21 +13,14 @@
                 formControlName="userName"
                 type="text"
                 nz-input
-                placeholder="Enter your userName"
-              />
+                placeholder="Enter your userName"/>
             </nz-input-group>
-            <ng-template #prefixUsername
-              ><i nz-icon nzType="user"></i
-            ></ng-template>
+            <ng-template #prefixUsername><i nz-icon nzType="user"></i></ng-template>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
           <nz-form-label nzFor="password" nzRequired>Password</nz-form-label>
-          <a
-            class="float-right font-size-13 p-t-10 text-muted"
-            href="#/authentication/reset-password-1"
-            >Forget Password?</a
-          >
+          <a class="float-right font-size-13 p-t-10 text-muted" href="#/authentication/reset-password-1">Forget Password?</a>
           <nz-form-control>
             <nz-input-group [nzPrefix]="prefixPassword">
               <input
@@ -42,12 +29,9 @@
                 type="password"
                 autocomplete="password"
                 nz-input
-                placeholder="Enter your password"
-              />
+                placeholder="Enter your password"/>
             </nz-input-group>
-            <ng-template #prefixPassword
-              ><i nz-icon nzType="lock"></i
-            ></ng-template>
+            <ng-template #prefixPassword><i nz-icon nzType="lock"></i></ng-template>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -57,13 +41,7 @@
                 Don't have an account?
                 <a class="small" href="#/authentication/sign-up-2"> Signup</a>
               </span>
-              <button
-                tabindex="3"
-                type="submit"
-                class="login-form-button"
-                [nzType]="'primary'"
-                nz-button
-              >
+              <button tabindex="3" type="submit" class="login-form-button" [nzType]="'primary'" nz-button>
                 Sign In
               </button>
             </div>

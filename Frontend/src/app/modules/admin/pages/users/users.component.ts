@@ -1,20 +1,6 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
-import {
-  NgForm,
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormGroupDirective
-} from '@angular/forms';
-import {
-  User,
-  UserService,
-  IValidators,
-  RoleService,
-  Role,
-  TableListColumn,
-  Pagging
-} from '@app/core';
+import { NgForm, FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { User, UserService, IValidators, RoleService, Role, TableListColumn, Pagging } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { LoaderService, WindowresizeService, Helpers } from '@app/shared';
@@ -59,7 +45,7 @@ export class UsersComponent implements OnInit, AfterContentInit {
     private roleService: RoleService,
     private formBuilder: FormBuilder,
     private windowresizeService: WindowresizeService
-  ) {}
+  ) { }
   ngOnInit() {
     this.screenWidth = window.innerWidth;
     this.windowresizeService.getSize().subscribe(size => {
@@ -78,83 +64,29 @@ export class UsersComponent implements OnInit, AfterContentInit {
     // tslint:disable-next-line:max-line-length
     this.columns = [
       { id: 'id', type: 'text', hidden: true, header: 'admin.layout.ID' },
-      {
-        id: 'firstName',
-        type: 'text',
-        sortable: true,
-        search: true,
-        header: 'admin.layout.FIRST_NAME'
-      },
-      {
-        id: 'lastName',
-        type: 'text',
-        sortable: true,
-        search: true,
-        header: 'admin.layout.LAST_NAME'
-      },
-      {
-        id: 'userName',
-        type: 'text',
-        sortable: true,
-        search: true,
-        header: 'admin.layout.USER_NAME'
-      },
-      {
-        id: 'email',
-        type: 'text',
-        hidden: true,
-        search: true,
-        header: 'admin.layout.EMAIL'
-      },
-      {
-        id: 'roleName',
-        type: 'select',
-        filter: [],
-        filterKey: 'roleId',
-        header: 'admin.layout.ROLE'
-      },
-      {
-        id: 'createdAt',
-        type: 'date',
-        sortable: true,
-        header: 'admin.layout.CREATED_AT'
-      },
-      {
-        id: 'updatedAt',
-        type: 'date',
-        sortable: true,
-        header: 'admin.layout.UPDATED_AT'
-      }
+      { id: 'firstName', type: 'text', sortable: true, search: true, header: 'admin.layout.FIRST_NAME' },
+      { id: 'lastName', type: 'text', sortable: true, search: true, header: 'admin.layout.LAST_NAME' },
+      { id: 'userName', type: 'text', sortable: true, search: true, header: 'admin.layout.USER_NAME' },
+      { id: 'email', type: 'text', hidden: true, search: true, header: 'admin.layout.EMAIL' },
+      { id: 'roleName', type: 'select', filter: [], filterKey: 'roleId', header: 'admin.layout.ROLE' },
+      { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.CREATED_AT' },
+      { id: 'updatedAt', type: 'date', sortable: true, header: 'admin.layout.UPDATED_AT' }
     ];
   }
   buildForm() {
     this.form = this.formBuilder.group(
       {
-        firstName: [
-          '',
-          [Validators.required, IValidators.spaceStringValidator()]
-        ],
-        lastName: [
-          '',
-          [Validators.required, IValidators.spaceStringValidator()]
-        ],
-        userName: [
-          '',
-          [Validators.required, IValidators.spaceStringValidator()]
-        ],
-        email: [
-          '',
-          [
-            Validators.required,
-            IValidators.emailValidator(),
-            IValidators.spaceStringValidator()
-          ]
+        firstName: ['', [Validators.required, IValidators.spaceStringValidator()]],
+        lastName: ['', [Validators.required, IValidators.spaceStringValidator()]],
+        userName: ['', [Validators.required, IValidators.spaceStringValidator()]],
+        email: ['', [
+          Validators.required,
+          IValidators.emailValidator(),
+          IValidators.spaceStringValidator()
+        ]
         ],
         roleId: ['', [Validators.required]],
-        password: [
-          '',
-          [Validators.compose([Validators.required, Validators.minLength(5)])]
-        ],
+        password: ['', [Validators.compose([Validators.required, Validators.minLength(5)])]],
         confirmPassword: ['', [Validators.compose([Validators.required])]]
       },
       {
@@ -164,67 +96,46 @@ export class UsersComponent implements OnInit, AfterContentInit {
   }
   getRoleList() {
     this.loaderService.display(true);
-    this.roleService.getAllRoleList().subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.listOfAllRole = res.results.map((o: any) => {
-            return { text: o.name, value: o.id };
-          });
-          this.mapOptionsFilter('roleId', this.listOfAllRole);
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.roleService.getAllRoleList().subscribe(res => {
+      if (res.status.code === 200) {
+        this.listOfAllRole = res.results.map((o: any) => {
+          return { text: o.name, value: o.id };
+        });
+        this.mapOptionsFilter('roleId', this.listOfAllRole);
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   mapOptionsFilter(id: string, options: any) {
-    // tslint:disable-next-line:max-line-length
-    const column = this.columns.filter(
-      col => col.filterKey === id || col.id === id
-    )[0];
+    const column = this.columns.filter(col => col.filterKey === id || col.id === id)[0];
     if (column) {
       column.filter = options;
     }
   }
   getUserList() {
     this.loaderService.display(true);
-    // tslint:disable-next-line:max-line-length
-    this.userService
-      .getUserList(
-        this.pagging.page,
-        this.pagging.pageSize,
-        this.sortField,
-        this.sortType,
-        this.searchKey,
-        this.searchValue,
-        this.filterKey,
-        JSON.stringify(this.filterValue)
-      )
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.listOfAllData = res.results.map((o: any) => {
-              return Object.assign(o, { roleName: o.role.name });
-            });
-            this.pagging.total = res.paging.total;
-            this.refreshStatus();
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    this.userService.getUserList(this.pagging.page, this.pagging.pageSize, this.sortField, this.sortType, this.searchKey, this.searchValue, this.filterKey, JSON.stringify(this.filterValue)).subscribe(res => {
+      if (res.status.code === 200) {
+        this.listOfAllData = res.results.map((o: any) => {
+          return Object.assign(o, { roleName: o.role.name });
+        });
+        this.pagging.total = res.paging.total;
+        this.refreshStatus();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   get f() {
     return this.form.controls;
@@ -258,15 +169,9 @@ export class UsersComponent implements OnInit, AfterContentInit {
     this.refreshStatus();
   }
   refreshStatus(): void {
-    this.isAllDisplayDataChecked = this.listOfAllData.every(
-      item => this.mapOfCheckedId[item.id]
-    );
-    this.isIndeterminate =
-      this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) &&
-      !this.isAllDisplayDataChecked;
-    this.numberOfChecked = this.listOfAllData.filter(
-      item => this.mapOfCheckedId[item.id]
-    ).length;
+    this.isAllDisplayDataChecked = this.listOfAllData.every(item => this.mapOfCheckedId[item.id]);
+    this.isIndeterminate = this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) && !this.isAllDisplayDataChecked;
+    this.numberOfChecked = this.listOfAllData.filter(item => this.mapOfCheckedId[item.id]).length;
   }
   checkItem(id: string, $event: any) {
     this.mapOfCheckedId[id] = $event;
@@ -318,47 +223,39 @@ export class UsersComponent implements OnInit, AfterContentInit {
       }
     });
     if (!this.editing) {
-      return this.userService.addUser(formData.value).subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.resetFormAfterSubmit(formDirective);
-            this.nzMessageService.success(
-              this.translateService.instant(res.status.message)
-            );
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
+      return this.userService.addUser(formData.value).subscribe(res => {
+        if (res.status.code === 200) {
+          this.resetFormAfterSubmit(formDirective);
+          this.nzMessageService.success(
+            this.translateService.instant(res.status.message)
           );
-        },
-        () => {
-          this.loaderService.display(false);
         }
+      }, err => {
+        this.loaderService.display(false);
+        this.nzMessageService.error(
+          this.translateService.instant(err.message)
+        );
+      }, () => {
+        this.loaderService.display(false);
+      }
       );
     }
-    return this.userService
-      .updateUser(formData.value, this.selectedEdit.id)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.resetFormAfterSubmit(formDirective);
-            this.nzMessageService.success(
-              this.translateService.instant(res.status.message)
-            );
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    return this.userService.updateUser(formData.value, this.selectedEdit.id).subscribe(res => {
+      if (res.status.code === 200) {
+        this.resetFormAfterSubmit(formDirective);
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   resetFormAfterSubmit(formDirective: FormGroupDirective) {
     this.getUserList();
@@ -371,63 +268,54 @@ export class UsersComponent implements OnInit, AfterContentInit {
   }
   onDeleteUser(userId: string) {
     this.loaderService.display(true);
-    this.userService.deleteUser(userId).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-          this.getUserList();
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.userService.deleteUser(userId).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+        this.getUserList();
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   onDeleteMultyUser() {
     const userIds = _.keys(_.pickBy(this.mapOfCheckedId));
     this.loaderService.display(true);
-    this.userService.deleteMultyUser({ userIds }).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-          this.getUserList();
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.userService.deleteMultyUser({ userIds }).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+        this.getUserList();
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   onChangeRole(roleId: string, userId: string) {
     this.loaderService.display(true);
-    this.userService.changeRole(userId, roleId).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-          this.getUserList();
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.userService.changeRole(userId, roleId).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+        this.getUserList();
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   isFieldValid(form: FormGroup, field: string) {

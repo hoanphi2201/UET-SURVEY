@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  AfterViewInit,
-  SimpleChanges
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, SimpleChanges } from '@angular/core';
 import * as SurveyCreator from 'survey-creator';
 import * as Survey from 'survey-angular';
 import * as widgets from 'surveyjs-widgets';
@@ -38,7 +30,7 @@ export class SurveyCreatorComponent implements OnInit, AfterViewInit {
   constructor(
     private modalService: NzModalService,
     private translateService: TranslateService
-  ) {}
+  ) { }
   ngOnInit() {
     // Change theme
     setTimeout(() => {
@@ -84,7 +76,7 @@ export class SurveyCreatorComponent implements OnInit, AfterViewInit {
       }
     }, 10);
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.json && changes.json.currentValue && this.surveyCreator) {
       this.surveyCreator.text = JSON.stringify(changes.json.currentValue);
@@ -112,21 +104,15 @@ export class SurveyCreatorComponent implements OnInit, AfterViewInit {
     const headerBackgroundColor = '#4a4a4a';
     const bodyContainerBackgroundColor = '#f8f8f8';
 
-    const defaultThemeColorsSurvey =
-      Survey.StylesManager.ThemeColors['default'];
+    const defaultThemeColorsSurvey = Survey.StylesManager.ThemeColors['default'];
     defaultThemeColorsSurvey['$main-color'] = mainColor;
     defaultThemeColorsSurvey['$main-hover-color'] = mainHoverColor;
     defaultThemeColorsSurvey['$text-color'] = textColor;
     defaultThemeColorsSurvey['$header-color'] = headerColor;
-    defaultThemeColorsSurvey[
-      '$header-background-color'
-    ] = headerBackgroundColor;
-    defaultThemeColorsSurvey[
-      '$body-container-background-color'
-    ] = bodyContainerBackgroundColor;
+    defaultThemeColorsSurvey['$header-background-color'] = headerBackgroundColor;
+    defaultThemeColorsSurvey['$body-container-background-color'] = bodyContainerBackgroundColor;
 
-    const defaultThemeColorsEditor =
-      SurveyCreator.StylesManager.ThemeColors['default'];
+    const defaultThemeColorsEditor = SurveyCreator.StylesManager.ThemeColors['default'];
     defaultThemeColorsEditor['$primary-color'] = mainColor;
     defaultThemeColorsEditor['$secondary-color'] = mainColor;
     defaultThemeColorsEditor['$primary-hover-color'] = mainHoverColor;

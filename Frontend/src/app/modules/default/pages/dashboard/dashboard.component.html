@@ -1,51 +1,26 @@
 <ng-template #header>
   <div class="welcome-banner container-fluid">
     <div style="position: relative;">
-      <h1 class="welcome-line">
-        {{ 'default.layout.WELCOME_BACK' | translate }},
-        <a (click)="showProfile(0)">{{ currentUser?.lastName }}</a
-        >!
+      <h1 class="welcome-line">{{ 'default.layout.WELCOME_BACK' | translate }},
+        <a (click)="showProfile(0)">{{ currentUser?.lastName }}</a>!
       </h1>
       <p class="wb-subline">
-        <ng-container
-          *ngIf="currentUser?.accountComplete; else completeTaskTpl"
-        >
+        <ng-container *ngIf="currentUser?.accountComplete; else completeTaskTpl">
           <span class="wb-subline-text">
-            <a (click)="showProfile(1)">{{
-              currentUser?.organizationLocationView
-            }}</a>
+            <a (click)="showProfile(1)">{{currentUser?.organizationLocationView}}</a>
           </span>
         </ng-container>
 
         <ng-template #completeTaskTpl>
           <span class="wb-subline-text">
-            <i
-              nz-icon
-              nzType="check-circle"
-              [nzTheme]="'twotone'"
-              [nzTwotoneColor]="'#00BF6F'"
-            ></i>
+            <i nz-icon nzType="check-circle" [nzTheme]="'twotone'" [nzTwotoneColor]="'#00BF6F'"></i>
             {{ 'default.layout.YOU_COMPLETED' | translate }} 1
             {{ 'default.layout.OF' | translate }} 3
             {{ 'default.layout.TASKS' | translate }}.
-            <a
-              (click)="
-                progressPanelState = progressPanelState === 'in' ? 'out' : 'in'
-              "
-            >
+            <a (click)="progressPanelState = progressPanelState === 'in' ? 'out' : 'in'">
               {{ 'default.layout.EXPLORE_YOUR_ACCOUNT' | translate }}
-              <i
-                *ngIf="progressPanelState == 'in'"
-                nz-icon
-                nzType="caret-down"
-                nzTheme="outline"
-              ></i>
-              <i
-                *ngIf="progressPanelState == 'out'"
-                nz-icon
-                nzType="caret-right"
-                nzTheme="outline"
-              ></i>
+              <i *ngIf="progressPanelState == 'in'" nz-icon nzType="caret-down" nzTheme="outline"></i>
+              <i *ngIf="progressPanelState == 'out'" nz-icon nzType="caret-right" nzTheme="outline"></i>
             </a>
           </span>
         </ng-template>
@@ -58,20 +33,11 @@
       <i nz-icon nzType="close" nzTheme="outline"></i>
     </div>
     <div class="container" style="position: relative;">
-      <div
-        style="position: relative; display: inline-block; width: 100%; overflow-x: auto;"
-      >
+      <div style="position: relative; display: inline-block; width: 100%; overflow-x: auto;">
         <hr class="dotted-line" style="left: 18%; width: 30%;" />
         <hr class="dotted-line " style="left: 54%; width: 30%;" />
         <ul class="progress-badges-list">
-          <ng-container
-            *ngTemplateOutlet="
-              completeTemplate;
-              context: {
-                $implicit: { title: 'default.layout.CREATE_AN_ACCOUNT' }
-              }
-            "
-          ></ng-container>
+          <ng-container *ngTemplateOutlet="completeTemplate;context: {$implicit: { title: 'default.layout.CREATE_AN_ACCOUNT' }}"></ng-container>
 
           <ng-template #completeTemplate let-item>
             <li class="progress-badge-item active">
@@ -85,16 +51,7 @@
               </div>
             </li>
           </ng-template>
-          <ng-container
-            *ngTemplateOutlet="
-              percentDoneProfile < 100
-                ? completeProfileTemplate
-                : completeTemplate;
-              context: {
-                $implicit: { title: 'default.layout.COMPLETE_YOUR_PROFILE' }
-              }
-            "
-          >
+          <ng-container *ngTemplateOutlet="percentDoneProfile < 100 ? completeProfileTemplate : completeTemplate; context: {$implicit: { title: 'default.layout.COMPLETE_YOUR_PROFILE' }}">
           </ng-container>
 
           <ng-template #completeProfileTemplate>
@@ -106,24 +63,13 @@
                       <i nz-icon nzType="user" nzTheme="outline"></i>
                     </span>
                   </div>
-                  <div class="c-label" translate>
-                    default.layout.CREATE_AN_ACCOUNT
-                  </div>
+                  <div class="c-label" translate>default.layout.CREATE_AN_ACCOUNT</div>
                 </div>
               </a>
             </li>
           </ng-template>
 
-          <ng-container
-            *ngTemplateOutlet="
-              countStatus?.length == 0
-                ? designSurveyTemplate
-                : completeTemplate;
-              context: {
-                $implicit: { title: 'default.layout.DESIGN_A_SURVEY' }
-              }
-            "
-          >
+          <ng-container *ngTemplateOutlet="countStatus?.length == 0 ? designSurveyTemplate: completeTemplate;context: {$implicit: { title: 'default.layout.DESIGN_A_SURVEY' }}">
           </ng-container>
 
           <ng-template #designSurveyTemplate>
@@ -135,9 +81,7 @@
                       <i class="fa fa-pencil-square-o"></i>
                     </span>
                   </div>
-                  <div class="c-label" translate>
-                    default.layout.DESIGN_A_SURVEY
-                  </div>
+                  <div class="c-label" translate>default.layout.DESIGN_A_SURVEY</div>
                 </div>
               </a>
             </li>
@@ -149,9 +93,7 @@
 </ng-template>
 
 <app-page [header]="header" [title]="'Welcome to SurveyUet!'">
-  <ng-container
-    *ngIf="!currentUser?.accountComplete && countStatus?.length === 0"
-  >
+  <ng-container *ngIf="!currentUser?.accountComplete && countStatus?.length === 0">
     <div class="row no-gutters">
       <div class="col-sm-12">
         <div class="create-survey-ribbon">
@@ -161,11 +103,7 @@
           <div class="row ribbon-and-button no-gutters">
             <div class="airplane hidden-sm-down"></div>
             <div class="button-holder">
-              <button
-                [routerLink]="['/create-survey']"
-                nz-button
-                nzType="primary"
-              >
+              <button [routerLink]="['/create-survey']" nz-button nzType="primary">
                 {{ 'header.sidebar.CREATE_SURVEY' | translate | uppercase }}
               </button>
             </div>
@@ -175,8 +113,7 @@
             <div class="dw-card survey-gal-card">
               <img
                 class="survey-gal-graphic"
-                src="https://cdn.smassets.net/assets/dashweb/dashweb/0.41.0/assets/survey_gal_rocket.png"
-              />
+                src="https://cdn.smassets.net/assets/dashweb/dashweb/0.41.0/assets/survey_gal_rocket.png"/>
               <p class="card-headline">
                 Results
                 <i nz-icon nzType="arrow-right" nzTheme="outline"></i>
@@ -188,9 +125,9 @@
                 Survey results can help you understand how you’re doing now, but
                 also what you need to do next. See examples of how you can
                 discover insights in your survey results:
-                <a id="survey-gallery-link" href="#" class="dw-link"
-                  >Explore the Survey Gallery »</a
-                >
+                <a id="survey-gallery-link" href="#" class="dw-link">
+                  Explore the Survey Gallery »
+                </a>
               </p>
             </div>
           </div>
@@ -225,11 +162,8 @@
         <div class="custom-card col-xs-6 col-md-3">
           <nz-card>
             <div class="ss-item">
-              <span class="c-label" translate
-                >default.layout.TOTAL_RESPONSES</span
-              >
-              <span class="value"
-                >{{ totalResponse ? totalResponse : 0 }}
+              <span class="c-label" translate>default.layout.TOTAL_RESPONSES</span>
+              <span class="value">{{ totalResponse ? totalResponse : 0 }}
                 <span class="smf-icon tooltip-trigger">i</span>
               </span>
             </div>
@@ -238,11 +172,8 @@
         <div class="custom-card col-xs-6 col-md-3">
           <nz-card>
             <div class="ss-item">
-              <span class="c-label" translate
-                >default.layout.AVERAGE_COMPLETION_RATE</span
-              >
-              <span class="value"
-                >{{ averageCompletionRate ? averageCompletionRate + '%' : '—' }}
+              <span class="c-label" translate>default.layout.AVERAGE_COMPLETION_RATE</span>
+              <span class="value">{{ averageCompletionRate ? averageCompletionRate + '%' : '—' }}
                 <span class="smf-icon tooltip-trigger">i</span>
               </span>
             </div>
@@ -251,11 +182,8 @@
         <div class="custom-card col-xs-6 col-md-3">
           <nz-card>
             <div class="ss-item">
-              <span class="c-label" translate
-                >default.layout.TYPICAL_TIME_SPENT</span
-              >
-              <span class="value"
-                >{{ msToHMSTypicalTimeSpent ? msToHMSTypicalTimeSpent : '—' }}
+              <span class="c-label" translate>default.layout.TYPICAL_TIME_SPENT</span>
+              <span class="value">{{ msToHMSTypicalTimeSpent ? msToHMSTypicalTimeSpent : '—' }}
                 <span class="smf-icon tooltip-trigger">i</span>
               </span>
             </div>
@@ -268,9 +196,7 @@
           <div class="survey-list" style="position: relative;">
             <a [routerLink]="['/home']" class="view-all-surveys" translate>
               default.layout.MANAGE_ALL_SURVEYS
-              <span class="notranslate" style="position: relative; top: -1px;"
-                >»</span
-              >
+              <span class="notranslate" style="position: relative; top: -1px;">»</span>
             </a>
             <h2 translate>default.layout.RECENT_SURVEYS</h2>
             <div class="search-box">
@@ -281,14 +207,10 @@
                   [(ngModel)]="searchValue"
                   (ngModelChange)="onSearchSelect($event)"
                   (keyup.enter)="onSearchList($event.target.value)"
-                  [nzAutocomplete]="auto"
-                />
+                  [nzAutocomplete]="auto"/>
               </nz-input-group>
               <nz-autocomplete [nzDefaultActiveFirstOption]="false" #auto>
-                <nz-auto-option
-                  *ngFor="let o of listOfSurvey"
-                  [nzValue]="o.title"
-                >
+                <nz-auto-option *ngFor="let o of listOfSurvey" [nzValue]="o.title">
                   {{ o.title }}
                 </nz-auto-option>
               </nz-autocomplete>
@@ -301,19 +223,13 @@
                 <li *ngFor="let survey of listOfAllData" class="status-holder">
                   <span
                     class="si-status"
-                    [ngClass]="
-                      survey.status === 'DRAFT'
-                        ? 'survey-status-draft'
-                        : 'survey-status-open'
-                    "
-                    >{{ survey.status }}</span
-                  >
+                    [ngClass]="survey.status === 'DRAFT' ? 'survey-status-draft' : 'survey-status-open'">
+                      {{ survey.status }}
+                  </span>
                   <div class="survey-item">
                     <div class="si-main-heading">
                       <div class="si-survey-title">
-                        <a [routerLink]="['/create', 'summary', survey.id]">{{
-                          survey.title
-                        }}</a>
+                        <a [routerLink]="['/create', 'summary', survey.id]">{{survey.title}}</a>
                       </div>
                       <div class="si-subtitle">
                         <ul class="si-subtitle-items-list">
@@ -332,17 +248,13 @@
                     <ul class="si-metadata">
                       <li>
                         <div>
-                          <span class="si-token-large">{{
-                            countQuestionSurvey(survey.json)
-                          }}</span>
+                          <span class="si-token-large">{{countQuestionSurvey(survey.json)}}</span>
                           {{ 'default.layout.QUESTIONS' | translate }}
                         </div>
                       </li>
                       <li>
                         <div>
-                          <span class="si-token-large">{{
-                            calculateTimeComplete(survey.json)
-                          }}</span>
+                          <span class="si-token-large">{{calculateTimeComplete(survey.json)}}</span>
                           {{ 'default.layout.ESTIMATED_TIME' | translate }}
                           <br />
                           {{ 'default.layout.TO_COMPLETE' | translate }}
@@ -350,9 +262,7 @@
                       </li>
                       <li>
                         <div>
-                          <span class="si-token-large">{{
-                            survey.collector
-                          }}</span>
+                          <span class="si-token-large">{{survey.collector}}</span>
                           {{ 'default.layout.COLLECTORS' | translate }}
                         </div>
                       </li>
@@ -363,95 +273,50 @@
                         <li class="action-token">
                           <div class="variant-sm hidden-md-up">
                             <a href="#">
-                              <i
-                                class="icon-option"
-                                nz-icon
-                                nzType="bar-chart"
-                                nzTheme="outline"
-                              ></i>
-                              <span class="c-label" translate
-                                >default.layout.ANALYZE_RESULTS</span
-                              >
+                              <i class="icon-option" nz-icon nzType="bar-chart" nzTheme="outline"></i>
+                              <span class="c-label" translate>default.layout.ANALYZE_RESULTS</span>
                             </a>
                           </div>
                         </li>
                         <li class="action-token">
                           <div class="variant-sm hidden-md-up">
                             <a href="#">
-                              <i
-                                class="icon-option"
-                                nz-icon
-                                nzType="form"
-                                nzTheme="outline"
-                              ></i>
-                              <span class="c-label" translate
-                                >default.layout.EDIT_SURVEY</span
-                              >
+                              <i class="icon-option" nz-icon nzType="form" nzTheme="outline"></i>
+                              <span class="c-label" translate>default.layout.EDIT_SURVEY</span>
                             </a>
                           </div>
                         </li>
                         <li class="action-token">
                           <div class="variant-sm hidden-md-up">
                             <a href="#">
-                              <i
-                                class="icon-option"
-                                nz-icon
-                                nzType="link"
-                                nzTheme="outline"
-                              ></i>
-                              <span class="c-label" translate
-                                >default.layout.SEND_SURVEY</span
-                              >
+                              <i class="icon-option" nz-icon nzType="link" nzTheme="outline"></i>
+                              <span class="c-label" translate>default.layout.SEND_SURVEY</span>
                             </a>
                           </div>
                         </li>
                         <li class="action-token">
                           <div class="variant-sm hidden-md-up">
                             <a href="#" class="">
-                              <i
-                                class="icon-option"
-                                nz-icon
-                                nzType="share-alt"
-                                nzTheme="outline"
-                              ></i>
-                              <span class="c-label" translate
-                                >default.layout.SHARE_SURVEY</span
-                              >
+                              <i class="icon-option" nz-icon nzType="share-alt" nzTheme="outline"></i>
+                              <span class="c-label" translate>default.layout.SHARE_SURVEY</span>
                             </a>
                           </div>
                         </li>
                         <li class="action-token">
                           <div class="variant-sm hidden-md-up">
                             <a href="#">
-                              <i
-                                class="icon-option"
-                                nz-icon
-                                nzType="copy"
-                                nzTheme="outline"
-                              ></i>
-                              <span class="c-label" translate
-                                >default.layout.MAKE_A_COPY</span
-                              >
+                              <i class="icon-option" nz-icon nzType="copy" nzTheme="outline"></i>
+                              <span class="c-label" translate>default.layout.MAKE_A_COPY</span>
                             </a>
                           </div>
                         </li>
                         <li
-                          (click)="
-                            showDeleteConfirm(survey, tplContentDeleteForm)
-                          "
-                          class="action-token"
-                        >
+                          (click)="showDeleteConfirm(survey, tplContentDeleteForm)"
+                          class="action-token">
                           <div class="variant-sm hidden-md-up">
                             <a href="#">
-                              <i
-                                class="icon-option"
-                                nz-icon
-                                nzType="delete"
-                                nzTheme="outline"
-                              ></i>
-                              <span class="c-label" translate
-                                >default.layout.DELETE_SURVEY</span
-                              >
+                              <i class="icon-option" nz-icon nzType="delete" nzTheme="outline"></i>
+                              <span class="c-label" translate>default.layout.DELETE_SURVEY</span>
                             </a>
                           </div>
                         </li>
@@ -459,128 +324,54 @@
                       <div class="variant-lg hidden-sm-down">
                         <li class="action-token">
                           <div class="variant-lg hidden-sm-down">
-                            <a
-                              version="4"
-                              title="test"
-                              data-action-source="survey_list_item"
-                            >
-                              <div
-                                [ngClass]="{ clicked: survey.clicked }"
-                                class="more-options action-icon-holder"
-                              >
+                            <a version="4" title="test" data-action-source="survey_list_item">
+                              <div [ngClass]="{ clicked: survey.clicked }" class="more-options action-icon-holder">
                                 <span
                                   (nzVisibleChange)="setClicked($event, survey)"
                                   nz-dropdown
                                   nzTrigger="click"
                                   [nzDropdownMenu]="menuAction"
-                                  class="si-token-large action-icon smf-icon"
-                                >
-                                  <i
-                                    nz-icon
-                                    nzType="ellipsis"
-                                    nzTheme="outline"
-                                    class="options-action"
-                                  ></i>
+                                  class="si-token-large action-icon smf-icon">
+                                  <i nz-icon nzType="ellipsis" nzTheme="outline" class="options-action"></i>
                                 </span>
-                                <nz-dropdown-menu
-                                  nzPlacement="bottomRight"
-                                  #menuAction="nzDropdownMenu"
-                                >
+                                <nz-dropdown-menu nzPlacement="bottomRight" #menuAction="nzDropdownMenu">
                                   <ul class="dropdown-action" nz-menu>
                                     <li
                                       nz-menu-item
-                                      [routerLink]="[
-                                        '/create',
-                                        'analyze-results',
-                                        survey.id
-                                      ]"
-                                    >
-                                      <i
-                                        nz-icon
-                                        nzType="bar-chart"
-                                        nzTheme="outline"
-                                      ></i>
-                                      {{
-                                        'default.layout.ANALYZE_RESULTS'
-                                          | translate
-                                      }}
+                                      [routerLink]="['/create', 'analyze-results', survey.id]">
+                                      <i nz-icon nzType="bar-chart" nzTheme="outline"></i>
+                                      {{ 'default.layout.ANALYZE_RESULTS' | translate }}
                                     </li>
                                     <li
                                       nz-menu-item
-                                      [routerLink]="[
-                                        '/create',
-                                        'design-survey',
-                                        survey.id
-                                      ]"
-                                    >
-                                      <i
-                                        nz-icon
-                                        nzType="form"
-                                        nzTheme="outline"
-                                      ></i>
-                                      {{
-                                        'default.layout.EDIT_SURVEY' | translate
-                                      }}
+                                      [routerLink]="['/create', 'design-survey', survey.id]">
+                                      <i nz-icon nzType="form" nzTheme="outline"></i>
+                                      {{ 'default.layout.EDIT_SURVEY' | translate }}
                                     </li>
                                     <li
                                       nz-menu-item
-                                      [routerLink]="[
-                                        '/create',
-                                        'collector-responses',
-                                        survey.id
-                                      ]"
-                                    >
-                                      <i
-                                        nz-icon
-                                        nzType="link"
-                                        nzTheme="outline"
-                                      ></i>
-                                      {{
-                                        'default.layout.SEND_SURVEY' | translate
-                                      }}
+                                      [routerLink]="['/create', 'collector-responses', survey.id]">
+                                      <i nz-icon nzType="link" nzTheme="outline"></i>
+                                      {{ 'default.layout.SEND_SURVEY' | translate }}
                                     </li>
                                     <li nz-menu-item>
-                                      <i
-                                        nz-icon
-                                        nzType="share-alt"
-                                        nzTheme="outline"
-                                      ></i>
-                                      {{
-                                        'default.layout.SHARE_SURVEY'
-                                          | translate
-                                      }}
+                                      <i nz-icon nzType="share-alt" nzTheme="outline"></i>
+                                      {{ 'default.layout.SHARE_SURVEY' | translate }}
                                     </li>
                                     <li
                                       (click)="onMakeCopy(survey)"
-                                      nz-menu-item
-                                    >
-                                      <i
-                                        nz-icon
-                                        nzType="copy"
-                                        nzTheme="outline"
-                                      ></i>
-                                      {{
-                                        'default.layout.MAKE_A_COPY' | translate
-                                      }}
+                                      nz-menu-item>
+                                      <i nz-icon nzType="copy" nzTheme="outline"></i>
+                                      {{ 'default.layout.MAKE_A_COPY' | translate }}
                                     </li>
                                     <li
-                                      (click)="
-                                        showDeleteConfirm(
-                                          survey,
-                                          tplContentDeleteForm
-                                        )
-                                      "
-                                      nz-menu-item
-                                    >
+                                      (click)="showDeleteConfirm( survey, tplContentDeleteForm)"
+                                      nz-menu-item>
                                       <i
                                         nz-icon
                                         nzType="delete"
-                                        nzTheme="outline"
-                                      ></i>
-                                      {{
-                                        'default.layout.DELETE_SURVEY'
-                                          | translate
-                                      }}
+                                        nzTheme="outline"></i>
+                                      {{ 'default.layout.DELETE_SURVEY' | translate }}
                                     </li>
                                   </ul>
                                 </nz-dropdown-menu>
@@ -596,34 +387,21 @@
                   </div>
                 </li>
               </ul>
-              <div
-                *ngIf="!searchValue && listOfAllData.length <= 0"
-                class="sl-empty"
-              >
+              <div *ngIf="!searchValue && listOfAllData.length <= 0" class="sl-empty">
                 <h2 class="sl-no-activity" translate>
                   default.layout.NO_RECENT_SURVEYS_FOUND
                 </h2>
               </div>
-              <div
-                *ngIf="searchValue && listOfAllData.length <= 0"
-                class="sl-empty"
-              >
+              <div *ngIf="searchValue && listOfAllData.length <= 0" class="sl-empty">
                 <h2 class="sl-no-activity">
-                  {{
-                    'default.layout.NO_RECENT_SURVEYS_FOUND_WITH_THE_NAME'
-                      | translate
-                  }}
+                  {{ 'default.layout.NO_RECENT_SURVEYS_FOUND_WITH_THE_NAME' | translate }}
                   <strong>{{ searchValue }}</strong>
                 </h2>
                 <div>
                   {{ 'default.layout.TO_SEARCH_ALL_SURVEYS_GO_TO' | translate }}
-                  <a>
+                  <a> 
                     {{ 'default.layout.MY_SURVEYS' | translate }}
-                    <span
-                      class="notranslate"
-                      style="position: relative; top: -1px;"
-                      >»</span
-                    >
+                    <span class="notranslate" style="position: relative; top: -1px;">»</span>
                   </a>
                 </div>
               </div>
@@ -638,31 +416,17 @@
                   <ng-container *ngIf="searchValue">
                     {{ listOfAllData.length }}
                     {{ 'default.layout.OF' | translate }} {{ pagging.total }}
-                    {{
-                      'default.layout.RECENT_SURVEY_NAMES_CONTAIN' | translate
-                    }}} "{{ searchValue }}"
+                    {{ 'default.layout.RECENT_SURVEY_NAMES_CONTAIN' | translate }} "{{ searchValue }}"
                   </ng-container>
-                  <a
-                    *ngIf="listOfAllData.length < pagging.total"
-                    (click)="loadMoreSurvey()"
-                    translate
-                    >default.layout.SHOW_MORE<i
-                      nz-icon
-                      nzType="caret-down"
-                      nzTheme="outline"
-                    ></i
-                  ></a>
+                  <a  *ngIf="listOfAllData.length < pagging.total" (click)="loadMoreSurvey()" translate >
+                    default.layout.SHOW_MORE
+                    <i nz-icon nzType="caret-down" nzTheme="outline"></i>
+                  </a>
                 </div>
                 <div class="buttons-ctnr">
                   <div class="gal-cta-holder">
-                    <button
-                      [routerLink]="['/create-survey']"
-                      nz-button
-                      nzType="primary"
-                    >
-                      {{
-                        'header.sidebar.CREATE_SURVEY' | translate | uppercase
-                      }}
+                    <button [routerLink]="['/create-survey']" nz-button nzType="primary">
+                      {{ 'header.sidebar.CREATE_SURVEY' | translate | uppercase }}
                     </button>
                   </div>
                 </div>
@@ -686,20 +450,19 @@
               [nzPercent]="percentDoneProfile"
               nzType="circle"
               nzStrokeLinecap="square"
-              [nzFormat]="formatInfoProgress"
-            >
+              [nzFormat]="formatInfoProgress">
             </nz-progress>
           </div>
-          <a class="name-title">{{
-            currentUser?.lastName + currentUser?.firstName
-          }}</a>
+          <a class="name-title">{{ currentUser?.lastName + currentUser?.firstName }}</a>
           <p class="email">{{ currentUser?.email }}</p>
           <p class="job-function">
-            <a (click)="showProfile(0)">{{ currentUser?.jobRoleView }}</a>
-            {{ 'default.layout.AT' | translate }}
-            <a (click)="showProfile(1)">{{
-              currentUser?.organizationLocationView
-            }}</a>
+            <a (click)="showProfile(0)">
+              {{ currentUser?.jobRoleView }}
+            </a>
+              {{ 'default.layout.AT' | translate }}
+            <a (click)="showProfile(1)">
+              {{ currentUser?.organizationLocationView }}
+            </a>
           </p>
         </nz-card>
       </div>
@@ -721,24 +484,20 @@
               </li>
               <li data-choice-id="11050115150" class="">
                 <span class="checkbox"></span>
-                <span class="choice-text"
-                  >Use expert-written survey templates</span
-                >
+                <span class="choice-text">Use expert-written survey templates</span>
               </li>
               <li data-choice-id="11050115151" class="">
                 <span class="checkbox"></span>
-                <span class="choice-text"
-                  >Use questions with a Benchmark icon</span
-                >
+                <span class="choice-text">Use questions with a Benchmark icon</span>
               </li>
               <p class="disclaimer-text">
                 <strong class="disclaimer-strong">
                   <i class="fa fa-question-circle"></i>
                 </strong>
-                <strong class="disclaimer-strong"> What is this?</strong>We’re
-                generally curious about all sorts of topics and like to ask
-                questions to gather data. Don’t worry, your personal data will
-                never be shared.
+                <strong class="disclaimer-strong"> What is this?</strong>
+                  We’re generally curious about all sorts of topics and like to ask
+                  questions to gather data. Don’t worry, your personal data will
+                  never be shared.
                 <a href="" target="_blank">Privacy Policy »</a>
               </p>
             </ul>

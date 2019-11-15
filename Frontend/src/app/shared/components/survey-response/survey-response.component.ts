@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  SimpleChanges
-} from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import * as Survey from 'survey-angular';
 import * as widgets from 'surveyjs-widgets';
 import 'inputmask/dist/inputmask/phone-codes/phone.js';
@@ -28,12 +21,7 @@ export class SurveyResponseComponent implements OnInit {
   @Input('json') json: any;
   @Input('data') data: any;
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes.json &&
-      changes.json.currentValue &&
-      changes.data &&
-      changes.data.currentValue
-    ) {
+    if (changes.json && changes.json.currentValue && changes.data && changes.data.currentValue) {
       this.setTheme();
       const surveyModel = new Survey.Model(this.json);
 
@@ -47,7 +35,7 @@ export class SurveyResponseComponent implements OnInit {
       Survey.SurveyNG.render('surveyResponseElement', { model: surveyModel });
     }
   }
-  ngOnInit() {}
+  ngOnInit() { }
 
   setTheme() {
     const mainColor = '#00bf6f';
@@ -57,18 +45,13 @@ export class SurveyResponseComponent implements OnInit {
     const headerBackgroundColor = '#4a4a4a';
     const bodyContainerBackgroundColor = '#f8f8f8';
 
-    const defaultThemeColorsSurvey =
-      Survey.StylesManager.ThemeColors['default'];
+    const defaultThemeColorsSurvey = Survey.StylesManager.ThemeColors['default'];
     defaultThemeColorsSurvey['$main-color'] = mainColor;
     defaultThemeColorsSurvey['$main-hover-color'] = mainHoverColor;
     defaultThemeColorsSurvey['$text-color'] = textColor;
     defaultThemeColorsSurvey['$header-color'] = headerColor;
-    defaultThemeColorsSurvey[
-      '$header-background-color'
-    ] = headerBackgroundColor;
-    defaultThemeColorsSurvey[
-      '$body-container-background-color'
-    ] = bodyContainerBackgroundColor;
+    defaultThemeColorsSurvey['$header-background-color'] = headerBackgroundColor;
+    defaultThemeColorsSurvey['$body-container-background-color'] = bodyContainerBackgroundColor;
 
     Survey.StylesManager.applyTheme();
   }

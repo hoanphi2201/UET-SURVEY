@@ -1,25 +1,15 @@
 <div class="container">
   <nz-card [style.marginTop.px]="24" [style.marginBottom.px]="24">
-    <ng-container
-      *ngIf="
-        listOfAllDataSurveyResponse && surveyFormDetail?.json;
-        else loadingTpl
-      "
-    >
+    <ng-container *ngIf="listOfAllDataSurveyResponse && surveyFormDetail?.json;else loadingTpl">
       <nz-tabset (nzSelectedIndexChange)="confirmTabSwitch($event)">
-        <nz-tab
-          [nzTitle]="'default.layout.STATISTIC_RESULTS' | translate | uppercase"
-        >
+        <nz-tab [nzTitle]="'default.layout.STATISTIC_RESULTS' | translate | uppercase">
           <app-survey-analytics
             [data]="listOfAllDataSurveyResponse"
-            [json]="surveyFormDetail.json"
-          >
+            [json]="surveyFormDetail.json">
           </app-survey-analytics>
         </nz-tab>
         <nz-tab
-          [nzTitle]="
-            'default.layout.STATISTIC_LOCATION_RESULTS' | translate | uppercase
-          "
+          [nzTitle]="'default.layout.STATISTIC_LOCATION_RESULTS' | translate | uppercase"
         >
           <div data-role="mapcontent">
             <app-map
@@ -28,16 +18,11 @@
               [config]="configMap"
               (oncomponentsetup)="onComponentSetup()"
               (onpointermove)="onPointerMove($event)"
-              (onclick)="onMapClick($event)"
-            >
+              (onclick)="onMapClick($event)">
             </app-map>
           </div>
         </nz-tab>
-        <nz-tab
-          [nzTitle]="
-            'default.layout.INDIVIDUAL_RESPONSES' | translate | uppercase
-          "
-        >
+        <nz-tab [nzTitle]="'default.layout.INDIVIDUAL_RESPONSES' | translate | uppercase">
           <div class="analyze-nav-content">
             <button
               [nzTrigger]="'click'"
@@ -46,11 +31,8 @@
               nz-dropdown
               nz-button
               nzType="primary"
-              [nzSize]="'large'"
-            >
-              {{ 'default.layout.RESPONDENT' | translate }} #{{
-                selectedIndex + 1
-              }}
+              [nzSize]="'large'">
+                {{ 'default.layout.RESPONDENT' | translate }} #{{selectedIndex + 1}}
               <i nz-icon nzType="caret-down" nzTheme="outline"></i>
             </button>
             <nz-dropdown-menu #menuCollectorType="nzDropdownMenu">
@@ -58,8 +40,8 @@
                 <nz-input-number
                   [nzMin]="1"
                   [nzMax]="this.listOfAllSurveyResponse.length"
-                  [(ngModel)]="selectedIndex"
-                ></nz-input-number>
+                  [(ngModel)]="selectedIndex">
+                </nz-input-number>
               </div>
             </nz-dropdown-menu>
             <button
@@ -67,50 +49,29 @@
               (click)="pre()"
               nz-button
               nzType="primary"
-              [nzSize]="'large'"
-            >
+              [nzSize]="'large'" >
               <i nz-icon nzType="caret-left" nzTheme="outline"></i>
             </button>
             <button
-              [disabled]="
-                this.selectedIndex >= this.listOfAllSurveyResponse.length - 1
-              "
+              [disabled]="this.selectedIndex >= this.listOfAllSurveyResponse.length - 1"
               (click)="next()"
               nz-button
               nzType="primary"
-              [nzSize]="'large'"
-            >
+              [nzSize]="'large'">
               <i nz-icon nzType="caret-right" nzTheme="outline"></i>
             </button>
           </div>
           <div class="analyze-pages-content">
             <div class="respondent-window fadeable">
-              <nz-tabset
-                id="preview-tab"
-                [(nzSelectedIndex)]="selectedIndex"
-                (nzSelectedIndexChange)="onChangeTabPreview($event)"
-              >
-                <nz-tab
-                  *ngFor="
-                    let response of listOfAllSurveyResponse;
-                    let i = index
-                  "
-                >
+              <nz-tabset id="preview-tab" [(nzSelectedIndex)]="selectedIndex" (nzSelectedIndexChange)="onChangeTabPreview($event)">
+                <nz-tab *ngFor=" let response of listOfAllSurveyResponse; let i = index">
                   <div class="respondent">
-                    <div
-                      class="respondent-profile clearfix spacer-phm spacer-ptm sm-corner-a fadeable"
-                    >
+                    <div class="respondent-profile clearfix spacer-phm spacer-ptm sm-corner-a fadeable">
                       <div class="respondent-data">
-                        <h5
-                          class="sm-label respondent-completion-status completed"
-                        >
-                          COMPLETE
-                        </h5>
+                        <h5 class="sm-label respondent-completion-status completed">COMPLETE</h5>
                         <ul class="respondent-info-fields">
                           <li>
-                            <span class="sm-label respondent-info-label"
-                              >Collector:</span
-                            >
+                            <span class="sm-label respondent-info-label">Collector:</span>
                             <span class="sm-label value">
                               {{ response.surveyCollector?.name }}
                             </span>
@@ -119,33 +80,25 @@
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label"
-                              >Started:</span
-                            >
+                            <span class="sm-label respondent-info-label">Started:</span>
                             <span class="sm-label value">
                               {{ response?.startTime | date: 'medium' }}
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label"
-                              >Last Modified:</span
-                            >
+                            <span class="sm-label respondent-info-label">Last Modified:</span>
                             <span class="sm-label value">
                               {{ response?.endTime | date: 'medium' }}
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label"
-                              >Time Spent:</span
-                            >
+                            <span class="sm-label respondent-info-label">Time Spent:</span>
                             <span class="sm-label value">
                               {{ msToHMSTypicalTimeSpent(response.totalTime) }}
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label"
-                              >IP Address:</span
-                            >
+                            <span class="sm-label respondent-info-label">IP Address:</span>
                             <span class="sm-label value">
                               {{ response.ipAddress }}
                             </span>
@@ -162,8 +115,8 @@
                 *ngIf="surveyResponsePreview"
                 [disabled]="true"
                 [data]="surveyResponsePreview?.json"
-                [json]="surveyResponsePreview?.surveyForm?.json"
-              ></app-survey-response>
+                [json]="surveyResponsePreview?.surveyForm?.json">
+              </app-survey-response>
             </div>
           </div>
         </nz-tab>

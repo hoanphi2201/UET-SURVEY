@@ -1,24 +1,6 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-// tslint:disable-next-line:max-line-length
-import {
-  FormGroup,
-  FormControl,
-  FormGroupDirective,
-  Validators,
-  NgForm,
-  FormBuilder
-} from '@angular/forms';
-// tslint:disable-next-line:max-line-length
-import {
-  SurveyForm,
-  User,
-  SurveyFolder,
-  IValidators,
-  Pagging,
-  TableListColumn,
-  SurveyFormService,
-  AuthService
-} from '@app/core';
+import { FormGroup, FormGroupDirective, Validators, NgForm, FormBuilder } from '@angular/forms';
+import { SurveyForm, User, SurveyFolder, IValidators, Pagging, TableListColumn, SurveyFormService, AuthService } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
 import { LoaderService, WindowresizeService, Helpers } from '@app/shared';
@@ -73,7 +55,7 @@ export class SurveyFormsComponent implements OnInit {
     private authService: AuthService,
     private windowresizeService: WindowresizeService,
     private router: Router
-  ) {}
+  ) { }
   ngOnInit() {
     this.screenWidth = window.innerWidth;
     this.windowresizeService.getSize().subscribe(size => {
@@ -94,34 +76,13 @@ export class SurveyFormsComponent implements OnInit {
     this.initTable();
   }
   initTable() {
-    // tslint:disable-next-line:max-line-length
     this.columns = [
       { id: 'id', type: 'text', hidden: true, header: 'admin.layout.ID' },
-      {
-        id: 'title',
-        type: 'text',
-        sortable: true,
-        search: true,
-        header: 'admin.layout.TITLE'
-      },
+      { id: 'title', type: 'text', sortable: true, search: true, header: 'admin.layout.TITLE' },
       { id: 'userName', type: 'text', header: 'admin.layout.USER_NAME' },
-      {
-        id: 'surveyFolderTitle',
-        type: 'text',
-        header: 'admin.layout.SURVEY_FOLDER'
-      },
-      {
-        id: 'createdAt',
-        type: 'date',
-        sortable: true,
-        header: 'admin.layout.CREATED_AT'
-      },
-      {
-        id: 'createdAt',
-        type: 'date',
-        sortable: true,
-        header: 'admin.layout.UPDATED_AT'
-      }
+      { id: 'surveyFolderTitle', type: 'text', header: 'admin.layout.SURVEY_FOLDER' },
+      { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.CREATED_AT' },
+      { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.UPDATED_AT' }
     ];
   }
   buildForm() {
@@ -132,41 +93,26 @@ export class SurveyFormsComponent implements OnInit {
   }
   getSurveyFormList() {
     this.loaderService.display(true);
-    // tslint:disable-next-line:max-line-length
-    this.surveyFormService
-      .getSurveyFormList(
-        this.pagging.page,
-        this.pagging.pageSize,
-        this.sortField,
-        this.sortType,
-        this.searchKey,
-        this.searchValue,
-        this.filterKey,
-        JSON.stringify(this.filterValue)
-      )
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.listOfAllData = res.results.map((o: any) => {
-              return Object.assign(o, {
-                userName: o.user.userName,
-                surveyFolderTitle: o.surveyFolder ? o.surveyFolder.title : 'N/A'
-              });
-            });
-            this.pagging.total = res.paging.total;
-            this.refreshStatus();
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    this.surveyFormService.getSurveyFormList(this.pagging.page, this.pagging.pageSize, this.sortField, this.sortType, this.searchKey, this.searchValue, this.filterKey, JSON.stringify(this.filterValue)).subscribe(res => {
+      if (res.status.code === 200) {
+        this.listOfAllData = res.results.map((o: any) => {
+          return Object.assign(o, {
+            userName: o.user.userName,
+            surveyFolderTitle: o.surveyFolder ? o.surveyFolder.title : 'N/A'
+          });
+        });
+        this.pagging.total = res.paging.total;
+        this.refreshStatus();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   get f() {
     return this.form.controls;
@@ -235,12 +181,7 @@ export class SurveyFormsComponent implements OnInit {
       }
     });
   }
-  openModal(
-    tplTitle: TemplateRef<{}>,
-    tplContent: TemplateRef<{}>,
-    tplFooter: TemplateRef<{}>,
-    surveyForm?: SurveyForm
-  ): void {
+  openModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>, surveyForm?: SurveyForm): void {
     if (surveyForm) {
       this.editing = true;
       this.selectedEdit = Object.assign({}, surveyForm);
@@ -266,51 +207,39 @@ export class SurveyFormsComponent implements OnInit {
       }
     });
     if (!this.editing) {
-      return this.surveyFormService
-        .addSurveyForm(
-          Object.assign(formData.value, { userId: this.currentUser.id })
-        )
-        .subscribe(
-          res => {
-            this.resetFormAfterSubmit(formDirective);
-            this.nzMessageService.success(
-              this.translateService.instant(res.status.message)
-            );
-          },
-          err => {
-            this.loaderService.display(false);
-            this.buttonLoading = false;
-            this.nzMessageService.error(
-              this.translateService.instant(err.message)
-            );
-          },
-          () => {
-            this.loaderService.display(false);
-            this.buttonLoading = false;
-          }
+      return this.surveyFormService.addSurveyForm(Object.assign(formData.value, { userId: this.currentUser.id })).subscribe(res => {
+        this.resetFormAfterSubmit(formDirective);
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
         );
-    }
-    return this.surveyFormService
-      .updateSurveyForm(formData.value, this.selectedEdit.id)
-      .subscribe(
-        res => {
-          this.resetFormAfterSubmit(formDirective);
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-        },
-        err => {
-          this.loaderService.display(false);
-          this.buttonLoading = false;
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-          this.buttonLoading = false;
-        }
+      }, err => {
+        this.loaderService.display(false);
+        this.buttonLoading = false;
+        this.nzMessageService.error(
+          this.translateService.instant(err.message)
+        );
+      }, () => {
+        this.loaderService.display(false);
+        this.buttonLoading = false;
+      }
       );
+    }
+    return this.surveyFormService.updateSurveyForm(formData.value, this.selectedEdit.id).subscribe(res => {
+      this.resetFormAfterSubmit(formDirective);
+      this.nzMessageService.success(
+        this.translateService.instant(res.status.message)
+      );
+    }, err => {
+      this.loaderService.display(false);
+      this.buttonLoading = false;
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
+      );
+    }, () => {
+      this.loaderService.display(false);
+      this.buttonLoading = false;
+    }
+    );
   }
   resetFormAfterSubmit(formDirective: FormGroupDirective) {
     this.editing = false;
@@ -327,43 +256,37 @@ export class SurveyFormsComponent implements OnInit {
   }
   onDeleteSurveyForm(surveyFormId: string) {
     this.loaderService.display(true);
-    this.surveyFormService.deleteSurveyForm(surveyFormId).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-          this.getSurveyFormList();
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.surveyFormService.deleteSurveyForm(surveyFormId).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+        this.getSurveyFormList();
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   onDeleteMultySurveyForm() {
     const surveyFormIds = _.keys(_.pickBy(this.mapOfCheckedId));
     this.loaderService.display(true);
-    this.surveyFormService.deleteMultySurveyForm({ surveyFormIds }).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.nzMessageService.success(
-            this.translateService.instant(res.status.message)
-          );
-          this.getSurveyFormList();
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.surveyFormService.deleteMultySurveyForm({ surveyFormIds }).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+        this.getSurveyFormList();
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   isFieldValid(form: FormGroup, field: string) {

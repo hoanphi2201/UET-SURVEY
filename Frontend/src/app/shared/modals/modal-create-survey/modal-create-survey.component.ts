@@ -27,7 +27,7 @@ export class ModalCreateSurveyComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private modalService: NzModalService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.buildForm();
@@ -63,36 +63,29 @@ export class ModalCreateSurveyComponent implements OnInit {
         formData.value[key] = formData.value[key].trim();
       }
     });
-    this.dSurveyFormService
-      .addSurveyForm(
-        Object.assign(formData.value, { userId: this.currentUser.id })
-      )
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.nzMessageService.success(
-              this.translateService.instant(res.status.message)
-            );
-            this.router.navigate([
-              '/create',
-              'design-survey',
-              res.results[0].id
-            ]);
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.buttonLoading = false;
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-          this.modalService.closeAll();
-        },
-        () => {
-          this.loaderService.display(false);
-          this.buttonLoading = false;
-          this.modalService.closeAll();
-        }
+    this.dSurveyFormService.addSurveyForm(Object.assign(formData.value, { userId: this.currentUser.id })).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+        this.router.navigate([
+          '/create',
+          'design-survey',
+          res.results[0].id
+        ]);
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.buttonLoading = false;
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+      this.modalService.closeAll();
+    }, () => {
+      this.loaderService.display(false);
+      this.buttonLoading = false;
+      this.modalService.closeAll();
+    }
+    );
   }
 }

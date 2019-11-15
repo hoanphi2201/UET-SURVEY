@@ -1,21 +1,5 @@
-import {
-  Component,
-  OnInit,
-  AfterContentInit,
-  TemplateRef
-} from '@angular/core';
-import {
-  SurveyForm,
-  DSurveyFormService,
-  SurveyCollector,
-  Pagging,
-  DSurveyCollectorService,
-  Filter,
-  TableListColumn,
-  User,
-  AuthService,
-  DSurveyResponseService
-} from '@app/core';
+import { Component, OnInit, AfterContentInit, TemplateRef } from '@angular/core';
+import { SurveyForm, DSurveyFormService, SurveyCollector, Pagging, DSurveyCollectorService, Filter, TableListColumn, User, AuthService, DSurveyResponseService } from '@app/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
@@ -64,7 +48,7 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
     private modalService: NzModalService,
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(userData => {
@@ -85,7 +69,6 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
   }
 
   initTable() {
-    // tslint:disable-next-line:max-line-length
     this.columns = [
       {
         id: 'type',
@@ -183,34 +166,20 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
     }
     this.filter.filterValue = [this.surveyFormDetail.id];
     this.loaderService.display(true);
-    this.dSurveyCollectorService
-      .getDefaultSurveyCollectorList(
-        this.pagging.page,
-        this.pagging.pageSize,
-        this.filter.sortField,
-        this.filter.sortType,
-        this.filter.searchKey,
-        this.filter.searchValue || '',
-        this.filter.filterKey,
-        JSON.stringify(this.filter.filterValue)
-      )
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.listOfAllSurveyCollect = res.results;
-            this.pagging.total = res.paging.total;
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    this.dSurveyCollectorService.getDefaultSurveyCollectorList(this.pagging.page, this.pagging.pageSize, this.filter.sortField, this.filter.sortType, this.filter.searchKey, this.filter.searchValue || '', this.filter.filterKey, JSON.stringify(this.filter.filterValue)).subscribe(res => {
+      if (res.status.code === 200) {
+        this.listOfAllSurveyCollect = res.results;
+        this.pagging.total = res.paging.total;
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
 
   sort(sort: { key: string; value: string }): void {
@@ -242,55 +211,35 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
         break;
       case 'EMAIL':
         surveyCollector.name = 'Email Invitation';
-        navigateUrl = [
-          '/create',
-          'collector-responses',
-          'collector-email',
-          'compose'
-        ];
+        navigateUrl = ['/create', 'collector-responses', 'collector-email', 'compose'];
         break;
       default:
         break;
     }
-    this.dSurveyCollectorService.addSurveyCollector(surveyCollector).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          if (res.results && res.results[0]) {
-            this.nzMessageService.success(
-              this.translateService.instant(res.status.message)
-            );
-            navigateUrl.push(res.results[0].id);
-            console.log(navigateUrl.join('/'));
-
-            debugger;
-            return this.router.navigate(navigateUrl);
-          }
-          return this.router.navigate(['/dashboard']);
+    this.dSurveyCollectorService.addSurveyCollector(surveyCollector).subscribe(res => {
+      if (res.status.code === 200) {
+        if (res.results && res.results[0]) {
+          this.nzMessageService.success(this.translateService.instant(res.status.message));
+          navigateUrl.push(res.results[0].id);
+          return this.router.navigate(navigateUrl);
         }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+        return this.router.navigate(['/dashboard']);
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
 
-  showDeleteConfirm(
-    surveyCollector: SurveyCollector,
-    tplContent: TemplateRef<{}>
-  ): void {
+  showDeleteConfirm(surveyCollector: SurveyCollector, tplContent: TemplateRef<{}>): void {
     this.surveyCollectorDelete = surveyCollector;
     this.modalService.confirm({
-      nzTitle: this.translateService.instant(
-        'default.layout.ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_COLLECTOR'
-      ),
+      nzTitle: this.translateService.instant('default.layout.ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_COLLECTOR'),
       nzCancelText: this.translateService.instant('default.layout.CANCEL'),
-      nzOkText: this.translateService.instant(
-        'default.layout.DELETE_COLLECTOR'
-      ),
+      nzOkText: this.translateService.instant('default.layout.DELETE_COLLECTOR'),
       nzContent: tplContent,
       nzOnOk: () => {
         if (surveyCollector) {
@@ -302,34 +251,27 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
 
   private onDeleteSurveyCollector(surveyCollectorId: string) {
     this.loaderService.display(true);
-    this.dSurveyCollectorService
-      .deleteSurveyCollector(surveyCollectorId)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.nzMessageService.success(
-              this.translateService.instant(res.status.message)
-            );
-            this.getListSurveyCollector();
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    this.dSurveyCollectorService.deleteSurveyCollector(surveyCollectorId).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+        this.getListSurveyCollector();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
 
   showRenameCollectorModal(surveyCollector: SurveyCollector): void {
     this.modalForm = this.modalService.create({
-      nzTitle: this.translateService.instant(
-        'default.layout.EDIT_COLLECTOR_NICKNAME'
-      ),
+      nzTitle: this.translateService.instant('default.layout.EDIT_COLLECTOR_NICKNAME'),
       nzFooter: null,
       nzContent: RenameCollectorComponent,
       nzCancelDisabled: true,
@@ -369,15 +311,10 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
     });
   }
 
-  showClearResponsesConfirm(
-    surveyCollector: SurveyCollector,
-    tplContent: TemplateRef<{}>
-  ): void {
+  showClearResponsesConfirm(surveyCollector: SurveyCollector, tplContent: TemplateRef<{}>): void {
     this.surveyCollectorClearResponses = surveyCollector;
     this.modalService.confirm({
-      nzTitle: this.translateService.instant(
-        'default.layout.ARE_YOU_SURE_YOU_WANT_TO_CLEAR_ALL_THE_RESPONSES_IN_THIS_COLLECTOR'
-      ),
+      nzTitle: this.translateService.instant('default.layout.ARE_YOU_SURE_YOU_WANT_TO_CLEAR_ALL_THE_RESPONSES_IN_THIS_COLLECTOR'),
       nzCancelText: this.translateService.instant('default.layout.CANCEL'),
       nzOkText: this.translateService.instant('default.layout.CLEAR_RESPONSES'),
       nzContent: tplContent,
@@ -390,27 +327,22 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
   }
   private clearResponsesByCollector(surveyCollectorId: string) {
     this.loaderService.display(true);
-    this.dSurveyResponseService
-      .clearResponsesByCollector(surveyCollectorId)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.nzMessageService.success(
-              this.translateService.instant(res.status.message)
-            );
-            this.getListSurveyCollector();
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    this.dSurveyResponseService.clearResponsesByCollector(surveyCollectorId).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+        this.getListSurveyCollector();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());

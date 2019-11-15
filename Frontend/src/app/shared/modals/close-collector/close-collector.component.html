@@ -1,12 +1,6 @@
 <div class="inner-modal-body">
   <div class="warning">
-    <i
-      class="icon"
-      nz-icon
-      nzType="warning"
-      [nzTheme]="'twotone'"
-      [nzTwotoneColor]="'#F05B24'"
-    ></i>
+    <i class="icon" nz-icon nzType="warning" [nzTheme]="'twotone'" [nzTwotoneColor]="'#F05B24'"></i>
     <div class="title">
       <h3 class="wds-type-card-title">
         Are you sure you want to close this collector?
@@ -19,28 +13,19 @@
     <div nz-row nzGutter="24">
       <div nz-col nzSpan="24">
         <nz-form-item>
-          <nz-form-label
-            >{{ 'default.layout.CLOSED_MESSAGE' | translate }}
-          </nz-form-label>
-          <nz-form-control
-            [ngClass]="{ 'has-error': isFieldValid(form, 'closedMessage') }"
-          >
+          <nz-form-label  >{{ 'default.layout.CLOSED_MESSAGE' | translate }} </nz-form-label>
+          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(form, 'closedMessage') }" >
             <textarea
               [placeholder]="'default.layout.ENTER_CLOSED_MESSAGE' | translate"
               rows="4"
               nz-input
-              formControlName="closedMessage"
-            >
+              formControlName="closedMessage">
             </textarea>
           </nz-form-control>
           <p class="char-limit wds-type-product-ui wds-type-weight-regular">
             ({{ 'default.layout.MAXIMUM_2000_CHARACTERS' | translate }})
           </p>
-          <field-error-display
-            [displayError]="isFieldValid(form, 'closedMessage')"
-            [errors]="f.closedMessage.errors"
-          >
-          </field-error-display>
+          <field-error-display [displayError]="isFieldValid(form, 'closedMessage')" [errors]="f.closedMessage.errors" ></field-error-display>
         </nz-form-item>
       </div>
     </div>
@@ -48,24 +33,14 @@
 </div>
 
 <div class="actions">
-  <button
-    class="secondary"
-    (click)="onSaveSurvey(form)"
-    nz-button
-    nzType="default"
-  >
+  <button class="secondary" (click)="onSaveSurvey(form)" nz-button nzType="default">
     <i class="fa fa-share-square-o"></i>&nbsp;
     <span translate>default.layout.PREVIEW_AND_TEST</span>
   </button>
   <button (click)="onCancel()" nz-button nzType="default">
     <span translate>default.layout.CANCEL</span>
   </button>
-  <button
-    (click)="onSaveSurveyCollector(form)"
-    nz-button
-    nzType="primary"
-    [nzLoading]="buttonLoading"
-  >
+  <button (click)="onSaveSurveyCollector(form)" nz-button nzType="primary" [nzLoading]="buttonLoading">
     <span translate>default.layout.CLOSE_COLLECTOR</span>
   </button>
 </div>

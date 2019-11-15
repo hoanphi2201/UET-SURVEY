@@ -11,11 +11,9 @@ export class FieldErrorDisplayComponent {
       if (errors.required) {
         this.errorMsg = 'This field is not empty';
       } else if (errors.minlength) {
-        this.errorMsg =
-          'Min length is ' + errors.minlength.requiredLength + ' character';
+        this.errorMsg = 'Min length is ' + errors.minlength.requiredLength + ' character';
       } else if (errors.maxlength) {
-        this.errorMsg =
-          'Max length is ' + errors.maxlength.requiredLength + ' character';
+        this.errorMsg = 'Max length is ' + errors.maxlength.requiredLength + ' character';
       } else if (errors.validatePhone) {
         this.errorMsg = 'Invalid phonenumber format';
       } else if (errors.email) {

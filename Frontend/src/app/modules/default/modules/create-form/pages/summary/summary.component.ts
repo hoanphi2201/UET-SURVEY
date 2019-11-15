@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  DSurveyFormService,
-  SurveyForm,
-  Pagging,
-  Filter,
-  DSurveyCollectorService,
-  SurveyCollector
-} from '@app/core';
+import { DSurveyFormService, SurveyForm, Pagging, Filter, DSurveyCollectorService, SurveyCollector } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -42,7 +35,7 @@ export class SummaryComponent implements OnInit {
     private nzMessageService: NzMessageService,
     private translateService: TranslateService,
     private loaderService: LoaderService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.subscriptions.push(
@@ -70,34 +63,20 @@ export class SummaryComponent implements OnInit {
     }
     this.filter.filterValue = [this.surveyFormDetail.id];
     this.loaderService.display(true);
-    this.dSurveyCollectorService
-      .getDefaultSurveyCollectorList(
-        this.pagging.page,
-        this.pagging.pageSize,
-        this.filter.sortField,
-        this.filter.sortType,
-        this.filter.searchKey,
-        this.filter.searchValue || '',
-        this.filter.filterKey,
-        JSON.stringify(this.filter.filterValue)
-      )
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.listOfAllSurveyCollect = res.results;
-            this.pagging.total = res.paging.total;
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        },
-        () => {
-          this.loaderService.display(false);
-        }
+    this.dSurveyCollectorService.getDefaultSurveyCollectorList(this.pagging.page, this.pagging.pageSize, this.filter.sortField, this.filter.sortType, this.filter.searchKey, this.filter.searchValue || '', this.filter.filterKey, JSON.stringify(this.filter.filterValue)).subscribe(res => {
+      if (res.status.code === 200) {
+        this.listOfAllSurveyCollect = res.results;
+        this.pagging.total = res.paging.total;
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
   displayPageSurvey() {
     if (!this.surveyFormDetail) {

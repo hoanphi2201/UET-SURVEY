@@ -1,16 +1,11 @@
 <div class="wds-flex h-100 m-0">
-  <div
-    class="wds-flex wds-flex-y sm-full-screen-modal-with-side sm-full-screen-modal-without-side"
-  >
-    <div
-      class="sm-full-screen-modal-header wds-bg-light wds-flex wds-flex-between wds-flex-y-center p-2"
-    >
+  <div class="wds-flex wds-flex-y sm-full-screen-modal-with-side sm-full-screen-modal-without-side">
+    <div class="sm-full-screen-modal-header wds-bg-light wds-flex wds-flex-between wds-flex-y-center p-2">
       <button
         (click)="closeModalPreview()"
         nz-button
         nzType="link"
-        class="wds-button-secondary wds-button-text sm-copy-survey-modal-back"
-      >
+        class="wds-button-secondary wds-button-text sm-copy-survey-modal-back">
         <i nz-icon nzType="close-circle" nzTheme="outline"></i>
         {{ 'default.layout.CLOSE' | translate }}
       </button>
@@ -27,14 +22,11 @@
     </div>
   </div>
 
-  <div
-    class="sm-full-screen-modal-side-content wds-bg-light p-0 wds-flex wds-flex-y"
-  >
+  <div class="sm-full-screen-modal-side-content wds-bg-light p-0 wds-flex wds-flex-y">
     <div class="sm-copy-survey-modal-title-container">
       <h1
         class="wds-type-section-title sm-truncate-multi-line"
-        style="-webkit-line-clamp: 2;"
-      >
+        style="-webkit-line-clamp: 2;">
         {{ surveyFormDetail?.title }}
       </h1>
       <div class="wds-type-dark-muted wds-type-body-sm m-b-5">
@@ -45,16 +37,13 @@
         (click)="onUpdateFavorite(surveyFormDetail)"
         nz-button
         nzType="link"
-        class="wds-button-secondary wds-button-text wds-button-sm"
-      >
+        class="wds-button-secondary wds-button-text wds-button-sm">
         <i
-          [ngClass]="{
-            'sm-survey-tile-badge-favorite': surveyFormDetail?.isFavorite
-          }"
+          [ngClass]="{'sm-survey-tile-badge-favorite': surveyFormDetail?.isFavorite}"
           nz-icon
           nzType="star"
-          [nzTheme]="'fill'"
-        ></i>
+          [nzTheme]="'fill'">
+        </i>
         {{ 'default.layout.REMOVE_FROM_FAVORITES' | translate }}
       </button>
     </div>
@@ -78,12 +67,7 @@
       </div>
     </div>
     <div class="sm-copy-survey-modal-actions wds-flex wds-flex-y p-5">
-      <button
-        (click)="onMakeCopy(surveyFormDetail)"
-        class="wds-button-md"
-        nz-button
-        nzType="primary"
-      >
+      <button (click)="onMakeCopy(surveyFormDetail)" class="wds-button-md" nz-button nzType="primary">
         {{ 'default.layout.COPY_THIS_SURVEY' | translate }}
         <i nz-icon nzType="arrow-right" nzTheme="outline"></i>
       </button>

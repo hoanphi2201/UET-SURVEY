@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  HostListener,
-  AfterContentInit
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, AfterContentInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
@@ -33,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit {
     private i18nService: I18nService,
     private authService: AuthService,
     private loaderService: LoaderService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.windowresizeService.setSize({
@@ -41,18 +35,16 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit {
       innerHeight: window.innerHeight
     });
     this.subscriptions.push(
-      this.router.events
-        .pipe(filter(event => event instanceof NavigationEnd))
-        .subscribe(() => {
-          let scrollToTop = window.setInterval(() => {
-            let pos = window.pageYOffset;
-            if (pos > 0) {
-              window.scrollTo(0, pos - 50); // how far to scroll on each step
-            } else {
-              window.clearInterval(scrollToTop);
-            }
-          }, 16);
-        })
+      this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+        let scrollToTop = window.setInterval(() => {
+          let pos = window.pageYOffset;
+          if (pos > 0) {
+            window.scrollTo(0, pos - 50); // how far to scroll on each step
+          } else {
+            window.clearInterval(scrollToTop);
+          }
+        }, 16);
+      })
     );
     // Setup logger
     if (environment.production) {
@@ -72,25 +64,23 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit {
     );
 
     // Change page title on navigation or language change, based on route data
-    merge(this.translateService.onLangChange, onNavigationEnd)
-      .pipe(
-        map(() => {
-          let route = this.activatedRoute;
-          while (route.firstChild) {
-            route = route.firstChild;
-          }
-          return route;
-        }),
-        filter(route => route.outlet === 'primary'),
-        switchMap(route => route.data),
-        untilDestroyed(this)
-      )
-      .subscribe(event => {
-        const title = event.title;
-        if (title) {
-          this.titleService.setTitle(this.translateService.instant(title));
+    merge(this.translateService.onLangChange, onNavigationEnd).pipe(
+      map(() => {
+        let route = this.activatedRoute;
+        while (route.firstChild) {
+          route = route.firstChild;
         }
-      });
+        return route;
+      }),
+      filter(route => route.outlet === 'primary'),
+      switchMap(route => route.data),
+      untilDestroyed(this)
+    ).subscribe(event => {
+      const title = event.title;
+      if (title) {
+        this.titleService.setTitle(this.translateService.instant(title));
+      }
+    });
     this.authService.populate();
   }
   ngAfterContentInit(): void {

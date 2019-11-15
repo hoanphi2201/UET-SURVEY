@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  DSurveyFormService,
-  DSurveyCollectorService,
-  SurveyCollector,
-  IValidators
-} from '@app/core';
+import { DSurveyFormService, DSurveyCollectorService, SurveyCollector, IValidators } from '@app/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -45,7 +40,7 @@ export class CollectLinkComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private dSurveyFormService: DSurveyFormService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.buildForm();
@@ -59,10 +54,7 @@ export class CollectLinkComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      thankYouMessage: [
-        '',
-        [Validators.required, IValidators.spaceStringValidator()]
-      ],
+      thankYouMessage: ['', [Validators.required, IValidators.spaceStringValidator()]],
       allowMultipleResponses: ['', []],
       anonymousType: ['', []],
       displaySurveyResults: ['', []],
@@ -84,26 +76,18 @@ export class CollectLinkComponent implements OnInit {
     }
     this.form.patchValue({
       thankYouMessage: this.surveyCollectorDetail.thankYouMessage,
-      allowMultipleResponses:
-        this.surveyCollectorDetail.allowMultipleResponses || false,
+      allowMultipleResponses: this.surveyCollectorDetail.allowMultipleResponses || false,
       anonymousType: this.surveyCollectorDetail.anonymousType || false,
-      displaySurveyResults:
-        this.surveyCollectorDetail.displaySurveyResults || false,
+      displaySurveyResults: this.surveyCollectorDetail.displaySurveyResults || false,
       closeDateEnabled: this.surveyCollectorDetail.closeDateEnabled || false,
       closeDate: this.surveyCollectorDetail.closeDate || new Date(),
-      responseLimitEnabled:
-        this.surveyCollectorDetail.responseLimitEnabled || false,
+      responseLimitEnabled: this.surveyCollectorDetail.responseLimitEnabled || false,
       responseLimit: this.surveyCollectorDetail.responseLimit || '',
       passwordEnabled: this.surveyCollectorDetail.passwordEnabled || false,
       password: this.surveyCollectorDetail.password || '',
-      passwordLabel:
-        this.surveyCollectorDetail.passwordLabel || 'Enter Password',
-      passwordRequiredMessage:
-        this.surveyCollectorDetail.passwordRequiredMessage ||
-        'This survey requires a password.<br /><br />If you do not know the password, contact the author of this survey for further assistance.',
-      passwordRequiredErrorMessage:
-        this.surveyCollectorDetail.passwordRequiredErrorMessage ||
-        'The password entered was incorrect please check your data and try again.'
+      passwordLabel: this.surveyCollectorDetail.passwordLabel || 'Enter Password',
+      passwordRequiredMessage: this.surveyCollectorDetail.passwordRequiredMessage || 'This survey requires a password.<br /><br />If you do not know the password, contact the author of this survey for further assistance.',
+      passwordRequiredErrorMessage: this.surveyCollectorDetail.passwordRequiredErrorMessage || 'The password entered was incorrect please check your data and try again.'
     });
   }
 
@@ -115,48 +99,41 @@ export class CollectLinkComponent implements OnInit {
   }
   getSurveyCollectorById(surveyCollectorId: string) {
     this.loaderService.display(true);
-    this.dSurveyCollectorService
-      .getSurveyCollectorById(surveyCollectorId)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            if (res.results && res.results[0]) {
-              this.surveyCollectorDetail = res.results[0];
-              this.surveyCollectorDetail.fullUrl =
-                this.clientUrl +
-                '/open/answer-survey/' +
-                this.surveyCollectorDetail.url;
-              this.dSurveyFormService.setSurveyFormDetail(
-                this.surveyCollectorDetail.surveyForm
-              );
-              this.patchForm();
-            } else {
-              this.nzMessageService.warning(
-                this.translateService.instant(
-                  'admin.layout.SURVEY_COLLECTOR_NOT_EXIST'
-                )
-              );
-              this.router.navigate(['/dashboard']);
-            }
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
+    this.dSurveyCollectorService.getSurveyCollectorById(surveyCollectorId).subscribe(res => {
+      if (res.status.code === 200) {
+        if (res.results && res.results[0]) {
+          this.surveyCollectorDetail = res.results[0];
+          this.surveyCollectorDetail.fullUrl =
+            this.clientUrl +
+            '/open/answer-survey/' +
+            this.surveyCollectorDetail.url;
+          this.dSurveyFormService.setSurveyFormDetail(
+            this.surveyCollectorDetail.surveyForm
           );
-        },
-        () => {
-          this.loaderService.display(false);
+          this.patchForm();
+        } else {
+          this.nzMessageService.warning(
+            this.translateService.instant(
+              'admin.layout.SURVEY_COLLECTOR_NOT_EXIST'
+            )
+          );
+          this.router.navigate(['/dashboard']);
         }
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
   }
 
   showRenameCollectorModal(surveyCollector: SurveyCollector): void {
     this.modalForm = this.modalService.create({
-      nzTitle: this.translateService.instant(
-        'default.layout.EDIT_COLLECTOR_NICKNAME'
-      ),
+      nzTitle: this.translateService.instant('default.layout.EDIT_COLLECTOR_NICKNAME'),
       nzFooter: null,
       nzContent: RenameCollectorComponent,
       nzCancelDisabled: true,
@@ -215,9 +192,7 @@ export class CollectLinkComponent implements OnInit {
   }
 
   saveCanvasAs(canvas: HTMLCanvasElement, fileName: string) {
-    const canvasDataUrl = canvas
-      .toDataURL()
-      .replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+    const canvasDataUrl = canvas.toDataURL().replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
     const link = document.createElement('a');
     link.setAttribute('href', canvasDataUrl);
     link.setAttribute('target', '_blank');
@@ -244,28 +219,24 @@ export class CollectLinkComponent implements OnInit {
     }
     const dataUpdate = {};
     dataUpdate[name] = value;
-    this.dSurveyCollectorService
-      .updateSurveyCollector(this.surveyCollectorDetail.id, dataUpdate)
-      .subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.nzMessageService.success(
-              this.translateService.instant(
-                'default.layout.YOUR_CHANGES_HAVE_BEEN_SAVED'
-              )
-            );
-            this.surveyCollectorDetail = Object.assign(
-              this.surveyCollectorDetail,
-              dataUpdate
-            );
-            this.form.patchValue(dataUpdate);
-          }
-        },
-        err => {
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
-          );
-        }
+    this.dSurveyCollectorService.updateSurveyCollector(this.surveyCollectorDetail.id, dataUpdate).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(
+            'default.layout.YOUR_CHANGES_HAVE_BEEN_SAVED'
+          )
+        );
+        this.surveyCollectorDetail = Object.assign(
+          this.surveyCollectorDetail,
+          dataUpdate
+        );
+        this.form.patchValue(dataUpdate);
+      }
+    }, err => {
+      this.nzMessageService.error(
+        this.translateService.instant(err.message)
       );
+    }
+    );
   }
 }

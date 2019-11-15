@@ -23,7 +23,7 @@ export class ManageFoldersComponent implements OnInit {
     private nzMessageService: NzMessageService,
     private translateService: TranslateService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.buildForm();
@@ -34,51 +34,44 @@ export class ManageFoldersComponent implements OnInit {
       folders: this.formBuilder.array([])
     });
     this.addFolderForm = this.formBuilder.group({
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(120),
-          IValidators.spaceStringValidator()
-        ]
+      title: ['', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(120),
+        IValidators.spaceStringValidator()
+      ]
       ]
     });
   }
   getListSurveyFolder() {
     const control = <FormArray>this.editFolderForm.get('folders');
-    this.dSurveyFolderService.getAllSurveyFolderList().subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.listOfAllFolder = res.results;
-          this.listOfAllFolder.map((o: any) => {
-            o.state = 'info';
-          });
-          for (const folder of this.listOfAllFolder) {
-            const group = this.buildGroupFolder(folder);
-            control.push(group);
-          }
+    this.dSurveyFolderService.getAllSurveyFolderList().subscribe(res => {
+      if (res.status.code === 200) {
+        this.listOfAllFolder = res.results;
+        this.listOfAllFolder.map((o: any) => {
+          o.state = 'info';
+        });
+        for (const folder of this.listOfAllFolder) {
+          const group = this.buildGroupFolder(folder);
+          control.push(group);
         }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   buildGroupFolder(folder: any) {
     const group = this.formBuilder.group({
-      title: [
-        folder.title,
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(120),
-          IValidators.spaceStringValidator()
-        ]
+      title: [folder.title, [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(120),
+        IValidators.spaceStringValidator()
+      ]
       ]
     });
     return group;
@@ -97,26 +90,23 @@ export class ManageFoldersComponent implements OnInit {
     if (group.valid) {
       const folder = group.value;
       this.loaderService.display(true);
-      this.dSurveyFolderService.updateFolderTitle(folderId, folder).subscribe(
-        res => {
-          if (res.status.code === 200) {
-            this.dSurveyFolderService.setRefreshList(true);
-            const folderUpdate = this.findFolderById(folderId);
-            folderUpdate.title = folder.title;
-            this.nzMessageService.success(
-              this.translateService.instant(res.status.message)
-            );
-          }
-        },
-        err => {
-          this.loaderService.display(false);
-          this.nzMessageService.error(
-            this.translateService.instant(err.message)
+      this.dSurveyFolderService.updateFolderTitle(folderId, folder).subscribe(res => {
+        if (res.status.code === 200) {
+          this.dSurveyFolderService.setRefreshList(true);
+          const folderUpdate = this.findFolderById(folderId);
+          folderUpdate.title = folder.title;
+          this.nzMessageService.success(
+            this.translateService.instant(res.status.message)
           );
-        },
-        () => {
-          this.loaderService.display(false);
         }
+      }, err => {
+        this.loaderService.display(false);
+        this.nzMessageService.error(
+          this.translateService.instant(err.message)
+        );
+      }, () => {
+        this.loaderService.display(false);
+      }
       );
     } else {
       group.get('title').markAsDirty({ onlySelf: true });
@@ -134,51 +124,45 @@ export class ManageFoldersComponent implements OnInit {
         formData.value[key] = formData.value[key].trim();
       }
     });
-    this.dSurveyFolderService.addSurveyFolder(formData.value).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.dSurveyFolderService.setRefreshList(true);
-          const folder = Object.assign(res.results[0], {
-            totalForm: 0,
-            state: 'info'
-          });
-          this.listOfAllFolder.push(folder);
-          const group = this.buildGroupFolder(folder);
-          control.push(group);
-          formData.reset();
-          this.updateNewFolder(false);
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.dSurveyFolderService.addSurveyFolder(formData.value).subscribe(res => {
+      if (res.status.code === 200) {
+        this.dSurveyFolderService.setRefreshList(true);
+        const folder = Object.assign(res.results[0], {
+          totalForm: 0,
+          state: 'info'
+        });
+        this.listOfAllFolder.push(folder);
+        const group = this.buildGroupFolder(folder);
+        control.push(group);
+        formData.reset();
+        this.updateNewFolder(false);
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   onDeleteFolder(folderId: string) {
     this.loaderService.display(true);
     const control = <FormArray>this.editFolderForm.get('folders');
-    this.dSurveyFolderService.deleteSurveyFolder(folderId).subscribe(
-      res => {
-        if (res.status.code === 200) {
-          this.dSurveyFolderService.setRefreshList(true);
-          const indexFolder = _.findIndex(this.listOfAllFolder, {
-            id: folderId
-          });
-          _.remove(this.listOfAllFolder, { id: folderId });
-          control.removeAt(indexFolder);
-        }
-      },
-      err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(this.translateService.instant(err.message));
-      },
-      () => {
-        this.loaderService.display(false);
+    this.dSurveyFolderService.deleteSurveyFolder(folderId).subscribe(res => {
+      if (res.status.code === 200) {
+        this.dSurveyFolderService.setRefreshList(true);
+        const indexFolder = _.findIndex(this.listOfAllFolder, {
+          id: folderId
+        });
+        _.remove(this.listOfAllFolder, { id: folderId });
+        control.removeAt(indexFolder);
       }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
     );
   }
   get getFormData(): FormArray {
