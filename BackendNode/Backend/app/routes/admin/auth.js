@@ -11,14 +11,10 @@ module.exports = passport => {
   router.post("/login", (req, res, next) => {
     passport.authenticate("local-login", (err, user, info) => {
       if (err) {
-        return next(
-          new Response(true, 401, "error", "Username or password is incorrect")
-        );
+        return next(new Response(true, 401, "error", "Username or password is incorrect"));
       }
       if (!user) {
-        return res
-          .status(401)
-          .json(new Response(true, 401, "error", info.message));
+        return res.status(401).json(new Response(true, 401, "error", info.message));
       }
       req.logIn(user, err => {
         const payload = {
@@ -47,9 +43,7 @@ module.exports = passport => {
             refresh_token: refresh_token
           }
         ];
-        return res
-          .status(200)
-          .json(new Response(false, 200, "success", "Login success", result));
+        return res.status(200).json(new Response(false, 200, "success", "Login success", result));
       });
     })(req, res, next);
   });
@@ -79,15 +73,9 @@ module.exports = passport => {
         const access_token = jwt.sign(payload, systemConfig.jwtSecret, {
           expiresIn: systemConfig.tokenLife
         });
-        res
-          .status(200)
-          .json(
-            new Response(false, 200, "success", "Success", [{ access_token }])
-          );
+        res.status(200).json(new Response(false, 200, "success", "Success", [{ access_token }]));
       } catch (err) {
-        res
-          .status(403)
-          .json(new Response(true, 403, "error", "Invalid refresh token"));
+        res.status(403).json(new Response(true, 403, "error", "Invalid refresh token"));
       }
     } else {
       res.status(400).json(new Response(true, 400, "error", "Invalid request"));
@@ -103,13 +91,9 @@ module.exports = passport => {
           systemConfig.refreshTokenSecret
         );
         delete tokenList[refresh_token];
-        res
-          .status(200)
-          .json(new Response(false, 200, "success", "Logout success"));
+        res.status(200).json(new Response(false, 200, "success", "Logout success"));
       } catch (err) {
-        res
-          .status(403)
-          .json(new Response(true, 403, "error", "Invalid refresh token"));
+        res.status(403).json(new Response(true, 403, "error", "Invalid refresh token"));
       }
     } else {
       res.status(400).json(new Response(true, 400, "error", "Invalid request"));

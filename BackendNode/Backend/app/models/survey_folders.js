@@ -1,10 +1,6 @@
 "use strict";
-const surveyFoldersModel = require(__pathSchemas)[
-  databaseConfig.col_survey_folders
-];
-const surveyFormsModel = require(__pathSchemas)[
-  databaseConfig.col_survey_forms
-];
+const surveyFoldersModel = require(__pathSchemas)[databaseConfig.col_survey_folders];
+const surveyFormsModel = require(__pathSchemas)[databaseConfig.col_survey_forms];
 const usersModel = require(__pathSchemas)[databaseConfig.col_users];
 const NotFound = require(__pathHelper + "error");
 const Sequelize = require("sequelize");
@@ -53,36 +49,28 @@ module.exports = {
   },
   deleteSurveyFolders: async (surveyFolderId, options = null) => {
     if (options.task === "delete-one") {
-      const surveyFolder = await surveyFoldersModel
-        .findByPk(surveyFolderId)
-        .then(surveyFolder => {
-          if (surveyFolder) {
-            return surveyFolder;
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      const surveyFolder = await surveyFoldersModel.findByPk(surveyFolderId).then(surveyFolder => {
+        if (surveyFolder) {
+          return surveyFolder;
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
       await surveyFoldersModel.destroy({ where: { id: surveyFolderId } });
       return surveyFolder;
     } else if (options.task === "delete-many") {
-      const surveyFolders = await surveyFoldersModel
-        .findAll({
-          where: { id: surveyFolderId }
-        })
-        .then(surveyFolders => {
-          if (surveyFolders.length > 0) {
-            return surveyFolders;
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      const surveyFolders = await surveyFoldersModel.findAll({
+        where: { id: surveyFolderId }
+      }).then(surveyFolders => {
+        if (surveyFolders.length > 0) {
+          return surveyFolders;
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
       await surveyFoldersModel.destroy({ where: { id: surveyFolderId } });
       return surveyFolders;
     }
   },
-  saveSurveyFolder: async (
-    surveyFolder,
-    surveyFolderId = null,
-    options = null
-  ) => {
+  saveSurveyFolder: async (surveyFolder, surveyFolderId = null, options = null) => {
     if (options.task === "update") {
       const existSurveyFolder = await module.exports.getSurveyFolderByTitleUserIdAndId(
         surveyFolder.title,
@@ -90,14 +78,12 @@ module.exports = {
         surveyFolderId
       );
       if (!existSurveyFolder) {
-        return surveyFoldersModel
-          .findByPk(surveyFolderId)
-          .then(surveyFolderUpdate => {
-            if (surveyFolderUpdate) {
-              return surveyFolderUpdate.update(surveyFolder);
-            }
-            throw new NotFound("admin.layout.NOT_BE_BOUND");
-          });
+        return surveyFoldersModel.findByPk(surveyFolderId).then(surveyFolderUpdate => {
+          if (surveyFolderUpdate) {
+            return surveyFolderUpdate.update(surveyFolder);
+          }
+          throw new NotFound("admin.layout.NOT_BE_BOUND");
+        });
       }
       throw new NotFound("admin.layout.SURVEY_FOLDER_AREADY_EXIST");
     } else if (options.task === "create") {
@@ -124,9 +110,7 @@ module.exports = {
     const objWhere = { userId: options.user.id };
     return surveyFoldersModel.findAll({
       where: objWhere,
-      attributes: [
-        "id",
-        "title",
+      attributes: ["id", "title",
         [Sequelize.fn("COUNT", Sequelize.col("survey_forms.id")), "totalForm"]
       ],
       include: [

@@ -19,14 +19,7 @@ module.exports = {
       where: objWhere,
       order: order,
       attributes: [
-        "id",
-        "firstName",
-        "roleId",
-        "lastName",
-        "userName",
-        "email",
-        "updatedAt",
-        "createdAt"
+        "id", "firstName", "roleId", "lastName", "userName", "email", "updatedAt", "createdAt"
       ],
       limit: params.paging.pageSize,
       offset: (params.paging.page - 1) * params.paging.pageSize,
@@ -39,24 +32,16 @@ module.exports = {
     });
   },
   getUsersById: (userId, options = null) => {
-    return usersModel
-      .findByPk(userId, {
-        attributes: [
-          "id",
-          "firstName",
-          "lastName",
-          "userName",
-          "email",
-          "updatedAt",
-          "createdAt"
-        ]
-      })
-      .then(user => {
-        if (user) {
-          return user;
-        }
-        throw new NotFound("admin.layout.NOT_BE_BOUND");
-      });
+    return usersModel.findByPk(userId, {
+      attributes: [
+        "id", "firstName", "lastName", "userName", "email", "updatedAt", "createdAt"
+      ]
+    }).then(user => {
+      if (user) {
+        return user;
+      }
+      throw new NotFound("admin.layout.NOT_BE_BOUND");
+    });
   },
   searchUsersByUserName: (userName, options = null) => {
     return usersModel.findAll({
@@ -66,27 +51,19 @@ module.exports = {
     });
   },
   getUsersByUsername: (userName, options = null) => {
-    return usersModel
-      .findOne(
-        { where: { userName } },
-        {
-          attributes: [
-            "id",
-            "userName",
-            "email",
-            "firstName",
-            "lastName",
-            "jobRole",
-            "jobLevel"
-          ]
-        }
-      )
-      .then(user => {
-        if (user) {
-          return user;
-        }
-        throw new NotFound("admin.layout.NOT_BE_BOUND");
-      });
+    return usersModel.findOne(
+      { where: { userName } },
+      {
+        attributes: [
+          "id", "userName", "email", "firstName", "lastName", "jobRole", "jobLevel"
+        ]
+      }
+    ).then(user => {
+      if (user) {
+        return user;
+      }
+      throw new NotFound("admin.layout.NOT_BE_BOUND");
+    });
   },
   countUsers: params => {
     let objWhere = {};
@@ -120,16 +97,14 @@ module.exports = {
       await usersModel.destroy({ where: { id: userId } });
       return user;
     } else if (options.task === "delete-many") {
-      const users = await usersModel
-        .findAll({
-          where: { id: userId }
-        })
-        .then(users => {
-          if (users.length > 0) {
-            return users;
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      const users = await usersModel.findAll({
+        where: { id: userId }
+      }).then(users => {
+        if (users.length > 0) {
+          return users;
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
       await usersModel.destroy({ where: { id: userId } });
       return users;
     }
@@ -152,12 +127,7 @@ module.exports = {
               organization: user.organization,
               accountComplete: user.accountComplete
             };
-            if (
-              user.password &&
-              user.password !== "" &&
-              user.confirmPassword !== "" &&
-              user.confirmPassword === user.password
-            ) {
+            if (user.password && user.password !== "" && user.confirmPassword !== "" && user.confirmPassword === user.password) {
               objUpdate.password = usersModel.prototype.generateHash(
                 user.password
               );

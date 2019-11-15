@@ -48,25 +48,21 @@ module.exports = {
   },
   deleteUserGrants: async (userGrantId, options = null) => {
     if (options.task === "delete-one") {
-      const userGrant = await userGrantsModel
-        .findByPk(userGrantId)
-        .then(userGrant => {
-          if (userGrant) {
-            return userGrant;
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      const userGrant = await userGrantsModel.findByPk(userGrantId).then(userGrant => {
+        if (userGrant) {
+          return userGrant;
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
       await userGrantsModel.destroy({ where: { id: userGrantId } });
       return userGrant;
     } else if (options.task === "delete-many") {
-      const userGrants = await userGrantsModel
-        .findAll({ where: { id: userGrantId } })
-        .then(userGrants => {
-          if (userGrants.length > 0) {
-            return userGrants;
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      const userGrants = await userGrantsModel.findAll({ where: { id: userGrantId } }).then(userGrants => {
+        if (userGrants.length > 0) {
+          return userGrants;
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
       await userGrantsModel.destroy({ where: { id: userGrantId } });
       return userGrants;
     }
@@ -130,12 +126,7 @@ module.exports = {
     const tableModel = require(__pathSchemas)[tableName];
     return tableModel.findByPk(recordId);
   },
-  getUserGrantByIdUserIdRecordIdTableName: (
-    userId,
-    recordId,
-    userGrantId,
-    tableName
-  ) => {
+  getUserGrantByIdUserIdRecordIdTableName: (userId, recordId, userGrantId, tableName) => {
     const objWhere = { userId, recordId, tableName };
     if (userGrantId) {
       objWhere.id = { $ne: userGrantId };

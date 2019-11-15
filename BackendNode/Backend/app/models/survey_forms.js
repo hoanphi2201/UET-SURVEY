@@ -1,16 +1,8 @@
 "use strict";
-const surveyFormsModel = require(__pathSchemas)[
-  databaseConfig.col_survey_forms
-];
-const surveyCollectorsModel = require(__pathSchemas)[
-  databaseConfig.col_survey_collectors
-];
-const surveyResponsesModel = require(__pathSchemas)[
-  databaseConfig.col_survey_responses
-];
-const surveyFoldersModel = require(__pathSchemas)[
-  databaseConfig.col_survey_folders
-];
+const surveyFormsModel = require(__pathSchemas)[databaseConfig.col_survey_forms];
+const surveyCollectorsModel = require(__pathSchemas)[databaseConfig.col_survey_collectors];
+const surveyResponsesModel = require(__pathSchemas)[databaseConfig.col_survey_responses];
+const surveyFoldersModel = require(__pathSchemas)[databaseConfig.col_survey_folders];
 const usersModel = require(__pathSchemas)[databaseConfig.col_users];
 const NotFound = require(__pathHelper + "error");
 const Sequelize = require("sequelize");
@@ -44,24 +36,10 @@ module.exports = {
     });
   },
   getSurveyFormsById: (surveyFormId, options = null) => {
-    return surveyFormsModel
-      .findByPk(surveyFormId, {
-        attributes: [
-          "category",
-          "createdAt",
-          "description",
-          "id",
-          "isFavorite",
-          "json",
-          "status",
-          "surveyFolderId",
-          "title",
-          "updatedAt",
-          "userId",
-          [
-            Sequelize.fn("COUNT", Sequelize.col("survey_responses.id")),
-            "response"
-          ]
+    return surveyFormsModel.findByPk(surveyFormId, {
+        attributes: [ 
+          "category", "createdAt", "description", "id", "isFavorite", "json", "status", "surveyFolderId", "title", "updatedAt", "userId",
+          [ Sequelize.fn("COUNT", Sequelize.col("survey_responses.id")),"response" ]
         ],
         include: [
           {
@@ -71,8 +49,7 @@ module.exports = {
           }
         ],
         group: ["survey_forms.id"]
-      })
-      .then(surveyForm => {
+      }).then(surveyForm => {
         if (surveyForm) {
           return surveyForm;
         }
@@ -112,9 +89,7 @@ module.exports = {
   },
   deleteSurveyForms: async (surveyFormId, options = null) => {
     if (options.task === "delete-one") {
-      const surveyForm = await surveyFormsModel
-        .findByPk(surveyFormId)
-        .then(surveyForm => {
+      const surveyForm = await surveyFormsModel.findByPk(surveyFormId).then(surveyForm => {
           if (surveyForm) {
             return surveyForm;
           }
@@ -123,11 +98,9 @@ module.exports = {
       await surveyFormsModel.destroy({ where: { id: surveyFormId } });
       return surveyForm;
     } else if (options.task === "delete-many") {
-      const surveyForms = await surveyFormsModel
-        .findAll({
+      const surveyForms = await surveyFormsModel.findAll({
           where: { id: surveyFormId }
-        })
-        .then(surveyForms => {
+        }).then(surveyForms => {
           if (surveyForms.length > 0) {
             return surveyForms;
           }
@@ -165,22 +138,15 @@ module.exports = {
     if (params.searchKey !== "" && params.searchValue !== "") {
       objWhere[params.searchKey] = { $like: `%${params.searchValue}%` };
     }
-    const attributes = [
-      "id",
-      "title",
-      "updatedAt",
-      "createdAt",
-      "json",
-      "status",
-      "isFavorite"
+    const attributes = [ 
+      "id", "title", "updatedAt", "createdAt", "json", "status", "isFavorite"
     ];
     const include = [];
 
     if (params.countColumn) {
       if (params.countColumn === "collector") {
         attributes.push([
-          Sequelize.fn("COUNT", Sequelize.col("survey_collectors.id")),
-          "collector"
+          Sequelize.fn("COUNT", Sequelize.col("survey_collectors.id")), "collector"
         ]);
         include.push({
           model: surveyCollectorsModel,
@@ -189,8 +155,7 @@ module.exports = {
         });
       } else if (params.countColumn === "response") {
         attributes.push([
-          Sequelize.fn("COUNT", Sequelize.col("survey_responses.id")),
-          "response"
+          Sequelize.fn("COUNT", Sequelize.col("survey_responses.id")),"response"
         ]);
         include.push({
           model: surveyResponsesModel,
@@ -228,11 +193,9 @@ module.exports = {
     });
   },
   moveSurveyToFolder: async (surveyFolderId, surveyFormIds, options = null) => {
-    const surveyForms = await surveyFormsModel
-      .findAll({
+    const surveyForms = await surveyFormsModel.findAll({
         where: { id: surveyFormIds }
-      })
-      .then(surveyForms => {
+      }).then(surveyForms => {
         if (surveyForms.length > 0) {
           return surveyForms;
         }

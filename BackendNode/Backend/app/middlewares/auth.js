@@ -9,43 +9,21 @@ module.exports = {
       var jwtToken = req.headers.authorization;
       jwt.verify(jwtToken, systemConfig.jwtSecret, async (err, payload) => {
         if (err) {
-          res
-            .status(401)
-            .json(
-              new Response(
-                true,
-                401,
-                "error",
-                `Failed to authenticate with token.`
-              )
-            );
+          res.status(401).json(new Response(true, 401, "error", `Failed to authenticate with token.`));
         } else {
-          const user = await usersModel
-            .compareUserLogin(payload.userName)
-            .then(user => {
-              return user;
-            });
+          const user = await usersModel.compareUserLogin(payload.userName).then(user => {
+            return user;
+          });
           if (user) {
             req.user = user;
             next();
           } else {
-            res
-              .status(401)
-              .json(
-                new Response(
-                  true,
-                  401,
-                  "error",
-                  `Failed to authenticate with token.`
-                )
-              );
+            res.status(401).json(new Response(true, 401, "error", `Failed to authenticate with token.`));
           }
         }
       });
     } else {
-      res
-        .status(401)
-        .json(new Response(true, 403, "error", `No token provided.`));
+      res.status(401).json(new Response(true, 403, "error", `No token provided.`));
     }
   },
   verifyJwtToken: (token, secretKey) => {

@@ -48,9 +48,7 @@ module.exports = {
   },
   deleteRoleGrants: async (roleGrantId, options = null) => {
     if (options.task === "delete-one") {
-      const roleGrant = await roleGrantsModel
-        .findByPk(roleGrantId)
-        .then(roleGrant => {
+      const roleGrant = await roleGrantsModel.findByPk(roleGrantId).then(roleGrant => {
           if (roleGrant) {
             return roleGrant;
           }
@@ -59,9 +57,7 @@ module.exports = {
       await roleGrantsModel.destroy({ where: { id: roleGrantId } });
       return roleGrant;
     } else if (options.task === "delete-many") {
-      const roleGrants = await roleGrantsModel
-        .findAll({ where: { id: roleGrantId } })
-        .then(roleGrants => {
+      const roleGrants = await roleGrantsModel.findAll({ where: { id: roleGrantId } }).then(roleGrants => {
           if (roleGrants.length > 0) {
             return roleGrants;
           }

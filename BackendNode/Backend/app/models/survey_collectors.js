@@ -1,13 +1,7 @@
 "use strict";
-const surveyFormsModel = require(__pathSchemas)[
-  databaseConfig.col_survey_forms
-];
-const surveyCollectorsModel = require(__pathSchemas)[
-  databaseConfig.col_survey_collectors
-];
-const surveyResponsesModel = require(__pathSchemas)[
-  databaseConfig.col_survey_responses
-];
+const surveyFormsModel = require(__pathSchemas)[databaseConfig.col_survey_forms];
+const surveyCollectorsModel = require(__pathSchemas)[databaseConfig.col_survey_collectors];
+const surveyResponsesModel = require(__pathSchemas)[databaseConfig.col_survey_responses];
 const usersModel = require(__pathSchemas)[databaseConfig.col_users];
 const Sequelize = require("sequelize");
 const NotFound = require(__pathHelper + "error");
@@ -41,22 +35,20 @@ module.exports = {
     });
   },
   getSurveyCollectorsById: (surveyCollectorId, options = null) => {
-    return surveyCollectorsModel
-      .findByPk(surveyCollectorId, {
-        include: [
-          {
-            model: surveyFormsModel,
-            as: "surveyForm",
-            attributes: ["id", "title", "description"]
-          }
-        ]
-      })
-      .then(surveyCollector => {
-        if (surveyCollector) {
-          return surveyCollector;
+    return surveyCollectorsModel.findByPk(surveyCollectorId, {
+      include: [
+        {
+          model: surveyFormsModel,
+          as: "surveyForm",
+          attributes: ["id", "title", "description"]
         }
-        throw new NotFound("admin.layout.NOT_BE_BOUND");
-      });
+      ]
+    }).then(surveyCollector => {
+      if (surveyCollector) {
+        return surveyCollector;
+      }
+      throw new NotFound("admin.layout.NOT_BE_BOUND");
+    });
   },
   searchSurveyCollectorsByName: (surveyCollectorName, options = null) => {
     return surveyCollectorsModel.findAll({
@@ -83,46 +75,36 @@ module.exports = {
   },
   deleteSurveyCollectors: async (surveyCollectorId, options = null) => {
     if (options.task === "delete-one") {
-      const surveyCollector = await surveyCollectorsModel
-        .findByPk(surveyCollectorId)
-        .then(surveyCollector => {
-          if (surveyCollector) {
-            return surveyCollector;
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      const surveyCollector = await surveyCollectorsModel.findByPk(surveyCollectorId).then(surveyCollector => {
+        if (surveyCollector) {
+          return surveyCollector;
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
       await surveyCollectorsModel.destroy({ where: { id: surveyCollectorId } });
       return surveyCollector;
     } else if (options.task === "delete-many") {
-      const surveyCollectors = await surveyCollectorsModel
-        .findAll({
-          where: { id: surveyCollectorId }
-        })
-        .then(surveyCollectors => {
-          if (surveyCollectors.length > 0) {
-            return surveyCollectors;
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      const surveyCollectors = await surveyCollectorsModel.findAll({
+        where: { id: surveyCollectorId }
+      }).then(surveyCollectors => {
+        if (surveyCollectors.length > 0) {
+          return surveyCollectors;
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
       await surveyCollectorsModel.destroy({ where: { id: surveyCollectorId } });
       return surveyCollectors;
     }
   },
-  saveSurveyCollector: async (
-    surveyCollector,
-    surveyCollectorId = null,
-    options = null
-  ) => {
+  saveSurveyCollector: async (surveyCollector, surveyCollectorId = null, options = null) => {
     if (options.task == "update") {
-      return surveyCollectorsModel
-        .findByPk(surveyCollectorId)
-        .then(surveyCollectorUpdate => {
-          if (surveyCollectorUpdate) {
-            // tìm nếu ko có collector thì draff
-            return surveyCollectorUpdate.update(surveyCollector);
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      return surveyCollectorsModel.findByPk(surveyCollectorId).then(surveyCollectorUpdate => {
+        if (surveyCollectorUpdate) {
+          // tìm nếu ko có collector thì draff
+          return surveyCollectorUpdate.update(surveyCollector);
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
     } else if (options.task == "create") {
       // tìm nếu ko có collector thì draff
       return surveyCollectorsModel.create(surveyCollector);
@@ -146,14 +128,7 @@ module.exports = {
     }
 
     return surveyCollectorsModel.findAll({
-      attributes: [
-        "id",
-        "name",
-        "type",
-        "status",
-        "updatedAt",
-        "createdAt",
-        "closedMessage",
+      attributes: ["id", "name", "type", "status", "updatedAt", "createdAt", "closedMessage",
         [
           Sequelize.fn("COUNT", Sequelize.col("survey_responses.id")),
           "response"
@@ -175,48 +150,33 @@ module.exports = {
   },
   // OPEN
   getSurveyCollectorsByUrl: (url, options = null) => {
-    return surveyCollectorsModel
-      .findOne({
-        attributes: [
-          "id",
-          "name",
-          "surveyFormId",
-          "type",
-          "status",
-          "url",
-          "thankYouMessage",
-          "allowMultipleResponses",
-          "displaySurveyResults",
-          "closedMessage",
-          "passwordEnabled"
-        ],
-        where: { url },
-        include: [
-          {
-            model: surveyFormsModel,
-            as: "surveyForm",
-            attributes: ["id", "title", "json", "description"]
-          }
-        ]
-      })
-      .then(surveyCollector => {
-        if (surveyCollector) {
-          return surveyCollector;
+    return surveyCollectorsModel.findOne({
+      attributes: ["id", "name", "surveyFormId", "type", "status", "url", "thankYouMessage", "allowMultipleResponses", "displaySurveyResults", "closedMessage", "passwordEnabled"
+      ],
+      where: { url },
+      include: [
+        {
+          model: surveyFormsModel,
+          as: "surveyForm",
+          attributes: ["id", "title", "json", "description"]
         }
-        throw new NotFound("admin.layout.NOT_BE_BOUND");
-      });
+      ]
+    }).then(surveyCollector => {
+      if (surveyCollector) {
+        return surveyCollector;
+      }
+      throw new NotFound("admin.layout.NOT_BE_BOUND");
+    });
   },
   compareSurveyCollectorPassword: params => {
-    return surveyCollectorsModel
-      .findOne({
-        attributes: ["id"],
-        where: { id: params.surveyCollectorId, password: params.password }
-      })
-      .then(surveyCollector => {
-        if (surveyCollector) {
-          return surveyCollector;
-        }
-        throw new NotFound("admin.layout.NOT_BE_BOUND");
-      });
+    return surveyCollectorsModel.findOne({
+      attributes: ["id"],
+      where: { id: params.surveyCollectorId, password: params.password }
+    }).then(surveyCollector => {
+      if (surveyCollector) {
+        return surveyCollector;
+      }
+      throw new NotFound("admin.layout.NOT_BE_BOUND");
+    });
   }
 };

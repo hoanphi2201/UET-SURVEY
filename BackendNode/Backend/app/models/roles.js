@@ -57,11 +57,9 @@ module.exports = {
       await rolesModel.destroy({ where: { id: roleId } });
       return role;
     } else if (options.task === "delete-many") {
-      const roles = await rolesModel
-        .findAll({
+      const roles = await rolesModel.findAll({
           where: { id: roleId }
-        })
-        .then(roles => {
+        }).then(roles => {
           if (roles.length > 0) {
             return roles;
           }

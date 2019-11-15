@@ -1,13 +1,7 @@
 "use strict";
-const surveyFormsModel = require(__pathSchemas)[
-  databaseConfig.col_survey_forms
-];
-const surveyResponsesModel = require(__pathSchemas)[
-  databaseConfig.col_survey_responses
-];
-const surveyCollectorsModel = require(__pathSchemas)[
-  databaseConfig.col_survey_collectors
-];
+const surveyFormsModel = require(__pathSchemas)[databaseConfig.col_survey_forms];
+const surveyResponsesModel = require(__pathSchemas)[databaseConfig.col_survey_responses];
+const surveyCollectorsModel = require(__pathSchemas)[databaseConfig.col_survey_collectors];
 const usersModel = require(__pathSchemas)[databaseConfig.col_users];
 const Sequelize = require("sequelize");
 const NotFound = require(__pathHelper + "error");
@@ -41,14 +35,12 @@ module.exports = {
     });
   },
   getSurveyResponsesById: (surveyResponseId, options = null) => {
-    return surveyResponsesModel
-      .findByPk(surveyResponseId)
-      .then(surveyResponse => {
-        if (surveyResponse) {
-          return surveyResponse;
-        }
-        throw new NotFound("admin.layout.NOT_BE_BOUND");
-      });
+    return surveyResponsesModel.findByPk(surveyResponseId).then(surveyResponse => {
+      if (surveyResponse) {
+        return surveyResponse;
+      }
+      throw new NotFound("admin.layout.NOT_BE_BOUND");
+    });
   },
   searchSurveyResponsesByName: (surveyResponseName, options = null) => {
     return surveyResponsesModel.findAll({
@@ -75,45 +67,35 @@ module.exports = {
   },
   deleteSurveyResponses: async (surveyResponseId, options = null) => {
     if (options.task === "delete-one") {
-      const surveyResponse = await surveyResponsesModel
-        .findByPk(surveyResponseId)
-        .then(surveyResponse => {
-          if (surveyResponse) {
-            return surveyResponse;
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      const surveyResponse = await surveyResponsesModel.findByPk(surveyResponseId).then(surveyResponse => {
+        if (surveyResponse) {
+          return surveyResponse;
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
       await surveyResponsesModel.destroy({ where: { id: surveyResponseId } });
       return surveyResponse;
     } else if (options.task === "delete-many") {
-      const surveyResponses = await surveyResponsesModel
-        .findAll({
-          where: { id: surveyResponseId }
-        })
-        .then(surveyResponses => {
-          if (surveyResponses.length > 0) {
-            return surveyResponses;
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      const surveyResponses = await surveyResponsesModel.findAll({
+        where: { id: surveyResponseId }
+      }).then(surveyResponses => {
+        if (surveyResponses.length > 0) {
+          return surveyResponses;
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
       await surveyResponsesModel.destroy({ where: { id: surveyResponseId } });
       return surveyResponses;
     }
   },
-  saveSurveyResponse: async (
-    surveyResponse,
-    surveyResponseId = null,
-    options = null
-  ) => {
+  saveSurveyResponse: async (surveyResponse, surveyResponseId = null, options = null) => {
     if (options.task == "update") {
-      return surveyResponsesModel
-        .findByPk(surveyResponseId)
-        .then(surveyResponseUpdate => {
-          if (surveyResponseUpdate) {
-            return surveyResponseUpdate.update(surveyResponse);
-          }
-          throw new NotFound("admin.layout.NOT_BE_BOUND");
-        });
+      return surveyResponsesModel.findByPk(surveyResponseId).then(surveyResponseUpdate => {
+        if (surveyResponseUpdate) {
+          return surveyResponseUpdate.update(surveyResponse);
+        }
+        throw new NotFound("admin.layout.NOT_BE_BOUND");
+      });
     } else if (options.task == "create") {
       return surveyResponsesModel.create(surveyResponse);
     }

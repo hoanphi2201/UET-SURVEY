@@ -24,27 +24,25 @@ module.exports = {
     });
   },
   getCityById: (cityId, options = null) => {
-    return citiesModel
-      .findByPk(cityId, {
-        attributes: ["id", "name"],
-        include: [
-          {
-            model: statesModel,
-            attributes: ["id", "name"],
-            include: [
-              {
-                model: countriesModel,
-                attributes: ["id", "name"]
-              }
-            ]
-          }
-        ]
-      })
-      .then(city => {
-        if (city) {
-          return city;
+    return citiesModel.findByPk(cityId, {
+      attributes: ["id", "name"],
+      include: [
+        {
+          model: statesModel,
+          attributes: ["id", "name"],
+          include: [
+            {
+              model: countriesModel,
+              attributes: ["id", "name"]
+            }
+          ]
         }
-        throw new NotFound("admin.layout.NOT_BE_BOUND");
-      });
+      ]
+    }).then(city => {
+      if (city) {
+        return city;
+      }
+      throw new NotFound("admin.layout.NOT_BE_BOUND");
+    });
   }
 };
