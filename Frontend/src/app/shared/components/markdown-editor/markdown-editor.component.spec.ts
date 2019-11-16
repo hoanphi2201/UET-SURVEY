@@ -3,20 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { CollectEmailScheduleComponent } from './collect-email-schedule.component';
+import { MarkdownEditorComponent } from './markdown-editor.component';
 
-describe('CollectEmailScheduleComponent', () => {
-  let component: CollectEmailScheduleComponent;
-  let fixture: ComponentFixture<CollectEmailScheduleComponent>;
+describe('MarkdownEditorComponent', () => {
+  let component: MarkdownEditorComponent;
+  let fixture: ComponentFixture<MarkdownEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CollectEmailScheduleComponent]
-    }).compileComponents();
+      declarations: [ MarkdownEditorComponent ]
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CollectEmailScheduleComponent);
+    fixture = TestBed.createComponent(MarkdownEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -9,18 +9,12 @@ export class DSurveyResponseService {
   constructor(private apiService: ApiService) { }
 
   getResponsesBySurveyForm(surveyFormId: string): Observable<any> {
-    return this.apiService.get(
-      '/survey-responses/analyze-results/' + surveyFormId
-    );
+    return this.apiService.get('/survey-responses/analyze-results/' + surveyFormId);
   }
   countAllResponsesAndTypicalTimeSpent(): Observable<any> {
-    return this.apiService.get(
-      '/survey-responses/count-all-responses-typical-time-spent'
-    );
+    return this.apiService.get('/survey-responses/count-all-responses-typical-time-spent');
   }
   clearResponsesByCollector(surveyCollectorId: string): Observable<any> {
-    return this.apiService.get(
-      '/survey-responses/clear-responses/' + surveyCollectorId
-    );
+    return this.apiService.get('/survey-responses/clear-responses/' + surveyCollectorId);
   }
 }

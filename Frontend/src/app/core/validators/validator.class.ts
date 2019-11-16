@@ -63,4 +63,30 @@ export class IValidators {
       return null;
     };
   }
+  static arrayEmailValidator() {
+    return function(input: FormControl) {
+      const EMAIL_REGEXP = /^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+      if (input.value) {
+        let arr_email = input.value;
+        arr_email = arr_email.map((inc: any) => {
+          return inc.trim();
+        }).filter((inc: any) => {
+          return inc !== '';
+        });
+        for (let i = 0; i < arr_email.length; i++) {
+          if (arr_email.indexOf(arr_email[i]) !== i) {
+            return { validateDuplicate: { valid: false } };
+          }
+        }
+
+        for (let i = 0; i < arr_email.length; i++) {
+          if (!EMAIL_REGEXP.test(arr_email[i])) {
+            return { validateEmail: { valid: false } };
+          }
+        }
+        return null;
+      }
+      return null;
+    };
+  }
 }

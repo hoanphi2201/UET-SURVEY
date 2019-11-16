@@ -322,7 +322,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
   get percentDoneProfile() {
-    const fields = ['firstName', 'lastName', 'email', 'jobRole', 'jobLevel', 'organization.organizationType', 'organization.industry', 'organization.location', 'organization.size'];
+    const fields = ['firstName', 'lastName', 'avatar', 'email', 'jobRole', 'jobLevel', 'organization.organizationType', 'organization.industry', 'organization.location', 'organization.size'];
     const totalProfileQuality = Math.floor((<number>fields.reduce((result, next: any) => {
       return ((<number>result) += <number>(
         this.notCompletedField(this.resolve(this.currentUser, next))
@@ -351,19 +351,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   formatInfoProgress = (percent: number) => `${percent}%`;
   get msToHMSTypicalTimeSpent() {
-    let s = +this.typicalTimeSpent;
     function pad(n, z = 2) {
       z = z || 2;
       return ('00' + n).slice(-z);
     }
+    if (this.typicalTimeSpent) {
+      let s = +this.typicalTimeSpent;
 
-    var ms = s % 1000;
-    s = (s - ms) / 1000;
-    var secs = s % 60;
-    s = (s - secs) / 60;
-    var mins = s % 60;
-    var hrs = (s - mins) / 60;
-    return `${pad(hrs)}h:${pad(mins)}m:${pad(secs)}s`;
+
+      var ms = s % 1000;
+      s = (s - ms) / 1000;
+      var secs = s % 60;
+      s = (s - secs) / 60;
+      var mins = s % 60;
+      var hrs = (s - mins) / 60;
+      return `${pad(hrs)}h:${pad(mins)}m:${pad(secs)}s`;
+    }
   }
   ngOnDestroy() {
     this.destroyInterval$.next(true);

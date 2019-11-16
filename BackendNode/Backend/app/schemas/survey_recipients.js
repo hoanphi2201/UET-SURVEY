@@ -29,7 +29,15 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.ENUM,
         values: ["SENT", "NOT_SENT", "PROCESSING"],
         allowNull: false,
-        defaultValue: "PROCESSING"
+        defaultValue: "NOT_SENT"
+      },
+      message: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      subject: {
+        type: Sequelize.STRING,
+        allowNull: false
       }
     }
   );

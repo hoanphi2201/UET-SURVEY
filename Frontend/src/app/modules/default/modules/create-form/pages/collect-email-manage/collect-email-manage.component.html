@@ -1,3 +1,171 @@
-<p>
-  collect-email-manage works!
-</p>
+<div class="container">
+  <div id="page-container">
+    <div id="left-space"></div>
+    <div id="mid-space">
+      <div class="manage-message collectors">
+        <nav class="back-nav" *ngIf="surveyCollectorDetail">
+          <a [routerLink]="['/create','collector-responses',surveyCollectorDetail.surveyFormId]">
+            « {{ 'default.layout.BACK_TO_ALL_COLLECTORS' | translate }}
+          </a>
+        </nav>
+        <main>
+          <header>
+            <h1 id="edit-name" class="wds-type-page-title truncate">
+              <span class="notranslate">{{surveyCollectorDetail?.name}}</span>
+            </h1>
+            <span [ngClass]="surveyCollectorDetail?.status === 'OPEN' ? 'open' : 'closed'" class="email-collector-status title sm-badge sm-badge-sm">
+              {{surveyCollectorDetail?.status}}
+            </span>
+            <div class="actions">
+              <div *ngIf="surveyCollectorDetail" class="buttons">
+                <button 
+                  [routerLink]="['/create', 'collector-responses', 'collector-email', 'compose', surveyCollectorDetail.id]" 
+                  nz-button 
+                  nzType="primary">
+                  <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+                    {{'default.layout.INVITE_MORE' | translate | uppercase}}
+                </button>
+              </div>
+            </div>
+          </header>
+          <div class="tabs">
+            <nz-tabset>
+              <nz-tab [nzTitle]="'default.layout.RECIPIENTS' | translate | uppercase">
+                <nz-card [style.marginBottom.px]="24">
+                  <div [style.marginBottom.px]="24" nz-row>
+                    <div class="col-sm-4 pull-right">
+                      <nz-input-group [nzSize]="'large'" [nzSuffix]="suffixIconSearch">
+                        <input
+                          [(ngModel)]="filter.searchValue"
+                          (keyup.enter)="search()"
+                          type="text"
+                          nz-input
+                          placeholder="Search by survey name"/>
+                      </nz-input-group>
+                      <ng-template #suffixIconSearch>
+                        <i nz-icon nzType="search"></i>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div nz-row>
+                    <div class="col-sm-12">
+                      <nz-table
+                        #userTable
+                        nzShowPagination
+                        nzShowSizeChanger
+                        [nzData]="listOfAllSurveyRecipient"
+                        [nzPageSize]="pagging.pageSize"
+                        [nzTotal]="pagging.total"
+                        [nzFrontPagination]="false"
+                        (nzPageIndexChange)="pageIndexChange($event)"
+                        (nzPageSizeChange)="pageSizeChange($event)"
+                        [nzBordered]="true"
+                        [nzTitle]="titleTemplate">
+                        <thead (nzSortChange)="sort($event)" nzSingleSort>
+                          <tr *ngIf="columns.length > 0">
+                            <th>{{ 'default.layout.TABLE_NO' | translate | uppercase }}</th>
+                            <ng-container >
+                              <ng-container *ngFor="let column of columns">
+                                <th
+                                  [nzAlign]="'center'"
+                                  nzCustomFilter
+                                  *ngIf="!column.hidden"
+                                  [nzShowSort]="column.sortable"
+                                  [nzSortKey]="column.id"
+                                  [nzShowFilter]="column.filter"
+                                  [nzFilters]="column.filter ? column.filter : []"
+                                  (nzFilterChange)="filter($event, column.filterKey || column.id)">
+                                  {{ column.header | translate | uppercase }}
+                                  <i
+                                    *ngIf="column.search"
+                                    class="ant-table-filter-icon"
+                                    nz-icon
+                                    nz-dropdown
+                                    #dropdown="nzDropdown"
+                                    nzType="search"
+                                    [nzDropdownMenu]="menuSearch"
+                                    [class.ant-table-filter-open]="dropdown.nzVisible"
+                                    nzTrigger="click"
+                                    nzPlacement="bottomRight"
+                                    [nzClickHide]="false"
+                                    nzTableFilter
+                                    (click)="filter.searchKey = column.id">
+                                  </i>
+                                </th>
+                              </ng-container>
+                            </ng-container>
+                            
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <ng-container *ngFor="let data of userTable.data; let i = index" >
+                            <tr  
+                              (click)="onShowModalContactDetails(data)"
+                              [nzTooltipTitle]="'default.layout.CLICK_TO_VIEW_CONTACT_DETAILS' | translate"
+                              nzTooltipPlacement="top"
+                              nz-tooltip >
+                              <td>{{ i + 1 }}</td>
+                              <ng-container *ngFor="let column of columns">
+                                <td [nzAlign]="'center'" [ngClass]="column.className" *ngIf="!column.hidden">
+                                  <ng-container [ngSwitch]="column.type">
+                                    <ng-container *ngSwitchCase="'text'">
+                                      <div
+                                        *ngIf="data[column.id]?.length > 50"
+                                        [nzTooltipTitle]="data[column.id]"
+                                        nzTooltipPlacement="top"
+                                        nz-tooltip>
+                                        <a *ngIf="column.action" routerLink="column.action.link(data.id)">
+                                          {{ data[column.id] | summary : 50 }}
+                                        </a>
+                                        <ng-container *ngIf="!column.action">
+                                          {{ data[column.id] | summary : 50 }}
+                                        </ng-container>
+                                      </div>
+                                      <div *ngIf="data[column.id]?.length <= 50">
+                                        <a *ngIf="column.action"  [routerLink]="column.action.link(data.id)">
+                                          {{ data[column.id] }}
+                                        </a>
+                                        <ng-container *ngIf="!column.action">
+                                          {{ data[column.id]  }}
+                                        </ng-container>
+                                      </div>
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'date'">
+                                      <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                                      {{ data[column.id] | date: 'yyyy-MM-dd hh:mm' }}
+                                    </ng-container>
+                                  
+                                  </ng-container>
+                                </td>
+                              </ng-container>
+
+                            </tr>
+                          </ng-container>
+                        </tbody>
+                      </nz-table>
+                    </div>
+                  </div>
+                </nz-card>
+              </nz-tab>
+              <nz-tab [nzTitle]="'default.layout.OPTIONS' | translate | uppercase">
+                <div *ngIf="surveyCollectorDetail?.status === 'OPEN'" class="sm-banner sm-banner-warning">
+                  <nz-alert
+                    nzType="warning"
+                    nzMessage="Your survey is open."
+                    nzDescription="Any changes to options may affect new respondents to the survey."
+                    nzShowIcon>
+                  </nz-alert>
+                </div>
+                
+                <app-collector-options
+                  [surveyCollectorDetail]="surveyCollectorDetail">
+                </app-collector-options>
+              </nz-tab>
+            </nz-tabset>
+          </div>
+        </main>
+      </div>
+    </div>
+    <div id="right-space"></div>
+  </div>
+</div>

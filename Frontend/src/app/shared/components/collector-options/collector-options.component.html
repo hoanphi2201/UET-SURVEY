@@ -1,0 +1,204 @@
+<form *ngIf="surveyCollectorDetail" [formGroup]="form" nz-form>
+  <nz-collapse nzAccordion>
+    <nz-collapse-panel [nzHeader]="'default.layout.CUSTOM_THANK_YOU'  | translate  | uppercase">
+      <nz-form-item>
+        <nz-form-label>{{'default.layout.THANK_YOU_MESSAGE' | translate}}</nz-form-label>
+        <nz-form-control [ngClass]="{'has-error': isFieldValid(form, 'thankYouMessage')}">
+          <input 
+            (change)="onSaveSurveyCollector('thankYouMessage', $event.target.value)"
+            formControlName="thankYouMessage"
+            nz-input
+            [placeholder]="'default.layout.ENTER_THANK_YOU_MESSAGE' | translate"/>
+        </nz-form-control>
+        <field-error-display [displayError]="isFieldValid(form, 'thankYouMessage')" [errors]="f.thankYouMessage.errors">
+        </field-error-display>
+      </nz-form-item>
+    </nz-collapse-panel>
+
+    <nz-collapse-panel [nzHeader]="'default.layout.MULTIPLE_RESPONSES' | translate| uppercase">
+      <nz-radio-group
+        (ngModelChange)="onSaveSurveyCollector('allowMultipleResponses',$event)"
+        formControlName="allowMultipleResponses">
+        <label
+          nz-radio
+          [ngStyle]="styleRadio"
+          [nzValue]="true">{{ 'default.layout.ON_ALLOW_THE_SURVEY_TO_BE_TAKEN_MORE_THAN_ONCE_FROM_THE_SAME_DEVICE'| translate}}</label>
+        <label
+          nz-radio
+          [ngStyle]="styleRadio"
+          [nzValue]="false">
+          {{'default.layout.OFF_ONLY_ALLOW_THE_SURVEY_TO_BE_TAKEN_ONCE_FROM_THE_SAME_DEVICE'| translate}}</label>
+      </nz-radio-group>
+    </nz-collapse-panel>
+
+    <nz-collapse-panel
+      [nzHeader]="'default.layout.ANONYMOUS_RESPONSES'| translate| uppercase">
+      <nz-radio-group
+        (ngModelChange)="onSaveSurveyCollector('anonymousType', $event)"
+        formControlName="anonymousType">
+        <label nz-radio [ngStyle]="styleRadio" [nzValue]="true">
+          {{'default.layout.ON_YOUR_RESPONDENTS_WILL_BE_ANONYMOUS' | translate}}
+        </label>
+        <label nz-radio [ngStyle]="styleRadio" [nzValue]="false">
+          {{ 'default.layout.OFF_INCLUDE_RESPONDENTS_IP_ADDRESSES_IN_YOUR_SURVEY_RESULTS'| translate}}
+        </label>
+      </nz-radio-group>
+    </nz-collapse-panel>
+
+    <nz-collapse-panel [nzHeader]="'default.layout.INSTANT_RESULTS' | translate | uppercase">
+      <nz-radio-group
+        (ngModelChange)="onSaveSurveyCollector('displaySurveyResults', $event)"
+        formControlName="displaySurveyResults">
+        <label nz-radio [ngStyle]="styleRadio" [nzValue]="true">{{'default.layout.ON_SHOW_RESULTS_TO_RESPONDENTS'| translate}}
+        </label>
+        <label nz-radio [ngStyle]="styleRadio" [nzValue]="false">
+          {{'default.layout.OFF_DO_NOT_SHOW_RESULTS_TO_RESPONDENTS'| translate}}
+        </label>
+      </nz-radio-group>
+    </nz-collapse-panel>
+
+    <nz-collapse-panel [nzHeader]="'default.layout.CUTOFF_DATE_AND_TIME' | translate | uppercase">
+      <p>
+        {{ 'default.layout.SET_A_CUTOFF_DATE_AND_TIME_WHEN_THIS_COLLECTOR_WILL_CLOSE_AND_STOP_ACCEPTING_RESPONSES'| translate}}
+        <a
+          (click)="showCloseCollectorModal(surveyCollectorDetail)"
+          class="edit-close-message">
+          {{'default.layout.EDIT_SURVEY_CLOSED_MESSAGE'| translate}}
+        </a>
+      </p>
+      <nz-radio-group
+        (ngModelChange)="onSaveSurveyCollector('closeDateEnabled', $event)"
+        formControlName="closeDateEnabled">
+        <label nz-radio [ngStyle]="styleRadio" [nzValue]="true">
+          {{'default.layout.ON_CLOSE_THIS_COLLECTOR_ON_A_SPECIFIED_DATE_AND_TIME' | translate}}
+        </label>
+        <ng-container *ngIf="f.closeDateEnabled.value === true">
+          <div class="child-radio-margin">
+            <nz-date-picker
+              (nzOnOk)="onSaveSurveyCollector('closeDate', $event)"
+              nzShowTime
+              formControlName="closeDate"
+              nzFormat="yyyy-MM-dd HH:mm:ss"
+              [nzPlaceHolder]="'default.layout.SELECT_TIME_CLOSE' | translate">
+            </nz-date-picker>
+          </div>
+        </ng-container>
+        <label nz-radio [ngStyle]="styleRadio" [nzValue]="false">
+          {{'default.layout.OFF_ACCEPT_RESPONSES_UNTIL_YOU_MANUALLY_CLOSE_THIS_COLLECTOR' | translate}}
+        </label>
+      </nz-radio-group>
+    </nz-collapse-panel>
+    <nz-collapse-panel [nzHeader]="'default.layout.RESPONSE_LIMITS' | translate | uppercase">
+      <p>
+        {{'default.layout.SET_THE_MAXIMUM_NUMBER_OF_RESPONSES_THAT_THIS_COLLECTOR_WILL_ACCEPT'| translate}}
+        <a
+          (click)="showCloseCollectorModal(surveyCollectorDetail)"
+          class="edit-close-message">
+          {{ 'default.layout.EDIT_SURVEY_CLOSED_MESSAGE' | translate}}
+        </a>
+      </p>
+      <nz-radio-group
+        (ngModelChange)="onSaveSurveyCollector('responseLimitEnabled', $event)"
+        formControlName="responseLimitEnabled">
+        <label nz-radio [ngStyle]="styleRadio" [nzValue]="true">
+          {{ 'default.layout.ON_CLOSE_THIS_COLLECTOR_AFTER_A_SPECIFIED_NUMBER_OF_RESPONSES' | translate}}
+        </label>
+        <ng-container *ngIf="f.responseLimitEnabled.value === true">
+          <div class="child-radio-margin">
+            <nz-form-item>
+              <nz-form-label>{{'default.layout.RESPONSE_LIMIT' | translate}}
+              </nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(form,'responseLimit')}">
+                <input
+                  (change)="onSaveSurveyCollector('responseLimit',$event.target.value)"
+                  formControlName="responseLimit"
+                  nz-input
+                  [placeholder]="'default.layout.ENTER_RESPONSE_LIMIT' | translate"/>
+              </nz-form-control>
+              <field-error-display [displayError]="isFieldValid(form, 'responseLimit')" [errors]="f.responseLimit.errors"></field-error-display>
+            </nz-form-item>
+          </div>
+        </ng-container>
+        <label nz-radio [ngStyle]="styleRadio" [nzValue]="false">
+          {{ 'default.layout.OFF_ACCEPT_RESPONSES_UNTIL_YOU_MANUALLY_CLOSE_THIS_COLLECTOR' | translate}}
+        </label>
+      </nz-radio-group>
+    </nz-collapse-panel>
+
+    <nz-collapse-panel [nzHeader]="'default.layout.PASSWORD_PROTECTION'| translate| uppercase">
+      <p>
+        {{ 'default.layout.SET_A_PASSWORD_TO_RESTRICT_ACCESS_TO_YOUR_SURVEY' | translate }}
+      </p>
+      <nz-radio-group
+        (ngModelChange)="onSaveSurveyCollector('passwordEnabled', $event)"
+        formControlName="passwordEnabled">
+        <label nz-radio [ngStyle]="styleRadio" [nzValue]="true">
+          {{ 'default.layout.ON_ONLY_RESPONDENTS_WITH_THE_PASSWORD_MAY_TAKE_YOUR_SURVEY' | translate}}
+        </label>
+        <ng-container *ngIf="f.passwordEnabled.value === true">
+          <div class="child-radio-margin">
+            <nz-form-item>
+              <nz-form-label>{{ 'default.layout.PASSWORD' | translate }}
+              </nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(form, 'password')}">
+                <input
+                  (change)="onSaveSurveyCollector('password', $event.target.value)"
+                  autocomplete="password"
+                  type="password"
+                  formControlName="password"
+                  nz-input
+                  [placeholder]="'default.layout.ENTER_PASSWORD' | translate"/>
+              </nz-form-control>
+              <field-error-display [displayError]="isFieldValid(form, 'password')" [errors]="f.password.errors"></field-error-display>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label>{{'default.layout.PASSWORD_LABEL' | translate}}
+              </nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(form, 'passwordLabel')}">
+                <input
+                  (change)="onSaveSurveyCollector('passwordLabel', $event.target.value)"
+                  type="passwordLabel"
+                  formControlName="passwordLabel"
+                  nz-input
+                  [placeholder]="'default.layout.ENTER_PASSWORD_LABEL'| translate"/>
+              </nz-form-control>
+              <field-error-display [displayError]="isFieldValid(form, 'passwordLabel')" [errors]="f.passwordLabel.errors"></field-error-display>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label>{{'default.layout.PASSWORD_REQUIRED_MESSAGE'| translate}}
+              </nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(form, 'passwordRequiredMessage')}">
+                <textarea
+                  (change)="onSaveSurveyCollector('passwordRequiredMessage', $event.target.value)"
+                  [placeholder]="'default.layout.ENTER_PASSWORD_REQUIRED_MESSAGE'| translate"
+                  rows="4"
+                  nz-input
+                  formControlName="passwordRequiredMessage">
+                </textarea>
+              </nz-form-control>
+              <field-error-display [displayError]="isFieldValid(form, 'passwordRequiredMessage')" [errors]="f.passwordRequiredMessage.errors"></field-error-display>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label>{{ 'default.layout.PASSWORD_REQUIRED_ERROR_MESSAGE' | translate}}</nz-form-label>
+              <nz-form-control [ngClass]="{'has-error': isFieldValid(form, 'passwordRequiredErrorMessage')}">
+                <textarea
+                  (change)="onSaveSurveyCollector('passwordRequiredErrorMessage',$event.target.value)"
+                  [placeholder]="'default.layout.ENTER_PASSWORD_REQUIRED_ERROR_MESSAGE' | translate"
+                  rows="4"
+                  nz-input
+                  formControlName="passwordRequiredErrorMessage">
+                </textarea>
+              </nz-form-control>
+              <field-error-display [displayError]="isFieldValid(form,'passwordRequiredErrorMessage')" [errors]="f.passwordRequiredErrorMessage.errors"></field-error-display>
+            </nz-form-item>
+          </div>
+        </ng-container>
+        <label nz-radio [ngStyle]="styleRadio" [nzValue]="false">{{'default.layout.OFF_NO_PASSWORD_IS_REQUIRED_TO_TAKE_YOUR_SURVEY' | translate}}
+        </label>
+      </nz-radio-group>
+    </nz-collapse-panel>
+  </nz-collapse>
+</form>

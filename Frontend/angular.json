@@ -54,13 +54,21 @@
               "node_modules/jquery-bar-rating/dist/themes/bars-reversed.css",
               "node_modules/jquery-bar-rating/dist/themes/bars-square.css",
               "node_modules/jquery-bar-rating/dist/themes/bootstrap-stars.css",
-              "node_modules/jquery-bar-rating/dist/themes/fontawesome-stars-o.css"
+              "node_modules/jquery-bar-rating/dist/themes/fontawesome-stars-o.css",
+              "node_modules/bootstrap-markdown/css/bootstrap-markdown.min.css",
+              "node_modules/prismjs/themes/prism.css"
             ],
             "scripts": [
+              "node_modules/exif-js/exif.js",
               "node_modules/jquery/dist/jquery.js",
               "node_modules/jquery-ui/ui/widgets/datepicker.js",
               "node_modules/select2/dist/js/select2.js",
-              "node_modules/jquery-bar-rating/dist/jquery.barrating.min.js"
+              "node_modules/jquery-bar-rating/dist/jquery.barrating.min.js",
+              "node_modules/bootstrap-markdown/js/bootstrap-markdown.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-css.min.js",
+              "node_modules/prismjs/components/prism-javascript.min.js",
+              "node_modules/prismjs/components/prism-typescript.min.js"
             ]
           },
           "configurations": {

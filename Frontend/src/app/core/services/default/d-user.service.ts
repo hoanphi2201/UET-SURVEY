@@ -10,4 +10,10 @@ export class DUserService {
   updateUser(user: any, userId: string): Observable<any> {
     return this.apiService.put(`/users/${userId}`, user);
   }
+  uploadAvatar(userId: string, base64Image: string) {
+    return this.apiService.put(`/users/upload-avatar/${userId}`, { base64Image });
+  }
+  getBase64Images() {
+    return this.apiService.get('/users/avatar-encoded');
+  }
 }

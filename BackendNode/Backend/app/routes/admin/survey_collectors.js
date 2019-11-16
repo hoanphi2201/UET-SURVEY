@@ -46,9 +46,7 @@ router.get("/:surveyCollectorId", async (req, res, next) => {
   );
 });
 
-router.get(
-  "/surveyCollectorName/:surveyCollectorName",
-  async (req, res, next) => {
+router.get("/surveyCollectorName/:surveyCollectorName", async (req, res, next) => {
     const surveyCollectorName = paramsHelper.getParam(req.params, "surveyCollectorName", "");
     await surveyCollectorsModel.getSurveyCollectorsBySurveyCollectorname(surveyCollectorName).then(surveyCollector => {
       res.status(200).json(new Response(false, 200, "success", "Success", [surveyCollector]));

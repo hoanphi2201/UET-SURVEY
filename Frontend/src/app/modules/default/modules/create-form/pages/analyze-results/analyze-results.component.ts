@@ -61,6 +61,9 @@ export class AnalyzeResultsComponent implements OnInit, AfterViewInit {
       this.selectedIndex--;
     }
   }
+  goto(index: number) {
+    this.selectedIndex = index - 1;
+  }
   surveyResponsePreview: SurveyResponse;
   onChangeTabPreview(index: number) {
     this.surveyResponsePreview = this.listOfAllSurveyResponse[index];

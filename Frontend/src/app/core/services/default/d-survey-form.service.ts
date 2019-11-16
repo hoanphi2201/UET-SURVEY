@@ -37,9 +37,7 @@ export class DSurveyFormService {
         }, err => {
           this.loaderService.display(false);
           this.nzMessageService.warning(
-            this.translateService.instant(
-              'default.layout.SURVEY_FORM_NOT_EXIST'
-            )
+            this.translateService.instant('default.layout.SURVEY_FORM_NOT_EXIST')
           );
           this.router.navigate(['/dashboard']);
         }, () => {

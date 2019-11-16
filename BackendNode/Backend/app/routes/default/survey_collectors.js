@@ -64,12 +64,10 @@ router.post("/", async (req, res, next) => {
   const surveyCollector = req.body ? req.body : {};
   if (surveyCollector) {
     const params = {
-      filterKey: "surveyFormId",
-      filterValue: [surveyCollector.surveyFormId],
-      searchValue: "",
-      searchKey: ""
+      surveyFormId: surveyCollector.surveyFormId,
+      type: surveyCollector.type
     };
-    const numberCollector = await surveyCollectorsModel.countSurveyCollectors(params, { user });
+    const numberCollector = await surveyCollectorsModel.countSurveyCollectorsByFormAndStatus(params, { user });
     surveyCollector.name = surveyCollector.name + " " + (numberCollector + 1);
     surveyCollector.url = generateLink.generateLink(7);
     surveyCollectorsModel.saveSurveyCollector(surveyCollector, null, { task: "create" }).then(surveyCollector => {

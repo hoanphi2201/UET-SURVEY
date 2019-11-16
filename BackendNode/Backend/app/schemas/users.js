@@ -54,6 +54,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     updatedAt: {
       type: Sequelize.DATE
+    },
+    avatar: {
+      type: Sequelize.STRING
     }
   });
   user.prototype.generateHash = function(password) {

@@ -11,6 +11,10 @@
       [nzTitle]="'default.layout.YOUR_ORGANIZATION' | translate"
       [nzIcon]="secondStepLoading ? 'loading' : 'global'"
     ></nz-step>
+    <nz-step
+      [nzTitle]="'default.layout.YOUR_AVATAR' | translate"
+      [nzIcon]="threeStepLoading ? 'loading' : 'user'"
+    ></nz-step>
   </nz-steps>
   <div class="steps-content">
     <div *ngIf="current === 0">
@@ -150,8 +154,42 @@
     </div>
 
     <div *ngIf="current === 2">
+        <div class="content">
+          <div class="avatar-step" *ngIf="base64Images$ | async; else loader">
+            <ng-container *ngIf="profileBase64Image || uploadedBase64Image; else placeholderAvatar">
+              <img *ngIf="!cropMode; else cropper" [src]="profileBase64Image" class="avatar-preview">
+              <ng-template #cropper>
+                <div class="cropper-container">
+                  <image-cropper [src]="uploadedBase64Image" (onError)="onImageError($event)"></image-cropper>
+                </div>
+              </ng-template>
+            </ng-container>
+            <ng-template #placeholderAvatar>
+              <div class="avatar-placeholder">
+                <svg-icon [clone]="true" src="./assets/icons/avatar.svg"></svg-icon>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      <div class="button-container">
+        <div style="display: flex;" *ngIf="!cropMode; else cropButton">
+          <input #avatar name="avatar" id="avatar" type="file" accept="image/*" (change)="loadAvatar($event)" />
+          <button (click)="avatar.click()" nz-button nzType="primary">
+              <span class="fa fa-camera icon"></span>
+              <span translate>Take a new picture</span>
+          </button>
+        </div>
+        <ng-template #cropButton>
+          <button (click)="crop()" nz-button nzType="primary">
+            <span class="fa fa-crop icon"></span>
+            <span translate>Crop</span>
+          </button>
+        </ng-template>
+      </div>
+    </div>
+    <div *ngIf="current === 3">
       <nz-result nzStatus="success" nzTitle="Successfully Update Your Profile!">
-      </nz-result>
+        </nz-result>    
     </div>
   </div>
 </div>
@@ -160,13 +198,17 @@
   <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
     <span translate="">default.layout.PREVIOUS</span>
   </button>
-  <button nz-button nzType="default" (click)="next()" *ngIf="current < 1">
+  <button nz-button nzType="default" (click)="next()" *ngIf="current < 2">
     <span translate>default.layout.NEXT</span>
   </button>
-  <button nz-button nzType="primary" (click)="done()" *ngIf="current === 1">
+  <button [disabled]="cropMode" nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
     <span translate>default.layout.DONE</span>
   </button>
-  <button nz-button nzType="primary" (click)="finish()" *ngIf="current === 2">
+  <button nz-button nzType="primary" (click)="finish()" *ngIf="current === 3">
     <span translate>default.layout.FINISH</span>
   </button>
 </div>
+
+<ng-template #loader>
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</ng-template>

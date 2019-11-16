@@ -4,6 +4,7 @@ import { Router, ActivationStart } from '@angular/router';
 import { AuthService, User } from '@app/core';
 import { NzModalService } from 'ng-zorro-antd';
 import { filter } from 'rxjs/operators';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-default-layout',
@@ -11,6 +12,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./default-layout.component.less']
 })
 export class DefaultLayoutComponent implements OnInit {
+  avatarUrl: string;
   layout = {
     collapsed: true,
     siderMode: 'side',
@@ -18,7 +20,7 @@ export class DefaultLayoutComponent implements OnInit {
       return this.siderMode != 'over' && this.setting.mode == 'top';
     },
     setting: {
-      theme: 'dark',
+      theme: 'green',
       color: 'daybreak',
       mode: 'top',
       fixedWidth: false,
@@ -176,14 +178,16 @@ export class DefaultLayoutComponent implements OnInit {
           this.layout.collapsed = true;
         }
       });
-    // get user login
-    this.authService.getCurrentUser().subscribe(userData => {
+  }
+  ngOnInit() {
+     // get user login
+     this.authService.getCurrentUser().subscribe(userData => {
       if (userData) {
         this.currentUser = userData;
+        this.avatarUrl = environment.serverRootUrl + '/uploads/users/' + this.currentUser.avatar;
       }
     });
   }
-  ngOnInit() {}
 
   logout() {
     this.modal.confirm({

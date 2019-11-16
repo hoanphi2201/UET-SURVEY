@@ -1,0 +1,156 @@
+section>header:first-of-type {
+    margin-bottom: 2em;
+    position: relative;
+}
+#edit-name {
+    display: inline-block;
+    max-width: 30rem;
+}
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+section>header:first-of-type>h4 {
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: #333E48;
+    font-weight: normal;
+    position: absolute;
+    right: 0;
+    top: 50%;
+}
+.sendto {
+    border-bottom: solid 1px #D0D2D3;
+    margin-bottom: 26px;
+    margin-top: 16px;
+    padding-bottom: 32px;
+    position: relative;
+    h5 {
+        display: block;
+        margin-bottom: 1em;
+        position: relative;
+    }
+}
+nz-select {
+    width: 100%;
+    height: 51px!important;
+}
+#compose-email {
+    position: relative;
+    input {
+        margin-bottom: 10px;
+    }
+    h5 {
+        margin-bottom: 10px;
+        margin-top: 0px; 
+    }
+    .btn-edit-message {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}
+.sm-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #333e48;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+.message-header {
+    margin-bottom: 2rem;
+    position: relative;
+}
+#email-preview table {
+    border-collapse: separate;
+}
+#email-preview table {
+    max-width: inherit !important;
+}
+
+#email-preview {
+    background: #ffffff;
+    border: 0;
+    height: auto;
+    min-height: 357px;
+    overflow: auto;
+}
+.collectors {
+    margin-top: 15px;
+    padding-bottom: 80px;
+}
+footer  {
+    .left {
+        margin-top: 24px;
+        float: left;
+    }
+    .right {
+        float: right;
+        margin-top: 24px;
+        button {
+            margin-left: 1rem;
+        }
+    }
+}
+.sm-banner-whitelist {
+    margin-bottom: 2rem;
+}
+[nz-radio] {
+    display: block;
+}
+.child-radio-margin {
+    margin-left: 23px;
+}
+.options-send {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #D0D2D3;
+}
+.options>li {
+    border-bottom: 1px solid #D0D2D3;
+}
+.step3 .summary {
+    padding-top: 1rem;
+}
+.options li>header+div {
+    padding: 8px 10px;
+}
+.divided aside {
+    float: left;
+    width: 12em;
+}
+.step3 #total-recipients {
+    color: #00BF6F;
+    font-size: 50px;
+}
+.divided article {
+    overflow: hidden;
+    padding: 0;
+}
+.divided article header {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1em;
+}
+.divided article .results {
+    margin-bottom: 10px;
+    padding-left: 1px;
+}
+.divided article .results li {
+    list-style-position: inside;
+    list-style-type: disc;
+    margin-bottom: 3px;
+}
+.divided article header dl {
+    margin-top: 1rem;
+}
+.divided article header dl dt {
+    clear: both;
+    float: left;
+}
+.divided article header dl dd {
+    display: block;
+    margin: 0 0 3px;
+    overflow: hidden;
+    padding-left: 10px;
+}

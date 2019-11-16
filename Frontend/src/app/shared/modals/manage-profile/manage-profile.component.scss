@@ -27,3 +27,75 @@ button {
   line-height: 22px;
   word-wrap: break-word;
 }
+
+
+
+.avatar-step {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+}
+.avatar-preview {
+  width: 300px;
+  height: 300px;
+  border-radius: 100%;
+}
+.avatar-placeholder {
+  color: #dadada;
+
+  svg-icon ::ng-deep svg {
+    width: 306px;
+    height: 306px;
+    box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 100%;
+
+    .avatar {
+      fill: #dadada !important;
+      stroke: #dadada !important;
+      stroke-width: 0 !important;
+    }
+
+    .avatar-circle {
+      stroke: #dadada !important;
+      stroke-width: 2 !important;
+    }
+
+    @media(max-width: 480px) {
+      width: 200px;
+      height: 200px;
+    }
+  }
+}
+.content {
+  text-align: center;
+}
+.button-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+
+  input[type=file] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .icon {
+    margin-right: 6px;
+  }
+
+  > * {
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+}

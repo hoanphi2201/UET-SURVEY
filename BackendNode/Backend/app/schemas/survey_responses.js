@@ -49,9 +49,7 @@ module.exports = (sequelize, Sequelize) => {
   );
   survey_response.associate = function(models) {
     survey_response.belongsTo(models.survey_forms);
-    survey_response.belongsTo(models.survey_collectors, {
-      as: "surveyCollector"
-    });
+    survey_response.belongsTo(models.survey_collectors, {as: "surveyCollector"});
     survey_response.belongsTo(models.survey_forms, { as: "surveyForm" });
   };
   return survey_response;

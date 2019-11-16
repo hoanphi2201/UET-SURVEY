@@ -1,0 +1,63 @@
+<div class="inner-modal-body">
+  <div class="info">
+      You can remove this recipient from this email collector, but their response will not be deleted. This recipient will still appear in your contacts.
+  </div>
+  <form [formGroup]="form" nz-form>
+    <div nz-row nzGutter="24">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>{{ 'default.layout.EMAIL' | translate }} </nz-form-label>
+          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(form, 'email') }">
+            <input
+              disabled
+              formControlName="email"
+              nz-input
+              [placeholder]="'default.layout.ENTER_EMAIL' | translate" />
+          </nz-form-control>
+          <field-error-display [displayError]="isFieldValid(form, 'email')" [errors]="f.email.errors">
+          </field-error-display>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row nzGutter="24">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>{{ 'default.layout.FIRST_NAME' | translate }} </nz-form-label>
+          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(form, 'firstName') }">
+            <input
+              formControlName="firstName"
+              nz-input
+              [placeholder]="'default.layout.ENTER_FIRSTNAME' | translate" />
+          </nz-form-control>
+          <field-error-display [displayError]="isFieldValid(form, 'firstName')" [errors]="f.firstName.errors">
+          </field-error-display>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>{{ 'default.layout.LAST_NAME' | translate }} </nz-form-label>
+          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(form, 'lastName') }">
+            <input
+              formControlName="lastName"
+              nz-input
+              [placeholder]="'default.layout.ENTER_LASTNAME' | translate" />
+          </nz-form-control>
+          <field-error-display [displayError]="isFieldValid(form, 'lastName')" [errors]="f.lastName.errors">
+          </field-error-display>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="actions">
+  <button (click)="onCancel()" nz-button nzType="default">
+    <span translate>default.layout.CANCEL</span>
+  </button>
+  <button (click)="onUpdateRecipient(form)" nz-button nzType="primary">
+    <span translate>default.layout.UPDATE_RECIPIENT_RECORD</span>
+  </button>
+  <button (click)="onRemoveRecipient()" nz-button nzType="danger">
+    <span translate>default.layout.REMOVE_RECIPIENT_RECORD</span>
+  </button>
+</div>

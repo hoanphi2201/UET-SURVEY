@@ -1,0 +1,10 @@
+[nz-menu] {
+  border: none;
+}
+li:focus {
+  outline: 0;
+}
+.ant-menu-green {
+  background-color: #00bf6f;
+  color: #fff;
+}

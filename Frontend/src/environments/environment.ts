@@ -9,15 +9,16 @@
 // Note that as usual, any environment variables you expose through it will end up in your
 // bundle, and you should not use it for any sensitive information like passwords or keys.
 // import { env } from './.env';
-
+const serverRootUrl = 'http://localhost:8080'
 export const environment = {
   production: false,
   hmr: false,
   version: '0.0.1-dev',
   clientUrl: 'http://localhost:4200',
-  serverAdminUrl: 'http://localhost:8080/api/v1/admin',
-  serverDefaultUrl: 'http://localhost:8080/api/v1/default',
-  serverPublishUrl: 'http://localhost:8080/api/v1/publish',
+  serverRootUrl: serverRootUrl,
+  serverAdminUrl: serverRootUrl + '/api/v1/admin',
+  serverDefaultUrl: serverRootUrl +  '/api/v1/default',
+  serverPublishUrl: serverRootUrl +  '/api/v1/publish',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'fr-FR', 'vi-VN', 'zh-CN'],
   dbTable: ['users', 'roles', 'user_grants', 'role_grants'],

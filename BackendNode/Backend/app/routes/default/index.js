@@ -7,5 +7,6 @@ router.use("/survey-folders", authHelper.isAuthenticated, require("./survey_fold
 router.use("/survey-collectors", authHelper.isAuthenticated, require("./survey_collectors"));
 router.use("/users", authHelper.isAuthenticated, require("./users"));
 router.use("/cities", authHelper.isAuthenticated, require("./cities"));
-router.use("/survey-responses", require("./survey_responses"));
+router.use("/survey-responses", authHelper.isAuthenticated, require("./survey_responses"));
+router.use("/survey-recipients", authHelper.isAuthenticated, require("./survey_recipients"));
 module.exports = router;

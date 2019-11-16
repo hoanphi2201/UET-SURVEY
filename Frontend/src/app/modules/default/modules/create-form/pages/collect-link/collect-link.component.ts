@@ -37,13 +37,11 @@ export class CollectLinkComponent implements OnInit {
     private translateService: TranslateService,
     private loaderService: LoaderService,
     private modalService: NzModalService,
-    private formBuilder: FormBuilder,
     private router: Router,
     private dSurveyFormService: DSurveyFormService
   ) { }
 
   ngOnInit() {
-    this.buildForm();
     this.subscriptions.push(
       this.activatedRoute.params.subscribe((params: Params) => {
         const { collectorId } = params;
@@ -52,65 +50,14 @@ export class CollectLinkComponent implements OnInit {
     );
   }
 
-  private buildForm() {
-    this.form = this.formBuilder.group({
-      thankYouMessage: ['', [Validators.required, IValidators.spaceStringValidator()]],
-      allowMultipleResponses: ['', []],
-      anonymousType: ['', []],
-      displaySurveyResults: ['', []],
-      closeDateEnabled: ['', []],
-      closeDate: ['', []],
-      responseLimitEnabled: ['', []],
-      responseLimit: ['', [Validators.min(1)]],
-      passwordEnabled: ['', []],
-      password: ['', []],
-      passwordLabel: ['', []],
-      passwordRequiredMessage: ['', []],
-      passwordRequiredErrorMessage: ['', []]
-    });
-  }
-
-  private patchForm() {
-    if (!this.surveyCollectorDetail) {
-      return;
-    }
-    this.form.patchValue({
-      thankYouMessage: this.surveyCollectorDetail.thankYouMessage,
-      allowMultipleResponses: this.surveyCollectorDetail.allowMultipleResponses || false,
-      anonymousType: this.surveyCollectorDetail.anonymousType || false,
-      displaySurveyResults: this.surveyCollectorDetail.displaySurveyResults || false,
-      closeDateEnabled: this.surveyCollectorDetail.closeDateEnabled || false,
-      closeDate: this.surveyCollectorDetail.closeDate || new Date(),
-      responseLimitEnabled: this.surveyCollectorDetail.responseLimitEnabled || false,
-      responseLimit: this.surveyCollectorDetail.responseLimit || '',
-      passwordEnabled: this.surveyCollectorDetail.passwordEnabled || false,
-      password: this.surveyCollectorDetail.password || '',
-      passwordLabel: this.surveyCollectorDetail.passwordLabel || 'Enter Password',
-      passwordRequiredMessage: this.surveyCollectorDetail.passwordRequiredMessage || 'This survey requires a password.<br /><br />If you do not know the password, contact the author of this survey for further assistance.',
-      passwordRequiredErrorMessage: this.surveyCollectorDetail.passwordRequiredErrorMessage || 'The password entered was incorrect please check your data and try again.'
-    });
-  }
-
-  get f() {
-    return this.form.controls;
-  }
-  isFieldValid(form: FormGroup, field: string) {
-    return !form.get(field).valid && form.get(field).dirty;
-  }
-  getSurveyCollectorById(surveyCollectorId: string) {
+  private getSurveyCollectorById(surveyCollectorId: string) {
     this.loaderService.display(true);
     this.dSurveyCollectorService.getSurveyCollectorById(surveyCollectorId).subscribe(res => {
       if (res.status.code === 200) {
         if (res.results && res.results[0]) {
           this.surveyCollectorDetail = res.results[0];
-          this.surveyCollectorDetail.fullUrl =
-            this.clientUrl +
-            '/open/answer-survey/' +
-            this.surveyCollectorDetail.url;
-          this.dSurveyFormService.setSurveyFormDetail(
-            this.surveyCollectorDetail.surveyForm
-          );
-          this.patchForm();
+          this.surveyCollectorDetail.fullUrl = this.clientUrl + '/open/answer-survey/' + this.surveyCollectorDetail.url;
+          this.dSurveyFormService.setSurveyFormDetail(this.surveyCollectorDetail.surveyForm);
         } else {
           this.nzMessageService.warning(
             this.translateService.instant(
@@ -204,39 +151,5 @@ export class CollectLinkComponent implements OnInit {
     } else if (link.click) {
       link.click();
     }
-  }
-
-  onSaveSurveyCollector(name: string, value: any) {
-    if (this.surveyCollectorDetail[name] === value) {
-      return;
-    }
-    if (this.form.invalid) {
-      Helpers.validateAllFormFields(this.form);
-      return;
-    }
-    if (Helpers.isString(value)) {
-      value = value.trim();
-    }
-    const dataUpdate = {};
-    dataUpdate[name] = value;
-    this.dSurveyCollectorService.updateSurveyCollector(this.surveyCollectorDetail.id, dataUpdate).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(
-            'default.layout.YOUR_CHANGES_HAVE_BEEN_SAVED'
-          )
-        );
-        this.surveyCollectorDetail = Object.assign(
-          this.surveyCollectorDetail,
-          dataUpdate
-        );
-        this.form.patchValue(dataUpdate);
-      }
-    }, err => {
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
-      );
-    }
-    );
   }
 }

@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IValidators, User, AuthService, UserService, DCityService } from '@app/core';
+import { IValidators, User, AuthService, UserService, DCityService, DUserService } from '@app/core';
 import { Helpers } from '@app/shared/helpers';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '@env/environment';
-import { map, debounceTime, switchMap } from 'rxjs/operators';
+import { map, debounceTime, switchMap, tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { ImageCropperComponent } from '@app/shared/components/image-cropper/image-cropper.component';
 
 @Component({
   selector: 'app-manage-profile',
@@ -29,18 +30,33 @@ export class ManageProfileComponent implements OnInit {
   userProfile: User;
   firstStepLoading: boolean;
   secondStepLoading: boolean;
+  threeStepLoading: boolean;
   isLoading = false;
+  uploadedBase64Image: string;
+  cropMode = false;
+  base64Images$: Observable<{ [key: string]: string }>;
+  profileBase64Image: string;
+  imagesChanged = false;
+  @ViewChild(ImageCropperComponent, { static: false }) cropper: ImageCropperComponent;
   constructor(
     private translateService: TranslateService,
     private nzMessageService: NzMessageService,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private dUserService: UserService,
+    private dUserService: DUserService,
     private dCityService: DCityService,
     private modalService: NzModalService
   ) { }
 
   ngOnInit() {
+    this.base64Images$ = this.dUserService.getBase64Images().pipe(
+      tap(res => {
+        if (res.status.code === 200 && res.results[0].base64Image) {
+          this.profileBase64Image = 'data:image/jpg;base64,' + res.results[0].base64Image;
+        }
+      }) 
+    )
+
     this.buildForm();
     this.subscriptions.push(
       this.authService.getCurrentUser().subscribe(userData => {
@@ -156,69 +172,93 @@ export class ManageProfileComponent implements OnInit {
   }
 
   next() {
-    if (this.formProfile.dirty && this.formProfile.valid) {
-      this.firstStepLoading = true;
-      const formData: FormGroup = this.formProfile;
-      Object.keys(formData.value).forEach(key => {
-        if (Helpers.isString(formData.value[key])) {
-          formData.value[key] = formData.value[key].trim();
-        }
-      });
-      const { id: userId } = this.userProfile;
-      const { userName } = this.userProfile;
-      return this.dUserService.updateUser(Object.assign(formData.value, { userName }), userId).subscribe(res => {
-        if (res.status.code === 200) {
-          this.authService.setCurrentUser(
-            Object.assign(this.userProfile, formData.value),
-            true
+    switch (this.current) {
+      case 0: {
+        if (this.formProfile.dirty && this.formProfile.valid) {
+          this.firstStepLoading = true;
+          const formData: FormGroup = this.formProfile;
+          Object.keys(formData.value).forEach(key => {
+            if (Helpers.isString(formData.value[key])) {
+              formData.value[key] = formData.value[key].trim();
+            }
+          });
+          const { id: userId } = this.userProfile;
+          const { userName } = this.userProfile;
+          return this.dUserService.updateUser(Object.assign(formData.value, { userName }), userId).subscribe(res => {
+            if (res.status.code === 200) {
+              this.authService.setCurrentUser(
+                Object.assign(this.userProfile, formData.value),
+                true
+              );
+            }
+          }, err => {
+            this.firstStepLoading = false;
+            this.nzMessageService.error(
+              this.translateService.instant(err.message)
+            );
+          }, () => {
+            this.firstStepLoading = false;
+            this.current += 1;
+            this.patchFormOrganization();
+          }
           );
         }
-      }, err => {
-        this.firstStepLoading = false;
-        this.nzMessageService.error(
-          this.translateService.instant(err.message)
-        );
-      }, () => {
-        this.firstStepLoading = false;
         this.current += 1;
         this.patchFormOrganization();
+        break;
+
       }
-      );
+      case 1: {
+        if (this.formOrganization.dirty && this.formOrganization.valid) {
+          this.secondStepLoading = true;
+          const formData: FormGroup = this.formOrganization;
+          Object.keys(formData.value).forEach(key => {
+            if (Helpers.isString(formData.value[key])) {
+              formData.value[key] = formData.value[key].trim();
+            }
+          });
+          const { id: userId } = this.userProfile;
+          const { userName } = this.userProfile;
+          return this.dUserService.updateUser(Object.assign({ organization: formData.value }, { userName }), userId).subscribe(res => {
+            if (res.status.code === 200) {
+              this.authService.setCurrentUser(Object.assign(this.userProfile, formData.value), true);
+            }
+          }, err => {
+            this.secondStepLoading = false;
+            this.nzMessageService.error(
+              this.translateService.instant(err.message)
+            );
+          }, () => {
+            this.secondStepLoading = false;
+            this.current = 2;
+          });
+        }
+        this.current = 2;
+      }
+
+      default:
+        break;
     }
-    this.current += 1;
-    this.patchFormOrganization();
+
   }
 
   done() {
-    if (this.formOrganization.dirty && this.formOrganization.valid) {
-      this.secondStepLoading = true;
-      const formData: FormGroup = this.formOrganization;
-      Object.keys(formData.value).forEach(key => {
-        if (Helpers.isString(formData.value[key])) {
-          formData.value[key] = formData.value[key].trim();
-        }
-      });
-      const { id: userId } = this.userProfile;
-      const { userName } = this.userProfile;
-      return this.dUserService.updateUser(Object.assign({ organization: formData.value }, { userName }), userId).subscribe(res => {
+    if (this.imagesChanged) {
+      this.threeStepLoading = true;
+      this.dUserService.uploadAvatar(this.userProfile.id, this.profileBase64Image).subscribe(res => {
         if (res.status.code === 200) {
-          this.authService.setCurrentUser(
-            Object.assign(this.userProfile, formData.value),
-            true
-          );
+          this.authService.setCurrentUser(Object.assign(this.userProfile, { avatar: res.results[0].avatar }), true);
         }
       }, err => {
-        this.secondStepLoading = false;
-        this.nzMessageService.error(
-          this.translateService.instant(err.message)
-        );
+        this.threeStepLoading = false;
+        this.nzMessageService.error(this.translateService.instant(err.message));
       }, () => {
-        this.secondStepLoading = false;
-        this.current = 2;
-      }
-      );
+        this.threeStepLoading = false;
+        this.current = 3;
+      });
+    } else {
+      this.current = 3;
     }
-    this.current = 2;
   }
   finish() {
     this.modalService.closeAll();
@@ -233,5 +273,32 @@ export class ManageProfileComponent implements OnInit {
   }
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  loadAvatar(inputElementChangeEvent: Event) {
+    const input = <HTMLInputElement>inputElementChangeEvent.target;
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = (event: any) => {
+        const isImage = event.target.result.substring("data:".length, event.target.result.indexOf(";base64")).startsWith('image');
+        if (isImage) {
+          this.uploadedBase64Image = event.target.result;
+          this.cropMode = true;
+        } else {
+          this.cropMode = false;
+          this.nzMessageService.warning(this.translateService.instant('default.layout.ONLY_IMAGE_FORMAT'));
+        }
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  crop() {
+    this.imagesChanged = true;
+    this.cropper.crop().then(croppedBase64Src => {
+      this.profileBase64Image = croppedBase64Src;
+      this.cropMode = false;
+    });
   }
 }

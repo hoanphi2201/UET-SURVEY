@@ -73,6 +73,17 @@ module.exports = {
       where: objWhere
     });
   },
+  countSurveyCollectorsByFormAndStatus: (params, options = {}) => {
+    let objWhere = {};
+    const { user } = options;
+    if (user) {
+      objWhere.userId = options.user.id;
+    }
+    objWhere = Object.assign(objWhere, params)
+    return surveyCollectorsModel.count({
+      where:  objWhere 
+    });
+  },
   deleteSurveyCollectors: async (surveyCollectorId, options = null) => {
     if (options.task === "delete-one") {
       const surveyCollector = await surveyCollectorsModel.findByPk(surveyCollectorId).then(surveyCollector => {
@@ -130,8 +141,7 @@ module.exports = {
     return surveyCollectorsModel.findAll({
       attributes: ["id", "name", "type", "status", "updatedAt", "createdAt", "closedMessage",
         [
-          Sequelize.fn("COUNT", Sequelize.col("survey_responses.id")),
-          "response"
+          Sequelize.fn("COUNT", Sequelize.col("survey_responses.id")), "response"
         ]
       ],
       where: objWhere,

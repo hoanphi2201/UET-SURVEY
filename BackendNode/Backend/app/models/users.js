@@ -125,7 +125,8 @@ module.exports = {
               jobRole: user.jobRole,
               jobLevel: user.jobLevel,
               organization: user.organization,
-              accountComplete: user.accountComplete
+              accountComplete: user.accountComplete,
+              avatar: user.avatar
             };
             if (user.password && user.password !== "" && user.confirmPassword !== "" && user.confirmPassword === user.password) {
               objUpdate.password = usersModel.prototype.generateHash(

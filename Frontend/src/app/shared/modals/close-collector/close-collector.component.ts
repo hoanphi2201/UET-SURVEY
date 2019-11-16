@@ -74,9 +74,7 @@ export class CloseCollectorComponent implements OnInit {
     });
     this.dSurveyCollectorService.updateSurveyCollector(this.surveyCollectorClose.id, dataUpdate).subscribe(res => {
       if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
         this.surveyCollectorClose = Object.assign(
           this.surveyCollectorClose,
           dataUpdate
@@ -86,16 +84,13 @@ export class CloseCollectorComponent implements OnInit {
     }, err => {
       this.loaderService.display(false);
       this.buttonLoading = false;
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
-      );
+      this.nzMessageService.error(this.translateService.instant(err.message));
       this.modalService.closeAll();
     }, () => {
       this.loaderService.display(false);
       this.buttonLoading = false;
       this.modalService.closeAll();
-    }
-    );
+    });
   }
 
   onCancel() {

@@ -13,6 +13,7 @@ export interface User {
   jobLevel?: string;
   organization?: Organization;
   accountComplete: boolean;
+  avatar?: string;
 }
 export interface Organization {
   organizationType?: string;

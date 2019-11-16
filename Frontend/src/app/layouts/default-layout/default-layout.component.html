@@ -51,7 +51,7 @@
           <i nz-icon nzType="bell" nzTheme="outline"></i>
         </app-notice-popover>
         <span nz-dropdown class="action account" [nzDropdownMenu]="menuUser">
-          <nz-avatar nzSize="small" nzIcon="user"></nz-avatar>
+          <nz-avatar [nzSrc]="avatarUrl" nzSize="small" nzIcon="user"></nz-avatar>
           <span class="name" *ngIf="currentUser">{{ currentUser?.firstName + ' ' + currentUser?.lastName }}</span>
         </span>
         <nz-dropdown-menu nzPlacement="bottomRight" #menuUser="nzDropdownMenu">

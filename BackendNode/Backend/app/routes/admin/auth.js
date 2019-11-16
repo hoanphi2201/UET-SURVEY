@@ -26,7 +26,8 @@ module.exports = passport => {
           jobRole: user.jobRole,
           jobLevel: user.jobLevel,
           organization: user.organization,
-          accountComplete: user.accountComplete
+          accountComplete: user.accountComplete,
+          avatar: user.avatar
         };
         const jwtToken = jwt.sign(payload, systemConfig.jwtSecret, {
           expiresIn: systemConfig.tokenLife
@@ -67,7 +68,8 @@ module.exports = passport => {
           jobRole: storeUser.jobRole,
           jobLevel: storeUser.jobLevel,
           organization: storeUser.organization,
-          accountComplete: storeUser.accountComplete
+          accountComplete: storeUser.accountComplete,
+          avatar: storeUser.avatar
         };
 
         const access_token = jwt.sign(payload, systemConfig.jwtSecret, {

@@ -3,20 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { CollectEmailOptionsComponent } from './collect-email-options.component';
+import { CollectorOptionsComponent } from './collector-options.component';
 
-describe('CollectEmailOptionsComponent', () => {
-  let component: CollectEmailOptionsComponent;
-  let fixture: ComponentFixture<CollectEmailOptionsComponent>;
+describe('CollectorOptionsComponent', () => {
+  let component: CollectorOptionsComponent;
+  let fixture: ComponentFixture<CollectorOptionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CollectEmailOptionsComponent]
-    }).compileComponents();
+      declarations: [ CollectorOptionsComponent ]
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CollectEmailOptionsComponent);
+    fixture = TestBed.createComponent(CollectorOptionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

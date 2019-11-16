@@ -160,7 +160,7 @@
                       <ng-container [ngSwitch]="column.type">
                         <ng-container *ngSwitchCase="'text'">
                           <div
-                            *ngIf="data[column.id].length > 20"
+                            *ngIf="data[column.id]?.length > 20"
                             [nzTooltipTitle]="data[column.id]"
                             nzTooltipPlacement="top"
                             nz-tooltip>
@@ -171,12 +171,12 @@
                               {{ data[column.id] | summary }}
                             </ng-container>
                           </div>
-                          <div *ngIf="data[column.id].length <= 20">
+                          <div *ngIf="data[column.id]?.length <= 20">
                             <a *ngIf="column.action"  [routerLink]="column.action.link(data.id)">
-                              {{ data[column.id] | summary }}
+                              {{ data[column.id] }}
                             </a>
                             <ng-container *ngIf="!column.action">
-                              {{ data[column.id] | summary }}
+                              {{ data[column.id] }}
                             </ng-container>
                           </div>
                           <div *ngIf="column.td_two">

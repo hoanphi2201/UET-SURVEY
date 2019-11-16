@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -21,8 +21,19 @@ import { OpenCollectorComponent } from './modals/open-collector/open-collector.c
 import { SurveyResponseComponent } from './components/survey-response/survey-response.component';
 import { SurveyAnalyticsComponent } from './components/survey-analytics/survey-analytics.component';
 import { MapComponent } from './components/map/map.component';
+import { MarkdownEditorComponent } from './components/markdown-editor/markdown-editor.component';
+import { AngularMarkdownEditorModule } from 'angular-markdown-editor';
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { CollectorOptionsComponent } from './components/collector-options/collector-options.component';
+import { ContactDetailsComponent } from './modals/contact-details/contact-details.component';
+import { ImageCropperComponent } from './components/image-cropper/image-cropper.component';
+import { SvgContainerComponent } from './components/svg-container/svg-container.component';
+import { SvgService } from './components/svg-container/svg.service';
+import { SvgIconComponent } from './components/svg-icon/svg-icon.component';
 
 const COMPONENTS = [
+  SvgContainerComponent,
+  SvgIconComponent,
   SurveyComponent,
   SurveyCreatorComponent,
   PageComponent,
@@ -37,8 +48,13 @@ const COMPONENTS = [
   OpenCollectorComponent,
   SurveyResponseComponent,
   SurveyAnalyticsComponent,
-  MapComponent
+  MapComponent,
+  MarkdownEditorComponent,
+  CollectorOptionsComponent,
+  ContactDetailsComponent,
+  ImageCropperComponent
 ];
+
 
 @NgModule({
   imports: [
@@ -48,9 +64,26 @@ const COMPONENTS = [
     RouterModule,
     NgZorroAntdModule,
     PerfectScrollbarModule,
-    TranslateModule
+    TranslateModule,
+    AngularMarkdownEditorModule.forRoot({ iconlibrary: 'fa' }),
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useFactory: (): MarkedOptions => {
+          return {
+            renderer: new MarkedRenderer(),
+            gfm: true,
+            tables: true,
+            breaks: false,
+            pedantic: false,
+            sanitize: false,
+            smartLists: true,
+            smartypants: false,
+          };
+        }
+      }
+    }),
   ],
-  declarations: [...COMPONENTS, SummaryPipe],
   exports: [
     CommonModule,
     FormsModule,
@@ -62,7 +95,10 @@ const COMPONENTS = [
     SummaryPipe,
     ...COMPONENTS
   ],
-  providers: [{ provide: NZ_MESSAGE_CONFIG, useValue: { nzMaxStack: 1 } }],
+  declarations: [...COMPONENTS, SummaryPipe],
+  providers: [
+    { provide: NZ_MESSAGE_CONFIG, useValue: { nzMaxStack: 1 }}
+  ],
   entryComponents: [
     ManageFoldersComponent,
     ManageProfileComponent,
@@ -70,7 +106,17 @@ const COMPONENTS = [
     PreviewCopyComponent,
     RenameCollectorComponent,
     CloseCollectorComponent,
-    OpenCollectorComponent
+    OpenCollectorComponent,
+    ContactDetailsComponent
   ]
 })
-export class SharedModule {}
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [
+        SvgService
+      ]
+    }
+  }
+}

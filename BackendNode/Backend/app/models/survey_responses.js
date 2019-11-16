@@ -105,27 +105,26 @@ module.exports = {
       where: params
     });
   },
-  countSurveyResponsesByFormAndCollector: (params, options = {}) => {
+  countSurveyResponsesByFormAndCollector: (params, options) => {
     let objWhere = params;
     return surveyResponsesModel.count({
       where: objWhere
     });
   },
-  countAllSurveyResponses: params => {
+  countAllSurveyResponses: (params, options) => {
     return surveyResponsesModel.count({
-      where: params
+      where: params,
+      include: [
+        {
+          model: surveyCollectorsModel,
+          as: "surveyCollector",
+          where: {userId: options.user.id}
+        }
+      ]
     });
   },
-  countTypicalTimeSpent: params => {
-    return surveyResponsesModel.findOne({
-      attributes: [
-        [
-          Sequelize.fn("SUM", Sequelize.col("survey_responses.totalTime")),
-          "typicalTimeSpent"
-        ]
-      ],
-      raw: true
-    });
+  countTypicalTimeSpent: (params , options) => {
+    return surveyResponsesModel.sum('totalTime');
   },
   clearResponsesByCollector: params => {
     return surveyResponsesModel.destroy({ where: params });

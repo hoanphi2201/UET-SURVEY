@@ -35,7 +35,7 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
   currentUser: User;
   surveyCollectorDelete: SurveyCollector;
   surveyCollectorClearResponses: SurveyCollector;
-  modalForm: NzModalRef;
+  private modalForm: NzModalRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -94,8 +94,16 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
         className: 'activity',
         type: 'text',
         action: {
-          link: (collectorId: string) => {
-            return `/create/collector-responses/collector-link/${collectorId}`;
+          link: (collectorId: string, type: string) => {
+            switch (type) {
+              case 'WEBLINK':
+                return `/create/collector-responses/collector-link/${collectorId}`;
+              case 'EMAIL':
+                return `/create/collector-responses/collector-email/manage/${collectorId}`;
+              default:
+                return 'loading';
+            }
+            
           }
         },
         sortable: true,
@@ -329,9 +337,7 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
     this.loaderService.display(true);
     this.dSurveyResponseService.clearResponsesByCollector(surveyCollectorId).subscribe(res => {
       if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
         this.getListSurveyCollector();
       }
     }, err => {

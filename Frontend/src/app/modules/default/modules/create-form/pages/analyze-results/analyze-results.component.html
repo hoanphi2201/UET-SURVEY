@@ -27,7 +27,7 @@
             <button
               [nzTrigger]="'click'"
               [nzDropdownMenu]="menuCollectorType"
-              [nzPlacement]="'bottomCenter'"
+              [nzPlacement]="'bottomLeft'"
               nz-dropdown
               nz-button
               nzType="primary"
@@ -37,15 +37,37 @@
             </button>
             <nz-dropdown-menu #menuCollectorType="nzDropdownMenu">
               <div class="respondent-goto-menu">
-                <nz-input-number
-                  [nzMin]="1"
-                  [nzMax]="this.listOfAllSurveyResponse.length"
-                  [(ngModel)]="selectedIndex">
-                </nz-input-number>
+                <form nz-form [nzLayout]="'inline'">
+                  <nz-form-item>
+                    <nz-form-label>Go to</nz-form-label>
+                    <nz-form-control>
+                      <nz-input-number
+                        #index
+                        [nzMin]="1"
+                        [nzMax]="listOfAllSurveyResponse.length">
+                      </nz-input-number>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label>of {{listOfAllSurveyResponse.length}}</nz-form-label>
+                  </nz-form-item>
+                  <nz-form-item>
+                      <nz-form-control>
+                        <button
+                          (click)="goto(index.value)"
+                          nz-button
+                          nzType="primary">
+                          Go 
+                        </button>
+                      </nz-form-control>
+                  </nz-form-item>
+                </form>
+                
+                
               </div>
             </nz-dropdown-menu>
             <button
-              [disabled]="this.selectedIndex <= 0"
+              [disabled]="selectedIndex <= 0"
               (click)="pre()"
               nz-button
               nzType="primary"
@@ -53,7 +75,7 @@
               <i nz-icon nzType="caret-left" nzTheme="outline"></i>
             </button>
             <button
-              [disabled]="this.selectedIndex >= this.listOfAllSurveyResponse.length - 1"
+              [disabled]="selectedIndex >= listOfAllSurveyResponse.length - 1"
               (click)="next()"
               nz-button
               nzType="primary"

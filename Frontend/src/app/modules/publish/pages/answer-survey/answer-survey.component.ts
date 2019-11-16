@@ -75,19 +75,19 @@ export class AnswerSurveyComponent implements OnInit {
     );
   }
   customFormByCollector() {
-    // custom thank
-    if (this.surveyCollectorDetail.thankYouMessage) {
-      this.surveyFormDetail.json.completedHtml = `<h3>${this.surveyCollectorDetail.thankYouMessage}</h3>`;
-    }
-    if (!this.surveyCollectorDetail.allowMultipleResponses) {
-      this.surveyFormDetail.json.cookieName = this.surveyCollectorDetail.url;
-    }
     if (this.surveyCollectorDetail.passwordEnabled) {
       this.isCorrectPassword = false;
       this.buildForm();
     } else {
       this.isCorrectPassword = true;
     }
+    if (this.surveyCollectorDetail.thankYouMessage && this.surveyFormDetail.json) {
+      this.surveyFormDetail.json.completedHtml = `<h3>${this.surveyCollectorDetail.thankYouMessage}</h3>`;
+    }
+    if (!this.surveyCollectorDetail.allowMultipleResponses && this.surveyFormDetail.json) {
+      this.surveyFormDetail.json.cookieName = this.surveyCollectorDetail.url;
+    }
+    
   }
 
   onSubmitSurveyResponse(json: any) {

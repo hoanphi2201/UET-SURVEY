@@ -3,6 +3,9 @@ h1 {
   margin: 0;
   padding: 0;
 }
+#page-container{
+  margin-top: 32px;
+}
 .collectors {
   margin-top: 15px;
   padding-bottom: 80px;
@@ -174,23 +177,7 @@ h1 {
     margin-bottom: 0.5em;
   }
 }
-::ng-deep .ant-collapse-header {
-  padding: 16px 16px 16px 40px !important;
-}
-::ng-deep .ant-collapse {
-  border-radius: 0px !important;
-}
-::ng-deep .ant-collapse-item:last-child > .ant-collapse-content,
-::ng-deep .ant-collapse > .ant-collapse-item:last-child,
-::ng-deep .ant-collapse > .ant-collapse-item:last-child > .ant-collapse-header {
-  border-radius: 0px !important;
-}
-::ng-deep .ant-collapse-header {
-  background: #fff;
-}
-::ng-deep .ant-collapse-content {
-  background-color: #edeeee;
-}
+
 .sidebar {
   .aside-audience-ad {
     position: relative;
@@ -237,6 +224,4 @@ h1 {
     margin: 13px 0px;
   }
 }
-.child-radio-margin {
-  margin-left: 23px;
-}
+

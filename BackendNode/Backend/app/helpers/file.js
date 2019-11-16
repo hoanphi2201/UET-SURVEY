@@ -1,6 +1,7 @@
 const multer = require("multer");
 const path = require("path");
 const notify = require(__pathConfig + "notify");
+const fs = require('fs');
 
 let uploadFile = (
   field,
