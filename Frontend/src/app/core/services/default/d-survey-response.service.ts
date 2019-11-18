@@ -15,6 +15,9 @@ export class DSurveyResponseService {
     return this.apiService.get('/survey-responses/count-all-responses-typical-time-spent');
   }
   clearResponsesByCollector(surveyCollectorId: string): Observable<any> {
-    return this.apiService.get('/survey-responses/clear-responses/' + surveyCollectorId);
+    return this.apiService.get('/survey-responses/clear-responses-collector/' + surveyCollectorId);
+  }
+  clearResponsesByForm(surveyFormId: string): Observable<any> {
+    return this.apiService.get('/survey-responses/clear-responses-form/' + surveyFormId);
   }
 }

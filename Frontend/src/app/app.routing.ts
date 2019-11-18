@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-import { AuthGuard } from './core';
+import { AuthGuard, AdminGuard } from './core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 
@@ -32,7 +32,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AdminGuard],
     loadChildren: () =>
       import('./modules/admin/admin.module').then(m => m.AdminModule)
   },
@@ -43,7 +43,7 @@ const routes: Routes = [
       import('./modules/auth/auth.module').then(m => m.AuthModule)
   },
   {
-    path: 'open',
+    path: 'publish',
     loadChildren: () =>
       import('./modules/publish/publish.module').then(m => m.PublishModule)
   },

@@ -33,11 +33,9 @@ export class UserGrantService {
     return this.apiService.delete(`/user-grants/${userGrantId}`);
   }
   deleteMultyUserGrant(param: any): Observable<any> {
-    return this.apiService.post('/user-grants/delete-multy', param);
+    return this.apiService.deleteMulty('/user-grants/delete-multy', param);
   }
   updateAction(userGrantId: string, actionKey: string): Observable<any> {
-    return this.apiService.put(`/user-grants/update-action/${userGrantId}`, {
-      actionKey
-    });
+    return this.apiService.put(`/user-grants/update-action/${userGrantId}`, { actionKey });
   }
 }

@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { I18nService } from '@app/core';
-import { environment } from '@env/environment';
+import { environment as env } from '@env/environment';
 
 @Component({
   selector: 'header-i18n',
@@ -33,7 +33,7 @@ import { environment } from '@env/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class I18nComponent implements OnInit {
-  LANGS: any = environment.languages;
+  LANGS: any = env.languages;
   langs = Object.keys(this.LANGS).map(code => {
     const item = this.LANGS[code];
     return { code, text: item.text, abbr: item.abbr };

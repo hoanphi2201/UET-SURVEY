@@ -32,7 +32,7 @@ export class RoleGrantService {
     return this.apiService.delete(`/role-grants/${roleGrantId}`);
   }
   deleteMultyRoleGrant(param: any): Observable<any> {
-    return this.apiService.post('/role-grants/delete-multy', param);
+    return this.apiService.deleteMulty('/role-grants/delete-multy', param);
   }
   updateAction(roleGrantId: string, actionKey: string): Observable<any> {
     return this.apiService.put(`/role-grants/update-action/${roleGrantId}`, {

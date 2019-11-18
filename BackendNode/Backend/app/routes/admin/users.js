@@ -56,6 +56,21 @@ router.get("/userName/:userName", async (req, res, next) => {
   );
 });
 
+router.delete("/delete-multy", (req, res, next) => {
+  const userIds = paramsHelper.getParam(req.body, "userIds", "");
+  if (!Array.isArray(userIds)) {
+    return res.status(400).json(new Response(true, 400, "error", "admin.layout.IS_ARRAY"));
+  }
+  if (userIds.includes(req.user.id)) {
+    return res.status(400).json(new Response(true, 400, "error", "admin.layout.DELETE_USER_YOURSELF"));
+  }
+  usersModel.deleteUsers(userIds, { task: "delete-many" }).then(users => {
+    res.status(200).json(new Response(false, 200, "success", "Success", users));
+  }).catch(error =>
+    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
+  );
+});
+
 router.delete("/:userId", (req, res, next) => {
   const userId = paramsHelper.getParam(req.params, "userId", "");
   if (req.user.id === userId) {
@@ -85,21 +100,6 @@ router.put("/:userId", (req, res, next) => {
   const user = req.body ? req.body : {};
   usersModel.saveUser(user, userId, { task: "update" }).then(user => {
     res.json(new Response(false, 200, "success", "Success", [user]));
-  }).catch(error =>
-    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
-  );
-});
-
-router.post("/delete-multy", (req, res, next) => {
-  const userIds = paramsHelper.getParam(req.body, "userIds", "");
-  if (!Array.isArray(userIds)) {
-    return res.status(400).json(new Response(true, 400, "error", "admin.layout.IS_ARRAY"));
-  }
-  if (userIds.includes(req.user.id)) {
-    return res.status(400).json(new Response(true, 400, "error", "admin.layout.DELETE_USER_YOURSELF"));
-  }
-  usersModel.deleteUsers(userIds, { task: "delete-many" }).then(users => {
-    res.status(200).json(new Response(false, 200, "success", "Success", users));
   }).catch(error =>
     res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
   );

@@ -1,7 +1,8 @@
 <div
   [class.head]="topMode"
   [class.light]="topMode && setting?.theme == 'light'"
-  [class.green]="topMode && setting?.theme == 'green'">
+  [class.green]="topMode && setting?.theme == 'green'"
+  [class.dark]="topMode && setting?.theme == 'dark'">
   <div
     [class.header]="!topMode"
     [class.main]="topMode"

@@ -10,6 +10,9 @@ import { SurveyResponsesComponent } from './pages/survey-responses/survey-respon
 import { AuthGuard } from '@app/core';
 import { SurveyFormsComponent } from './pages/survey-forms/survey-forms/survey-forms.component';
 import { SurveyFormsCreatorComponent } from './pages/survey-forms/survey-forms-creator/survey-forms-creator.component';
+import { SurveyCollectorsComponent } from './pages/survey-collectors/survey-collectors.component';
+import { SurveySendsComponent } from './pages/survey-sends/survey-sends.component';
+import { SurveyRecipientsComponent } from './pages/survey-recipients/survey-recipients.component';
 
 const routes: Routes = [
   {
@@ -60,8 +63,23 @@ const routes: Routes = [
   {
     path: 'survey-responses',
     canActivateChild: [AuthGuard],
-    component: SurveyResponsesComponent
-  }
+    component: SurveyResponsesComponent   
+  },
+  {
+    path: 'survey-collectors',
+    canActivateChild: [AuthGuard],
+    component: SurveyCollectorsComponent
+  },
+  {
+    path: 'survey-sends',
+    canActivateChild: [AuthGuard],
+    component: SurveySendsComponent
+  } ,
+  {
+    path: 'survey-recipients',
+    canActivateChild: [AuthGuard],
+    component: SurveyRecipientsComponent
+  }    
 ];
 
 @NgModule({

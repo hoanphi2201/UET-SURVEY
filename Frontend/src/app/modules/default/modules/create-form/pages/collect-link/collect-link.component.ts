@@ -8,7 +8,7 @@ import { LoaderService, Helpers } from '@app/shared';
 import { RenameCollectorComponent } from '@app/shared/modals/rename-collector/rename-collector.component';
 import { CloseCollectorComponent } from '@app/shared/modals/close-collector/close-collector.component';
 import { OpenCollectorComponent } from '@app/shared/modals/open-collector/open-collector.component';
-import { environment } from '@env/environment';
+import { environment as env } from '@env/environment';
 import { ngCopy } from 'angular-6-clipboard';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -19,7 +19,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class CollectLinkComponent implements OnInit {
   form: FormGroup;
-  clientUrl = environment.clientUrl;
+  clientUrl = env.clientUrl;
   surveyCollectorDetail: SurveyCollector;
   private subscriptions: Subscription[] = [];
   private modalForm: NzModalRef;
@@ -56,7 +56,7 @@ export class CollectLinkComponent implements OnInit {
       if (res.status.code === 200) {
         if (res.results && res.results[0]) {
           this.surveyCollectorDetail = res.results[0];
-          this.surveyCollectorDetail.fullUrl = this.clientUrl + '/open/answer-survey/' + this.surveyCollectorDetail.url;
+          this.surveyCollectorDetail.fullUrl = this.clientUrl + '/publish/answer-survey/' + this.surveyCollectorDetail.url;
           this.dSurveyFormService.setSurveyFormDetail(this.surveyCollectorDetail.surveyForm);
         } else {
           this.nzMessageService.warning(

@@ -10,6 +10,9 @@ import { UserGrantsComponent } from './pages/user-grants/user-grants.component';
 import { SurveyFoldersComponent } from './pages/survey-folders/survey-folders.component';
 import { SurveyResponsesComponent } from './pages/survey-responses/survey-responses.component';
 import { SurveyFormsComponent } from './pages/survey-forms/survey-forms/survey-forms.component';
+import { SurveyCollectorsComponent } from './pages/survey-collectors/survey-collectors.component';
+import { SurveySendsComponent } from './pages/survey-sends/survey-sends.component';
+import { SurveyRecipientsComponent } from './pages/survey-recipients/survey-recipients.component';
 
 const COMPONENTS = [
   DashboardComponent,
@@ -20,7 +23,10 @@ const COMPONENTS = [
   SurveyFoldersComponent,
   SurveyFormsComponent,
   SurveyResponsesComponent,
-  SurveyFormsCreatorComponent
+  SurveyFormsCreatorComponent,
+  SurveyCollectorsComponent,
+  SurveySendsComponent,
+  SurveyRecipientsComponent
 ];
 
 @NgModule({

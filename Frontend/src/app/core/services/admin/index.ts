@@ -4,3 +4,6 @@ export * from './role-grant.service';
 export * from './user-grant.service';
 export * from './survey-folder.service';
 export * from './survey-form.service';
+export * from './survey-collector.service';
+export * from './survey-response.service';
+export * from './survey-send.service';

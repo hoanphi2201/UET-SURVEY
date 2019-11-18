@@ -61,7 +61,6 @@ export class UsersComponent implements OnInit, AfterContentInit {
     this.initTable();
   }
   initTable() {
-    // tslint:disable-next-line:max-line-length
     this.columns = [
       { id: 'id', type: 'text', hidden: true, header: 'admin.layout.ID' },
       { id: 'firstName', type: 'text', sortable: true, search: true, header: 'admin.layout.FIRST_NAME' },

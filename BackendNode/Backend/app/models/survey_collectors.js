@@ -9,7 +9,12 @@ const NotFound = require(__pathHelper + "error");
 module.exports = {
   listSurveyCollectors: (params, options = null) => {
     const objWhere = {};
-    const order = [[params.sortField, params.sortType]];
+    let order;
+    if (["collector", "response"].includes(params.sortField)) {
+      order = [[Sequelize.literal(params.sortField), params.sortType]];
+    } else {
+      order = [[params.sortField, params.sortType]];
+    }
     if (params.filterKey && params.filterValue.length > 0) {
       objWhere[params.filterKey] = { $in: params.filterValue };
     }
@@ -17,21 +22,29 @@ module.exports = {
       objWhere[params.searchKey] = { $like: `%${params.searchValue}%` };
     }
     return surveyCollectorsModel.findAll({
+      attributes: ["id", "name", "type", "status", "updatedAt", "createdAt", "closedMessage",
+        [
+          Sequelize.fn("COUNT", Sequelize.col("survey_responses.id")), "response"
+        ]
+      ],
       where: objWhere,
       order: order,
       limit: params.paging.pageSize,
       offset: (params.paging.page - 1) * params.paging.pageSize,
       include: [
         {
+          model: surveyResponsesModel,
+          attributes: [],
+          duplicating: false
+        },
+        {
           model: surveyFormsModel,
           as: "surveyForm",
           attributes: ["id", "title"]
-        },
-        {
-          model: usersModel,
-          attributes: ["id", "userName"]
         }
-      ]
+      ],
+      order: order,
+      group: ["survey_collectors.id", "surveyForm.id"]
     });
   },
   getSurveyCollectorsById: (surveyCollectorId, options = null) => {
@@ -188,5 +201,13 @@ module.exports = {
       }
       throw new NotFound("admin.layout.NOT_BE_BOUND");
     });
+  },
+  transferSurveyCollector: (surveyFormId, userId) => {
+    console.log(surveyFormId);
+    
+    return surveyCollectorsModel.update(
+      { userId },
+      { where: { surveyFormId } }
+    );
   }
 };

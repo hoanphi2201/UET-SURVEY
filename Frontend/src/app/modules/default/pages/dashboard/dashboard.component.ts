@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable, interval, Subscription, Subject } from 'rx
 import { map, debounceTime, switchMap, startWith, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ManageProfileComponent } from '@app/shared/modals/manage-profile/manage-profile.component';
-import { environment } from '@env/environment';
+import { environment as env } from '@env/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   folderSelectId = 'all';
   surveyFormDelete: SurveyForm;
   modalForm: NzModalRef;
-  listOfAllJobRole = environment.jobRole;
+  listOfAllJobRole = env.jobRole;
   progressPanelState: 'in' | 'out' = 'in';
   totalResponse: number;
   typicalTimeSpent: number;
@@ -63,12 +63,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           const sourceInterval = interval(
             appConfig.completeAccountRefreshInterval
           );
-          this.subscriptions.push(
-            sourceInterval.pipe(
-              startWith(0),
-              takeUntil(this.destroyInterval$)
-            ).subscribe(() => this.updateIfCompleteAccount())
-          );
+          this.subscriptions.push(sourceInterval.pipe(
+            startWith(0),
+            takeUntil(this.destroyInterval$)).subscribe(() => this.updateIfCompleteAccount()));
         } else {
           this.progressPanelState = 'out';
         }
@@ -117,10 +114,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       };
       this.dUserService.updateUser(updateData, this.currentUser.id).subscribe(res => {
         if (res.status.code === 200) {
-          this.authService.setCurrentUser(
-            Object.assign(this.currentUser, updateData),
-            true
-          );
+          this.authService.setCurrentUser(Object.assign(this.currentUser, updateData), true);
         }
       }, err => {
         this.nzMessageService.error(
@@ -202,7 +196,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let total = 0;
     try {
       json.pages.forEach(o => {
-        total += o.elements.length;
+        if (o.elements && Array.isArray(o.elements)) {
+          total += o.elements.length;
+        }
       });
     } catch (error) {
       return defaultValue;
@@ -230,23 +226,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let decisions = 0;
     const openQuestions = ['comment', 'text', 'tagbox', 'sortablelist', 'html', 'multipletext'];
     json.pages.forEach(o => {
-      questions += o.elements.length;
-      total += o.elements.length * 5;
-      o.elements.forEach(element => {
-        total += element.name.split(' ').length / 5;
-        if (openQuestions.includes(element.type)) {
-          total += 15;
-        }
-        if (element.choices) {
-          decisions += element.choices.length;
-        }
-        if (element.columns) {
-          decisions += element.columns.length;
-        }
-        if (element.items) {
-          decisions += element.items.length;
-        }
-      });
+      if (o.elements && Array.isArray(o.elements)) {
+        questions += o.elements.length;
+        total += o.elements.length * 5;
+        o.elements.forEach(element => {
+          total += element.name.split(' ').length / 5;
+          if (openQuestions.includes(element.type)) {
+            total += 15;
+          }
+          if (element.choices) {
+            decisions += element.choices.length;
+          }
+          if (element.columns) {
+            decisions += element.columns.length;
+          }
+          if (element.items) {
+            decisions += element.items.length;
+          }
+        });
+      }
+
     });
     total += (decisions - questions) * 2;
     return (total / 60).toFixed(2) + ' min';

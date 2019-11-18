@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { I18nService } from '@app/core';
-import { environment } from '@env/environment';
+import { environment as env } from '@env/environment';
 
 @Component({
   selector: 'app-footer',
@@ -9,7 +9,7 @@ import { environment } from '@env/environment';
 })
 export class FooterComponent implements OnInit {
   currentLanguage: any;
-  LANGS: any = environment.languages;
+  LANGS: any = env.languages;
   langs = Object.keys(this.LANGS).map(code => {
     const item = this.LANGS[code];
     return { code, text: item.text, abbr: item.abbr };

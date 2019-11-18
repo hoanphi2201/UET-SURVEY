@@ -30,8 +30,8 @@
           {{ 'default.layout.POWERED_BY' | translate }}
           <a target="_blank" class="footer-brand-name survey-footer-link">
             <img
-              src="https://secure.surveymonkey.com/assets/responseweb/smlib.surveytemplates/4.2.42/assets/sm_logo_footer.svg"
-              alt="SurveyMonkey"
+              src="./assets/images/logo/full-logo-green.png"
+              alt="UetSurvey"
               class="responsive-logo"/>
           </a>
         </p>
@@ -121,14 +121,14 @@
         </h2>
         <a href="" class="error-logo" target="_top">
           <img
-            src="https://secure.surveymonkey.com/assets/responseweb/smlib.errorviews/3.2.4/assets/logo-onwhite.png"
-            alt="SurveyMonkey"/>
+            src="./assets/images/logo/full-logo-green.png"
+            alt="UetSurvey"/>
         </a>
         <h3 class="wds-type-card-title" translate>
           default.layout.WANT_TO_CREATE_YOUR_OWN_SURVEY
         </h3>
-        <button nz-button nzType="primary" nzSize="large" translate>
-          default.layout.SIGN_UP_FREE
+        <button [routerLink]="['/auth', 'signup']" nz-button nzType="primary" nzSize="large">
+          {{'default.layout.SIGN_UP_FREE' | translate}}
         </button>
         <div class="links">
           <a href="" target="_top">UetSurvey Home</a>|
@@ -152,15 +152,15 @@
       <div class="error-message-container">
         <h2 class="wds-type-section-title" translate>default.layout.WE_CANT_FIND_THE_PAGE_YOU_REQUESTED</h2>
         <p translate>
-          default.layout.IF_YOU_ARE_TRYING_TO_ACCESS_A_SURVEY,_PLEASE_CONTACT_THE_SURVEY_ADMINISTRATOR._THE_URL_MAY_HAVE_BEEN_CHANGED_OR_THE_SURVEY_MAY_NO_LONGER_EXIST
+          default.layout.IF_YOU_ARE_TRYING_TO_ACCESS_A_SURVEY_PLEASE_CONTACT_THE_SURVEY_ADMINISTRATOR_THE_URL_MAY_HAVE_BEEN_CHANGED_OR_THE_SURVEY_MAY_NO_LONGER_EXIST
         </p>
         <a href="" class="error-logo" target="_top">
           <img
-            src="https://secure.surveymonkey.com/assets/responseweb/smlib.errorviews/3.2.4/assets/logo-onwhite.png"
-            alt="SurveyMonkey"/>
+            src="./assets/images/logo/full-logo-green.png"
+            alt="UetSurvey"/>
         </a>
-        <h3 class="wds-type-card-title">default.layout.WANT_TO_CREATE_YOUR_OWN_SURVEY</h3>
-        <button nz-button nzType="primary" nzSize="large">Sign Up FREE</button>
+        <h3 class="wds-type-card-title" translate>default.layout.WANT_TO_CREATE_YOUR_OWN_SURVEY</h3>
+        <button [routerLink]="['/auth', 'signup']" nz-button nzType="primary" nzSize="large">Sign Up FREE</button>
         <div class="links">
           <a href="" target="_top">UetSurvey Home</a>|
           <a href="" target="_top">Sitemap</a>|

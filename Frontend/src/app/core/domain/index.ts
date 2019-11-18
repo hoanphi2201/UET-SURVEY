@@ -12,3 +12,4 @@ export * from './filter';
 export * from './survey-collector';
 export * from './survey-response';
 export * from './survey-recipient';
+export * from './survey-send';

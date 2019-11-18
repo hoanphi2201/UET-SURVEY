@@ -4,7 +4,7 @@ import { RoleGrant, RoleGrantService, RoleService, Role, TableListColumn, Paggin
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { LoaderService, WindowresizeService, Helpers } from '@app/shared';
-import { environment } from '@env/environment';
+import { environment as env } from '@env/environment';
 import * as _ from 'lodash';
 
 @Component({
@@ -55,7 +55,7 @@ export class RoleGrantsComponent implements OnInit {
     });
     this.selectedEdit = {} as RoleGrant;
     this.selectedEdit.role = {} as Role;
-    this.listOfAllTable = environment.dbTable.map(o => {
+    this.listOfAllTable = env.dbTable.map(o => {
       return { text: o, value: o };
     });
     this.buildForm();

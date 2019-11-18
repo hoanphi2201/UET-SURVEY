@@ -43,6 +43,21 @@ router.get("/:roleId", async (req, res, next) => {
   );
 });
 
+router.delete("/delete-multy", (req, res, next) => {
+  const roleIds = paramsHelper.getParam(req.body, "roleIds", "");
+  if (!Array.isArray(roleIds)) {
+    return res.status(400).json(new Response(true, 400, "error", "admin.layout.IS_ARRAY"));
+  }
+  if (roleIds.includes(req.user.role.id)) {
+    return res.status(400).json(new Response(true, 400, "error", "admin.layout.DELETE_ROLE_YOURSELF"));
+  }
+  rolesModel.deleteRoles(roleIds, { task: "delete-many" }).then(roles => {
+    res.status(200).json(new Response(false, 200, "success", "Success", roles));
+  }).catch(error =>
+    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
+  );
+});
+
 router.delete("/:roleId", (req, res, next) => {
   const roleId = paramsHelper.getParam(req.params, "roleId", "");
   if (req.user.role.id === roleId) {
@@ -65,6 +80,15 @@ router.put("/:roleId", (req, res, next) => {
   );
 });
 
+router.put("/default-sign-up/:roleId", (req, res, next) => {
+  const roleId = paramsHelper.getParam(req.params, "roleId", "");
+  rolesModel.updateDefaultSignUp(roleId).then(role => {
+    res.status(200).json(new Response(false, 200, "success", "Success", [role]));
+  }).catch(error =>
+    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
+  );
+});
+
 router.put("/change-roleAcp/:roleId", (req, res, next) => {
   const roleId = paramsHelper.getParam(req.params, "roleId", "");
   rolesModel.changeRoleAcp(roleId).then(role => {
@@ -74,20 +98,6 @@ router.put("/change-roleAcp/:roleId", (req, res, next) => {
   );
 });
 
-router.post("/delete-multy", (req, res, next) => {
-  const roleIds = paramsHelper.getParam(req.body, "roleIds", "");
-  if (!Array.isArray(roleIds)) {
-    return res.status(400).json(new Response(true, 400, "error", "admin.layout.IS_ARRAY"));
-  }
-  if (roleIds.includes(req.user.role.id)) {
-    return res.status(400).json(new Response(true, 400, "error", "admin.layout.DELETE_ROLE_YOURSELF"));
-  }
-  rolesModel.deleteRoles(roleIds, { task: "delete-many" }).then(roles => {
-    res.status(200).json(new Response(false, 200, "success", "Success", roles));
-  }).catch(error =>
-    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
-  );
-});
 
 router.post("/", (req, res, next) => {
   const role = req.body ? req.body : {};

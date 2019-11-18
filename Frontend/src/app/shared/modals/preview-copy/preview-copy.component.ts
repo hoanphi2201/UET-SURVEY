@@ -43,7 +43,9 @@ export class PreviewCopyComponent implements OnInit {
     let total = 0;
     try {
       json.pages.forEach(o => {
-        total += o.elements.length;
+        if (o.elements && Array.isArray(o.elements)) {
+          total += o.elements.length;
+        }
       });
     } catch (error) {
       return defaultValue;

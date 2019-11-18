@@ -5,7 +5,7 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IValidators, DSurveyFormService, AuthService, User } from '@app/core';
-import { environment } from '@env/environment';
+import { environment as env } from '@env/environment';
 import { Helpers } from '@app/shared/helpers';
 
 @Component({
@@ -15,7 +15,7 @@ import { Helpers } from '@app/shared/helpers';
 })
 export class ModalCreateSurveyComponent implements OnInit {
   form: FormGroup;
-  listOfAllCategory = environment.surveyCategory;
+  listOfAllCategory = env.surveyCategory;
   buttonLoading = false;
   currentUser: User;
   constructor(

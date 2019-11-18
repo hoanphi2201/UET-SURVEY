@@ -47,6 +47,18 @@ router.get("/roleGrantname/:roleGrantname", (req, res, next) => {
   );
 });
 
+router.delete("/delete-multy", (req, res, next) => {
+  const roleGrantIds = paramsHelper.getParam(req.body, "roleGrantIds", "");
+  if (!Array.isArray(roleGrantIds)) {
+    return res.status(400).json(new Response(true, 400, "error", "admin.layout.IS_ARRAY"));
+  }
+  roleGrantsModel.deleteRoleGrants(roleGrantIds, { task: "delete-many" }).then(roleGrants => {
+    res.status(200).json(new Response(false, 200, "success", "Success", roleGrants));
+  }).catch(error =>
+    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
+  );
+});
+
 router.delete("/:roleGrantId", (req, res, next) => {
   const roleGrantId = paramsHelper.getParam(req.params, "roleGrantId", "");
   roleGrantsModel.deleteRoleGrants(roleGrantId, { task: "delete-one" }).then(roleGrant => {
@@ -76,17 +88,7 @@ router.put("/:roleGrantId", (req, res, next) => {
   );
 });
 
-router.post("/delete-multy", (req, res, next) => {
-  const roleGrantIds = paramsHelper.getParam(req.body, "roleGrantIds", "");
-  if (!Array.isArray(roleGrantIds)) {
-    return res.status(400).json(new Response(true, 400, "error", "admin.layout.IS_ARRAY"));
-  }
-  roleGrantsModel.deleteRoleGrants(roleGrantIds, { task: "delete-many" }).then(roleGrants => {
-    res.status(200).json(new Response(false, 200, "success", "Success", roleGrants));
-  }).catch(error =>
-    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
-  );
-});
+
 
 router.post("/", (req, res, next) => {
   const roleGrant = req.body ? req.body : {};

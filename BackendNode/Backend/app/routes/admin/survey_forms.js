@@ -57,6 +57,18 @@ router.get("/surveyFormName/:surveyFormName", async (req, res, next) => {
   );
 });
 
+router.delete("/delete-multy", (req, res, next) => {
+  const surveyFormIds = paramsHelper.getParam(req.body, "surveyFormIds", "");
+  if (!Array.isArray(surveyFormIds)) {
+    return res.status(400).json(new Response(true, 400, "error", "admin.layout.IS_ARRAY"));
+  }
+  surveyFormsModel.deleteSurveyForms(surveyFormIds, { task: "delete-many" }).then(surveyForms => {
+    res.status(200).json(new Response(false, 200, "success", "Success", surveyForms));
+  }).catch(error =>
+    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
+  );
+});
+
 router.delete("/:surveyFormId", (req, res, next) => {
   const surveyFormId = paramsHelper.getParam(req.params, "surveyFormId", "");
   surveyFormsModel.deleteSurveyForms(surveyFormId, { task: "delete-one" }).then(surveyForm => {
@@ -83,18 +95,6 @@ router.put("/:surveyFormId", (req, res, next) => {
   const surveyForm = req.body ? req.body : {};
   surveyFormsModel.saveSurveyForm(surveyForm, surveyFormId, { task: "update" }).then(surveyForm => {
     res.json(new Response(false, 200, "success", "Success", [surveyForm]));
-  }).catch(error =>
-    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
-  );
-});
-
-router.post("/delete-multy", (req, res, next) => {
-  const surveyFormIds = paramsHelper.getParam(req.body, "surveyFormIds", "");
-  if (!Array.isArray(surveyFormIds)) {
-    return res.status(400).json(new Response(true, 400, "error", "admin.layout.IS_ARRAY"));
-  }
-  surveyFormsModel.deleteSurveyForms(surveyFormIds, { task: "delete-many" }).then(surveyForms => {
-    res.status(200).json(new Response(false, 200, "success", "Success", surveyForms));
   }).catch(error =>
     res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
   );

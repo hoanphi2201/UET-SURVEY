@@ -3,7 +3,7 @@
     <div id="left-space"></div>
     <div id="mid-space">
       <div class="collectors clearfix">
-        <ng-container *ngIf="listOfAllSurveyCollect?.length > 0; else noCollectResponsesTpl">
+        <ng-container *ngIf="listOfAllSurveyCollect?.length > 0 || isSearch; else noCollectResponsesTpl">
           <div class="add-collector">
             <h1 class="wds-type-section-title" translate>default.layout.SURVEY_COLLECTORS</h1>
             <div class="btn-menu wds-button-group">
@@ -43,6 +43,21 @@
           </div>
           <div class="collector-list-grid-container">
             <nz-card [style.marginBottom.px]="24">
+              <div [style.marginBottom.px]="24" nz-row>
+                <div class="col-sm-4 pull-right">
+                  <nz-input-group [nzSize]="'large'" [nzSuffix]="suffixIconSearch">
+                    <input
+                      [(ngModel)]="filter.searchValue"
+                      (keyup.enter)="search()"
+                      type="text"
+                      nz-input
+                      [placeholder]="'default.layout.SEARCH_BY_EMAIL' | translate"/>
+                  </nz-input-group>
+                  <ng-template #suffixIconSearch>
+                    <i nz-icon nzType="search"></i>
+                  </ng-template>
+                </div>
+              </div>
               <div nz-row>
                 <div class="col-sm-12">
                   <nz-table
@@ -114,23 +129,23 @@
                             <ng-container [ngSwitch]="column.type">
                               <ng-container *ngSwitchCase="'text'">
                                 <div
-                                  *ngIf="data[column.id].length > 20"
+                                  *ngIf="data[column.id].length > 40"
                                   [nzTooltipTitle]="data[column.id]"
                                   nzTooltipPlacement="top"
                                   nz-tooltip>
                                   <a *ngIf="column.action" routerLink="column.action.link(data.id, data.type)">
-                                    {{ data[column.id] | summary }}
+                                    {{ data[column.id] | summary : 40 }}
                                   </a>
                                   <ng-container *ngIf="!column.action">
-                                    {{ data[column.id] | summary }}
+                                    {{ data[column.id] | summary : 40}}
                                   </ng-container>
                                 </div>
-                                <div *ngIf="data[column.id].length <= 20">
+                                <div *ngIf="data[column.id].length <= 40">
                                   <a *ngIf="column.action" [routerLink]="column.action.link(data.id, data.type)">
-                                    {{ data[column.id] | summary }}
+                                    {{ data[column.id] }}
                                   </a>
                                   <ng-container *ngIf="!column.action">
-                                    {{ data[column.id] | summary }}
+                                    {{ data[column.id] }}
                                   </ng-container>
                                 </div>
                                 <div *ngIf="column.td_two">
@@ -232,15 +247,15 @@
             </nz-card>
           </div>
           <div class="collector-ads">
-            <header class="wds-type-section-title">Add a new collector</header>
+            <header class="wds-type-section-title" translate>default.layout.ADD_A_NEW_COLLECTOR</header>
             <ul>
               <li class="add-weblink-collector  ">
                 <a>
                   <i class="fa fa-link icon-collector"></i>
-                  <h3 class="wds-type-card-title">
-                    Web Link
+                  <h3 class="wds-type-card-title" translate>
+                      default.layout.WEB_LINK
                   </h3>
-                  <p>Ideal for sharing via email, social media, etc.</p>
+                  <p translate>default.layout.IDEAL_FOR_SHARING_VIA_EMAIL,_SOCIAL_MEDIA_ETC</p>
                 </a>
               </li>
               <li class="add-email-collector  ">
@@ -251,42 +266,42 @@
                     nzType="mail"
                     nzTheme="outline">
                   </i>
-                  <h3 class="wds-type-card-title">
-                    Email
+                  <h3 class="wds-type-card-title" translate>
+                      default.layout.EMAIL
                   </h3>
-                  <p>Ideal for tracking your survey respondents</p>
+                  <p translate>default.layout.IDEAL_FOR_TRACKING_YOUR_SURVEY_RESPONDENTS</p>
                 </a>
               </li>
               <li class="add-audience-collector  ">
                 <a>
                   <i class="fa fa-users icon-collector"></i>
-                  <h3 class="wds-type-card-title">Buy Responses</h3>
-                  <p>Find people who fit your criteria</p>
+                  <h3 class="wds-type-card-title" translate>default.layout.BUY_RESPONSES</h3>
+                  <p translate>default.layout.FIND_PEOPLE_WHO_FIT_YOUR_CRITERIA</p>
                 </a>
               </li>
               <li class="add-facebook-collector  ">
                 <a>
                   <i class="fa fa-facebook icon-collector"></i>
-                  <h3 class="wds-type-card-title">
-                    Social Media
+                  <h3 class="wds-type-card-title" translate>
+                      default.layout.SOCIAL_MEDIA
                   </h3>
-                  <p>Post your survey on Facebook, LinkedIn, or Twitter</p>
+                  <p translate>default.layout.POST_YOUR_SURVEY_ON_FACEBOOK_LINKEDIN_OR_TWITTER</p>
                 </a>
               </li>
               <li class="add-website-collector  ">
                 <a>
                   <i class="fa fa-newspaper-o icon-collector"></i>
-                  <h3 class="wds-type-card-title">
-                    Website
+                  <h3 class="wds-type-card-title" translate>
+                      default.layout.WEBSITE
                   </h3>
-                  <p>Embed your survey on your website</p>
+                  <p translate>default.layout.EMBED_YOUR_SURVEY_ON_YOUR_WEBSITE</p>
                 </a>
               </li>
               <li class="add-facebook-collector  ">
                 <a>
                   <i class="icon-collector" nz-icon nzType="wechat" nzTheme="outline"></i>
-                  <h3 class="wds-type-card-title">Facebook Messenger</h3>
-                  <p>Get feedback in Messenger</p>
+                  <h3 class="wds-type-card-title" translate>default.layout.FACEBOOK_MESSENGER</h3>
+                  <p translate>default.layout.GET_FEEDBACK_IN_MESSENGER</p>
                 </a>
               </li>
             </ul>
@@ -306,7 +321,7 @@
       </h1>
       <div class="row">
         <div class="col-md-4">
-          <div class="card-collector">
+          <div (click)="onAddNewCollector('EMAIL')" class="card-collector">
             <i
               class="icon-collector"
               nz-icon

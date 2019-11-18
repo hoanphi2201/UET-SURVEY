@@ -97,6 +97,9 @@
                           </ng-container>
                         </nz-select>
                       </ng-container>
+                      <ng-container *ngSwitchCase="'checkbox'">
+                        <label (ngModelChange)="onUpdateDefaultSignUp(data)" nz-checkbox [(ngModel)]="data[column.id]"></label>
+                      </ng-container>
                     </ng-container>
                   </td>
                 </ng-container>

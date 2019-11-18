@@ -37,9 +37,10 @@ export class DSurveyCollectorService {
   }
 
   updateSurveyCollector(surveyCollectorId: string, surveyCollector: any) {
-    return this.apiService.put(
-      `/survey-collectors/${surveyCollectorId}`,
-      surveyCollector
-    );
+    return this.apiService.put(`/survey-collectors/${surveyCollectorId}`, surveyCollector);
+  }
+
+  transferSurveyCollector(surveyFormId: string): Promise<any> {
+    return this.apiService.put(`/survey-collectors/transfer/${surveyFormId}`).toPromise();
   }
 }

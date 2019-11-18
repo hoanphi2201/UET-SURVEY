@@ -114,6 +114,10 @@
   border-top: 1px solid #d0d2d3;
   margin-top: 2em;
   padding-top: 2em;
+  li:not(.disabled):hover {
+    border: solid 1px #00BF6F;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.14);
+  }
   a {
     text-decoration: none;
   }
@@ -159,5 +163,22 @@
     background: #f4f5f5 !important;
     padding: 0 !important;
     border-radius: 4px 4px 4px 4px;
+  }
+}
+td.activity {
+  color: #6b787f;
+  a {
+    color: #007faa;
+    text-decoration: none;
+    border: none;
+    background: none;
+    font-weight: inherit;
+    font-size: inherit;
+    outline: none;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  a:hover {
+    text-decoration: underline;
   }
 }

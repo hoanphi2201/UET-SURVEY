@@ -111,10 +111,7 @@ module.exports = {
   },
   saveUser: async (user, userId = null, options = null) => {
     if (options.task == "update") {
-      const existUser = await module.exports.getUserByUserNameAndId(
-        user.userName,
-        userId
-      );
+      const existUser = await module.exports.getUserByUserNameAndId(user.userName,userId);
       if (!existUser) {
         return usersModel.findByPk(userId).then(userUpdate => {
           if (userUpdate) {
@@ -173,7 +170,7 @@ module.exports = {
       include: [
         {
           model: rolesModel,
-          attributes: ["id", "name"]
+          attributes: ["id", "name", "roleAcp"]
         }
       ]
     });

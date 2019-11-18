@@ -46,6 +46,19 @@ router.get("/userGrantname/:userGrantname", (req, res, next) => {
     res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
   );
 });
+
+router.delete("/delete-multy", (req, res, next) => {
+  const userGrantIds = paramsHelper.getParam(req.body, "userGrantIds", "");
+  if (!Array.isArray(userGrantIds)) {
+    return res.status(400).json(new Response(true, 400, "error", "admin.layout.IS_ARRAY"));
+  }
+  userGrantsModel.deleteUserGrants(userGrantIds, { task: "delete-many" }).then(userGrants => {
+    res.status(200).json(new Response(false, 200, "success", "Success", userGrants));
+  }).catch(error =>
+    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
+  );
+});
+
 router.delete("/:userGrantId", (req, res, next) => {
   const userGrantId = paramsHelper.getParam(req.params, "userGrantId", "");
   userGrantsModel.deleteUserGrants(userGrantId, { task: "delete-one" }).then(userGrant => {
@@ -70,18 +83,6 @@ router.put("/:userGrantId", (req, res, next) => {
   const userGrant = req.body ? req.body : {};
   userGrantsModel.saveUserGrant(userGrant, userGrantId, { task: "update" }).then(userGrant => {
     res.json(new Response(false, 200, "success", "Success", [userGrant]));
-  }).catch(error =>
-    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
-  );
-});
-
-router.post("/delete-multy", (req, res, next) => {
-  const userGrantIds = paramsHelper.getParam(req.body, "userGrantIds", "");
-  if (!Array.isArray(userGrantIds)) {
-    return res.status(400).json(new Response(true, 400, "error", "admin.layout.IS_ARRAY"));
-  }
-  userGrantsModel.deleteUserGrants(userGrantIds, { task: "delete-many" }).then(userGrants => {
-    res.status(200).json(new Response(false, 200, "success", "Success", userGrants));
   }).catch(error =>
     res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
   );

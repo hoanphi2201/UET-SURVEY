@@ -1,6 +1,19 @@
 @import '~ng-zorro-antd/style/themes/default.less';
+
+
 ::ng-deep .notice-popover {
-  width: 336px;
+  width: 430px;
+  .ant-list-item-meta-title {
+    margin-top: 0!important;
+    line-height: 15px!important;
+    display: flex;
+    .buttons {
+      display: flex;
+      button:not(:last-child) {
+        margin-right: 5px;
+      }
+    }
+  }
   .ant-popover-inner-content {
     padding: 0;
   }
@@ -39,7 +52,6 @@
       }
       .title {
         font-weight: normal;
-        margin-bottom: 8px;
       }
       .description {
         font-size: 12px;

@@ -6,8 +6,9 @@
   <ng-container sider>
     <div class="logo" [class.light]="layout.setting.theme == 'light'">
       <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active">
-        <img src="./assets/images/logo/logo.svg" alt="Image Logo" />
-        <h1>Ant Design</h1>
+        <img *ngIf="layout.setting.theme == 'light'" src="./assets/images/logo/logo-green.png" alt="Image Logo" />
+        <img *ngIf="layout.setting.theme !== 'light'" src="./assets/images/logo/logo-white.png" alt="Image Logo" />
+        <h1>Uet Survey</h1>
       </a>
     </div>
     <app-sidebar
@@ -26,10 +27,13 @@
           (click)="layout.collapsed = !layout.collapsed">
         </i>
       </ng-container>
-      <ng-container left *ngIf="layout.topMode()">
-        <div class="logo">
-          <img src="./assets/images/logo/logo.svg" alt="Image Logo" />
-        </div>
+      <ng-container left *ngIf="layout.topMode()"> 
+        <a [routerLink]="['/dashboard']">
+          <div class="logo">
+            <img *ngIf="layout.setting.theme == 'light'" src="./assets/images/logo/logo-green.png" alt="Image Logo" />
+            <img *ngIf="layout.setting.theme !== 'light'" src="./assets/images/logo/logo-white.png" alt="Image Logo" />
+          </div>
+        </a>
         <app-sidebar [data]="menu" mode="horizontal"></app-sidebar>
       </ng-container>
       <ng-container right>
@@ -42,20 +46,29 @@
           <i nz-icon nzType="bell" nzTheme="outline"></i>
         </app-notice-popover>
         <span nz-dropdown class="action account" [nzDropdownMenu]="menuUser">
-          <nz-avatar nzSize="small" nzIcon="user"></nz-avatar>
-          <span class="name" *ngIf="currentUser">{{ currentUser?.firstName + ' ' + currentUser?.lastName }}</span>
+            <nz-avatar [nzSize]="36" [nzSrc]="avatarUrl" nzIcon="user"></nz-avatar>
+          <span class="name" *ngIf="currentUser && viewFullName && viewFullName.length <= 10">
+            <ng-container>
+                {{ viewFullName }}
+            </ng-container>
+          </span>
+          <span nzTooltipPlacement="top" [nzTooltipTitle]="viewFullName" nz-tooltip class="name" *ngIf="currentUser && viewFullName && viewFullName.length > 10">
+            <ng-container>
+                {{ viewFullName | summary : 10  }}
+            </ng-container>
+          </span>
         </span>
         <nz-dropdown-menu nzPlacement="bottomRight" #menuUser="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item routerLink="/account/center">
-              <i nz-icon nzType="user"></i>User
+              <i nz-icon nzType="user"></i>{{'default.layout.MY_ACCOUNT' | translate}} 
             </li>
             <li nz-menu-item routerLink="/account/setting">
-              <i nz-icon nzType="setting"></i>Setting
+              <i nz-icon nzType="setting"></i>{{'default.layout.SETTING' | translate}} 
             </li>
             <li nz-menu-divider></li>
             <li nz-menu-item (click)="logout()">
-              <i nz-icon nzType="logout"></i>Logout
+              <i nz-icon nzType="logout"></i>{{'default.layout.LOGOUT' | translate}} 
             </li>
           </ul>
         </nz-dropdown-menu>

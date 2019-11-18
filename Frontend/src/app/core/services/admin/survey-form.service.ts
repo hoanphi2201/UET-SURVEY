@@ -36,7 +36,7 @@ export class SurveyFormService {
     return this.apiService.delete(`/survey-forms/${surveyFormId}`);
   }
   deleteMultySurveyForm(param: any): Observable<any> {
-    return this.apiService.post('/survey-forms/delete-multy', param);
+    return this.apiService.deleteMulty('/survey-forms/delete-multy', param);
   }
   changeRole(surveyFormId: string, roleId: string): Observable<any> {
     return this.apiService.put(`/survey-forms/change-role/${surveyFormId}`, {

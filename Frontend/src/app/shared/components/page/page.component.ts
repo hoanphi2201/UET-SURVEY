@@ -28,7 +28,9 @@ export class PageComponent implements OnInit {
   }
   set title(val: string) {
     this.data.title = val;
-    this.pageTitle.setTitle(val);
+    if (val) {
+      this.pageTitle.setTitle(val);
+    }
   }
 
   @Input()

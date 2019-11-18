@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { LoaderService } from '@app/shared/services';
 import { User, Tokens } from '../domain';
 import * as jwt_decode from 'jwt-decode';
-import { environment } from '@env/environment';
+import { environment as env  } from '@env/environment';
 import { DCityService } from '../services';
 import { NzModalService } from 'ng-zorro-antd';
 
@@ -14,7 +14,7 @@ import { NzModalService } from 'ng-zorro-antd';
   providedIn: 'root'
 })
 export class AuthService {
-  listOfAllJobRole = environment.jobRole;
+  listOfAllJobRole = env.jobRole;
   private currentUserSubject$ = new BehaviorSubject<User>({} as User);
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
@@ -163,5 +163,9 @@ export class AuthService {
       return of(false);
     }
     return of(true);
+  }
+
+  signup(user: User) : Observable<any> {
+    return this.apiService.post('/auth/signup', user);
   }
 }

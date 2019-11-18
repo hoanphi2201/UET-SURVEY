@@ -8,6 +8,7 @@ const cors = require("cors");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
+const socket_io = require("socket.io");
 
 /*---------------------------------------
 |Define path
@@ -34,6 +35,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+const io = socket_io();
+app.io = io;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -56,28 +59,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.locals.systemConfig = systemConfig;
 // app.use(morgan("combined", { stream: winston.stream }));
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(require(__pathConfig + "swagger.json"))
-);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require(__pathConfig + "swagger.json")));
 /*---------------------------------------
 |Backend
 ---------------------------------------*/
-app.use(
-  `/${systemConfig.prefixAdmin}`,
-  require(__pathRoutes + "admin/index")(passport)
-);
+app.use(`/${systemConfig.prefixAdmin}`, require(__pathRoutes + "admin/index")(passport));
 /*---------------------------------------
 |Frontend
 ---------------------------------------*/
-app.use(
-  `/${systemConfig.prefixPublish}`,
-  require(__pathRoutes + "publish/index")
-);
-app.use(
-  `/${systemConfig.prefixDefault}`,
-  require(__pathRoutes + "default/index")
-);
+app.use(`/${systemConfig.prefixPublish}`, require(__pathRoutes + "publish/index"));
+app.use(`/${systemConfig.prefixDefault}`, require(__pathRoutes + "default/index"));
+app.use(`/${systemConfig.prefixRealTime}`, require(__pathRoutes + "realtime/index")(io));
 
 module.exports = app;

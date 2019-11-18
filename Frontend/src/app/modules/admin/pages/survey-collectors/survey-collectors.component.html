@@ -1,0 +1,255 @@
+<ng-template #header>
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>{{ 'admin.layout.ADMIN' | translate }}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{'admin.layout.SURVEY_COLLECTORS' | translate}} </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</ng-template>
+
+<app-page [header]="header" [title]="'admin.layout.SURVEY_COLLECTORS_MANAGERMENT' | translate">
+  <div nz-row [nzGutter]="24">
+    <div nz-col [nzLg]="24" [nzMd]="24" [nzSm]="24" [nzXs]="24" [style.marginBottom.px]="24">
+      <nz-card [style.marginBottom.px]="24">
+        <div nz-row>
+          <nz-table
+            #userTable
+            nzShowPagination
+            nzShowSizeChanger
+            [nzData]="listOfAllData"
+            [nzPageSize]="pagging.pageSize"
+            [nzTotal]="pagging.total"
+            [nzFrontPagination]="false"
+            (nzPageIndexChange)="pageIndexChange($event)"
+            (nzPageSizeChange)="pageSizeChange($event)"
+            [nzBordered]="true"
+            [nzTitle]="titleTemplate">
+            <thead (nzSortChange)="sort($event)" nzSingleSort>
+              <tr *ngIf="columns?.length > 0">
+                <th>{{'admin.layout.TABLE_NO' | translate}}</th>
+                <th
+                  nzShowCheckbox
+                  [(nzChecked)]="isAllDisplayDataChecked"
+                  (nzCheckedChange)="checkAll($event)"
+                  [nzIndeterminate]="isIndeterminate">
+                </th>
+                <th
+                  *ngIf="showMoveToFolder"
+                  nzShowCheckbox
+                  [(nzChecked)]="isAllDisplayDataChecked"
+                  (nzCheckedChange)="checkAll($event)"
+                  [nzIndeterminate]="isIndeterminate">
+                </th>
+                <ng-container *ngFor="let column of columns">
+                  <th
+                    [nzAlign]="'center'"
+                    nzCustomFilter
+                    *ngIf="!column.hidden"
+                    [nzShowSort]="column.sortable"
+                    [nzSortKey]="column.id"
+                    [nzShowFilter]="column.filter"
+                    [nzFilters]="column.filter ? column.filter : []"
+                    (nzFilterChange)="onFilter($event, column.filterKey || column.id)">
+                      {{ column.header | translate | uppercase }}
+                    <i
+                      *ngIf="column.search"
+                      class="ant-table-filter-icon"
+                      nz-icon
+                      nz-dropdown
+                      #dropdown="nzDropdown"
+                      nzType="search"
+                      [nzDropdownMenu]="menuSearch"
+                      [class.ant-table-filter-open]="dropdown.nzVisible"
+                      nzTrigger="click"
+                      nzPlacement="bottomRight"
+                      [nzClickHide]="false"
+                      nzTableFilter
+                      (click)="filter.searchKey = column.id">
+                    </i>
+                  </th>
+                </ng-container>
+                <th *ngIf="!showMoveToFolder" [nzAlign]="'center'">{{ 'admin.layout.ACTION' | translate | uppercase }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of userTable.data; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td
+                  nzShowCheckbox
+                  [(nzChecked)]="mapOfCheckedId[data.id]"
+                  [nzDisabled]="data.disabled"
+                  (nzCheckedChange)="checkItem(data.id, $event)">
+                </td>
+                <ng-container *ngFor="let column of columns">
+                  <td [nzAlign]="'center'" [ngClass]="column.className" *ngIf="!column.hidden">
+                    <ng-container [ngSwitch]="column.type">
+                      <ng-container *ngSwitchCase="'text'">
+                        <div
+                          *ngIf="data[column.id]?.length > 40"
+                          [nzTooltipTitle]="data[column.id]"
+                          nzTooltipPlacement="top"
+                          nz-tooltip>
+                          <a *ngIf="column.action" routerLink="column.action.link(data.id, data.type)">
+                            {{ data[column.id] | summary : 40 }}
+                          </a>
+                          <ng-container *ngIf="!column.action">
+                            {{ data[column.id] | summary : 40}}
+                          </ng-container>
+                        </div>
+                        <div *ngIf="data[column.id]?.length <= 40">
+                          <a *ngIf="column.action" [routerLink]="column.action.link(data.id, data.type)">
+                            {{ data[column.id] }}
+                          </a>
+                          <ng-container *ngIf="!column.action">
+                            {{ data[column.id] }}
+                          </ng-container>
+                        </div>
+                        <div *ngIf="column.td_two">
+                          {{ 'admin.layout.CREATED' | translate }}
+                          {{ data[column.td_two] | date: 'yyyy-MM-dd' }}
+                        </div>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'date'">
+                        <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                        {{ data[column.id] | date: 'yyyy-MM-dd hh:mm' }}
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'icon'">
+                        <span class="action-icon">
+                          <i
+                            nz-icon
+                            [nzType]="column?.action?.iconMap(data[column.id])"
+                            nzTheme="outline"
+                          ></i>
+                        </span>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'status'">
+                        <span
+                          class="sm-badge sm-badge-sm"
+                          [ngClass]="column?.action?.classMap(data[column.id])">
+                          <a
+                            (click)="column?.action?.doChangeStatus(data, data[column.id])"
+                            sm-tooltip-side="bottom">{{ data[column.id] }}
+                          </a>
+                        </span>
+                      </ng-container>
+                    </ng-container>
+                  </td>
+                </ng-container>
+                <td [nzAlign]="'center'">
+                  <a [nzTrigger]="'click'" [nzDropdownMenu]="menuAction" [nzPlacement]="'bottomCenter'" nz-dropdown>
+                    <i nz-icon nzType="ellipsis" nzTheme="outline" class="icon-action"></i>
+                  </a>
+                  <nz-dropdown-menu #menuAction="nzDropdownMenu">
+                    <ul nz-menu nzSelectable>
+                      <li
+                        (click)="data.status === 'OPEN' ? showCloseCollectorModal(data) : showOpenCollectorModal(data)"
+                        nz-menu-item>
+                        <i
+                          nz-icon
+                          [nzType]="data.status === 'OPEN'? 'eye-invisible': 'eye'"
+                          nzTheme="outline">
+                        </i>
+                        {{ (data.status === 'OPEN' ? 'admin.layout.CLOSE_COLLECTOR' : 'admin.layout.OPEN_COLLECTOR') | translate}}
+                      </li>
+                      <li
+                        [routerLink]="['/create','collector-responses','collector-link',data.id]"
+                        nz-menu-item>
+                        <i nz-icon nzType="form" nzTheme="outline"></i>
+                        {{ 'admin.layout.EDIT_COLLECTOR' | translate}}
+                      </li>
+                      <li
+                        (click)="showRenameCollectorModal(data)"
+                        nz-menu-item>
+                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                        {{'admin.layout.RENAME_COLLECTOR' | translate}}
+                      </li>
+                      <li
+                        (click)="showClearResponsesConfirm(data, tplContentClearResponsesCollector)"
+                        nz-menu-item>
+                        <i
+                          nz-icon
+                          nzType="close-circle"
+                          nzTheme="outline">
+                        </i>
+                        {{ 'admin.layout.CLEAR_ALL_RESPONSES' | translate}}
+                      </li>
+                      <li
+                        (click)="showDeleteConfirm(data, tplContentDeleteCollector)"
+                        nz-menu-item>
+                        <i
+                          nz-icon
+                          nzType="delete"
+                          nzTheme="outline">
+                        </i>
+                        {{'admin.layout.DELETE_COLLECTOR' | translate}}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+</app-page>
+<!-- Title Table -->
+<ng-template #titleTemplate>
+  <app-title-table [numberOfChecked]="numberOfChecked" [results]="pagging.total" [columns]="columns" (openForm)="openForm($event)">
+    <ul #action class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-light ant-dropdown-menu-vertical">
+      <li class="ant-dropdown-menu-item" (click)="showDeleteMultyConfirm()">
+        {{ 'admin.layout.DELETE_CHECK_SURVEY_COLLECTORS' | translate }}
+      </li>
+    </ul>
+  </app-title-table>
+</ng-template>
+<!-- End Title Table -->
+<!-- Box Search -->
+<nz-dropdown-menu #menuSearch="nzDropdownMenu">
+  <div class="search-box">
+    <input type="text" nz-input [placeholder]="'admin.layout.SEARCH' | translate" [(ngModel)]="filter.searchValue"/>
+    <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+      {{ 'admin.layout.SEARCH' | translate }}
+    </button>
+    <button nz-button nzSize="small" (click)="reset()">
+      {{ 'admin.layout.RESET' | translate }}
+    </button>
+  </div>
+</nz-dropdown-menu>
+<!-- End Box Search -->
+<!-- Template content modal delele -->
+<ng-template #tplContentDeleteCollector>
+  <div>
+    {{ 'default.layout.COLLECTOR_NICKNAME' | translate }}:
+    {{ surveyCollectorDelete?.name }}
+  </div>
+  <div>
+    {{ 'default.layout.DATE_CREATED' | translate }}:
+    {{ surveyCollectorDelete?.createdAt | date: 'medium' }}
+  </div>
+  <div>
+    {{ 'default.layout.DATE_MODIFIED' | translate }}:
+    {{ surveyCollectorDelete?.updatedAt | date: 'medium' }}
+  </div>
+</ng-template>
+<!-- End Template content modal delele -->
+
+<!-- Template content modal clear response -->
+<ng-template #tplContentClearResponsesCollector>
+  <div>
+    {{ 'default.layout.COLLECTOR_NICKNAME' | translate }}:
+    {{ surveyCollectorClearResponses?.name }}
+  </div>
+  <div>
+    {{ 'default.layout.DATE_CREATED' | translate }}:
+    {{ surveyCollectorClearResponses?.createdAt | date: 'medium' }}
+  </div>
+  <div>
+    {{ 'default.layout.DATE_MODIFIED' | translate }}:
+    {{ surveyCollectorClearResponses?.updatedAt | date: 'medium' }}
+  </div>
+  <div>
+    {{ 'default.layout.NUMBER_OF_RESPONSES' | translate }}:
+    {{ surveyCollectorClearResponses?.response }}
+  </div>
+</ng-template>
+<!-- End Template content modal clear response -->

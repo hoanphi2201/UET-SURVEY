@@ -9,6 +9,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BOOLEAN,
       defaultValue: false
     },
+    defaultSignUp: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
     name: {
       type: Sequelize.STRING,
       allowNull: false

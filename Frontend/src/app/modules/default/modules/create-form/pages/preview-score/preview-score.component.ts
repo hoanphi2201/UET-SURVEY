@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SurveyForm, DSurveyFormService } from '@app/core';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-preview-score',
@@ -13,7 +14,8 @@ export class PreviewScoreComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   constructor(
     private activatedRoute: ActivatedRoute,
-    private dSurveyFormService: DSurveyFormService
+    private dSurveyFormService: DSurveyFormService,
+    private titleService: Title
   ) {}
 
   ngOnInit() {
@@ -29,6 +31,7 @@ export class PreviewScoreComponent implements OnInit {
       this.dSurveyFormService.getSurveyFormDetail().subscribe(res => {
         if (res) {
           this.surveyFormDetail = res;
+          this.titleService.setTitle('UetMonkey - Design - ' + this.surveyFormDetail.title);
           this.dSurveyFormService.setSurveyFormDetail(null);
         }
       })

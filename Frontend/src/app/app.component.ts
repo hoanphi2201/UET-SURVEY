@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { merge, Subscription } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { environment } from '@env/environment';
+import { environment as env  } from '@env/environment';
 import { Logger, I18nService, untilDestroyed, AuthService } from '@app/core';
 import { WindowresizeService, LoaderService } from '@app/shared';
 
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit {
       })
     );
     // Setup logger
-    if (environment.production) {
+    if (env.production) {
       Logger.enableProductionMode();
     }
 
@@ -55,8 +55,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit {
 
     // Setup translations
     this.i18nService.init(
-      environment.defaultLanguage,
-      environment.supportedLanguages
+      env.defaultLanguage,
+      env.supportedLanguages
     );
 
     const onNavigationEnd = this.router.events.pipe(
@@ -83,6 +83,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterContentInit {
     });
     this.authService.populate();
   }
+  
   ngAfterContentInit(): void {
     this.loaderService.clear();
     this.loaderService.status.subscribe((val: boolean) => {

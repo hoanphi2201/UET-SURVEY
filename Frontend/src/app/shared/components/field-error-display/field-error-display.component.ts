@@ -31,7 +31,7 @@ export class FieldErrorDisplayComponent {
       } else if (errors.validatePositiveInteger) {
         this.errorMsg = 'Must be positive integer';
       } else {
-        this.errorMsg = 'Invalid';
+        this.errorMsg = 'Invalid value';
       }
     }
   }

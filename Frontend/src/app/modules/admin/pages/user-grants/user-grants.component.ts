@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { LoaderService, WindowresizeService, Helpers } from '@app/shared';
 import { UserGrant, TableListColumn, Pagging, UserGrantService, User, UserService } from '@app/core';
-import { environment } from '@env/environment';
+import { environment as env } from '@env/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { debounceTime, switchMap, map } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -59,7 +59,7 @@ export class UserGrantsComponent implements OnInit {
     });
     this.selectedEdit = {} as UserGrant;
     this.selectedEdit.user = {} as User;
-    this.listOfAllTable = environment.dbTable.map(o => {
+    this.listOfAllTable = env.dbTable.map(o => {
       return { text: o, value: o };
     });
     this.buildForm();

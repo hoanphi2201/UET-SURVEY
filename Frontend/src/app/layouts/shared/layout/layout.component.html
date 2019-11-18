@@ -14,6 +14,7 @@
         <nz-sider
           [nzWidth]="siderWidth"
           [nzTrigger]="null"
+          [class.green]="setting?.theme == 'green'"
           [class.light]="setting?.theme == 'light'">
           <ng-container [ngTemplateOutlet]="sider"></ng-container>
         </nz-sider>
@@ -26,6 +27,7 @@
       [(nzCollapsed)]="collapsed"
       [nzWidth]="siderWidth"
       [nzTrigger]="null"
+      [class.green]="setting?.theme == 'green'"
       [class.light]="setting?.theme == 'light'">
       <ng-container [ngTemplateOutlet]="sider"></ng-container>
     </nz-sider>

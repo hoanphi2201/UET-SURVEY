@@ -32,6 +32,14 @@ export class ApiService {
     return this.httpClient.delete(BASE_URL + path).pipe(catchError(this.formatErrors));
   }
 
+  public deleteMulty(path: string, body: any, params: HttpParams = new HttpParams()): Observable<any> {
+    const options = {
+      params,
+      body
+    }
+    return this.httpClient.delete(BASE_URL + path, options).pipe(catchError(this.formatErrors));
+  }
+
   public formatErrors(error: any): Observable<any> {
     return throwError(error.error && error.error.status ? error.error.status : { message: 'Uh oh, something went wrong' });
   }

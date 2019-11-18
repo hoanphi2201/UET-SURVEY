@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Pagging } from '@app/core';
 interface TabInterface {
   type: string;
   title: string;
@@ -16,9 +17,11 @@ interface TabInterface {
 })
 export class NoticePopoverComponent implements OnInit {
   @Output() visibleChange = new EventEmitter();
-  @Output() clear = new EventEmitter();
+  @Output() action = new EventEmitter();
+  @Output() loadMore = new EventEmitter();
 
   @Input() visible: boolean = false;
+  @Input() pagging: Pagging;
   @Input() spinning: boolean = false;
   @Input() trigger: string = 'click';
   @Input() innerClass: object = {};
@@ -26,28 +29,28 @@ export class NoticePopoverComponent implements OnInit {
   @Input() tabs: TabInterface[] = [
     {
       type: 'notification',
-      title: '通知',
+      title: 'Notifications',
       empty: {
         image: '/assets/images/notification.svg',
-        text: '你已查看所有通知'
+        text: 'Notifications'
       },
       rows: []
     },
     {
-      type: 'message',
-      title: '消息',
+      type: 'messages',
+      title: 'Messages',
       empty: {
         image: '/assets/images/message.svg',
-        text: '你已读完所有消息'
+        text: 'Message'
       },
       rows: []
     },
     {
       type: 'event',
-      title: '待办',
+      title: 'Events',
       empty: {
         image: '/assets/images/event.svg',
-        text: '你已完成所有待办'
+        text: 'Events'
       },
       rows: [],
       map: function (row: any) {
@@ -69,4 +72,21 @@ export class NoticePopoverComponent implements OnInit {
     this.tabs.forEach(tab => (tab.rows = rows.filter(row => row.type == tab.type).map(row => (tab.map ? tab.map(row) : row))));
   }
   ngOnInit() { }
+  onAccept(surveySend: any) {
+    this.action.emit({
+      accept: true,
+      surveySend
+    })
+  }
+  onDeny(surveySend: any){
+    this.action.emit({
+      accept: false,
+      surveySend
+    })
+  }
+
+  loadMoreNotification() {
+    this.loadMore.emit(true);
+  }
+  
 }

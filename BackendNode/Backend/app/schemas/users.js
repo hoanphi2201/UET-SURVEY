@@ -8,11 +8,13 @@ module.exports = (sequelize, Sequelize) => {
     },
     firstName: {
       type: Sequelize.STRING,
-      notEmpty: true
+      notEmpty: true,
+      defaultValue: ''
     },
     lastName: {
       type: Sequelize.STRING,
-      notEmpty: true
+      notEmpty: true,
+      defaultValue: ''
     },
     email: {
       type: Sequelize.STRING,

@@ -4,7 +4,7 @@ import { IValidators, User, AuthService, UserService, DCityService, DUserService
 import { Helpers } from '@app/shared/helpers';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from '@env/environment';
+import { environment as env } from '@env/environment';
 import { map, debounceTime, switchMap, tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { ImageCropperComponent } from '@app/shared/components/image-cropper/image-cropper.component';
@@ -18,11 +18,11 @@ export class ManageProfileComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   searchChange$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   setLocation$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-  listOfAllJobRole = environment.jobRole;
-  listOfAllJobLevel = environment.jobLevel;
-  listOfAllOrganizationType = environment.organizationType;
-  listOfAllIndustry = environment.industry;
-  listOfAllSize = environment.size;
+  listOfAllJobRole = env.jobRole;
+  listOfAllJobLevel = env.jobLevel;
+  listOfAllOrganizationType = env.organizationType;
+  listOfAllIndustry = env.industry;
+  listOfAllSize = env.size;
   listOfAllLocation = [];
   current = 0;
   formProfile: FormGroup;

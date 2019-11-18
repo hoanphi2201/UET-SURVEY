@@ -5,3 +5,5 @@ export * from './d-city.service';
 export * from './d-survey-collector.service';
 export * from './d-survey-response.service';
 export * from './d-survey-recipient.service';
+export * from './realtime.service';
+export * from './d-survey-send.service';

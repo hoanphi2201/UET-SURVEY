@@ -1,11 +1,14 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
-import { Pagging, TableListColumn, DSurveyFormService, SurveyForm, DSurveyFolderService, SurveyFolder, IValidators } from '@app/core';
+import { Component, OnInit, AfterContentInit, TemplateRef } from '@angular/core';
+import { Pagging, TableListColumn, DSurveyFormService, SurveyForm, DSurveyFolderService, SurveyFolder, IValidators, User, AuthService, DSurveyResponseService, RealtimeService } from '@app/core';
 import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { LoaderService, Helpers } from '@app/shared';
 import * as _ from 'lodash';
 import { ManageFoldersComponent } from '@app/shared/modals/manage-folders/manage-folders.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { SendSurveyComponent } from '@app/shared/modals/send-survey/send-survey.component';
 
 @Component({
   selector: 'app-home',
@@ -37,6 +40,11 @@ export class HomeComponent implements OnInit, AfterContentInit {
   modalForm: NzModalRef;
   newFolder = false;
   addFolderForm: FormGroup;
+  private subscriptions: Subscription[] = [];
+  currentUser: User;
+  surveyFormDelete: SurveyForm;
+  surveyFormClearResponses: SurveyForm;
+
   constructor(
     private dSurveyFormService: DSurveyFormService,
     private nzMessageService: NzMessageService,
@@ -44,7 +52,10 @@ export class HomeComponent implements OnInit, AfterContentInit {
     private loaderService: LoaderService,
     private modalService: NzModalService,
     private dSurveyFolderService: DSurveyFolderService,
-    private formBuilder: FormBuilder
+    private dSurveyResponseService: DSurveyResponseService,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -57,7 +68,13 @@ export class HomeComponent implements OnInit, AfterContentInit {
         this.dSurveyFolderService.setRefreshList(false);
       }
     });
+    this.subscriptions.push(
+      this.authService.getCurrentUser().subscribe(userData => {
+        this.currentUser = userData;
+      })
+    );
   }
+
   buildForm() {
     this.addFolderForm = this.formBuilder.group({
       title: ['', [
@@ -105,7 +122,7 @@ export class HomeComponent implements OnInit, AfterContentInit {
         type: 'action',
         action: {
           link: (surveyId: string) => {
-            return '';
+            return `/create/collector-responses/${surveyId}`;
           },
           icon: 'link'
         },
@@ -115,8 +132,8 @@ export class HomeComponent implements OnInit, AfterContentInit {
         id: '',
         type: 'action',
         action: {
-          link: (surveyId: string) => {
-            return '';
+          link: (surveyId: string) => { 
+            return `/create/analyze-results/${surveyId}`;
           },
           icon: 'bar-chart'
         },
@@ -299,5 +316,105 @@ export class HomeComponent implements OnInit, AfterContentInit {
   }
   get f() {
     return this.addFolderForm.controls;
+  }
+  onMakeCopy(surveyForm: SurveyForm) {
+    const copySurvey = {
+      json: surveyForm.json,
+      title: `Copy of ${surveyForm.title}`,
+      description: surveyForm.description,
+      userId: this.currentUser.id
+    };
+    return this.dSurveyFormService.addSurveyForm(copySurvey).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(
+          this.translateService.instant(res.status.message)
+        );
+        this.router.navigate(['/create', 'design-survey', res.results[0].id]);
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
+  }
+  showDeleteConfirm(surveyForm: SurveyForm, tplContent: TemplateRef<{}>): void {
+    this.surveyFormDelete = surveyForm;
+    this.modalService.confirm({
+      nzTitle: this.translateService.instant('default.layout.ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_SURVEY'),
+      nzCancelText: this.translateService.instant('default.layout.CANCEL'),
+      nzOkText: this.translateService.instant('default.layout.DELETE'),
+      nzContent: tplContent,
+      nzOnOk: () => {
+        if (surveyForm) {
+          return this.onDeleteSurveyForm(surveyForm.id);
+        }
+      }
+    });
+  }
+
+  private onDeleteSurveyForm(surveyFormId: string) {
+    this.loaderService.display(true);
+    this.dSurveyFormService.deleteSurveyForm(surveyFormId).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+        this.getListSurvey();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
+  }
+
+  showClearResponsesConfirm(surveyForm: SurveyForm, tplContent: TemplateRef<{}>): void {
+    this.surveyFormClearResponses = surveyForm;
+    this.modalService.confirm({
+      nzTitle: this.translateService.instant('default.layout.ARE_YOU_SURE_YOU_WANT_TO_CLEAR_ALL_THE_RESPONSES_IN_THIS_FORM'),
+      nzCancelText: this.translateService.instant('default.layout.CANCEL'),
+      nzOkText: this.translateService.instant('default.layout.CLEAR_RESPONSES'),
+      nzContent: tplContent,
+      nzOnOk: () => {
+        if (surveyForm) {
+          return this.clearResponsesByForm(surveyForm.id);
+        }
+      }
+    });
+  }
+  private clearResponsesByForm(surveyFormId: string) {
+    this.loaderService.display(true);
+    this.dSurveyResponseService.clearResponsesByForm(surveyFormId).subscribe(res => {
+      if (res.status.code === 200) {
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+        this.getListSurvey();
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    }
+    );
+  }
+
+  onShowModalSendCopyTransfer(surveyForm: SurveyForm, sendType: 'SEND_COPY' | 'TRANSFER') {
+    if (!surveyForm) {
+      return
+    }
+    this.modalForm = this.modalService.create({
+      nzTitle: this.translateService.instant(sendType === 'SEND_COPY' ? 'default.layout.SEND_A_COPY' : 'default.layout.TRANSFER'),
+      nzFooter: null,
+      nzContent: SendSurveyComponent,
+      nzCancelDisabled: true,
+      nzMaskClosable: true,
+      nzClosable: true,
+      nzWidth: 700,
+      nzClassName: 'send-copy-dialog',
+      nzComponentParams: { surveyForm, sendType }
+    });
+    
   }
 }

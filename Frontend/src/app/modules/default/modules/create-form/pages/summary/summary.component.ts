@@ -78,7 +78,7 @@ export class SummaryComponent implements OnInit {
     }
     );
   }
-  displayPageSurvey() {
+  get displayPageSurvey() {
     if (!this.surveyFormDetail) {
       return;
     }
@@ -95,7 +95,9 @@ export class SummaryComponent implements OnInit {
     let total = 0;
     try {
       json.pages.forEach(o => {
-        total += o.elements.length;
+        if (o.elements && Array.isArray(o.elements)) {
+          total += o.elements.length;
+        }
       });
     } catch (error) {
       return defaultValue;
@@ -104,5 +106,15 @@ export class SummaryComponent implements OnInit {
   }
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+  getLinkCollecttor(collectorId: string, type: 'WEBLINK' | 'EMAIL') {
+    switch (type) {
+      case 'WEBLINK':
+        return `/create/collector-responses/collector-link/${collectorId}`;
+      case 'EMAIL':
+        return `/create/collector-responses/collector-email/manage/${collectorId}`;
+      default:
+        return 'loading';
+    }
   }
 }

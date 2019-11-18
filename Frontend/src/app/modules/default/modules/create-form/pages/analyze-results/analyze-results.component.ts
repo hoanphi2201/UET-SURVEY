@@ -13,6 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 import { fromLonLat, transformExtent } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text, Icon } from 'ol/style.js';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-analyze-results',
@@ -76,7 +77,8 @@ export class AnalyzeResultsComponent implements OnInit, AfterViewInit {
     private nzMessageService: NzMessageService,
     private translateService: TranslateService,
     private loaderService: LoaderService,
-    private windowresizeService: WindowresizeService
+    private windowresizeService: WindowresizeService,
+    private titleService: Title
   ) { }
   ngOnInit() {
     this.subscriptions.push(
@@ -155,6 +157,7 @@ export class AnalyzeResultsComponent implements OnInit, AfterViewInit {
       this.dSurveyFormService.getSurveyFormDetail().subscribe(res => {
         if (res) {
           this.surveyFormDetail = res;
+          this.titleService.setTitle('UetMonkey - Analyze - ' + this.surveyFormDetail.title);
           this.dSurveyFormService.setSurveyFormDetail(null);
         }
       })

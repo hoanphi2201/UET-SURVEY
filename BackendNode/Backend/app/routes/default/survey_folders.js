@@ -2,7 +2,6 @@
 const express = require("express");
 const router = express.Router();
 const surveyFoldersModel = require(__pathModels + "survey_folders");
-const surveyFormsModel = require(__pathModels + "survey_forms");
 const paramsHelper = require(__pathHelper + "params");
 const Response = require(__pathHelper + "response").Response;
 

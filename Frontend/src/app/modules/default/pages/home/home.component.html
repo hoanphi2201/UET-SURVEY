@@ -160,18 +160,18 @@
                       <ng-container [ngSwitch]="column.type">
                         <ng-container *ngSwitchCase="'text'">
                           <div
-                            *ngIf="data[column.id]?.length > 20"
+                            *ngIf="data[column.id]?.length > 40"
                             [nzTooltipTitle]="data[column.id]"
                             nzTooltipPlacement="top"
                             nz-tooltip>
                             <a *ngIf="column.action" routerLink="column.action.link(data.id)">
-                              {{ data[column.id] | summary }}
+                              {{ data[column.id] | summary : 40 }}
                             </a>
                             <ng-container *ngIf="!column.action">
-                              {{ data[column.id] | summary }}
+                              {{ data[column.id] | summary : 40 }}
                             </ng-container>
                           </div>
-                          <div *ngIf="data[column.id]?.length <= 20">
+                          <div *ngIf="data[column.id]?.length <= 40">
                             <a *ngIf="column.action"  [routerLink]="column.action.link(data.id)">
                               {{ data[column.id] }}
                             </a>
@@ -204,13 +204,20 @@
                     </a>
                     <nz-dropdown-menu #menuAction="nzDropdownMenu">
                       <ul class="dropdown-action" nz-menu nzSelectable>
-                        <li (click)="openForm(data)" nz-menu-item>
-                          <i nz-icon nzType="edit" nzTheme="outline"></i>
-                          {{ 'admin.layout.EDIT' | translate }}
+                        <li (click)="onShowModalSendCopyTransfer(data, 'SEND_COPY')" nz-menu-item>
+                          {{'default.layout.SEND_A_COPY' | translate}} 
                         </li>
-                        <li (click)="showDeleteConfirm(data.id)" nz-menu-item>
-                          <i nz-icon nzType="delete" nzTheme="outline"></i>
-                          {{ 'admin.layout.DELETE' | translate }}
+                        <li (click)="onShowModalSendCopyTransfer(data, 'TRANSFER')" nz-menu-item>
+                          {{'default.layout.TRANSFER' | translate}} 
+                        </li>
+                        <li (click)="onMakeCopy(data)" nz-menu-item>
+                          {{'default.layout.MAKE_A_COPY' | translate}} 
+                        </li>
+                        <li (click)="showClearResponsesConfirm(data, tplContentClearResponsesForm)" nz-menu-item>
+                          {{'default.layout.CLEAR_RESPONSES' | translate}} 
+                        </li>
+                        <li (click)="showDeleteConfirm(data, tplContentDeleteForm)" nz-menu-item>
+                          {{'default.layout.DELETE' | translate}} 
                         </li>
                       </ul>
                     </nz-dropdown-menu>
@@ -228,3 +235,40 @@
     </div>
   </div>
 </app-page>
+
+<!-- Template content modal delele -->
+<ng-template #tplContentDeleteForm>
+  <div>
+    {{ 'default.layout.SURVEY_TITLE' | translate }}:
+    {{ surveyFormDelete?.title }}
+  </div>
+  <div>
+    {{ 'default.layout.RESPONSES' | translate }}:
+    {{ surveyFormDelete?.response }}
+  </div>
+  <div class="delete-modal-warning" translate>
+    default.layout.THIS_IS_A_PERMANENT_ACTION_AND_CANNOT_BE_UNDONE.
+  </div>
+</ng-template>
+<!-- End Template content modal delele -->
+
+<!-- Template content modal clear response -->
+<ng-template #tplContentClearResponsesForm>
+  <div>
+    {{ 'default.layout.TITLE' | translate }}:
+    {{ surveyFormClearResponses?.title }}
+  </div>
+  <div>
+    {{ 'default.layout.DATE_CREATED' | translate }}:
+    {{ surveyFormClearResponses?.createdAt | date: 'medium' }}
+  </div>
+  <div>
+    {{ 'default.layout.DATE_MODIFIED' | translate }}:
+    {{ surveyFormClearResponses?.updatedAt | date: 'medium' }}
+  </div>
+  <div>
+    {{ 'default.layout.NUMBER_OF_RESPONSES' | translate }}:
+    {{ surveyFormClearResponses?.response }}
+  </div>
+</ng-template>
+<!-- End Template content modal clear response -->

@@ -2,7 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgZorroAntdModule, NZ_MESSAGE_CONFIG } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NZ_MESSAGE_CONFIG, NZ_NOTIFICATION_CONFIG } from 'ng-zorro-antd';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { SurveyCreatorComponent } from './components/survey-creator/survey-creator.component';
@@ -30,6 +30,7 @@ import { ImageCropperComponent } from './components/image-cropper/image-cropper.
 import { SvgContainerComponent } from './components/svg-container/svg-container.component';
 import { SvgService } from './components/svg-container/svg.service';
 import { SvgIconComponent } from './components/svg-icon/svg-icon.component';
+import { SendSurveyComponent } from './modals/send-survey/send-survey.component';
 
 const COMPONENTS = [
   SvgContainerComponent,
@@ -52,7 +53,8 @@ const COMPONENTS = [
   MarkdownEditorComponent,
   CollectorOptionsComponent,
   ContactDetailsComponent,
-  ImageCropperComponent
+  ImageCropperComponent,
+  SendSurveyComponent
 ];
 
 
@@ -97,7 +99,8 @@ const COMPONENTS = [
   ],
   declarations: [...COMPONENTS, SummaryPipe],
   providers: [
-    { provide: NZ_MESSAGE_CONFIG, useValue: { nzMaxStack: 1 }}
+    { provide: NZ_MESSAGE_CONFIG, useValue: { nzMaxStack: 1 }},
+    { provide: NZ_NOTIFICATION_CONFIG, useValue: { nzMaxStack: 1 }}
   ],
   entryComponents: [
     ManageFoldersComponent,
@@ -107,7 +110,8 @@ const COMPONENTS = [
     RenameCollectorComponent,
     CloseCollectorComponent,
     OpenCollectorComponent,
-    ContactDetailsComponent
+    ContactDetailsComponent,
+    SendSurveyComponent
   ]
 })
 export class SharedModule {

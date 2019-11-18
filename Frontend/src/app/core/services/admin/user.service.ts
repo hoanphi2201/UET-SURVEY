@@ -9,7 +9,6 @@ import { HttpParams } from '@angular/common/http';
 })
 export class UserService {
   constructor(private apiService: ApiService, private router: Router) { }
-  // tslint:disable-next-line:max-line-length
   getUserList(page: number, pageSize: number, sortField: string, sortType: string, searchKey: string, searchValue: string, filterKey: string, filterValue: string) {
     let params = new HttpParams()
       .set('page', page.toString())
@@ -40,7 +39,7 @@ export class UserService {
     return this.apiService.delete(`/users/${userId}`);
   }
   deleteMultyUser(param: any): Observable<any> {
-    return this.apiService.post('/users/delete-multy', param);
+    return this.apiService.deleteMulty('/users/delete-multy', param);
   }
   changeRole(userId: string, roleId: string): Observable<any> {
     return this.apiService.put(`/users/change-role/${userId}`, { roleId });

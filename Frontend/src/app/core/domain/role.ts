@@ -4,4 +4,5 @@ export interface Role {
   roleAcp: boolean;
   createdAt: Date;
   updatedAt: Date;
+  defaultSignUp?: boolean;
 }

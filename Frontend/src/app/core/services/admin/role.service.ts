@@ -34,9 +34,12 @@ export class RoleService {
     return this.apiService.delete(`/roles/${roleId}`);
   }
   deleteMultyRole(param: any): Observable<any> {
-    return this.apiService.post('/roles/delete-multy', param);
+    return this.apiService.deleteMulty('/roles/delete-multy', param);
   }
   changeRoleAcp(roleId: string): Observable<any> {
-    return this.apiService.put(`/roles/change-roleAcp/${roleId}`);
+    return this.apiService.put(`/roles/change-role-acp/${roleId}`);
+  }
+  changeDefaultSignUp(roleId: string): Observable<any> {
+    return this.apiService.put(`/roles/default-sign-up/${roleId}`);
   }
 }

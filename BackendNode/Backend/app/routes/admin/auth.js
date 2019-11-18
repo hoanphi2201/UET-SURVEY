@@ -5,6 +5,7 @@ const systemConfig = require(__pathConfig + "system");
 const authHelper = require(__pathMiddleware + "auth");
 const Response = require(__pathHelper + "response").Response;
 const usersModel = require(__pathModels + "users");
+const rolesModel = require(__pathModels + "roles");
 const tokenList = {};
 
 module.exports = passport => {
@@ -27,7 +28,8 @@ module.exports = passport => {
           jobLevel: user.jobLevel,
           organization: user.organization,
           accountComplete: user.accountComplete,
-          avatar: user.avatar
+          avatar: user.avatar,
+          role: user.role
         };
         const jwtToken = jwt.sign(payload, systemConfig.jwtSecret, {
           expiresIn: systemConfig.tokenLife
@@ -49,6 +51,25 @@ module.exports = passport => {
     })(req, res, next);
   });
 
+  router.post("/signup", async (req, res, next) => {
+    const user = req.body;
+    if (!user) {
+      return res.status(400).json(new Response(true, 400, "error", "default.layout.PARAMETER_IS_MISSING"));
+    }
+    const defaultRole = await rolesModel.getRoleDefaultSignUp().catch(error =>
+      res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
+    );
+    if (!defaultRole) {
+      return res.status(400).json(new Response(true, 400, "error", "default.layout.CANT_CREATE_ACCOUNT"));
+    }
+    user.roleId = defaultRole.id;
+    usersModel.saveUser(user, null, { task: "create" }).then(user => {
+      res.json(new Response(false, 200, "success", "Success", [user]));
+    }).catch(error =>
+      res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
+    );
+  })
+
   router.post("/refresh_token", async (req, res, next) => {
     const { refresh_token } = req.body;
     if (refresh_token && refresh_token in tokenList) {
@@ -69,7 +90,8 @@ module.exports = passport => {
           jobLevel: storeUser.jobLevel,
           organization: storeUser.organization,
           accountComplete: storeUser.accountComplete,
-          avatar: storeUser.avatar
+          avatar: storeUser.avatar,
+          role: storeUser.role
         };
 
         const access_token = jwt.sign(payload, systemConfig.jwtSecret, {

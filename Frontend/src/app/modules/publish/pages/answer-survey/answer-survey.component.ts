@@ -6,6 +6,7 @@ import { SurveyForm, SurveyCollector, VisitorsService, PSurveyCollectorService, 
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-answer-survey',
@@ -33,7 +34,8 @@ export class AnswerSurveyComponent implements OnInit {
     private pSurveyCollectorService: PSurveyCollectorService,
     private pSurveyResponseService: PSurveyResponseService,
     private visitorsService: VisitorsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
@@ -63,6 +65,7 @@ export class AnswerSurveyComponent implements OnInit {
         this.surveyCollectorDetail = res.results[0];
         if (this.surveyCollectorDetail.surveyForm) {
           this.surveyFormDetail = this.surveyCollectorDetail.surveyForm;
+          this.titleService.setTitle('UetMonkey - ' + this.surveyFormDetail.title);
           this.customFormByCollector();
         }
       }

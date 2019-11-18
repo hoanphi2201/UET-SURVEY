@@ -94,6 +94,11 @@ module.exports = {
       }
     }
   },
+  getRoleDefaultSignUp: () => {
+    return rolesModel.findOne({
+      where: {defaultSignUp: true}
+    });
+  },
   getRoleByNameAndId: (name, roleId) => {
     const objWhere = { name: name };
     if (roleId) {
@@ -102,5 +107,23 @@ module.exports = {
     return rolesModel.findOne({
       where: objWhere
     });
+  },
+  updateDefaultSignUp: async (roleId) => {
+    const role = await rolesModel.findByPk(roleId);
+    if (!role) {
+      throw new NotFound("admin.layout.NOT_BE_BOUND");
+    }
+    const listDefaultSignUp = await rolesModel.findAll({
+      where: { defaultSignUp: true },
+      limit: 2
+    })
+    if (role.defaultSignUp) {
+      if (listDefaultSignUp.length > 1) {
+        return role.update({ defaultSignUp: !role.defaultSignUp });
+      }
+    } else {
+      return role.update({ defaultSignUp: !role.defaultSignUp });
+    }
+    throw new NotFound("admin.layout.MUST_HAVE_AT_LEAST_1_ROLE_AS_THE_DEFAULT_SIGNUP");
   }
 };

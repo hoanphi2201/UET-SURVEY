@@ -5,7 +5,7 @@ import { SummaryComponent } from './pages/summary/summary.component';
 import { PreviewScoreComponent } from './pages/preview-score/preview-score.component';
 import { CollectResponsesComponent } from './pages/collect-responses/collect-responses.component';
 import { CollectLinkComponent } from './pages/collect-link/collect-link.component';
-import { AuthGuard } from '@app/core';
+import { AuthGuard, extract } from '@app/core';
 import { AnalyzeResultsComponent } from './pages/analyze-results/analyze-results.component';
 import { CollectEmailManageComponent } from './pages/collect-email-manage/collect-email-manage.component';
 import { CollectEmailComposeComponent } from './pages/collect-email-compose/collect-email-compose.component';
@@ -19,27 +19,32 @@ const routes: Routes = [
   {
     path: 'design-survey/:surveyFormId',
     canActivate: [AuthGuard],
-    component: DesignSurveyComponent
+    component: DesignSurveyComponent,
+    data: { title: extract('UetMonkey - Design') }
   },
   {
     path: 'summary/:surveyFormId',
     canActivate: [AuthGuard],
-    component: SummaryComponent
+    component: SummaryComponent,
+    data: { title: extract('UetMonkey - Survey Summary') }  
   },
   {
     path: 'preview-score/:surveyFormId',
     canActivate: [AuthGuard],
-    component: PreviewScoreComponent
+    component: PreviewScoreComponent,
+    data: { title: extract('UetMonkey - Design') }
   },
   {
     path: 'collector-responses/:surveyFormId',
     canActivate: [AuthGuard],
-    component: CollectResponsesComponent
+    component: CollectResponsesComponent,
+    data: { title: extract('UetMonkey - Collector List') }
   },
   {
     path: 'analyze-results/:surveyFormId',
     canActivate: [AuthGuard],
-    component: AnalyzeResultsComponent
+    component: AnalyzeResultsComponent,
+    data: { title: extract('UetMonkey - Analyze') }
   },
   {
     path: 'collector-responses',
@@ -48,7 +53,8 @@ const routes: Routes = [
       {
         path: 'collector-link/:collectorId',
         canActivate: [AuthGuard],
-        component: CollectLinkComponent
+        component: CollectLinkComponent,
+        data: { title: extract('UetMonkey - Collector Details') }
       },
       {
         path: 'collector-email',
@@ -57,12 +63,14 @@ const routes: Routes = [
           {
             path: 'manage/:collectorId',
             canActivate: [AuthGuard],
-            component: CollectEmailManageComponent
+            component: CollectEmailManageComponent,
+            data: { title: extract('UetMonkey - Manage Your Messages') }
           },
           {
             path: 'compose/:collectorId',
             canActivate: [AuthGuard],
-            component: CollectEmailComposeComponent
+            component: CollectEmailComposeComponent,
+            data: { title: extract('UetMonkey - Compose Email Message') }
           }
         ]
       }

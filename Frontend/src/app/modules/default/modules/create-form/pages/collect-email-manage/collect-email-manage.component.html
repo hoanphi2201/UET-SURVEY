@@ -40,7 +40,7 @@
                           (keyup.enter)="search()"
                           type="text"
                           nz-input
-                          placeholder="Search by survey name"/>
+                          [placeholder]="'default.layout.SEARCH_BY_EMAIL' | translate"/>
                       </nz-input-group>
                       <ng-template #suffixIconSearch>
                         <i nz-icon nzType="search"></i>

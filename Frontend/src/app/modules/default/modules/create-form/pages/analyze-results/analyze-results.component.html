@@ -1,6 +1,6 @@
 <div class="container">
   <nz-card [style.marginTop.px]="24" [style.marginBottom.px]="24">
-    <ng-container *ngIf="listOfAllDataSurveyResponse && surveyFormDetail?.json;else loadingTpl">
+    <ng-container *ngIf="listOfAllDataSurveyResponse && listOfAllDataSurveyResponse.length > 0 && surveyFormDetail?.json;else loadingTpl">
       <nz-tabset (nzSelectedIndexChange)="confirmTabSwitch($event)">
         <nz-tab [nzTitle]="'default.layout.STATISTIC_RESULTS' | translate | uppercase">
           <app-survey-analytics
@@ -67,7 +67,8 @@
               </div>
             </nz-dropdown-menu>
             <button
-              [disabled]="selectedIndex <= 0"
+              nz-tooltip 
+              [nzTooltipTitle]="'default.layout.PREVIOUS' | translate"
               (click)="pre()"
               nz-button
               nzType="primary"
@@ -75,10 +76,11 @@
               <i nz-icon nzType="caret-left" nzTheme="outline"></i>
             </button>
             <button
-              [disabled]="selectedIndex >= listOfAllSurveyResponse.length - 1"
+              nz-tooltip 
+              [nzTooltipTitle]="'default.layout.NEXT' | translate"
               (click)="next()"
               nz-button
-              nzType="primary"
+              nzType="primary"    
               [nzSize]="'large'">
               <i nz-icon nzType="caret-right" nzTheme="outline"></i>
             </button>
@@ -90,10 +92,10 @@
                   <div class="respondent">
                     <div class="respondent-profile clearfix spacer-phm spacer-ptm sm-corner-a fadeable">
                       <div class="respondent-data">
-                        <h5 class="sm-label respondent-completion-status completed">COMPLETE</h5>
+                        <h5 class="sm-label respondent-completion-status completed">{{'default.layout.COMPLETE' | translate | uppercase}} </h5>
                         <ul class="respondent-info-fields">
                           <li>
-                            <span class="sm-label respondent-info-label">Collector:</span>
+                            <span class="sm-label respondent-info-label">{{'default.layout.COLLECTOR' | translate}}: </span>
                             <span class="sm-label value">
                               {{ response.surveyCollector?.name }}
                             </span>
@@ -102,25 +104,25 @@
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label">Started:</span>
+                            <span class="sm-label respondent-info-label">{{'default.layout.STARTED' | translate}}: </span>
                             <span class="sm-label value">
                               {{ response?.startTime | date: 'medium' }}
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label">Last Modified:</span>
+                            <span class="sm-label respondent-info-label">{{'default.layout.LAST_MODIFIED' | translate}}: </span>
                             <span class="sm-label value">
                               {{ response?.endTime | date: 'medium' }}
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label">Time Spent:</span>
+                            <span class="sm-label respondent-info-label">{{'default.layout.TIME_SPENT' | translate}}: </span>
                             <span class="sm-label value">
                               {{ msToHMSTypicalTimeSpent(response.totalTime) }}
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label">IP Address:</span>
+                            <span class="sm-label respondent-info-label">{{'default.layout.IP_ADDRESS' | translate}} : </span>
                             <span class="sm-label value">
                               {{ response.ipAddress }}
                             </span>
@@ -147,7 +149,41 @@
   </nz-card>
 
   <ng-template #loadingTpl>
-    <nz-skeleton [nzLoading]="true"></nz-skeleton>
+    <div *ngIf="surveyFormDetail && !surveyFormDetail?.json">
+      <h3 class="no-content-title txt-shadow-lt">
+        <div class="header-icon pictos">
+          <i nz-icon nzType="warning" nzTheme="outline"></i>
+        </div> 
+        {{'default.layout.ADD_QUESTIONS_TO_YOUR_SURVEY' | translate}} 
+      </h3>
+      <div class="button-bar">
+        <button
+          [routerLink]="['/create', 'design-survey', surveyFormDetail.id]"
+          nz-button
+          nzType="primary"
+          [nzSize]="'large'">
+          <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+          {{'default.layout.ADD_QUESTIONS' | translate}} 
+        </button>
+      </div>
+    </div>
+    <div *ngIf="surveyFormDetail && surveyFormDetail?.json && (!listOfAllDataSurveyResponse || listOfAllDataSurveyResponse?.length === 0)">
+      <h3 class="no-content-title txt-shadow-lt">
+        <div class="header-icon pictos">
+          <i nz-icon nzType="warning" nzTheme="outline"></i>
+        </div> 
+        {{'default.layout.YOUR_SURVEY_HAS_NO_RESPONSES' | translate}} 
+      </h3>
+      <div class="button-bar">
+        <button
+          [routerLink]="['/create', 'collector-responses', surveyFormDetail.id]"
+          nz-button
+          nzType="primary"
+          [nzSize]="'large'">
+          {{'default.layout.COLLECT_RESPONSES' | translate}} 
+        </button>
+      </div>
+    </div>
   </ng-template>
 </div>
 

@@ -1,22 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router, ActivationStart } from '@angular/router';
-import { AuthService, User } from '@app/core';
-import { NzModalService } from 'ng-zorro-antd';
+import { AuthService, User, RealtimeService, Filter, Pagging, DSurveySendService, SurveySend, DSurveyFormService, DSurveyCollectorService } from '@app/core';
+import { NzModalService, NzMessageService, NzNotificationService } from 'ng-zorro-antd';
 import { filter } from 'rxjs/operators';
-import { environment } from '@env/environment';
+import { environment as env } from '@env/environment';
+import { LoaderService } from '@app/shared';
+import { TranslateService } from '@ngx-translate/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
-  styleUrls: ['./default-layout.component.less']
+  styleUrls: ['./default-layout.component.less'],
+  providers: [DatePipe]
 })
 export class DefaultLayoutComponent implements OnInit {
   avatarUrl: string;
+  viewFullName: string;
   layout = {
     collapsed: true,
     siderMode: 'side',
-    topMode: function() {
+    topMode: function () {
       return this.siderMode != 'over' && this.setting.mode == 'top';
     },
     setting: {
@@ -45,148 +50,145 @@ export class DefaultLayoutComponent implements OnInit {
       path: '/pricing'
     }
   ];
-  notice = {
+  notification = {
     spinning: false,
-    data: [
-      {
-        id: '000000001',
-        avatar:
-          'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-        title: '你收到了 14 份新周报',
-        datetime: '2017-08-09',
-        type: 'notification'
-      },
-      {
-        id: '000000002',
-        avatar:
-          'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png',
-        title: '你推荐的 曲妮妮 已通过第三轮面试',
-        datetime: '2017-08-08',
-        type: 'notification'
-      },
-      {
-        id: '000000003',
-        avatar:
-          'https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png',
-        title: '这种模板可以区分多种通知类型',
-        datetime: '2017-08-07',
-        read: true,
-        type: 'notification'
-      },
-      {
-        id: '000000004',
-        avatar:
-          'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
-        title: '左侧图标用于区分不同的类型',
-        datetime: '2017-08-07',
-        type: 'notification'
-      },
-      {
-        id: '000000005',
-        avatar:
-          'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-        title: '内容不要超过两行字，超出时自动截断',
-        datetime: '2017-08-07',
-        type: 'notification'
-      },
-      {
-        id: '000000006',
-        avatar:
-          'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-        title: '曲丽丽 评论了你',
-        description: '描述信息描述信息描述信息',
-        datetime: '2017-08-07',
-        type: 'message'
-      },
-      {
-        id: '000000007',
-        avatar:
-          'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-        title: '朱偏右 回复了你',
-        description: '这种模板用于提醒谁与你发生了互动，左侧放『谁』的头像',
-        datetime: '2017-08-07',
-        type: 'message'
-      },
-      {
-        id: '000000008',
-        avatar:
-          'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-        title: '标题',
-        description: '这种模板用于提醒谁与你发生了互动，左侧放『谁』的头像',
-        datetime: '2017-08-07',
-        type: 'message'
-      },
-      {
-        id: '000000009',
-        title: '任务名称',
-        description: '任务需要在 2017-01-12 20:00 前启动',
-        extra: '未开始',
-        status: 'todo',
-        type: 'event'
-      },
-      {
-        id: '000000010',
-        title: '第三方紧急代码变更',
-        description:
-          '冠霖提交于 2017-01-06，需在 2017-01-07 前完成代码变更任务',
-        extra: '马上到期',
-        status: 'urgent',
-        type: 'event'
-      },
-      {
-        id: '000000011',
-        title: '信息安全考试',
-        description: '指派竹尔于 2017-01-09 前完成更新并发布',
-        extra: '已耗时 8 天',
-        status: 'doing',
-        type: 'event'
-      },
-      {
-        id: '000000012',
-        title: 'ABCD 版本发布',
-        description:
-          '冠霖提交于 2017-01-06，需在 2017-01-07 前完成代码变更任务',
-        extra: '进行中',
-        status: 'processing',
-        type: 'event'
-      }
-    ],
-    clear: function(type: any) {
-      this.data = this.data.filter((x: any) => x.type != type);
-    },
-    visibleChange: function(status: any) {
+    data: [],
+    visibleChange: function (status: any) {
       if (status) {
         this.spinning = true;
-        setTimeout(() => (this.spinning = false), 1000);
+        setTimeout(() => (this.spinning = false), 200);
       }
     }
   };
   currentUser: User;
+  filter: Filter = {
+    sortField: 'createdAt',
+    sortType: 'desc',
+    searchKey: 'email',
+    searchValue: '',
+    filterKey: 'to',
+    filterValue: []
+  };
+  pagging: Pagging = { page: 1, total: 0, pageSize: 5 };
   constructor(
     breakpointObserver: BreakpointObserver,
-    router: Router,
+    private router: Router,
     private authService: AuthService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private realtimeService: RealtimeService,
+    private nzMessageService: NzMessageService,
+    private translateService: TranslateService,
+    private loaderService: LoaderService,
+    private dSurveySendService: DSurveySendService,
+    private datePipe: DatePipe,
+    private nzNotificationService: NzNotificationService,
+    private dSurveyFormService: DSurveyFormService,
+    private dSurveyCollectorService: DSurveyCollectorService
   ) {
     breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe(result => {
-        this.layout.siderMode = result.matches ? 'over' : 'side';
-        this.layout.collapsed = result.matches;
-      });
+      this.layout.siderMode = result.matches ? 'over' : 'side';
+      this.layout.collapsed = result.matches;
+    });
 
     router.events.pipe(filter(event => event instanceof ActivationStart)).subscribe(() => {
-        if (this.layout.siderMode == 'over') {
-          this.layout.collapsed = true;
-        }
-      });
-  }
-  ngOnInit() {
-     // get user login
-     this.authService.getCurrentUser().subscribe(userData => {
-      if (userData) {
-        this.currentUser = userData;
-        this.avatarUrl = environment.serverRootUrl + '/uploads/users/' + this.currentUser.avatar;
+      if (this.layout.siderMode == 'over') {
+        this.layout.collapsed = true;
       }
     });
+  }
+  ngOnInit() {
+    // get user login
+    this.authService.getCurrentUser().subscribe(userData => {
+      if (userData) {
+        this.currentUser = userData;
+        this.avatarUrl = env.serverRootUrl + '/uploads/users/' + this.currentUser.avatar;
+        this.viewFullName = this.currentUser.firstName + ' ' + this.currentUser.lastName;
+        this.filter.filterValue = [this.currentUser.userName]
+        this.getListSurveySend();
+        this.initIoConnection();
+      }
+    });
+  }
+  private getListSurveySend(isPagging: boolean = false) {
+    if (!isPagging) {
+      this.pagging.page = 1;
+    }
+    this.notification.spinning = true;
+    this.dSurveySendService.getSurveySendList(this.pagging.page, this.pagging.pageSize, this.filter.sortField, this.filter.sortType, this.filter.searchKey, this.filter.searchValue || '', this.filter.filterKey, JSON.stringify(this.filter.filterValue)).subscribe(res => {
+      if (res.status.code === 200) {
+        const notification = res.results.map(item => {
+          let title = '';
+          switch (item.type) {
+            case 'SEND_COPY':
+              title = `<b>${item.user.userName}</b> send a copy survey <b>${item.surveyForm.title}</b>`
+              break;
+            case 'TRANSFER':
+              title = `<b>${item.user.userName}</b> send a transfer survey <b>${item.surveyForm.title}</b>`
+              break;
+            default:
+              break;
+          }
+          return {
+            id: item.id,
+            avatar: env.serverRootUrl + '/uploads/users/' + item.user.avatar,
+            title,
+            datetime: this.datePipe.transform(item.createdAt, 'dd-MM-yyyy HH:ss'),
+            type: 'notification',
+            surveySend: item
+          }
+        })
+        if (isPagging) {
+          this.notification.data = [...this.notification.data, ...notification];
+        } else {
+          this.notification.data = notification;
+        }
+
+        this.pagging.total = res.paging.total;
+      }
+    }, err => {
+      this.notification.spinning = false;
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.notification.spinning = false;
+    });
+  }
+
+  initIoConnection() {
+    if (!this.realtimeService.getSocket()) {
+      this.realtimeService.initSocket();
+      this.realtimeService.listenEvent('connect').subscribe(() => {
+        const data = {
+          userId: this.currentUser.id,
+          firstName: this.currentUser.firstName,
+          lastName: this.currentUser.lastName,
+          userName: this.currentUser.userName,
+          avatar: this.currentUser.avatar
+        }
+        this.realtimeService.sendEvent('USER_CONNECT', data);
+      })
+    }
+    this.realtimeService.listenEvent('SERVER_SEND_NEW_A_COPY_SURVEY').subscribe((res) => {
+      if (res) {
+        let title = '';
+        switch (res.type) {
+          case 'SEND_COPY':
+            title = `<b>${res.user.userName}</b> send a copy survey <b>${res.surveyForm.title}</b>`
+            break;
+          case 'TRANSFER':
+            title = `<b>${res.user.userName}</b> send a transfer survey <b>${res.surveyForm.title}</b>`
+            break;
+          default:
+            break;
+        }
+        this.nzNotificationService.create(
+          'info',
+          'Notification',
+          title
+        )
+        this.getListSurveySend();
+      }
+    }
+    );
   }
 
   logout() {
@@ -196,5 +198,93 @@ export class DefaultLayoutComponent implements OnInit {
       nzOnOk: () => this.authService.logout()
     });
   }
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.realtimeService.sendEvent('USER_DISCONNECT', {});
+  }
+
+  onHandleAction(data: any) {
+    if (!data) {
+      return
+    }
+    switch (data.accept) {
+      case true:
+        switch (data.surveySend.type) {
+          case 'SEND_COPY':
+            this.onAcceptSendCopy(data.surveySend);
+            break;
+          case 'TRANSFER':
+            this.onAcceptTransfer(data.surveySend);
+            break;
+          default:
+            break;
+        }
+        break;
+      case false:
+        this.onDenySendCopy(data.surveySend);
+        break;
+      default:
+        break;
+    }
+  }
+  private onAcceptSendCopy(surveySend: SurveySend) {
+    const copySurvey = {
+      json: surveySend.surveyForm.json,
+      title: `Copy of ${surveySend.surveyForm.title}`,
+      description: surveySend.surveyForm.description,
+      userId: this.currentUser.id
+    };
+    this.loaderService.display(true);
+    this.dSurveyFormService.addSurveyForm(copySurvey).subscribe(async res => {
+      if (res.status.code === 200) {
+        await this.dSurveySendService.deleteSurveySend(surveySend.id);
+        this.getListSurveySend();
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+        this.router.navigate(['/create', 'design-survey', res.results[0].id]);
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    });
+  }
+  private onAcceptTransfer(surveySend: SurveySend) {
+    const transferSurvey = {
+      userId: this.currentUser.id,
+      surveyFolderId: null
+    }
+    this.loaderService.display(true);
+    this.dSurveyFormService.updateSurveyForm(transferSurvey, surveySend.surveyForm.id).subscribe(async res => {
+      if (res.status.code === 200) {
+        await this.dSurveySendService.deleteSurveySend(surveySend.id);
+        await this.dSurveyCollectorService.transferSurveyCollector(surveySend.surveyForm.id);
+        this.getListSurveySend();
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+        this.router.navigate(['/create', 'design-survey', res.results[0].id]);
+      }
+    }, err => {
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    });
+  }
+  private onDenySendCopy(surveySend: SurveySend) {
+    this.loaderService.display(true);
+    this.dSurveySendService.deleteSurveySend(surveySend.id).then(res => {
+      if (res.status.code === 200) {
+        this.loaderService.display(false);
+        this.getListSurveySend();
+        this.nzMessageService.success(this.translateService.instant(res.status.message));
+      }
+    }).catch(err => {
+      this.loaderService.display(false);
+    })
+  }
+  loadMore() {
+    if (this.notification.data.length < this.pagging.total) {
+      this.pagging.page += 1;
+      this.getListSurveySend(true);
+    }
+  }
 }

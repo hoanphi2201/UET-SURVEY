@@ -7,14 +7,14 @@
   nzOverlayClassName="notice-popover"
   [nzVisible]="visible"
   (nzVisibleChange)="visibleChange.emit($event)">
-  <nz-badge [nzCount]="data.length">
+  <nz-badge [nzCount]="pagging?.total">
     <ng-content></ng-content>
   </nz-badge>
   <ng-template #content>
     <nz-tabset>
       <nz-tab
         *ngFor="let tab of tabs"
-        nzTitle="{{ tab.title }} {{tab.rows.length ? '(' + tab.rows.length + ')' : ''}}">
+        nzTitle="{{ tab.title }} {{tab.rows.length ? '(' + tab.rows.length + '/' + pagging?.total + ')' : ''}}">
         <nz-spin [nzSpinning]="spinning">
           <div class="notFound" *ngIf="!tab.rows.length">
             <img [src]="tab.empty.image" alt="not found" />
@@ -31,8 +31,9 @@
                   [nzTitle]="nzTitle"
                   [nzDescription]="nzDescription">
                   <ng-template #nzAvatar>
-                    <span class="iconElement" *ngIf="item.avatar">
+                    <span class="iconElement">
                       <nz-avatar
+                        [nzSize]="48"
                         nzIcon="user"
                         [nzSrc]="item.avatar">
                       </nz-avatar>
@@ -40,13 +41,11 @@
                   </ng-template>
                   <ng-template #nzTitle>
                     <div class="title">
-                      {{ item.title }}
-                      <div class="extra" *ngIf="item.extra && !item.color">
-                        {{ item.extra }}
-                      </div>
-                      <div class="extra" *ngIf="item.extra && item.color">
-                        <nz-tag [nzColor]="item.color">{{ item.extra }}</nz-tag>
-                      </div>
+                      <div [innerHTML]="item.title"></div>
+                    </div>
+                    <div class="buttons">
+                      <button (click)="onAccept(item.surveySend)" nz-button [nzSize]="'small'" nzType="primary">{{'default.layout.ACCEPT' | translate}}</button>
+                      <button (click)="onDeny(item.surveySend)" nz-button [nzSize]="'small'" nzType="default">{{'default.layout.DENY' | translate}} </button>
                     </div>
                   </ng-template>
                   <ng-template #nzDescription>
@@ -61,8 +60,8 @@
               </nz-list-item>
             </ng-template>
           </nz-list>
-          <div class="clear" (click)="clear.emit(tab.type)">
-            清空{{ tab.title }}
+          <div class="clear" (click)="loadMoreNotification()" translate>
+            default.layout.LOAD_MORE
           </div>
         </nz-spin>
       </nz-tab>

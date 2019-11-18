@@ -54,6 +54,7 @@ export class RolesComponent implements OnInit {
       { id: 'id', type: 'text', hidden: true, header: 'admin.layout.ID' },
       { id: 'name', type: 'text', sortable: true, header: 'admin.layout.NAME' },
       { id: 'lastName', type: 'select', header: 'admin.layout.ROLE_ACP' },
+      { id: 'defaultSignUp', type: 'checkbox', header: 'admin.layout.SIGN_UP_DEFAULT' },
       { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.CREATED_AT' },
       { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.UPDATED_AT' }
     ];
@@ -169,8 +170,7 @@ export class RolesComponent implements OnInit {
         );
       }, () => {
         this.loaderService.display(false);
-      }
-      );
+      });
     }
     return this.roleService.updateRole(formData.value, this.selectedEdit.id).subscribe(res => {
       this.resetFormAfterSubmit(formDirective);
@@ -180,8 +180,7 @@ export class RolesComponent implements OnInit {
       this.nzMessageService.error(this.translateService.instant(err.message));
     }, () => {
       this.loaderService.display(false);
-    }
-    );
+    });
   }
   resetFormAfterSubmit(formDirective: FormGroupDirective) {
     this.getRoleList();
@@ -236,6 +235,21 @@ export class RolesComponent implements OnInit {
         this.loaderService.display(false);
       }
     );
+  }
+  onUpdateDefaultSignUp(role: Role) {
+    if (!role) {
+      return
+    }
+    this.loaderService.display(true);
+    this.roleService.changeDefaultSignUp(role.id).subscribe(res => {
+      this.nzMessageService.success(this.translateService.instant(res.status.message));
+    }, err => {
+      role.defaultSignUp = !role.defaultSignUp;
+      this.loaderService.display(false);
+      this.nzMessageService.error(this.translateService.instant(err.message));
+    }, () => {
+      this.loaderService.display(false);
+    });
   }
   isFieldValid(form: FormGroup, field: string) {
     return !form.get(field).valid && form.get(field).dirty;

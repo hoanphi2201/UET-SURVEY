@@ -123,10 +123,22 @@ module.exports = {
       ]
     });
   },
-  countTypicalTimeSpent: (params , options) => {
-    return surveyResponsesModel.sum('totalTime');
+  countTypicalTimeSpent: (params, options) => {
+    return surveyResponsesModel.sum('totalTime', {
+      includeIgnoreAttributes: false,
+      include: [
+        {
+          model: surveyCollectorsModel,
+          as: "surveyCollector",
+          where: { userId: options.user.id }
+        }
+      ]
+    });
   },
   clearResponsesByCollector: params => {
+    return surveyResponsesModel.destroy({ where: params });
+  },
+  clearResponsesByForm: params => {
     return surveyResponsesModel.destroy({ where: params });
   },
   getResponsesBySurveyForm: params => {

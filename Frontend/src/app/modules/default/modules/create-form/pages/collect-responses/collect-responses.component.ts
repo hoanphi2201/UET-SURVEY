@@ -25,13 +25,14 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
     pageSize: 10
   };
   filter: Filter = {
-    searchKey: 'title',
+    searchKey: 'name',
     searchValue: '',
     sortField: 'createdAt',
     sortType: 'desc',
     filterKey: 'surveyFormId',
     filterValue: []
   };
+  isSearch: boolean;
   currentUser: User;
   surveyCollectorDelete: SurveyCollector;
   surveyCollectorClearResponses: SurveyCollector;
@@ -196,6 +197,13 @@ export class CollectResponsesComponent implements OnInit, AfterContentInit {
       this.filter.sortType = 'asc';
     } else {
       this.filter.sortType = 'desc';
+    }
+    this.getListSurveyCollector();
+  }
+  search(): void {
+    this.isSearch = true;
+    if (this.filter.searchValue === '') {
+      this.isSearch = false;
     }
     this.getListSurveyCollector();
   }

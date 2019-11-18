@@ -4,6 +4,7 @@ import { Params, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-design-survey',
@@ -17,7 +18,8 @@ export class DesignSurveyComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private nzMessageService: NzMessageService,
     private translateService: TranslateService,
-    private dSurveyFormService: DSurveyFormService
+    private dSurveyFormService: DSurveyFormService,
+    private titleService: Title
   ) { }
 
   ngOnInit() {
@@ -33,6 +35,7 @@ export class DesignSurveyComponent implements OnInit, OnDestroy {
       this.dSurveyFormService.getSurveyFormDetail().subscribe(res => {
         if (res) {
           this.surveyFormDetail = res;
+          this.titleService.setTitle('UetMonkey - Design - ' + this.surveyFormDetail.title);
           this.dSurveyFormService.setSurveyFormDetail(null);
         }
       })

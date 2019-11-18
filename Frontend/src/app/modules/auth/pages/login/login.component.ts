@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { I18nService, AuthService, IValidators } from '@app/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoaderService } from '@app/shared';
+import { LoaderService, Helpers } from '@app/shared';
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
@@ -31,23 +31,26 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.returnUrl =
-      this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+  }
+  get f() {
+    return this.loginForm.controls;
   }
 
-  ngOnDestroy() { }
+  isFieldValid(form: FormGroup, field: string) {
+    return !form.get(field).valid && form.get(field).dirty;
+  }
 
-  login() {
+
+  onLogin() {
     if (this.loginForm.invalid) {
+      Helpers.validateAllFormFields(this.loginForm);
       return;
     }
     this.loaderService.display(true);
     this.authService.login(this.loginForm.value).subscribe(res => {
       this.nzMessageService.success('Login success');
-      this.router.navigate(
-        [this.route.snapshot.queryParams.redirect || '/dashboard'],
-        { replaceUrl: true }
-      );
+      this.router.navigate([this.route.snapshot.queryParams.redirect || '/dashboard'],{ replaceUrl: true });
     }, err => {
       this.loaderService.display(false);
       this.nzMessageService.error(err.message);
@@ -75,4 +78,6 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
   }
+  ngOnDestroy() { }
+
 }

@@ -6,7 +6,7 @@ ul {
 .wds-pane {
   background: #edeeee;
 }
-.wds-pane__body {
+.wds-pane-body {
   padding: 24px;
 }
 .sm-survey-progress-bar {
@@ -399,4 +399,75 @@ ul {
 .button-holder {
   padding-top: 14px;
   text-align: center;
+}
+.progress-panel {
+  margin-bottom: 10px;
+  background-color: #edeeee;
+  padding: 35px 35px 0px;
+  overflow: hidden;
+  .x-button {
+    position: absolute;
+    right: 35px;
+    margin-top: -15px;
+    text-align: right;
+    cursor: pointer;
+    color: #ccc;
+    font-size: 26px;
+    z-index: 10;
+  }
+  .dotted-line {
+    z-index: 5;
+    border: 1px dashed $theme-color;
+    margin: 0px auto;
+    position: absolute;
+    top: 33px;
+    border-bottom: 0px;
+  }
+  ul.progress-badges-list {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    min-width: 530px;
+    li.progress-badge-item {
+      position: relative;
+      z-index: 6;
+      display: table-cell;
+      width: 1%;
+      text-align: center;
+      vertical-align: top;
+      .circle {
+        display: inline-block;
+        z-index: 6;
+        margin: auto;
+        height: 78px;
+        width: 78px;
+        border-radius: 50%;
+        border: 1px dashed $theme-color;
+        background-color: white;
+        font-size: 32px;
+        .smf-icon {
+          color: $theme-color;
+          line-height: 78px;
+        }
+      }
+      &.active .circle {
+        background-color: $theme-color;
+        .smf-icon {
+          color: white;
+        }
+      }
+      .active-badge {
+        .c-label {
+          color: #333e48;
+        }
+      }
+      .c-label {
+        margin: 7px 0px;
+        padding: 10px;
+        font-size: 0.82em;
+        font-weight: 500;
+        color: $theme-color;
+      }
+    }
+  }
 }

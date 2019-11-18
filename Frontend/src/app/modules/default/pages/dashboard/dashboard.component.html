@@ -57,7 +57,7 @@
           <ng-template #completeProfileTemplate>
             <li class="progress-badge-item ">
               <a (click)="showProfile(0)">
-                <div class="" style="display: inline-block;">
+                <div style="display: inline-block;">
                   <div class="circle">
                     <span class="smf-icon" style="cursor: inherit;">
                       <i nz-icon nzType="user" nzTheme="outline"></i>
@@ -272,7 +272,7 @@
                       <div class="variant-sm hidden-md-up">
                         <li class="action-token">
                           <div class="variant-sm hidden-md-up">
-                            <a href="#">
+                            <a [routerLink]="['/create', 'analyze-results', survey.id]">
                               <i class="icon-option" nz-icon nzType="bar-chart" nzTheme="outline"></i>
                               <span class="c-label" translate>default.layout.ANALYZE_RESULTS</span>
                             </a>
@@ -280,7 +280,7 @@
                         </li>
                         <li class="action-token">
                           <div class="variant-sm hidden-md-up">
-                            <a href="#">
+                            <a  [routerLink]="['/create', 'design-survey', survey.id]">
                               <i class="icon-option" nz-icon nzType="form" nzTheme="outline"></i>
                               <span class="c-label" translate>default.layout.EDIT_SURVEY</span>
                             </a>
@@ -288,7 +288,7 @@
                         </li>
                         <li class="action-token">
                           <div class="variant-sm hidden-md-up">
-                            <a href="#">
+                            <a [routerLink]="['/create', 'collector-responses', survey.id]">
                               <i class="icon-option" nz-icon nzType="link" nzTheme="outline"></i>
                               <span class="c-label" translate>default.layout.SEND_SURVEY</span>
                             </a>
@@ -304,17 +304,17 @@
                         </li>
                         <li class="action-token">
                           <div class="variant-sm hidden-md-up">
-                            <a href="#">
+                            <a (click)="onMakeCopy(survey)">
                               <i class="icon-option" nz-icon nzType="copy" nzTheme="outline"></i>
                               <span class="c-label" translate>default.layout.MAKE_A_COPY</span>
                             </a>
                           </div>
                         </li>
                         <li
-                          (click)="showDeleteConfirm(survey, tplContentDeleteForm)"
+                         
                           class="action-token">
                           <div class="variant-sm hidden-md-up">
-                            <a href="#">
+                            <a  (click)="showDeleteConfirm(survey, tplContentDeleteForm)" >
                               <i class="icon-option" nz-icon nzType="delete" nzTheme="outline"></i>
                               <span class="c-label" translate>default.layout.DELETE_SURVEY</span>
                             </a>
@@ -538,10 +538,6 @@
   <div>
     {{ 'default.layout.RESPONSES' | translate }}:
     {{ surveyFormDelete?.response }}
-  </div>
-  <div>
-    {{ 'default.layout.COLLECTORS' | translate }}:
-    {{ surveyFormDelete?.collector }}
   </div>
   <div class="delete-modal-warning" translate>
     default.layout.THIS_IS_A_PERMANENT_ACTION_AND_CANNOT_BE_UNDONE.

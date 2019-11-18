@@ -1,0 +1,36 @@
+.actions {
+    padding: 10px 16px;
+    background: #fff;
+    text-align: right;
+    border-top: 1px solid #e8e8e8;
+    border-radius: 0 0 4px 4px;
+    button {
+      margin-left: 8px;
+      &.secondary {
+        float: left;
+      }
+    }
+}
+.inner-modal-body {
+    padding: 24px;
+    .info {
+        padding: 16px 0px;
+    }
+}
+.copy-transfer-default.heading {
+  background: url(/assets/images/icon-survey-22x25.png) no-repeat scroll 8px center #D0D2D3;
+  font-size: 14px;
+  margin: 0 0 5px 0;
+  padding: 15px 10px 15px 37px;
+  font-weight: 500;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  word-break: break-all;
+}

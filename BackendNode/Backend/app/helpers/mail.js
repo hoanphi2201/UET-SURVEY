@@ -1,8 +1,10 @@
 const nodemailer = require("nodemailer");
 const systemConfig = require(__pathConfig + "system");
 const NotFound = require(__pathHelper + "error");
+const showdown  = require('showdown')
 module.exports = {
   sendMailInvite: async (subject, message, surveyCollector, toEmail) => {
+    converter = new showdown.Converter();
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
@@ -44,7 +46,7 @@ module.exports = {
                       <td>&nbsp;</td>
                       <td colspan="3" align="left" valign="top" style="color:#666666; font-size: 13px;">
                         <p>
-                          ${message}
+                          ${converter.makeHtml(message)}
                         </p>
                       </td>
                       <td>&nbsp;</td>
@@ -60,7 +62,7 @@ module.exports = {
                           <tbody>
                             <tr>
                               <td align="center" valign="center">
-                                <a href="${systemConfig.clientUrl + '/open/answer-survey/' + surveyCollector.url}" target="_blank" style="color:#FFFFFF; text-decoration:none;">Begin Survey</a>
+                                <a href="${systemConfig.clientUrl + '/publish/answer-survey/' + surveyCollector.url}" target="_blank" style="color:#FFFFFF; text-decoration:none;">Begin Survey</a>
                               </td>
                             </tr>
                           </tbody>
@@ -91,7 +93,7 @@ module.exports = {
                               <td width="45%" align="right" style="font-size: 10px; color: #999999;">Powered by</td>
                               <td width="55%" align="left">
                                 <img width="130" align="middle" height="17" alt="SurveyMonkey Logo"
-                                  src="https://www.surveymonkey.com/collect/images/smLogo.png">
+                                  src="${systemConfig.serverUrl + '/logos/full-logo-green.png'}">
                               </td>
                             </tr>
                           </tbody>

@@ -1,3 +1,4 @@
+@import "../../../../../styles/variables.scss";
 .pbt-12 {
   padding-bottom: 12px;
   padding-top: 12px;
@@ -81,4 +82,17 @@ div.add-folder-form {
   .ant-modal-body {
     background: #f4f5f5 !important;
   }
+}
+::ng-deep .send-copy-dialog {
+  .ant-modal-body {
+    background: #f4f5f5 !important;
+    padding: 0 !important;
+    border-radius: 4px 4px 4px 4px;
+  }
+}
+.delete-modal-warning {
+  padding-top: 10px;
+  color: #f05b24;
+  font-size: 13px;
+  font-weight: 500;
 }

@@ -33,7 +33,9 @@ export class ListSurveyComponent implements OnInit {
     let total = 0;
     try {
       json.pages.forEach(o => {
-        total += o.elements.length;
+        if (o.elements && Array.isArray(o.elements)) {
+          total += o.elements.length;
+        }
       });
     } catch (error) {
       return defaultValue;
@@ -88,23 +90,26 @@ export class ListSurveyComponent implements OnInit {
     let decisions = 0;
     const openQuestions = ['comment', 'text', 'tagbox', 'sortablelist', 'html', 'multipletext'];
     json.pages.forEach(o => {
-      questions += o.elements.length;
-      total += o.elements.length * 5;
-      o.elements.forEach(element => {
-        total += element.name.split(' ').length / 5;
-        if (openQuestions.includes(element.type)) {
-          total += 15;
-        }
-        if (element.choices) {
-          decisions += element.choices.length;
-        }
-        if (element.columns) {
-          decisions += element.columns.length;
-        }
-        if (element.items) {
-          decisions += element.items.length;
-        }
-      });
+      if (o.elements && Array.isArray(o.elements)) {
+        questions += o.elements.length;
+        total += o.elements.length * 5;
+        o.elements.forEach(element => {
+          total += element.name.split(' ').length / 5;
+          if (openQuestions.includes(element.type)) {
+            total += 15;
+          }
+          if (element.choices) {
+            decisions += element.choices.length;
+          }
+          if (element.columns) {
+            decisions += element.columns.length;
+          }
+          if (element.items) {
+            decisions += element.items.length;
+          }
+        });
+      }
+
     });
     total += (decisions - questions) * 2;
     return (total / 60).toFixed(2) + ' min';

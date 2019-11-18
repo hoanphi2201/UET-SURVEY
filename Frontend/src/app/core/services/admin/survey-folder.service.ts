@@ -40,6 +40,6 @@ export class SurveyFolderService {
     return this.apiService.delete(`/survey-folders/${surveyFolderId}`);
   }
   deleteMultySurveyFolder(param: any): Observable<any> {
-    return this.apiService.post('/survey-folders/delete-multy', param);
+    return this.apiService.deleteMulty('/survey-folders/delete-multy', param);
   }
 }
