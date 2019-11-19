@@ -87,7 +87,7 @@
                           [nzTooltipTitle]="data[column.id]"
                           nzTooltipPlacement="top"
                           nz-tooltip>
-                          <a *ngIf="column.action" routerLink="column.action.link(data.id, data.type)">
+                          <a *ngIf="column.action" [routerLink]="column.action.link(data.id, data.type)">
                             {{ data[column.id] | summary : 40 }}
                           </a>
                           <ng-container *ngIf="!column.action">
@@ -194,7 +194,12 @@
 </app-page>
 <!-- Title Table -->
 <ng-template #titleTemplate>
-  <app-title-table [numberOfChecked]="numberOfChecked" [results]="pagging.total" [columns]="columns" (openForm)="openForm($event)">
+  <app-title-table 
+    [numberOfChecked]="numberOfChecked" 
+    [results]="pagging.total" 
+    [columns]="columns"
+    (export)="onExport($event)"
+    (openForm)="openForm($event)">
     <ul #action class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-light ant-dropdown-menu-vertical">
       <li class="ant-dropdown-menu-item" (click)="showDeleteMultyConfirm()">
         {{ 'admin.layout.DELETE_CHECK_SURVEY_COLLECTORS' | translate }}

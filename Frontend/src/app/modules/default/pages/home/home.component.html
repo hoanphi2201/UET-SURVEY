@@ -164,7 +164,7 @@
                             [nzTooltipTitle]="data[column.id]"
                             nzTooltipPlacement="top"
                             nz-tooltip>
-                            <a *ngIf="column.action" routerLink="column.action.link(data.id)">
+                            <a *ngIf="column.action" [routerLink]="column.action.link(data.id)">
                               {{ data[column.id] | summary : 40 }}
                             </a>
                             <ng-container *ngIf="!column.action">
@@ -205,18 +205,23 @@
                     <nz-dropdown-menu #menuAction="nzDropdownMenu">
                       <ul class="dropdown-action" nz-menu nzSelectable>
                         <li (click)="onShowModalSendCopyTransfer(data, 'SEND_COPY')" nz-menu-item>
+                            <i class="fa fa-share"></i>&nbsp;
                           {{'default.layout.SEND_A_COPY' | translate}} 
                         </li>
                         <li (click)="onShowModalSendCopyTransfer(data, 'TRANSFER')" nz-menu-item>
+                            <i class="fa fa-paper-plane"></i>&nbsp;
                           {{'default.layout.TRANSFER' | translate}} 
                         </li>
                         <li (click)="onMakeCopy(data)" nz-menu-item>
+                            <i nz-icon nzType="copy" nzTheme="outline"></i>
                           {{'default.layout.MAKE_A_COPY' | translate}} 
                         </li>
                         <li (click)="showClearResponsesConfirm(data, tplContentClearResponsesForm)" nz-menu-item>
+                            <i nz-icon nzType="close-circle" nzTheme="outline"></i>
                           {{'default.layout.CLEAR_RESPONSES' | translate}} 
                         </li>
                         <li (click)="showDeleteConfirm(data, tplContentDeleteForm)" nz-menu-item>
+                            <i nz-icon nzType="delete" nzTheme="outline"></i>
                           {{'default.layout.DELETE' | translate}} 
                         </li>
                       </ul>

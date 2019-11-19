@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef,  } from '@angular/core';
 import { FormGroup,  } from '@angular/forms';
-import { TableListColumn, Pagging, SurveyCollector, SurveyCollectorService, SurveyResponseService, Filter } from '@app/core';
+import { TableListColumn, Pagging, SurveyCollector, SurveyCollectorService, SurveyResponseService, Filter, ExcelService } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
 import { LoaderService, WindowresizeService, Helpers } from '@app/shared';
@@ -47,7 +47,8 @@ export class SurveyCollectorsComponent implements OnInit {
     private loaderService: LoaderService,
     private surveyCollectorService: SurveyCollectorService,
     private windowresizeService: WindowresizeService,
-    private surveyResponseService: SurveyResponseService
+    private surveyResponseService: SurveyResponseService,
+    private excelService: ExcelService
   ) { }
   ngOnInit() {
     this.screenWidth = window.innerWidth;
@@ -192,7 +193,7 @@ export class SurveyCollectorsComponent implements OnInit {
     this.surveyCollectorService.getSurveyCollectorList(this.pagging.page, this.pagging.pageSize, this.filter.sortField, this.filter.sortType, this.filter.searchKey, this.filter.searchValue, this.filter.filterKey, JSON.stringify(this.filter.filterValue)).subscribe(res => {
       if (res.status.code === 200) {
         this.listOfAllData = res.results.map(o => {
-          return Object.assign(o, {formName: o.surveyForm.title})
+          return  {...o, formName: o.surveyForm.title};
         });
         this.pagging.total = res.paging.total;
         this.refreshStatus();
@@ -365,5 +366,16 @@ export class SurveyCollectorsComponent implements OnInit {
       this.loaderService.display(false);
     }
     );
+  }
+  onExport(type: string) {
+    const data = [];
+    this.listOfAllData.forEach(row => {
+      const intance = {};
+      this.columns.forEach(col => {
+        intance[this.translateService.instant(col.header)] = row[col.id]; 
+      })
+      data.push(intance);
+    })
+    this.excelService.exportAsExcelFile(data, 'survey_collectors', type);
   }
 }

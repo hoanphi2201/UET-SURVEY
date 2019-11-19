@@ -7,3 +7,4 @@ export * from './survey-form.service';
 export * from './survey-collector.service';
 export * from './survey-response.service';
 export * from './survey-send.service';
+export * from './survey-recipient.service';

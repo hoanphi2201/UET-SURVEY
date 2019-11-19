@@ -63,7 +63,7 @@ export class ModalCreateSurveyComponent implements OnInit {
         formData.value[key] = formData.value[key].trim();
       }
     });
-    this.dSurveyFormService.addSurveyForm(Object.assign(formData.value, { userId: this.currentUser.id })).subscribe(res => {
+    this.dSurveyFormService.addSurveyForm({...formData.value, userId: this.currentUser.id }).subscribe(res => {
       if (res.status.code === 200) {
         this.nzMessageService.success(
           this.translateService.instant(res.status.message)

@@ -9,7 +9,7 @@ export interface TableListColumn {
   hidden?: boolean;
   checkbox?: boolean;
   templateRef?: TemplateRef<any>;
-  type?: 'text' | 'date' | 'select' | 'checkbox' | 'action' | 'icon' | 'status';
+  type?: 'text' | 'number' | 'date' | 'select' | 'checkbox' | 'action' | 'icon' | 'status';
   sortable?: boolean;
   filter?: any;
   filterKey?: string;

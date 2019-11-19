@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { FormGroup, FormGroupDirective, Validators, NgForm, FormBuilder } from '@angular/forms';
-import { SurveyForm, User, SurveyFolder, IValidators, Pagging, TableListColumn, SurveyFormService, AuthService } from '@app/core';
+import { SurveyForm, User, SurveyFolder, IValidators, Pagging, TableListColumn, SurveyFormService, AuthService, ExcelService } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
 import { LoaderService, WindowresizeService, Helpers } from '@app/shared';
@@ -14,12 +14,9 @@ import { Router } from '@angular/router';
 })
 export class SurveyFormsComponent implements OnInit {
   @ViewChild('formDirective', { static: false }) private formDirective: NgForm;
-  @ViewChild('tplTitleModalView', { static: false })
-  tplTitleModalView: TemplateRef<any>;
-  @ViewChild('tplContentModalView', { static: false })
-  tplContentModalView: TemplateRef<any>;
-  @ViewChild('tplFooterModalView', { static: false })
-  tplFooterModalView: TemplateRef<any>;
+  @ViewChild('tplTitleModalView', { static: false }) tplTitleModalView: TemplateRef<any>;
+  @ViewChild('tplContentModalView', { static: false }) tplContentModalView: TemplateRef<any>;
+  @ViewChild('tplFooterModalView', { static: false }) tplFooterModalView: TemplateRef<any>;
   form: FormGroup;
   listOfAllData: SurveyForm[] = [];
   sortField: string | null = 'id';
@@ -40,6 +37,7 @@ export class SurveyFormsComponent implements OnInit {
   buttonLoading = false;
   currentUser: any;
   modalForm: NzModalRef;
+  selectSurveyView: SurveyForm;
   pagging: Pagging = {
     page: 1,
     total: 0,
@@ -54,7 +52,8 @@ export class SurveyFormsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private windowresizeService: WindowresizeService,
-    private router: Router
+    private router: Router,
+    private excelService: ExcelService
   ) { }
   ngOnInit() {
     this.screenWidth = window.innerWidth;
@@ -96,10 +95,10 @@ export class SurveyFormsComponent implements OnInit {
     this.surveyFormService.getSurveyFormList(this.pagging.page, this.pagging.pageSize, this.sortField, this.sortType, this.searchKey, this.searchValue, this.filterKey, JSON.stringify(this.filterValue)).subscribe(res => {
       if (res.status.code === 200) {
         this.listOfAllData = res.results.map((o: any) => {
-          return Object.assign(o, {
+          return {...o,
             userName: o.user.userName,
             surveyFolderTitle: o.surveyFolder ? o.surveyFolder.title : 'N/A'
-          });
+          };
         });
         this.pagging.total = res.paging.total;
         this.refreshStatus();
@@ -184,7 +183,7 @@ export class SurveyFormsComponent implements OnInit {
   openModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>, surveyForm?: SurveyForm): void {
     if (surveyForm) {
       this.editing = true;
-      this.selectedEdit = Object.assign({}, surveyForm);
+      this.selectedEdit = {...surveyForm};
     }
     this.modalForm = this.modalService.create({
       nzTitle: tplTitle,
@@ -207,7 +206,7 @@ export class SurveyFormsComponent implements OnInit {
       }
     });
     if (!this.editing) {
-      return this.surveyFormService.addSurveyForm(Object.assign(formData.value, { userId: this.currentUser.id })).subscribe(res => {
+      return this.surveyFormService.addSurveyForm({...formData.value,  userId: this.currentUser.id }).subscribe(res => {
         this.resetFormAfterSubmit(formDirective);
         this.nzMessageService.success(
           this.translateService.instant(res.status.message)
@@ -298,7 +297,6 @@ export class SurveyFormsComponent implements OnInit {
       this.router.navigate(['/admin', 'survey-forms', this.selectedEdit.id]);
     }
   }
-  selectSurveyView: SurveyForm;
   viewSurveyForm(surveyForm: SurveyForm) {
     this.selectSurveyView = surveyForm;
     this.modalForm = this.modalService.create({
@@ -309,5 +307,16 @@ export class SurveyFormsComponent implements OnInit {
       nzMaskClosable: true,
       nzClosable: true
     });
+  }
+  onExport(type: string) {
+    const data = [];
+    this.listOfAllData.forEach(row => {
+      const intance = {};
+      this.columns.forEach(col => {
+        intance[this.translateService.instant(col.header)] = row[col.id]; 
+      })
+      data.push(intance);
+    })
+    this.excelService.exportAsExcelFile(data, 'survey_forms', type);
   }
 }

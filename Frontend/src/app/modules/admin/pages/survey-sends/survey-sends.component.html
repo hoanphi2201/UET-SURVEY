@@ -23,7 +23,7 @@
             [nzBordered]="true"
             [nzTitle]="titleTemplate">
             <thead (nzSortChange)="sort($event)" nzSingleSort>
-              <tr *ngIf="columns.length > 0">
+              <tr *ngIf="columns?.length > 0">
                 <th>{{ 'admin.layout.TABLE_NO' | translate }}</th>
                 <th
                   nzShowCheckbox
@@ -75,13 +75,13 @@
                     <ng-container [ngSwitch]="column.type">
                       <ng-container *ngSwitchCase="'text'">
                         <p
-                          *ngIf="data[column.id].length > 12"
+                          *ngIf="data[column.id]?.length > 12"
                           [nzTooltipTitle]="data[column.id]"
                           nzTooltipPlacement="top"
                           nz-tooltip>
                           {{ data[column.id] | summary }}
                         </p>
-                        <p *ngIf="data[column.id].length <= 12">{{ data[column.id] }}</p>
+                        <p *ngIf="data[column.id]?.length <= 12">{{ data[column.id] }}</p>
                       </ng-container>
                       <ng-container *ngSwitchCase="'date'">
                         <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
@@ -120,7 +120,12 @@
 </app-page>
 <!-- Title Table -->
 <ng-template #titleTemplate>
-  <app-title-table [numberOfChecked]="numberOfChecked" [results]="pagging.total" [columns]="columns" (openForm)="openForm($event)">
+  <app-title-table 
+    [numberOfChecked]="numberOfChecked" 
+    [results]="pagging.total" 
+    [columns]="columns" 
+    (export)="onExport($event)"
+    (openForm)="openForm($event)">
     <ul #action class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-light ant-dropdown-menu-vertical">
       <li class="ant-dropdown-menu-item" (click)="showDeleteConfirm()">
         {{ 'admin.layout.DELETE_CHECK_SURVEY_SENDS' | translate }}

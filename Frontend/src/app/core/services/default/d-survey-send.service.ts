@@ -24,10 +24,13 @@ export class DSurveySendService {
   }
 
   deleteSurveySend(surveySendId: string): Promise<any> {
-    return this.apiService.delete(`/survey-sends/${surveySendId}`).toPromise()
+    return this.apiService.delete(`/survey-sends/${surveySendId}`).toPromise();
   }
 
   addSurveySend(surveySend: any): Observable<any> {
     return this.apiService.post('/survey-sends', surveySend);
+  }
+  updateStatusSurveySend(surveySend: any, surveySendId: string): Promise<any> {
+    return this.apiService.put(`/survey-sends/change-status/${surveySendId}`, surveySend).toPromise();
   }
 }

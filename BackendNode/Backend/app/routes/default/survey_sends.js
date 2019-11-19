@@ -23,8 +23,8 @@ router.get("/", async (req, res, next) => {
         filterKey: paramsHelper.getParam(req.query, "filterKey", ""),
         filterValue: JSON.parse(paramsHelper.getParam(req.query, "filterValue", ""))
     };
-    params.paging.total = await surveySendsModel.countSurveySends(params, { user }).catch(error => res.status(error.statusCode || 400).json(error));
-    await surveySendsModel.listSurveySends(params).then(surveySends => {
+    params.paging.total = await surveySendsModel.countSurveySends(params, { user, page: 'default' }).catch(error => res.status(error.statusCode || 400).json(error));
+    await surveySendsModel.listSurveySends(params, {page: 'default'}).then(surveySends => {
         res.status(200).json(new ResponsePaging(false, 200, "success", "Success", surveySends, params.paging));
     });
 });
@@ -46,6 +46,16 @@ router.post("/", async (req, res, next) => {
 router.delete("/:surveySendId", async (req, res, next) => {
     const surveySendId = paramsHelper.getParam(req.params, "surveySendId", "");
     surveySendsModel.deleteSurveySends(surveySendId, { task: "delete-one" }).then(surveySend => {
+        res.status(200).json(new Response(false, 200, "success", "Success", [surveySend]));
+    }).catch(error =>
+        res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
+    );
+});
+
+router.put("/change-status/:surveySendId", (req, res, next) => {
+    const surveySendId = paramsHelper.getParam(req.params, "surveySendId", "");
+    const surveySend = req.body;
+    surveySendsModel.updateSurveySendStatus(surveySend, surveySendId).then(surveySend => {
         res.status(200).json(new Response(false, 200, "success", "Success", [surveySend]));
     }).catch(error =>
         res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))

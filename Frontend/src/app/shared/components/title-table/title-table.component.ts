@@ -20,6 +20,7 @@ export class TitleTableComponent implements OnInit {
   @Input() numberOfChecked: number;
   @Input() results: number = 0;
   @Output() openForm = new EventEmitter<any>();
+  @Output() export = new EventEmitter<string>();
   @Input() columns: TableListColumn[] = [];
   constructor() {}
 
@@ -29,5 +30,8 @@ export class TitleTableComponent implements OnInit {
   }
   onChangeHidden($event: any, column: TableListColumn) {
     column.hidden = !$event;
+  }
+  onExport(type: string) {
+    this.export.emit(type)
   }
 }

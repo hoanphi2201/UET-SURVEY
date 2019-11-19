@@ -155,9 +155,9 @@ export class AnswerSurveyComponent implements OnInit {
         formData.value[key] = formData.value[key].trim();
       }
     });
-    const data = Object.assign(formData.value, {
+    const data = {...formData.value,
       surveyCollectorId: this.surveyCollectorDetail.id
-    });
+    }
     this.pSurveyCollectorService.compareSurveyCollectorPassword(data).subscribe(res => {
       if (
         res.status.code === 200 &&

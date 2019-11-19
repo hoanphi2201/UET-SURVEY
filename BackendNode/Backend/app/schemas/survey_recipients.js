@@ -42,7 +42,7 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
   survey_recipient.associate = function(models) {
-    survey_recipient.belongsTo(models.survey_collectors);
+    survey_recipient.belongsTo(models.survey_collectors, {as: "surveyCollector"});
   };
   return survey_recipient;
 };

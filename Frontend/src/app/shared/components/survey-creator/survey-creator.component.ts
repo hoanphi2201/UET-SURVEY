@@ -4,12 +4,8 @@ import * as Survey from 'survey-angular';
 import * as widgets from 'surveyjs-widgets';
 import * as SurveyKo from 'survey-knockout';
 
-widgets.jquerybarrating(SurveyKo);
-widgets.jqueryuidatepicker(SurveyKo);
-widgets.nouislider(SurveyKo);
-widgets.select2tagbox(SurveyKo);
-widgets.signaturepad(SurveyKo);
-widgets.sortablejs(SurveyKo);
+widgets.jquerybarrating(Survey);
+widgets.jqueryuidatepicker(Survey);
 
 import 'inputmask/dist/inputmask/phone-codes/phone.js';
 import { NzModalService } from 'ng-zorro-antd';

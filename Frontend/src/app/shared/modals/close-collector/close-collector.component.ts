@@ -69,9 +69,7 @@ export class CloseCollectorComponent implements OnInit {
         formData.value[key] = formData.value[key].trim();
       }
     });
-    const dataUpdate = Object.assign(formData.value, {
-      status: 'CLOSED'
-    });
+    const dataUpdate = {...formData.value, status: 'CLOSED'}
     this.dSurveyCollectorService.updateSurveyCollector(this.surveyCollectorClose.id, dataUpdate).subscribe(res => {
       if (res.status.code === 200) {
         this.nzMessageService.success(this.translateService.instant(res.status.message));

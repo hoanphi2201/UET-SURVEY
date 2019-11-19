@@ -184,12 +184,9 @@ export class ManageProfileComponent implements OnInit {
           });
           const { id: userId } = this.userProfile;
           const { userName } = this.userProfile;
-          return this.dUserService.updateUser(Object.assign(formData.value, { userName }), userId).subscribe(res => {
+          return this.dUserService.updateUser({...formData.value, userName}, userId).subscribe(res => {
             if (res.status.code === 200) {
-              this.authService.setCurrentUser(
-                Object.assign(this.userProfile, formData.value),
-                true
-              );
+              this.authService.setCurrentUser( {...this.userProfile, ...formData.value}, true);
             }
           }, err => {
             this.firstStepLoading = false;
@@ -221,7 +218,7 @@ export class ManageProfileComponent implements OnInit {
           const { userName } = this.userProfile;
           return this.dUserService.updateUser(Object.assign({ organization: formData.value }, { userName }), userId).subscribe(res => {
             if (res.status.code === 200) {
-              this.authService.setCurrentUser(Object.assign(this.userProfile, formData.value), true);
+              this.authService.setCurrentUser({...this.userProfile, ...formData.value}, true);
             }
           }, err => {
             this.secondStepLoading = false;
@@ -247,7 +244,7 @@ export class ManageProfileComponent implements OnInit {
       this.threeStepLoading = true;
       this.dUserService.uploadAvatar(this.userProfile.id, this.profileBase64Image).subscribe(res => {
         if (res.status.code === 200) {
-          this.authService.setCurrentUser(Object.assign(this.userProfile, { avatar: res.results[0].avatar }), true);
+          this.authService.setCurrentUser({...this.userProfile, avatar: res.results[0].avatar }, true);
         }
       }, err => {
         this.threeStepLoading = false;

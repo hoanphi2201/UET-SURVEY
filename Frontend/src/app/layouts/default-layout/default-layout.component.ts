@@ -236,7 +236,8 @@ export class DefaultLayoutComponent implements OnInit {
     this.loaderService.display(true);
     this.dSurveyFormService.addSurveyForm(copySurvey).subscribe(async res => {
       if (res.status.code === 200) {
-        await this.dSurveySendService.deleteSurveySend(surveySend.id);
+        const objUpdate = { status: 'ACCEPT' }
+        await this.dSurveySendService.updateStatusSurveySend(objUpdate, surveySend.id);
         this.getListSurveySend();
         this.nzMessageService.success(this.translateService.instant(res.status.message));
         this.router.navigate(['/create', 'design-survey', res.results[0].id]);
@@ -256,7 +257,8 @@ export class DefaultLayoutComponent implements OnInit {
     this.loaderService.display(true);
     this.dSurveyFormService.updateSurveyForm(transferSurvey, surveySend.surveyForm.id).subscribe(async res => {
       if (res.status.code === 200) {
-        await this.dSurveySendService.deleteSurveySend(surveySend.id);
+        const objUpdate = { status: 'ACCEPT' };
+        await this.dSurveySendService.updateStatusSurveySend(objUpdate, surveySend.id);
         await this.dSurveyCollectorService.transferSurveyCollector(surveySend.surveyForm.id);
         this.getListSurveySend();
         this.nzMessageService.success(this.translateService.instant(res.status.message));
@@ -271,7 +273,8 @@ export class DefaultLayoutComponent implements OnInit {
   }
   private onDenySendCopy(surveySend: SurveySend) {
     this.loaderService.display(true);
-    this.dSurveySendService.deleteSurveySend(surveySend.id).then(res => {
+    const objUpdate = { status: 'DENY' };
+    this.dSurveySendService.updateStatusSurveySend(objUpdate, surveySend.id).then(res => {
       if (res.status.code === 200) {
         this.loaderService.display(false);
         this.getListSurveySend();

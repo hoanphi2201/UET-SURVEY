@@ -46,6 +46,8 @@ export const mapConfig = {
           distance: 40,
           toolTip: `<h6><strong>Survey Response Infomation</strong> </h6>
           <div>Ip Address: {ip}</div>
+          <div>Start Time: {startTime} </div>
+          <div>End Time: {endTime} </div>
           <div>Total Time: {totalTime} </div>
           <div>City: {city}</div>
           <div>Zip Code: {zipcode} </div>`,

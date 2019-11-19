@@ -2,8 +2,6 @@
 const surveyFormsModel = require(__pathSchemas)[databaseConfig.col_survey_forms];
 const surveyResponsesModel = require(__pathSchemas)[databaseConfig.col_survey_responses];
 const surveyCollectorsModel = require(__pathSchemas)[databaseConfig.col_survey_collectors];
-const usersModel = require(__pathSchemas)[databaseConfig.col_users];
-const Sequelize = require("sequelize");
 const NotFound = require(__pathHelper + "error");
 
 module.exports = {
@@ -25,11 +23,12 @@ module.exports = {
         {
           model: surveyFormsModel,
           as: "surveyForm",
-          attributes: ["id", "title"]
+          attributes: ["id", "title", "json"]
         },
         {
-          model: usersModel,
-          attributes: ["id", "userName"]
+          model: surveyCollectorsModel,
+          as: "surveyCollector",
+          attributes: ["id", "name"]
         }
       ]
     });

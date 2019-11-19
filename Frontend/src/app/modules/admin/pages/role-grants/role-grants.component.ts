@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
-import { RoleGrant, RoleGrantService, RoleService, Role, TableListColumn, Pagging } from '@app/core';
+import { RoleGrant, RoleGrantService, RoleService, Role, TableListColumn, Pagging, ExcelService } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { LoaderService, WindowresizeService, Helpers } from '@app/shared';
@@ -46,7 +46,8 @@ export class RoleGrantsComponent implements OnInit {
     private roleGrantService: RoleGrantService,
     private roleService: RoleService,
     private formBuilder: FormBuilder,
-    private windowresizeService: WindowresizeService
+    private windowresizeService: WindowresizeService,
+    private excelService: ExcelService
   ) { }
   ngOnInit() {
     this.screenWidth = window.innerWidth;
@@ -118,7 +119,7 @@ export class RoleGrantsComponent implements OnInit {
     this.roleGrantService.getRoleGrantList(this.pagging.page, this.pagging.pageSize, this.sortField, this.sortType, this.searchKey, this.searchValue, this.filterKey, JSON.stringify(this.filterValue)).subscribe(res => {
       if (res.status.code === 200) {
         this.listOfAllData = res.results.map((o: any) => {
-          return Object.assign(o, { roleName: o.role.name });
+          return {...o,  roleName: o.role.name };
         });
         this.pagging.total = res.paging.total;
         this.refreshStatus();
@@ -199,7 +200,7 @@ export class RoleGrantsComponent implements OnInit {
     this.selectedEdit.role = {} as Role;
     if (roleGrant) {
       this.editing = true;
-      this.selectedEdit = Object.assign({}, roleGrant);
+      this.selectedEdit = {...roleGrant}
     }
   }
   closeForm(): void {
@@ -296,5 +297,16 @@ export class RoleGrantsComponent implements OnInit {
   }
   isFieldValid(form: FormGroup, field: string) {
     return !form.get(field).valid && form.get(field).dirty;
+  }
+  onExport(type: string) {
+    const data = [];
+    this.listOfAllData.forEach(row => {
+      const intance = {};
+      this.columns.forEach(col => {
+        intance[this.translateService.instant(col.header)] = row[col.id]; 
+      })
+      data.push(intance);
+    })
+    this.excelService.exportAsExcelFile(data, 'role_grants', type);
   }
 }

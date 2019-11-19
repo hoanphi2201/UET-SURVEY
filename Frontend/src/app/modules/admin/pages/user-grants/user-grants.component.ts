@@ -3,7 +3,7 @@ import { Validators, FormBuilder, FormGroup, NgForm, FormGroupDirective } from '
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { LoaderService, WindowresizeService, Helpers } from '@app/shared';
-import { UserGrant, TableListColumn, Pagging, UserGrantService, User, UserService } from '@app/core';
+import { UserGrant, TableListColumn, Pagging, UserGrantService, User, UserService, ExcelService } from '@app/core';
 import { environment as env } from '@env/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { debounceTime, switchMap, map } from 'rxjs/operators';
@@ -50,7 +50,8 @@ export class UserGrantsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userGrantService: UserGrantService,
     private userService: UserService,
-    private windowresizeService: WindowresizeService
+    private windowresizeService: WindowresizeService,
+    private excelService: ExcelService
   ) { }
   ngOnInit() {
     this.screenWidth = window.innerWidth;
@@ -117,7 +118,7 @@ export class UserGrantsComponent implements OnInit {
     this.userGrantService.getUserGrantList(this.pagging.page, this.pagging.pageSize, this.sortField, this.sortType, this.searchKey, this.searchValue, this.filterKey, JSON.stringify(this.filterValue)).subscribe(res => {
       if (res.status.code === 200) {
         this.listOfAllData = res.results.map((o: any) => {
-          return Object.assign(o, { userName: o.user.userName });
+          return {...o,  userName: o.user.userName };
         });
         this.pagging.total = res.paging.total;
         this.refreshStatus();
@@ -200,7 +201,7 @@ export class UserGrantsComponent implements OnInit {
     this.selectedEdit.user = {} as User;
     if (userGrant) {
       this.editing = true;
-      this.selectedEdit = Object.assign({}, userGrant);
+      this.selectedEdit = {...userGrant}
     }
   }
   closeForm(): void {
@@ -315,5 +316,16 @@ export class UserGrantsComponent implements OnInit {
   }
   isFieldValid(form: FormGroup, field: string) {
     return !form.get(field).valid && form.get(field).dirty;
+  }
+  onExport(type: string) {
+    const data = [];
+    this.listOfAllData.forEach(row => {
+      const intance = {};
+      this.columns.forEach(col => {
+        intance[this.translateService.instant(col.header)] = row[col.id]; 
+      })
+      data.push(intance);
+    })
+    this.excelService.exportAsExcelFile(data, 'user_grants', type);
   }
 }

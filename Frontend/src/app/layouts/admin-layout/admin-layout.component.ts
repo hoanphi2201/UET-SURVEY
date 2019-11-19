@@ -57,32 +57,32 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
       icon: 'lock'
     },
     {
-      title: 'Survey Folder',
+      title: 'header.sidebar.SURVEY_FOLDER',
       path: '/admin/survey-folders',
       icon:  'folder-open'
     },
     {
-      title: 'Survey Form',
+      title: 'header.sidebar.SURVEY_FORM',
       path: '/admin/survey-forms',
       icon: 'form' 
     },
     {
-      title: 'Survey Collector',
+      title: 'header.sidebar.SURVEY_COLLECTOR',
       path: '/admin/survey-collectors',
       icon: 'link'
     },
     {
-      title: 'Survey Response',
+      title: 'header.sidebar.SURVEY_RESPONSE',
       path: '/admin/survey-responses',
       icon: 'inbox'
     },
     {
-      title: 'Survey Send',
+      title: 'header.sidebar.SURVEY_SEND',
       path: '/admin/survey-sends',
       icon: 'tag'
     },
     {
-      title: 'Survey Recipient',
+      title: 'header.sidebar.SURVEY_RECIPIENT',
       path: '/admin/survey-recipients',
       icon: 'mail'
     }

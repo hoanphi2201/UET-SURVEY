@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,  } from '@angular/forms';
-import { RoleService, Role, TableListColumn, Pagging, Filter, SurveySend, SurveySendService } from '@app/core';
+import { TableListColumn, Pagging, Filter, SurveySend, SurveySendService, ExcelService } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { LoaderService, WindowresizeService} from '@app/shared';
@@ -40,8 +39,7 @@ export class SurveySendsComponent implements OnInit {
     private modalService: NzModalService,
     private loaderService: LoaderService,
     private surveySendService: SurveySendService,
-    private roleService: RoleService,
-    private formBuilder: FormBuilder,
+    private excelService: ExcelService,
     private windowresizeService: WindowresizeService
   ) { }
   ngOnInit() {
@@ -61,6 +59,7 @@ export class SurveySendsComponent implements OnInit {
       { id: 'to', type: 'text', sortable: true, header: 'admin.layout.TO'},
       { id: 'nameForm', type: 'text', header: 'admin.layout.SURVEY_FORM'},
       { id: 'type', type: 'text', sortable: true, header: 'admin.layout.SEND_TYPE'},
+      { id: 'status', type: 'text', sortable: true, header: 'admin.layout.STATUS'},
       { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.CREATED_AT' },
       { id: 'updatedAt', type: 'date', sortable: true, header: 'admin.layout.UPDATED_AT' }
     ];
@@ -76,10 +75,7 @@ export class SurveySendsComponent implements OnInit {
     this.surveySendService.getSurveySendList(this.pagging.page, this.pagging.pageSize, this.filter.sortField, this.filter.sortType, this.filter.searchKey, this.filter.searchValue, this.filter.filterKey, JSON.stringify(this.filter.filterValue)).subscribe(res => {
       if (res.status.code === 200) {
         this.listOfAllData = res.results.map((o: any) => {
-          return Object.assign(o, { 
-            nameFrom: o.user.userName,
-            nameForm: o.surveyForm.title
-          });
+          return {...o, nameFrom: o.user.userName, nameForm: o.surveyForm.title };
         });
         this.pagging.total = res.paging.total;
         this.refreshStatus();
@@ -195,5 +191,16 @@ export class SurveySendsComponent implements OnInit {
   }
   openForm(surveySend: SurveySend) {
 
+  }
+  onExport(type: string) {
+    const data = [];
+    this.listOfAllData.forEach(row => {
+      const intance = {};
+      this.columns.forEach(col => {
+        intance[this.translateService.instant(col.header)] = row[col.id]; 
+      })
+      data.push(intance);
+    })
+    this.excelService.exportAsExcelFile(data, 'survey_sends', type);
   }
 }

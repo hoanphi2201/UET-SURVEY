@@ -123,6 +123,7 @@
     [numberOfChecked]="numberOfChecked"
     [results]="pagging.total"
     [columns]="columns"
+    (export)="onExport($event)"
     (openForm)="openForm($event)">
     <ul #action class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-light ant-dropdown-menu-vertical">
       <li class="ant-dropdown-menu-item" (click)="showDeleteConfirm()">

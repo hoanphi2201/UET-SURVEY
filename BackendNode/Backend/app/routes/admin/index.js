@@ -84,5 +84,13 @@ module.exports = passport => {
     authHelper.isAuthenticated,
     authHelper.isAuthenticatedAdmin,
   require("./survey_sends"));
+  router.use("/survey-recipients",
+    (req, res, next) => {
+      req.tableName = 'survey_recipients';
+      next();
+    },
+    authHelper.isAuthenticated,
+    authHelper.isAuthenticatedAdmin,
+  require("./survey_recipients"));
   return router;
 };

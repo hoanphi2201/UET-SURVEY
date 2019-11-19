@@ -93,10 +93,7 @@ export class CollectorOptionsComponent implements OnInit, OnChanges {
         this.nzMessageService.success(
           this.translateService.instant('default.layout.YOUR_CHANGES_HAVE_BEEN_SAVED')
         );
-        this.surveyCollectorDetail = Object.assign(
-          this.surveyCollectorDetail,
-          dataUpdate
-        );
+        this.surveyCollectorDetail = {...this.surveyCollectorDetail, ...dataUpdate}
         this.form.patchValue(dataUpdate);
       }
     }, err => {

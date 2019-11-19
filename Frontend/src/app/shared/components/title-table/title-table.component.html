@@ -51,11 +51,11 @@
     </button>
     <nz-dropdown-menu #menuExport="nzDropdownMenu">
       <ul nz-menu nzSelectable>
-        <li nz-menu-item>
+        <li (click)="onExport('.xlsx')" nz-menu-item>
           <i nz-icon nzType="file-excel" nzTheme="outline"></i>
           {{ 'admin.layout.DOWNLOAD_EXCEL' | translate }}
         </li>
-        <li nz-menu-item>
+        <li (click)="onExport('.csv')" nz-menu-item>
           <i nz-icon nzType="file-excel" nzTheme="outline"></i>
           {{ 'admin.layout.DOWNLOAD_CSV' | translate }}
         </li>

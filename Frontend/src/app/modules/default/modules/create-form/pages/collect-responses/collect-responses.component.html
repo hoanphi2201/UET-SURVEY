@@ -14,7 +14,7 @@
               <nz-dropdown-menu #menuCollectorType="nzDropdownMenu">
                 <ul nz-menu nzSelectable>
                   <li (click)="onAddNewCollector('WEBLINK')" nz-menu-item>
-                    <i class="fa fa-link"></i>
+                      <i nz-icon nzType="link" nzTheme="outline"></i>
                     {{ 'default.layout.WEB_LINK_COLLECTOR' | translate }}
                   </li>
                   <li (click)="onAddNewCollector('EMAIL')" nz-menu-item>
@@ -22,15 +22,15 @@
                     {{ 'default.layout.EMAIL_COLLECTOR' | translate }}
                   </li>
                   <li nz-menu-item>
-                    <i class="fa fa-users "></i>
+                      <i nz-icon nzType="team" nzTheme="outline"></i>
                     {{ 'default.layout.BUY_RESPONSES' | translate }}
                   </li>
                   <li nz-menu-item>
-                    <i class="fa fa-facebook"></i>
+                    <i nz-icon nzType="facebook" nzTheme="outline"></i>
                     {{ 'default.layout.POST_TO_SOCIAL_MEDIA' | translate }}
                   </li>
                   <li nz-menu-item>
-                    <i class="fa fa-newspaper-o"></i>
+                    <i class="fa fa-newspaper-o"></i>&nbsp;&nbsp;
                     {{ 'default.layout.WEBSITE_COLLECTOR' | translate }}
                   </li>
                   <li nz-menu-item>
@@ -133,7 +133,7 @@
                                   [nzTooltipTitle]="data[column.id]"
                                   nzTooltipPlacement="top"
                                   nz-tooltip>
-                                  <a *ngIf="column.action" routerLink="column.action.link(data.id, data.type)">
+                                  <a *ngIf="column.action" [routerLink]="column.action.link(data.id, data.type)">
                                     {{ data[column.id] | summary : 40 }}
                                   </a>
                                   <ng-container *ngIf="!column.action">
@@ -274,7 +274,7 @@
               </li>
               <li class="add-audience-collector  ">
                 <a>
-                  <i class="fa fa-users icon-collector"></i>
+                    <i nz-icon nzType="team" class="icon-collector" nzTheme="outline"></i>
                   <h3 class="wds-type-card-title" translate>default.layout.BUY_RESPONSES</h3>
                   <p translate>default.layout.FIND_PEOPLE_WHO_FIT_YOUR_CRITERIA</p>
                 </a>
@@ -349,7 +349,7 @@
         </div>
         <div class="col-md-4">
           <div class="card-collector">
-            <i class="fa fa-users icon-collector"></i>
+              <i nz-icon class="icon-collector" nzType="team" nzTheme="outline"></i>
             <h3 class="wds-type-card-title" translate>
               default.layout.BUY_RESPONSES
             </h3>

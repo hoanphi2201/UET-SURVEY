@@ -14,6 +14,7 @@ import { fromLonLat, transformExtent } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text, Icon } from 'ol/style.js';
 import { Title } from '@angular/platform-browser';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-analyze-results',
@@ -78,7 +79,8 @@ export class AnalyzeResultsComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     private loaderService: LoaderService,
     private windowresizeService: WindowresizeService,
-    private titleService: Title
+    private titleService: Title,
+    private datePipe: DatePipe
   ) { }
   ngOnInit() {
     this.subscriptions.push(
@@ -120,11 +122,13 @@ export class AnalyzeResultsComponent implements OnInit, AfterViewInit {
           }
           if (o.geoLocation && Object.keys(o.geoLocation).length > 0) {
             this.listOfAllLocation.push(
-              Object.assign(o.geoLocation, {
+              {
+                ...o.geoLocation,
                 surveyResponseId: o.id,
-                totalTime: this.msToHMSTypicalTimeSpent(o.totalTime)
-              })
-            );
+                totalTime: this.msToHMSTypicalTimeSpent(o.totalTime),
+                startTime: this.datePipe.transform(o.startTime, 'dd-MM-yyyy HH:ss'),
+                endTime: this.datePipe.transform(o.endTime, 'dd-MM-yyyy HH:ss')
+              });
           }
         });
       }
@@ -313,11 +317,7 @@ export class AnalyzeResultsComponent implements OnInit, AfterViewInit {
   private createAlertDisasterPoint(alertdisasterlist: any) {
     const features = [];
     for (let i = 0; i < alertdisasterlist.length; i++) {
-      if (
-        alertdisasterlist[i] &&
-        alertdisasterlist[i].latitude &&
-        alertdisasterlist[i].longitude
-      ) {
+      if (alertdisasterlist[i] && alertdisasterlist[i].latitude && alertdisasterlist[i].longitude) {
         const feature: any = {
           type: 'Feature',
           id: alertdisasterlist[i].surveyResponseId,

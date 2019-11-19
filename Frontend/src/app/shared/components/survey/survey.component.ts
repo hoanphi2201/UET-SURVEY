@@ -6,10 +6,6 @@ import 'inputmask/dist/inputmask/phone-codes/phone.js';
 
 widgets.jquerybarrating(Survey);
 widgets.jqueryuidatepicker(Survey);
-widgets.nouislider(Survey);
-widgets.select2tagbox(Survey);
-widgets.signaturepad(Survey);
-widgets.sortablejs(Survey);
 
 @Component({
   selector: 'app-survey',

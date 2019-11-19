@@ -89,7 +89,7 @@ router.put("/default-sign-up/:roleId", (req, res, next) => {
   );
 });
 
-router.put("/change-roleAcp/:roleId", (req, res, next) => {
+router.put("/change-role-acp/:roleId", (req, res, next) => {
   const roleId = paramsHelper.getParam(req.params, "roleId", "");
   rolesModel.changeRoleAcp(roleId).then(role => {
     res.status(200).json(new Response(false, 200, "success", "Success", [role]));

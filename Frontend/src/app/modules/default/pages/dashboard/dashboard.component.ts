@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, OnDestroy } from '@angular/core';
-import { DSurveyFormService, SurveyForm, Pagging, AuthService, User, SlideInOutAnimation, appConfig, UserService, DSurveyResponseService } from '@app/core';
+import { DSurveyFormService, SurveyForm, Pagging, AuthService, User, SlideInOutAnimation, appConfig, DSurveyResponseService, DUserService } from '@app/core';
 import { LoaderService } from '@app/shared';
 import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private dSurveyFormService: DSurveyFormService,
     private dSurveyResponseService: DSurveyResponseService,
-    private dUserService: UserService,
+    private dUserService: DUserService,
     private nzMessageService: NzMessageService,
     private translateService: TranslateService,
     private loaderService: LoaderService,
@@ -114,7 +114,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       };
       this.dUserService.updateUser(updateData, this.currentUser.id).subscribe(res => {
         if (res.status.code === 200) {
-          this.authService.setCurrentUser(Object.assign(this.currentUser, updateData), true);
+          this.authService.setCurrentUser({...this.currentUser, updateData}, true);
         }
       }, err => {
         this.nzMessageService.error(

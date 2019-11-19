@@ -75,9 +75,7 @@ export class ContactDetailsComponent implements OnInit {
         formData.value[key] = formData.value[key].trim();
       }
     });
-    const data = Object.assign(formData.value, {
-      surveyCollectorId: this.surveyRecipientDetails.surveyCollectorId
-    })
+    const data = {...formData.value, surveyCollectorId: this.surveyRecipientDetails.surveyCollectorId }
     this.dSurveyRecipientService.updateSurveyRecipient(this.surveyRecipientDetails.id, data).subscribe(res => {
       if (res.status.code === 200) {
         this.nzMessageService.success(this.translateService.instant(res.status.message));

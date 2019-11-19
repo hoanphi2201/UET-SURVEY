@@ -69,11 +69,7 @@ export class CollectEmailManageComponent implements OnInit, AfterContentInit {
           this.surveyCollectorDetail = res.results[0];
           this.dSurveyFormService.setSurveyFormDetail(this.surveyCollectorDetail.surveyForm);
         } else {
-          this.nzMessageService.warning(
-            this.translateService.instant(
-              'admin.layout.SURVEY_COLLECTOR_NOT_EXIST'
-            )
-          );
+          this.nzMessageService.warning(this.translateService.instant('admin.layout.SURVEY_COLLECTOR_NOT_EXIST'));
           this.router.navigate(['/dashboard']);
         }
       }

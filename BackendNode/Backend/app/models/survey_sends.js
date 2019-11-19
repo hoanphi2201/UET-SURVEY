@@ -15,6 +15,9 @@ module.exports = {
         if (params.filterKey && params.filterValue.length > 0) {
             objWhere[params.filterKey] = { $in: params.filterValue };
         }
+        if (options.page && options.page === 'default') {
+            objWhere['status'] = 'PENDING';
+        }
         return surveySendsModel.findAll({
             where: objWhere,
             order: order,
@@ -53,13 +56,16 @@ module.exports = {
             throw new NotFound("admin.layout.NOT_BE_BOUND");
         });
     },
-    countSurveySends: params => {
+    countSurveySends: (params, options) => {
         let objWhere = {};
         if (params.searchKey !== "" && params.searchValue !== "") {
             objWhere[params.searchKey] = { $like: `%${params.searchValue}%` };
         }
         if (params.filterKey && params.filterValue.length > 0) {
             objWhere[params.filterKey] = { $in: params.filterValue };
+        }
+        if (options.page && options.page === 'default') {
+            objWhere['status'] = 'PENDING';
         }
         return surveySendsModel.count({
             where: objWhere
@@ -116,6 +122,11 @@ module.exports = {
         }
         return surveySendsModel.findOne({
             where: objWhere
+        });
+    },
+    updateSurveySendStatus: (params, surveySendId) => {
+        return surveySendsModel.update(params, {
+            where: {id:  surveySendId }
         });
     }
 };

@@ -114,7 +114,7 @@
                                         [nzTooltipTitle]="data[column.id]"
                                         nzTooltipPlacement="top"
                                         nz-tooltip>
-                                        <a *ngIf="column.action" routerLink="column.action.link(data.id)">
+                                        <a *ngIf="column.action" [routerLink]="column.action.link(data.id)">
                                           {{ data[column.id] | summary : 50 }}
                                         </a>
                                         <ng-container *ngIf="!column.action">

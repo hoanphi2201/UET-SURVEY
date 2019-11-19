@@ -10,4 +10,6 @@ export interface SurveyResponse {
   geoLocation: any;
   surveyForm: SurveyForm;
   surveyCollector: SurveyCollector;
+  startTime: Date;
+  endTime: Date;
 }

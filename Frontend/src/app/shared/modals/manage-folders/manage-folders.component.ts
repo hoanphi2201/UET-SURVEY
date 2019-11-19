@@ -127,10 +127,7 @@ export class ManageFoldersComponent implements OnInit {
     this.dSurveyFolderService.addSurveyFolder(formData.value).subscribe(res => {
       if (res.status.code === 200) {
         this.dSurveyFolderService.setRefreshList(true);
-        const folder = Object.assign(res.results[0], {
-          totalForm: 0,
-          state: 'info'
-        });
+        const folder = {...res.results[0], totalForm: 0, state: 'info' };
         this.listOfAllFolder.push(folder);
         const group = this.buildGroupFolder(folder);
         control.push(group);

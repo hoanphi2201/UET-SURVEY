@@ -2,7 +2,6 @@
 const surveyRecipientsModel = require(__pathSchemas)[databaseConfig.col_survey_recipients];
 const surveyCollectorsModel = require(__pathSchemas)[databaseConfig.col_survey_collectors];
 const NotFound = require(__pathHelper + "error");
-const Sequelize = require("sequelize");
 
 module.exports = {
     listSurveyRecipients: (params, options = null) => {
@@ -19,6 +18,7 @@ module.exports = {
             include: [
                 {
                     model: surveyCollectorsModel,
+                    as: "surveyCollector",
                     attributes: ["id", "name"]
                 }
             ]

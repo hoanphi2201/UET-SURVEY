@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, NgForm, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
-import { TableListColumn, Pagging, SurveyFolderService, SurveyFolder, IValidators, User, UserService } from '@app/core';
+import { TableListColumn, Pagging, SurveyFolderService, SurveyFolder, IValidators, User, UserService, ExcelService } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { LoaderService, Helpers } from '@app/shared';
@@ -44,7 +44,8 @@ export class SurveyFoldersComponent implements OnInit {
     private loaderService: LoaderService,
     private surveyFolderService: SurveyFolderService,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private excelService: ExcelService
   ) { }
   ngOnInit() {
     this.selectedEdit = {} as SurveyFolder;
@@ -96,7 +97,7 @@ export class SurveyFoldersComponent implements OnInit {
     this.surveyFolderService.getSurveyFolderList(this.pagging.page, this.pagging.pageSize, this.sortField, this.sortType, this.searchKey, this.searchValue).subscribe(res => {
       if (res.status.code === 200) {
         this.listOfAllData = res.results.map((o: any) => {
-          return Object.assign(o, { userName: o.user.userName });
+          return {...o,  userName: o.user.userName };
         });
         this.pagging.total = res.paging.total;
         this.refreshStatus();
@@ -168,7 +169,7 @@ export class SurveyFoldersComponent implements OnInit {
     this.selectedEdit = {} as SurveyFolder;
     if (surveyFolder) {
       this.editing = true;
-      this.selectedEdit = Object.assign({}, surveyFolder);
+      this.selectedEdit = {...surveyFolder}
     }
   }
   closeForm(): void {
@@ -256,5 +257,16 @@ export class SurveyFoldersComponent implements OnInit {
   }
   isFieldValid(form: FormGroup, field: string) {
     return !form.get(field).valid && form.get(field).dirty;
+  }
+  onExport(type: string) {
+    const data = [];
+    this.listOfAllData.forEach(row => {
+      const intance = {};
+      this.columns.forEach(col => {
+        intance[this.translateService.instant(col.header)] = row[col.id]; 
+      })
+      data.push(intance);
+    })
+    this.excelService.exportAsExcelFile(data, 'survey_folders', type);
   }
 }

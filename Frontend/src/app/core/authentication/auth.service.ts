@@ -5,10 +5,11 @@ import { ApiService } from '../services/admin/api.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '@app/shared/services';
 import { User, Tokens } from '../domain';
-import * as jwt_decode from 'jwt-decode';
 import { environment as env  } from '@env/environment';
 import { DCityService } from '../services';
 import { NzModalService } from 'ng-zorro-antd';
+import * as jwt_decode from 'jwt-decode';
+
 
 @Injectable({
   providedIn: 'root'

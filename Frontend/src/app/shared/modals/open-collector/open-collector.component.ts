@@ -33,10 +33,7 @@ export class OpenCollectorComponent implements OnInit {
         this.nzMessageService.success(
           this.translateService.instant(res.status.message)
         );
-        this.surveyCollectorOpen = Object.assign(
-          this.surveyCollectorOpen,
-          dataUpdate
-        );
+        this.surveyCollectorOpen = Object.assign( this.surveyCollectorOpen, dataUpdate);
         this.modalService.closeAll();
       }
     }, err => {

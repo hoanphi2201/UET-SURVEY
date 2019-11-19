@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, NgForm, FormBuilder, Validators, FormGroupDirective, } from '@angular/forms';
-import { Role, RoleService, IValidators, TableListColumn, Pagging } from '@app/core';
+import { Role, RoleService, IValidators, TableListColumn, Pagging, ExcelService } from '@app/core';
 import { LoaderService, Helpers } from '@app/shared';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
@@ -38,7 +38,8 @@ export class RolesComponent implements OnInit {
     private modalService: NzModalService,
     private loaderService: LoaderService,
     private roleService: RoleService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private excelService: ExcelService
   ) { }
   ngOnInit() {
     this.selectedEdit = {} as Role;
@@ -142,7 +143,7 @@ export class RolesComponent implements OnInit {
     this.selectedEdit = {} as Role;
     if (role) {
       this.editing = true;
-      this.selectedEdit = Object.assign({}, role);
+      this.selectedEdit = {...role}
     }
   }
   closeForm(): void {
@@ -253,5 +254,16 @@ export class RolesComponent implements OnInit {
   }
   isFieldValid(form: FormGroup, field: string) {
     return !form.get(field).valid && form.get(field).dirty;
+  }
+  onExport(type: string) {
+    const data = [];
+    this.listOfAllData.forEach(row => {
+      const intance = {};
+      this.columns.forEach(col => {
+        intance[this.translateService.instant(col.header)] = row[col.id]; 
+      })
+      data.push(intance);
+    })
+    this.excelService.exportAsExcelFile(data, 'roles', type);
   }
 }

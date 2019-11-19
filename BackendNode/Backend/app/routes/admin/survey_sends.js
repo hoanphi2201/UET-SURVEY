@@ -6,13 +6,6 @@ const paramsHelper = require(__pathHelper + "params");
 const Response = require(__pathHelper + "response").Response;
 const ResponsePaging = require(__pathHelper + "response").ResponsePaging;
 
-router.get("/all", (req, res, next) => {
-  surveySendsModel.listAllSurveySends().then(surveySends => {
-    res.status(200).json(new Response(false, 200, "success", "Success", surveySends));
-  }).catch(error =>
-    res.status(error.statusCode || 400).json(new Response(true, 400, "error", error.message))
-  );
-});
 
 router.get("/", async (req, res, next) => {
   const params = {
@@ -26,8 +19,8 @@ router.get("/", async (req, res, next) => {
     sortField: paramsHelper.getParam(req.query, "sortField", "id"),
     sortType: paramsHelper.getParam(req.query, "sortType", "asc")
   };
-  params.paging.total = await surveySendsModel.countSurveySends(params).catch(error => res.status(error.statusCode || 400).json(error));
-  await surveySendsModel.listSurveySends(params).then(surveySends => {
+  params.paging.total = await surveySendsModel.countSurveySends(params, {page: 'admin'}).catch(error => res.status(error.statusCode || 400).json(error));
+  await surveySendsModel.listSurveySends(params, {page: 'admin'}).then(surveySends => {
     res.status(200).json(
       new ResponsePaging(false, 200, "success", "Success", surveySends, params.paging));
   }).catch(error =>

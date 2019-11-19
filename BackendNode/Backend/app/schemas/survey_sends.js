@@ -23,6 +23,12 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
             defaultValue: "SEND_COPY"
         },
+        status: {
+            type: Sequelize.ENUM,
+            values: ["PENDING", "ACCEPT", "DENY"],
+            allowNull: false,
+            defaultValue: "PENDING"
+        },
         surveyFormId: {
             type: Sequelize.UUIDV4,
             references: {
