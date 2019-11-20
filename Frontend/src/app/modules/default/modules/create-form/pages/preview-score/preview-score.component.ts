@@ -31,7 +31,7 @@ export class PreviewScoreComponent implements OnInit {
       this.dSurveyFormService.getSurveyFormDetail().subscribe(res => {
         if (res) {
           this.surveyFormDetail = res;
-          this.titleService.setTitle('UetMonkey - Design - ' + this.surveyFormDetail.title);
+          this.titleService.setTitle('UetSurvey - Design - ' + this.surveyFormDetail.title);
           this.dSurveyFormService.setSurveyFormDetail(null);
         }
       })

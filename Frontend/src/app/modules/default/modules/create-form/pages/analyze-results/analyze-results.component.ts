@@ -161,7 +161,7 @@ export class AnalyzeResultsComponent implements OnInit, AfterViewInit {
       this.dSurveyFormService.getSurveyFormDetail().subscribe(res => {
         if (res) {
           this.surveyFormDetail = res;
-          this.titleService.setTitle('UetMonkey - Analyze - ' + this.surveyFormDetail.title);
+          this.titleService.setTitle('UetSurvey - Analyze - ' + this.surveyFormDetail.title);
           this.dSurveyFormService.setSurveyFormDetail(null);
         }
       })

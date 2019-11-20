@@ -20,31 +20,31 @@ const routes: Routes = [
     path: 'design-survey/:surveyFormId',
     canActivate: [AuthGuard],
     component: DesignSurveyComponent,
-    data: { title: extract('UetMonkey - Design') }
+    data: { title: extract('UetSurvey - Design') }
   },
   {
     path: 'summary/:surveyFormId',
     canActivate: [AuthGuard],
     component: SummaryComponent,
-    data: { title: extract('UetMonkey - Survey Summary') }  
+    data: { title: extract('UetSurvey - Survey Summary') }  
   },
   {
     path: 'preview-score/:surveyFormId',
     canActivate: [AuthGuard],
     component: PreviewScoreComponent,
-    data: { title: extract('UetMonkey - Design') }
+    data: { title: extract('UetSurvey - Design') }
   },
   {
     path: 'collector-responses/:surveyFormId',
     canActivate: [AuthGuard],
     component: CollectResponsesComponent,
-    data: { title: extract('UetMonkey - Collector List') }
+    data: { title: extract('UetSurvey - Collector List') }
   },
   {
     path: 'analyze-results/:surveyFormId',
     canActivate: [AuthGuard],
     component: AnalyzeResultsComponent,
-    data: { title: extract('UetMonkey - Analyze') }
+    data: { title: extract('UetSurvey - Analyze') }
   },
   {
     path: 'collector-responses',
@@ -54,7 +54,7 @@ const routes: Routes = [
         path: 'collector-link/:collectorId',
         canActivate: [AuthGuard],
         component: CollectLinkComponent,
-        data: { title: extract('UetMonkey - Collector Details') }
+        data: { title: extract('UetSurvey - Collector Details') }
       },
       {
         path: 'collector-email',
@@ -64,13 +64,13 @@ const routes: Routes = [
             path: 'manage/:collectorId',
             canActivate: [AuthGuard],
             component: CollectEmailManageComponent,
-            data: { title: extract('UetMonkey - Manage Your Messages') }
+            data: { title: extract('UetSurvey - Manage Your Messages') }
           },
           {
             path: 'compose/:collectorId',
             canActivate: [AuthGuard],
             component: CollectEmailComposeComponent,
-            data: { title: extract('UetMonkey - Compose Email Message') }
+            data: { title: extract('UetSurvey - Compose Email Message') }
           }
         ]
       }

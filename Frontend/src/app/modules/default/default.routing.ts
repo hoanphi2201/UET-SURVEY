@@ -28,7 +28,7 @@ const routes: Routes = [
     path: 'create-survey',
     canActivate: [AuthGuard],
     component: CreateSurveyComponent,
-    data: { title: extract('UetMonkey - New Survey') }
+    data: { title: extract('UetSurvey - New Survey') }
   },
   {
     path: 'create',

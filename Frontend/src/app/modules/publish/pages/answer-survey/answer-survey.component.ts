@@ -65,7 +65,7 @@ export class AnswerSurveyComponent implements OnInit {
         this.surveyCollectorDetail = res.results[0];
         if (this.surveyCollectorDetail.surveyForm) {
           this.surveyFormDetail = this.surveyCollectorDetail.surveyForm;
-          this.titleService.setTitle('UetMonkey - ' + this.surveyFormDetail.title);
+          this.titleService.setTitle('UetSurvey - ' + this.surveyFormDetail.title);
           this.customFormByCollector();
         }
       }
