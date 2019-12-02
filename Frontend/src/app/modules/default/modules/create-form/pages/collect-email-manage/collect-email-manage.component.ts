@@ -21,7 +21,9 @@ export class CollectEmailManageComponent implements OnInit, AfterContentInit {
     sortField: 'createdAt',
     sortType: 'desc',
     searchKey: 'email',
-    searchValue: ''
+    searchValue: '',
+    filterKey: 'surveyCollectorId',
+    filterValue: []
   };
   pagging: Pagging = { page: 1, total: 0, pageSize: 10 };
   private modalForm: NzModalRef;
@@ -38,11 +40,12 @@ export class CollectEmailManageComponent implements OnInit, AfterContentInit {
   ) {}
 
   ngOnInit() {
-    this.getListSurveyRecipient();
     this.subscriptions.push(
       this.activatedRoute.params.subscribe((params: Params) => {
         const { collectorId } = params;
         this.getSurveyCollectorById(collectorId);
+        this.filter.filterValue = [collectorId];
+        this.getListSurveyRecipient();
       })
     );
   }

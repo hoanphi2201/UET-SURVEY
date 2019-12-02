@@ -10,6 +10,9 @@ module.exports = {
         if (params.searchKey !== "" && params.searchValue !== "") {
             objWhere[params.searchKey] = { $like: `%${params.searchValue}%` };
         }
+        if (params.filterKey && params.filterValue.length > 0) {
+            objWhere[params.filterKey] = { $in: params.filterValue };
+        }
         return surveyRecipientsModel.findAll({
             where: objWhere,
             order: order,
@@ -36,6 +39,9 @@ module.exports = {
         let objWhere = {};
         if (params.searchKey !== "" && params.searchValue !== "") {
             objWhere[params.searchKey] = { $like: `%${params.searchValue}%` };
+        }
+        if (params.filterKey && params.filterValue.length > 0) {
+            objWhere[params.filterKey] = { $in: params.filterValue };
         }
         return surveyRecipientsModel.count({
             where: objWhere
