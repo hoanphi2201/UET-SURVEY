@@ -22,12 +22,16 @@ router.put("/:userId", (req, res, next) => {
 router.get("/avatar-encoded", async (req, res, next) => {
   const { user } = req;
   if (user.avatar) {
-    const pathUpload = uploadFolder + user.avatar;
-    const bitmap = fs.readFileSync(pathUpload);
-    const base64Image = new Buffer(bitmap).toString('base64');
-    return res.json(new Response(false, 200, "success", "Success", [{base64Image}]));
+    try {
+      const pathUpload = uploadFolder + user.avatar;
+      const bitmap = fs.readFileSync(pathUpload);
+      const base64Image = new Buffer(bitmap).toString('base64');
+      return res.json(new Response(false, 200, "success", "Success", [{base64Image}]));
+    } catch (error) {
+      return res.json(new Response(false, 400, "success", "Success", [{base64Image: null}]));
+    }
   }
-  return res.json(new Response(false, 200, "success", "Success", [{base64Image: null}]));
+  return res.json(new Response(false, 400, "success", "Success", [{base64Image: null}]));
 });
 
 router.put("/upload-avatar/:userId", (req, res, next) => {

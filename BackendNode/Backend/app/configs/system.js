@@ -9,6 +9,6 @@ module.exports = {
   refreshTokenLife: 86400,
   host_email: "uetsurvey.com@gmail.com",
   host_password: "hoan@uet123456",
-  clientUrl: 'http://localhost:4200',
-  serverUrl: 'http://localhost:8080'
+  clientUrl: 'http://uet.survey.s3-website-ap-southeast-1.amazonaws.com',
+  serverUrl: 'http://35.192.146.128:8080'
 };
