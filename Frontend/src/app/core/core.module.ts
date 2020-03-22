@@ -1,11 +1,11 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { RouteReuseStrategy, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { NgModule, Optional, SkipSelf } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { RouteReuseStrategy, RouterModule } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
 
-import { RouteReusableStrategy } from './route-reusable-strategy';
-import { TokenInterceptor } from './interceptors';
+import { RouteReusableStrategy } from "./route-reusable-strategy";
+import { TokenInterceptor } from "./interceptors";
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, TranslateModule, RouterModule],

@@ -1,13 +1,13 @@
-import { SurveyForm } from './survey-form';
-import { User } from './user';
+import { SurveyForm } from "./survey-form";
+import { User } from "./user";
 
 export interface SurveyCollector {
   id?: string;
   name: string;
   user?: User;
   surveyForm?: SurveyForm;
-  type: 'WEBLINK' | 'EMAIL';
-  status?: 'OPEN' | 'CLOSED';
+  type: "WEBLINK" | "EMAIL";
+  status?: "OPEN" | "CLOSED";
   url?: string;
   thankYouMessage?: string;
   allowMultipleResponses?: boolean;
@@ -20,7 +20,7 @@ export interface SurveyCollector {
   userId?: string;
   closedMessage?: string;
   fullUrl?: string;
-  editResponseType?: 'UNTILCOMPLETE' | 'NEVER' | 'ALWAYS';
+  editResponseType?: "UNTILCOMPLETE" | "NEVER" | "ALWAYS";
   anonymousType?: boolean;
   closeDateEnabled?: boolean;
   passwordEnabled?: boolean;

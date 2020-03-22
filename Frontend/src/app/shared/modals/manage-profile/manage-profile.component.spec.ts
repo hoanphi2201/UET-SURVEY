@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { ManageProfileComponent } from './manage-profile.component';
+import { ManageProfileComponent } from "./manage-profile.component";
 
-describe('ManageProfileComponent', () => {
+describe("ManageProfileComponent", () => {
   let component: ManageProfileComponent;
   let fixture: ComponentFixture<ManageProfileComponent>;
 
@@ -21,7 +21,7 @@ describe('ManageProfileComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

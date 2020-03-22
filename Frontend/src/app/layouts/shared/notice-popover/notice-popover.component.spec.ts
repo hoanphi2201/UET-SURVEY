@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { NoticePopoverComponent } from './notice-popover.component';
+import { NoticePopoverComponent } from "./notice-popover.component";
 
-describe('NoticePopoverComponent', () => {
+describe("NoticePopoverComponent", () => {
   let component: NoticePopoverComponent;
   let fixture: ComponentFixture<NoticePopoverComponent>;
 
@@ -21,7 +21,7 @@ describe('NoticePopoverComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

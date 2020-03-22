@@ -1,1 +1,1 @@
-export * from './slide-in-out';
+export * from "./slide-in-out";

@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { SettingDrawerComponent } from './setting-drawer.component';
+import { SettingDrawerComponent } from "./setting-drawer.component";
 
-describe('SettingDrawerComponent', () => {
+describe("SettingDrawerComponent", () => {
   let component: SettingDrawerComponent;
   let fixture: ComponentFixture<SettingDrawerComponent>;
 
@@ -21,7 +21,7 @@ describe('SettingDrawerComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

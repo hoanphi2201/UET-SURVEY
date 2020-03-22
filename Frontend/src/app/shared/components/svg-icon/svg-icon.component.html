@@ -1,10 +1,11 @@
 <svg
-    class="icon"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    version="1.1"
-    [attr.width]="metadata?.width"
-    [attr.height]="metadata?.height"
-    [attr.viewBox]="metadata?.viewBox">
-  <use *ngIf="metadata && !clone" attr.xlink:href="#{{metadata.id}}"/>
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="1.1"
+  [attr.width]="metadata?.width"
+  [attr.height]="metadata?.height"
+  [attr.viewBox]="metadata?.viewBox"
+>
+  <use *ngIf="metadata && !clone" attr.xlink:href="#{{ metadata.id }}" />
 </svg>

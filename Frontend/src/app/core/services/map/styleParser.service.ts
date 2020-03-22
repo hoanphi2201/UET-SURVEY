@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import Style from 'ol/style/Style';
-import Fill from 'ol/style/Fill';
-import Stroke from 'ol/style/Stroke';
-import CircleStyle from 'ol/style/Circle';
-import Icon from 'ol/style/Icon';
-import ImageStyle from 'ol/style/Image';
-import RegularShape from 'ol/style/RegularShape';
-import Text from 'ol/style/Text';
+import { Injectable } from "@angular/core";
+import Style from "ol/style/Style";
+import Fill from "ol/style/Fill";
+import Stroke from "ol/style/Stroke";
+import CircleStyle from "ol/style/Circle";
+import Icon from "ol/style/Icon";
+import ImageStyle from "ol/style/Image";
+import RegularShape from "ol/style/RegularShape";
+import Text from "ol/style/Text";
 
 @Injectable()
 class StyleRuleParser {
@@ -17,15 +17,15 @@ class StyleRuleParser {
   check: any;
   constructor(object: any) {
     this.ruleObject = object;
-    this.name = object.Name || 'DEFAULT';
-    this.condition = object.Condition || 'DEFAULT';
+    this.name = object.Name || "DEFAULT";
+    this.condition = object.Condition || "DEFAULT";
     this.filters = object.Filter || [];
     this.check = this.initTest();
   }
 
   getStyle(layerId: any, onCheck: any) {
     const style = new OlStyleParser().recursiveStyle(this.ruleObject.style);
-    let textFormat = '';
+    let textFormat = "";
     if (style.getText() && style.getText().getText) {
       textFormat = style.getText().getText();
     }
@@ -60,7 +60,7 @@ class StyleRuleParser {
       const filter = this.filters[index];
       checkFunctions.push(this.initFilterFunction(filter));
     }
-    if (this.condition === 'AND') {
+    if (this.condition === "AND") {
       return function(olFeature: any) {
         let isValid = false;
         for (let index = 0; index < checkFunctions.length; index++) {
@@ -69,7 +69,7 @@ class StyleRuleParser {
         return isValid;
       };
     }
-    if (this.condition === 'OR') {
+    if (this.condition === "OR") {
       return function() {
         let isValid = false;
         for (let index = 0; index < checkFunctions.length; index++) {
@@ -88,13 +88,13 @@ class StyleRuleParser {
     const logic = filterObject.LogicType;
     return function(olFeature: any) {
       const fValue = olFeature.get(property);
-      if (logic === 'EQUAL') {
+      if (logic === "EQUAL") {
         return fValue === value;
       }
-      if (logic === 'ISNULL') {
+      if (logic === "ISNULL") {
         return !fValue;
       }
-      if (logic === 'BETWEEN') {
+      if (logic === "BETWEEN") {
         return lValue < fValue && fValue < uValue;
       }
       // TODO need support other logic condition (Lowerthan, greaterthan, not equal)
@@ -129,7 +129,7 @@ class OlStyleParser {
   recursiveStyle(data: any, styleName?: any) {
     let style: any;
     if (!styleName) {
-      styleName = 'style';
+      styleName = "style";
       style = data;
     } else {
       style = data[styleName];
@@ -140,7 +140,7 @@ class OlStyleParser {
     }
 
     let styleObject: any;
-    if (Object.prototype.toString.call(style) === '[object Object]') {
+    if (Object.prototype.toString.call(style) === "[object Object]") {
       styleObject = {};
       const styleConstructor = this.styleMap[styleName];
       if (styleConstructor && style instanceof styleConstructor) {
@@ -175,7 +175,7 @@ class OlStyleParser {
 
             // if the value is 'text' and it contains a String, then it should be interpreted
             // as such, 'cause the text style might effectively contain a text to display
-            if (val !== 'text' && typeof styleObject[val] !== 'string') {
+            if (val !== "text" && typeof styleObject[val] !== "string") {
               styleObject[val] = this.optionalFactory(
                 styleObject[val],
                 this.styleMap[val]

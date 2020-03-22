@@ -5,104 +5,178 @@
   <div class="m-l-auto col-md-5">
     <nz-card>
       <h2 class="m-t-20" translate>default.layout.SIGN_UP</h2>
-      <p class="m-b-30" translate>default.layout.CREATE_YOUR_ACCOUNT_TO_GET_ACCESS</p>
-      <form [formGroup]="signUpForm" (ngSubmit)="onSignUp(signUpForm)" novalidate nz-form>
+      <p class="m-b-30" translate>
+        default.layout.CREATE_YOUR_ACCOUNT_TO_GET_ACCESS
+      </p>
+      <form
+        [formGroup]="signUpForm"
+        (ngSubmit)="onSignUp(signUpForm)"
+        novalidate
+        nz-form
+      >
         <nz-form-item>
-          <nz-form-label nzFor="userName" nzRequired>{{'default.layout.USERNAME' | translate}}</nz-form-label>
-          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'userName') }">
-            <input 
+          <nz-form-label nzFor="userName" nzRequired>{{
+            "default.layout.USERNAME" | translate
+          }}</nz-form-label>
+          <nz-form-control
+            [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'userName') }"
+          >
+            <input
               formControlName="userName"
-              id="userName" 
-              nz-input 
-              [placeholder]="'default.layout.ENTER_YOUR_USERNAME' | translate" 
-              type="text"/>
+              id="userName"
+              nz-input
+              [placeholder]="'default.layout.ENTER_YOUR_USERNAME' | translate"
+              type="text"
+            />
           </nz-form-control>
-          <field-error-display [displayError]="isFieldValid(signUpForm, 'userName')" [errors]="f.userName.errors" ></field-error-display>
+          <field-error-display
+            [displayError]="isFieldValid(signUpForm, 'userName')"
+            [errors]="f.userName.errors"
+          ></field-error-display>
         </nz-form-item>
         <div class="row">
           <div class="col-md-6">
             <nz-form-item>
-              <nz-form-label nzFor="firstName" nzRequired>{{'default.layout.FIRST_NAME' | translate}}</nz-form-label>
-              <nz-form-control [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'firstName') }">
-                <input 
+              <nz-form-label nzFor="firstName" nzRequired>{{
+                "default.layout.FIRST_NAME" | translate
+              }}</nz-form-label>
+              <nz-form-control
+                [ngClass]="{
+                  'has-error': isFieldValid(signUpForm, 'firstName')
+                }"
+              >
+                <input
                   formControlName="firstName"
-                  id="firstName" 
-                  nz-input 
-                  [placeholder]="'default.layout.ENTER_YOUR_FIRST_NAME' | translate" 
-                  type="text"/>
+                  id="firstName"
+                  nz-input
+                  [placeholder]="
+                    'default.layout.ENTER_YOUR_FIRST_NAME' | translate
+                  "
+                  type="text"
+                />
               </nz-form-control>
-              <field-error-display [displayError]="isFieldValid(signUpForm, 'firstName')" [errors]="f.firstName.errors" ></field-error-display>
+              <field-error-display
+                [displayError]="isFieldValid(signUpForm, 'firstName')"
+                [errors]="f.firstName.errors"
+              ></field-error-display>
             </nz-form-item>
           </div>
           <div class="col-md-6">
             <nz-form-item>
-              <nz-form-label nzFor="lastName" nzRequired>{{'default.layout.LAST_NAME' | translate}}</nz-form-label>
-              <nz-form-control [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'lastName') }">
-                <input 
+              <nz-form-label nzFor="lastName" nzRequired>{{
+                "default.layout.LAST_NAME" | translate
+              }}</nz-form-label>
+              <nz-form-control
+                [ngClass]="{
+                  'has-error': isFieldValid(signUpForm, 'lastName')
+                }"
+              >
+                <input
                   formControlName="lastName"
-                  id="lastName" 
-                  nz-input 
-                  [placeholder]="'default.layout.ENTER_YOUR_LAST_NAME' | translate" 
-                  type="text"/>
+                  id="lastName"
+                  nz-input
+                  [placeholder]="
+                    'default.layout.ENTER_YOUR_LAST_NAME' | translate
+                  "
+                  type="text"
+                />
               </nz-form-control>
-              <field-error-display [displayError]="isFieldValid(signUpForm, 'lastName')" [errors]="f.lastName.errors" ></field-error-display>
+              <field-error-display
+                [displayError]="isFieldValid(signUpForm, 'lastName')"
+                [errors]="f.lastName.errors"
+              ></field-error-display>
             </nz-form-item>
           </div>
-          
         </div>
-        
+
         <nz-form-item>
-          <nz-form-label nzFor="email" nzRequired>{{'default.layout.EMAIL' | translate}} </nz-form-label>
-          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'email') }">
-            <input 
-              formControlName="email" 
-              id="email" 
-              nz-input 
-              [placeholder]="'default.layout.ENTER_YOUR_EMAIL' | translate" 
-              type="text"/>
+          <nz-form-label nzFor="email" nzRequired
+            >{{ "default.layout.EMAIL" | translate }}
+          </nz-form-label>
+          <nz-form-control
+            [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'email') }"
+          >
+            <input
+              formControlName="email"
+              id="email"
+              nz-input
+              [placeholder]="'default.layout.ENTER_YOUR_EMAIL' | translate"
+              type="text"
+            />
           </nz-form-control>
-          <field-error-display [displayError]="isFieldValid(signUpForm, 'email')" [errors]="f.email.errors" ></field-error-display>
+          <field-error-display
+            [displayError]="isFieldValid(signUpForm, 'email')"
+            [errors]="f.email.errors"
+          ></field-error-display>
         </nz-form-item>
         <nz-form-item>
           <nz-form-label nzFor="password" nzRequired>
-              {{'default.layout.PASSWORD' | translate}}
+            {{ "default.layout.PASSWORD" | translate }}
           </nz-form-label>
-          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'password') }">
-            <input 
-              formControlName="password" 
-              id="password" 
+          <nz-form-control
+            [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'password') }"
+          >
+            <input
+              formControlName="password"
+              id="password"
               autocomplete="password"
               nz-input
               [placeholder]="'default.layout.ENTER_YOUR_PASSWORD' | translate"
-              type="password"/>
+              type="password"
+            />
           </nz-form-control>
-          <field-error-display [displayError]="isFieldValid(signUpForm, 'password')" [errors]="f.password.errors" ></field-error-display>
+          <field-error-display
+            [displayError]="isFieldValid(signUpForm, 'password')"
+            [errors]="f.password.errors"
+          ></field-error-display>
         </nz-form-item>
         <nz-form-item>
           <nz-form-label nzFor="checkPassword" nzRequired>
-              {{'default.layout.CONFIRM_PASSWORD' | translate}} 
+            {{ "default.layout.CONFIRM_PASSWORD" | translate }}
           </nz-form-label>
-          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'confirmPassword') }">
-            <input 
-              formControlName="confirmPassword" 
-              id="checkPassword" 
+          <nz-form-control
+            [ngClass]="{
+              'has-error': isFieldValid(signUpForm, 'confirmPassword')
+            }"
+          >
+            <input
+              formControlName="confirmPassword"
+              id="checkPassword"
               autocomplete="confirmPassword"
-              nz-input 
-              [placeholder]="'default.layout.ENTER_CONFIRM_PASSWORD' | translate"
-              type="password"/>
+              nz-input
+              [placeholder]="
+                'default.layout.ENTER_CONFIRM_PASSWORD' | translate
+              "
+              type="password"
+            />
           </nz-form-control>
-          <field-error-display [displayError]="isFieldValid(signUpForm, 'confirmPassword')" [errors]="f.confirmPassword.errors" ></field-error-display>
+          <field-error-display
+            [displayError]="isFieldValid(signUpForm, 'confirmPassword')"
+            [errors]="f.confirmPassword.errors"
+          ></field-error-display>
         </nz-form-item>
         <div class="d-flex align-items-center justify-content-between">
           <nz-form-item>
-            <nz-form-control [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'agree') }">
-              <label nz-checkbox formControlName="agree">I have read the <a>agreement</a></label>
+            <nz-form-control
+              [ngClass]="{ 'has-error': isFieldValid(signUpForm, 'agree') }"
+            >
+              <label nz-checkbox formControlName="agree"
+                >I have read the <a>agreement</a></label
+              >
             </nz-form-control>
-            <field-error-display [displayError]="isFieldValid(signUpForm, 'agree')" [errors]="f.agree.errors" ></field-error-display>
+            <field-error-display
+              [displayError]="isFieldValid(signUpForm, 'agree')"
+              [errors]="f.agree.errors"
+            ></field-error-display>
           </nz-form-item>
           <nz-form-item>
             <nz-form-control>
-              <button type="submit" class="login-form-button" [nzType]="'primary'" nz-button>
+              <button
+                type="submit"
+                class="login-form-button"
+                [nzType]="'primary'"
+                nz-button
+              >
                 <span translate>default.layout.SIGN_UP</span>
               </button>
             </nz-form-control>
@@ -110,9 +184,11 @@
         </div>
       </form>
     </nz-card>
-    <div  class="signup-bottom">
-      <span  class="parse-html">{{'default.layout.ALREADY_ON' | translate}} UetSurvey? {{'default.layout.LET_US_TAKE_YOU_TO' | translate}} 
-        <a [routerLink]="['/auth', 'login']" >Sign In!</a>
+    <div class="signup-bottom">
+      <span class="parse-html"
+        >{{ "default.layout.ALREADY_ON" | translate }} UetSurvey?
+        {{ "default.layout.LET_US_TAKE_YOU_TO" | translate }}
+        <a [routerLink]="['/auth', 'login']">Sign In!</a>
       </span>
     </div>
   </div>

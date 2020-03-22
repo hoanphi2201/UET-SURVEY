@@ -1,9 +1,21 @@
 <img #originalImageEl [src]="orientedSrc" />
 <div class="cropper">
   <div #punchEl class="punch">
-    <div #resizeEl class="resize" (mousedown)="resizeStart($event, false)" (touchstart)="resizeStart($event, true)">
-      <span class="fa fa-angle-left"></span>&nbsp;<span class="fa fa-angle-right"></span>
+    <div
+      #resizeEl
+      class="resize"
+      (mousedown)="resizeStart($event, false)"
+      (touchstart)="resizeStart($event, true)"
+    >
+      <span class="fa fa-angle-left"></span>&nbsp;<span
+        class="fa fa-angle-right"
+      ></span>
     </div>
-    <div #moveEl class="move" (mousedown)="moveStart($event, false)" (touchstart)="moveStart($event, true)"></div>
+    <div
+      #moveEl
+      class="move"
+      (mousedown)="moveStart($event, false)"
+      (touchstart)="moveStart($event, true)"
+    ></div>
   </div>
 </div>

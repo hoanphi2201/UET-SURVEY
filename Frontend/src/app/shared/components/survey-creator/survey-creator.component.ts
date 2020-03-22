@@ -1,18 +1,26 @@
-import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, SimpleChanges } from '@angular/core';
-import * as SurveyCreator from 'survey-creator';
-import * as Survey from 'survey-angular';
-import * as widgets from 'surveyjs-widgets';
-import * as SurveyKo from 'survey-knockout';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  AfterViewInit,
+  SimpleChanges
+} from "@angular/core";
+import * as SurveyCreator from "survey-creator";
+import * as Survey from "survey-angular";
+import * as widgets from "surveyjs-widgets";
+import * as SurveyKo from "survey-knockout";
 
 widgets.jquerybarrating(Survey);
 widgets.jqueryuidatepicker(Survey);
 
-import 'inputmask/dist/inputmask/phone-codes/phone.js';
-import { NzModalService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
-import { LoaderService } from '@app/shared/services';
+import "inputmask/dist/inputmask/phone-codes/phone.js";
+import { NzModalService } from "ng-zorro-antd";
+import { TranslateService } from "@ngx-translate/core";
+import { LoaderService } from "@app/shared/services";
 @Component({
-  selector: 'survey-creator',
+  selector: "survey-creator",
   template: `
     <div id="surveyCreatorContainer"></div>
   `
@@ -26,7 +34,7 @@ export class SurveyCreatorComponent implements OnInit, AfterViewInit {
   constructor(
     private modalService: NzModalService,
     private translateService: TranslateService
-  ) { }
+  ) {}
   ngOnInit() {
     // Change theme
     setTimeout(() => {
@@ -41,12 +49,12 @@ export class SurveyCreatorComponent implements OnInit, AfterViewInit {
         showState: true
       };
       SurveyCreator[
-        'localization'
+        "localization"
       ].getLocale().ed.saved = this.translateService.instant(
-        'admin.layout.SAVE_SURVEY_TO_SERVICE'
+        "admin.layout.SAVE_SURVEY_TO_SERVICE"
       );
       this.surveyCreator = new SurveyCreator.SurveyCreator(
-        'surveyCreatorContainer',
+        "surveyCreatorContainer",
         options
       );
       this.surveyCreator.koHideAdvancedSettings(true);
@@ -59,10 +67,10 @@ export class SurveyCreatorComponent implements OnInit, AfterViewInit {
         !!callback && callback(saveNo, true);
       };
       this.surveyCreator.toolbarItems.push({
-        id: 'clear-survey',
+        id: "clear-survey",
         visible: true,
-        icon: 'icon-actiondelete',
-        title: this.translateService.instant('admin.layout.CLEAR_SURVEY'),
+        icon: "icon-actiondelete",
+        title: this.translateService.instant("admin.layout.CLEAR_SURVEY"),
         action: () => {
           this.showModelClearSurvey();
         }
@@ -72,48 +80,54 @@ export class SurveyCreatorComponent implements OnInit, AfterViewInit {
       }
     }, 10);
   }
-  ngAfterViewInit() { }
+  ngAfterViewInit() {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.json && changes.json.currentValue && this.surveyCreator) {
       this.surveyCreator.text = JSON.stringify(changes.json.currentValue);
     }
   }
   saveMySurvey = () => {
-    this.surveySaved.emit(eval('(' + this.surveyCreator.text + ')'));
+    this.surveySaved.emit(eval("(" + this.surveyCreator.text + ")"));
   };
   showModelClearSurvey() {
     this.modalService.confirm({
-      nzTitle: this.translateService.instant('admin.layout.CLEAR_SURVEY_TITLE'),
-      nzCancelText: this.translateService.instant('admin.layout.NO'),
-      nzOkText: this.translateService.instant('admin.layout.YES'),
+      nzTitle: this.translateService.instant("admin.layout.CLEAR_SURVEY_TITLE"),
+      nzCancelText: this.translateService.instant("admin.layout.NO"),
+      nzOkText: this.translateService.instant("admin.layout.YES"),
       nzOnOk: () => {
-        this.surveyCreator.text = '';
+        this.surveyCreator.text = "";
         this.saveMySurvey();
       }
     });
   }
   setTheme() {
-    const mainColor = '#00bf6f';
-    const mainHoverColor = '#6fe06f';
-    const textColor = '#4a4a4a';
-    const headerColor = '#001629';
-    const headerBackgroundColor = '#4a4a4a';
-    const bodyContainerBackgroundColor = '#f8f8f8';
+    const mainColor = "#00bf6f";
+    const mainHoverColor = "#6fe06f";
+    const textColor = "#4a4a4a";
+    const headerColor = "#001629";
+    const headerBackgroundColor = "#4a4a4a";
+    const bodyContainerBackgroundColor = "#f8f8f8";
 
-    const defaultThemeColorsSurvey = Survey.StylesManager.ThemeColors['default'];
-    defaultThemeColorsSurvey['$main-color'] = mainColor;
-    defaultThemeColorsSurvey['$main-hover-color'] = mainHoverColor;
-    defaultThemeColorsSurvey['$text-color'] = textColor;
-    defaultThemeColorsSurvey['$header-color'] = headerColor;
-    defaultThemeColorsSurvey['$header-background-color'] = headerBackgroundColor;
-    defaultThemeColorsSurvey['$body-container-background-color'] = bodyContainerBackgroundColor;
+    const defaultThemeColorsSurvey =
+      Survey.StylesManager.ThemeColors["default"];
+    defaultThemeColorsSurvey["$main-color"] = mainColor;
+    defaultThemeColorsSurvey["$main-hover-color"] = mainHoverColor;
+    defaultThemeColorsSurvey["$text-color"] = textColor;
+    defaultThemeColorsSurvey["$header-color"] = headerColor;
+    defaultThemeColorsSurvey[
+      "$header-background-color"
+    ] = headerBackgroundColor;
+    defaultThemeColorsSurvey[
+      "$body-container-background-color"
+    ] = bodyContainerBackgroundColor;
 
-    const defaultThemeColorsEditor = SurveyCreator.StylesManager.ThemeColors['default'];
-    defaultThemeColorsEditor['$primary-color'] = mainColor;
-    defaultThemeColorsEditor['$secondary-color'] = mainColor;
-    defaultThemeColorsEditor['$primary-hover-color'] = mainHoverColor;
-    defaultThemeColorsEditor['$primary-text-color'] = textColor;
-    defaultThemeColorsEditor['$selection-border-color'] = mainColor;
+    const defaultThemeColorsEditor =
+      SurveyCreator.StylesManager.ThemeColors["default"];
+    defaultThemeColorsEditor["$primary-color"] = mainColor;
+    defaultThemeColorsEditor["$secondary-color"] = mainColor;
+    defaultThemeColorsEditor["$primary-hover-color"] = mainHoverColor;
+    defaultThemeColorsEditor["$primary-text-color"] = textColor;
+    defaultThemeColorsEditor["$selection-border-color"] = mainColor;
 
     Survey.StylesManager.applyTheme();
     SurveyCreator.StylesManager.applyTheme();

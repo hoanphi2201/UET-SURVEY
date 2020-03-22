@@ -1,14 +1,24 @@
-import { Component, HostListener, ChangeDetectionStrategy } from '@angular/core';
-import * as screenfull from 'screenfull';
+import {
+  Component,
+  HostListener,
+  ChangeDetectionStrategy
+} from "@angular/core";
+import * as screenfull from "screenfull";
 
 @Component({
-  selector: 'header-fullscreen',
+  selector: "header-fullscreen",
   template: `
     <i nz-icon [nzType]="status ? 'fullscreen-exit' : 'fullscreen'"></i>
-    {{(status ? 'header.sidebar.MENU_FULLSCREEN_EXIT' : 'header.sidebar.MENU_FULLSCREEN') | translate}}`,
+    {{
+      (status
+        ? "header.sidebar.MENU_FULLSCREEN_EXIT"
+        : "header.sidebar.MENU_FULLSCREEN"
+      ) | translate
+    }}
+  `,
   // tslint:disable-next-line: no-host-metadata-property
   host: {
-    '[class.d-block]': 'true'
+    "[class.d-block]": "true"
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -18,12 +28,12 @@ export class FullScreenComponent {
     return screenfull as screenfull.Screenfull;
   }
 
-  @HostListener('window:resize')
+  @HostListener("window:resize")
   _resize() {
     this.status = this.sf.isFullscreen;
   }
 
-  @HostListener('click')
+  @HostListener("click")
   _click() {
     if (this.sf.enabled) {
       this.sf.toggle();

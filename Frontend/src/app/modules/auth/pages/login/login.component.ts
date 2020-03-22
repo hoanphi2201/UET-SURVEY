@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { I18nService, AuthService, IValidators } from '@app/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { LoaderService, Helpers } from '@app/shared';
-import { NzMessageService } from 'ng-zorro-antd';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { I18nService, AuthService, IValidators } from "@app/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { LoaderService, Helpers } from "@app/shared";
+import { NzMessageService } from "ng-zorro-antd";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.less']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.less"]
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -24,14 +24,15 @@ export class LoginComponent implements OnInit {
   ) {
     if (this.authService.isLoggedIn()) {
       this.router.navigateByUrl(
-        this.route.snapshot.queryParams['returnUrl'] || '/dashboard'
+        this.route.snapshot.queryParams["returnUrl"] || "/dashboard"
       );
     }
     this.buildForm();
   }
 
   ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    this.returnUrl =
+      this.route.snapshot.queryParams["returnUrl"] || "/dashboard";
   }
   get f() {
     return this.loginForm.controls;
@@ -41,22 +42,27 @@ export class LoginComponent implements OnInit {
     return !form.get(field).valid && form.get(field).dirty;
   }
 
-
   onLogin() {
     if (this.loginForm.invalid) {
       Helpers.validateAllFormFields(this.loginForm);
       return;
     }
     this.loaderService.display(true);
-    this.authService.login(this.loginForm.value).subscribe(res => {
-      this.nzMessageService.success('Login success');
-      this.router.navigate([this.route.snapshot.queryParams.redirect || '/dashboard'],{ replaceUrl: true });
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(err.message);
-    }, () => {
-      this.loaderService.display(false);
-    }
+    this.authService.login(this.loginForm.value).subscribe(
+      res => {
+        this.nzMessageService.success("Login success");
+        this.router.navigate(
+          [this.route.snapshot.queryParams.redirect || "/dashboard"],
+          { replaceUrl: true }
+        );
+      },
+      err => {
+        this.loaderService.display(false);
+        this.nzMessageService.error(err.message);
+      },
+      () => {
+        this.loaderService.display(false);
+      }
     );
   }
 
@@ -74,10 +80,9 @@ export class LoginComponent implements OnInit {
 
   private buildForm(): void {
     this.loginForm = this.formBuilder.group({
-      userName: ['', [Validators.required, IValidators.spaceStringValidator()]],
-      password: ['', Validators.required]
+      userName: ["", [Validators.required, IValidators.spaceStringValidator()]],
+      password: ["", Validators.required]
     });
   }
-  ngOnDestroy() { }
-
+  ngOnDestroy() {}
 }

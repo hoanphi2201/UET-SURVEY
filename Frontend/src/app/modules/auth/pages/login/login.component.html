@@ -2,27 +2,51 @@
   <div class="col-md-5">
     <nz-card>
       <h2 class="m-t-20" translate>default.layout.SIGN_IN</h2>
-      <p class="m-b-30" translate>default.layout.ENTER_YOUR_CREDENTIAL_TO_GET_ACCESS</p>
-      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate nz-form>
+      <p class="m-b-30" translate>
+        default.layout.ENTER_YOUR_CREDENTIAL_TO_GET_ACCESS
+      </p>
+      <form
+        class="login-form"
+        [formGroup]="loginForm"
+        (ngSubmit)="onLogin()"
+        novalidate
+        nz-form
+      >
         <nz-form-item>
-          <nz-form-label nzFor="userName" nzRequired>{{'default.layout.USERNAME' | translate}} </nz-form-label>
-          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(loginForm, 'userName')}">
+          <nz-form-label nzFor="userName" nzRequired
+            >{{ "default.layout.USERNAME" | translate }}
+          </nz-form-label>
+          <nz-form-control
+            [ngClass]="{ 'has-error': isFieldValid(loginForm, 'userName') }"
+          >
             <nz-input-group [nzPrefix]="prefixUsername">
               <input
                 tabindex="1"
                 formControlName="userName"
                 type="text"
                 nz-input
-                [placeholder]="'default.layout.ENTER_YOUR_USERNAME' | translate"/>
+                [placeholder]="'default.layout.ENTER_YOUR_USERNAME' | translate"
+              />
             </nz-input-group>
-            <field-error-display [displayError]="isFieldValid(loginForm, 'userName')" [errors]="f.userName.errors" ></field-error-display>
-            <ng-template #prefixUsername><i nz-icon nzType="user"></i></ng-template>
+            <field-error-display
+              [displayError]="isFieldValid(loginForm, 'userName')"
+              [errors]="f.userName.errors"
+            ></field-error-display>
+            <ng-template #prefixUsername
+              ><i nz-icon nzType="user"></i
+            ></ng-template>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-label nzFor="password" nzRequired>{{'default.layout.PASSWORD' | translate}} </nz-form-label>
-          <a class="float-right p-t-10 text-muted" >{{'default.layout.FORGET_PASSWORD' | translate}} ?</a>
-          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(loginForm, 'password')}">
+          <nz-form-label nzFor="password" nzRequired
+            >{{ "default.layout.PASSWORD" | translate }}
+          </nz-form-label>
+          <a class="float-right p-t-10 text-muted"
+            >{{ "default.layout.FORGET_PASSWORD" | translate }} ?</a
+          >
+          <nz-form-control
+            [ngClass]="{ 'has-error': isFieldValid(loginForm, 'password') }"
+          >
             <nz-input-group [nzPrefix]="prefixPassword">
               <input
                 tabindex="2"
@@ -30,21 +54,35 @@
                 type="password"
                 autocomplete="password"
                 nz-input
-                [placeholder]="'default.layout.ENTER_YOUR_PASSWORD' | translate"/>
+                [placeholder]="'default.layout.ENTER_YOUR_PASSWORD' | translate"
+              />
             </nz-input-group>
-            <field-error-display [displayError]="isFieldValid(loginForm, 'password')" [errors]="f.password.errors" ></field-error-display>
-            <ng-template #prefixPassword><i nz-icon nzType="lock"></i></ng-template>
+            <field-error-display
+              [displayError]="isFieldValid(loginForm, 'password')"
+              [errors]="f.password.errors"
+            ></field-error-display>
+            <ng-template #prefixPassword
+              ><i nz-icon nzType="lock"></i
+            ></ng-template>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
           <nz-form-control>
             <div class="d-flex align-items-center justify-content-between">
               <span class=" text-muted">
-                  {{'default.layout.DONT_HAVE_AN_ACCOUNT' | translate}} ?
-                <a  [routerLink]="['/auth', 'signup']" translate>default.layout.SIGN_UP_HERE</a>
+                {{ "default.layout.DONT_HAVE_AN_ACCOUNT" | translate }} ?
+                <a [routerLink]="['/auth', 'signup']" translate
+                  >default.layout.SIGN_UP_HERE</a
+                >
               </span>
-              <button tabindex="3" type="submit" class="login-form-button" [nzType]="'primary'" nz-button>
-                {{'default.layout.SIGN_IN' | translate}} 
+              <button
+                tabindex="3"
+                type="submit"
+                class="login-form-button"
+                [nzType]="'primary'"
+                nz-button
+              >
+                {{ "default.layout.SIGN_IN" | translate }}
               </button>
             </div>
           </nz-form-control>

@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { ManageFoldersComponent } from './manage-folders.component';
+import { ManageFoldersComponent } from "./manage-folders.component";
 
-describe('ManageFoldersComponent', () => {
+describe("ManageFoldersComponent", () => {
   let component: ManageFoldersComponent;
   let fixture: ComponentFixture<ManageFoldersComponent>;
 
@@ -21,7 +21,7 @@ describe('ManageFoldersComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

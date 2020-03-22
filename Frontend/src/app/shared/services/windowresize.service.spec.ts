@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { WindowresizeService } from './windowresize.service';
+import { TestBed, async, inject } from "@angular/core/testing";
+import { WindowresizeService } from "./windowresize.service";
 
-describe('Service: Windowresize', () => {
+describe("Service: Windowresize", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [WindowresizeService]
     });
   });
 
-  it('should ...', inject(
+  it("should ...", inject(
     [WindowresizeService],
     (service: WindowresizeService) => {
       expect(service).toBeTruthy();

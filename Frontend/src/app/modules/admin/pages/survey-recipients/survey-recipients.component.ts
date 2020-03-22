@@ -1,14 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { TableListColumn, Pagging, Filter,  ExcelService, SurveyRecipient, SurveyRecipientService } from '@app/core';
-import { TranslateService } from '@ngx-translate/core';
-import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-import { LoaderService, WindowresizeService} from '@app/shared';
-import * as _ from 'lodash';
+import { Component, OnInit } from "@angular/core";
+import {
+  TableListColumn,
+  Pagging,
+  Filter,
+  ExcelService,
+  SurveyRecipient,
+  SurveyRecipientService
+} from "@app/core";
+import { TranslateService } from "@ngx-translate/core";
+import { NzMessageService, NzModalService } from "ng-zorro-antd";
+import { LoaderService, WindowresizeService } from "@app/shared";
+import * as _ from "lodash";
 
 @Component({
-  selector: 'app-survey-recipients',
-  templateUrl: './survey-recipients.component.html',
-  styleUrls: ['./survey-recipients.component.scss']
+  selector: "app-survey-recipients",
+  templateUrl: "./survey-recipients.component.html",
+  styleUrls: ["./survey-recipients.component.scss"]
 })
 export class SurveyRecipientsComponent implements OnInit {
   listOfAllData: SurveyRecipient[] = [];
@@ -26,11 +33,11 @@ export class SurveyRecipientsComponent implements OnInit {
     pageSize: 10
   };
   filter: Filter = {
-    searchKey: 'name',
-    searchValue: '',
-    sortField: 'createdAt',
-    sortType: 'desc',
-    filterKey: 'surveyFormId',
+    searchKey: "name",
+    searchValue: "",
+    sortField: "createdAt",
+    sortType: "desc",
+    filterKey: "surveyFormId",
     filterValue: []
   };
   constructor(
@@ -41,7 +48,7 @@ export class SurveyRecipientsComponent implements OnInit {
     private surveyRecipientService: SurveyRecipientService,
     private excelService: ExcelService,
     private windowresizeService: WindowresizeService
-  ) { }
+  ) {}
   ngOnInit() {
     this.screenWidth = window.innerWidth;
     this.windowresizeService.getSize().subscribe(size => {
@@ -54,48 +61,98 @@ export class SurveyRecipientsComponent implements OnInit {
   }
   initTable() {
     this.columns = [
-      { id: 'email', type: 'text', sortable: true, header: 'default.layout.EMAIL'},
-      { id: 'firstName', type: 'text', sortable: true, header: 'default.layout.FIRST_NAME' },
-      { id: 'lastName', type: 'text', sortable: true, header: 'default.layout.LAST_NAME' },
-      { id: 'mailStatus', type: 'text', sortable: true, header: 'default.layout.SENT' },
-      { id: 'nameCollector', type: 'text', header: 'admin.layout.SURVEY_COLLECTOR'}, 
-      { id: 'createdAt', type: 'date', sortable: true, header: 'admin.layout.CREATED_AT' },
-      { id: 'updatedAt', type: 'date', sortable: true, header: 'admin.layout.UPDATED_AT' }
+      {
+        id: "email",
+        type: "text",
+        sortable: true,
+        header: "default.layout.EMAIL"
+      },
+      {
+        id: "firstName",
+        type: "text",
+        sortable: true,
+        header: "default.layout.FIRST_NAME"
+      },
+      {
+        id: "lastName",
+        type: "text",
+        sortable: true,
+        header: "default.layout.LAST_NAME"
+      },
+      {
+        id: "mailStatus",
+        type: "text",
+        sortable: true,
+        header: "default.layout.SENT"
+      },
+      {
+        id: "nameCollector",
+        type: "text",
+        header: "admin.layout.SURVEY_COLLECTOR"
+      },
+      {
+        id: "createdAt",
+        type: "date",
+        sortable: true,
+        header: "admin.layout.CREATED_AT"
+      },
+      {
+        id: "updatedAt",
+        type: "date",
+        sortable: true,
+        header: "admin.layout.UPDATED_AT"
+      }
     ];
   }
   mapOptionsFilter(id: string, options: any) {
-    const column = this.columns.filter(col => col.filterKey === id || col.id === id)[0];
+    const column = this.columns.filter(
+      col => col.filterKey === id || col.id === id
+    )[0];
     if (column) {
       column.filter = options;
     }
   }
   getSurveyRecipientList() {
     this.loaderService.display(true);
-    this.surveyRecipientService.getSurveyRecipientList(this.pagging.page, this.pagging.pageSize, this.filter.sortField, this.filter.sortType, this.filter.searchKey, this.filter.searchValue, this.filter.filterKey, JSON.stringify(this.filter.filterValue)).subscribe(res => {
-      if (res.status.code === 200) {
-        this.listOfAllData = res.results.map((o: any) => {
-          return  {...o, nameCollector: o.surveyCollector.name};
-        });
-        this.pagging.total = res.paging.total;
-        this.refreshStatus();
-      }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
+    this.surveyRecipientService
+      .getSurveyRecipientList(
+        this.pagging.page,
+        this.pagging.pageSize,
+        this.filter.sortField,
+        this.filter.sortType,
+        this.filter.searchKey,
+        this.filter.searchValue,
+        this.filter.filterKey,
+        JSON.stringify(this.filter.filterValue)
+      )
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.listOfAllData = res.results.map((o: any) => {
+              return { ...o, nameCollector: o.surveyCollector.name };
+            });
+            this.pagging.total = res.paging.total;
+            this.refreshStatus();
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
       );
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
   }
 
   sort(sort: { key: string; value: string }): void {
     this.filter.sortField = sort.key;
-    if (sort.value === 'ascend') {
-      this.filter.sortType = 'asc';
+    if (sort.value === "ascend") {
+      this.filter.sortType = "asc";
     } else {
-      this.filter.sortType = 'desc';
+      this.filter.sortType = "desc";
     }
     this.getSurveyRecipientList();
   }
@@ -103,8 +160,8 @@ export class SurveyRecipientsComponent implements OnInit {
     this.getSurveyRecipientList();
   }
   reset(): void {
-    this.filter.searchKey = '';
-    this.filter.searchValue = '';
+    this.filter.searchKey = "";
+    this.filter.searchValue = "";
     this.getSurveyRecipientList();
   }
   onFilter($event: any, key: string) {
@@ -119,9 +176,15 @@ export class SurveyRecipientsComponent implements OnInit {
     this.refreshStatus();
   }
   refreshStatus(): void {
-    this.isAllDisplayDataChecked = this.listOfAllData.every(item => this.mapOfCheckedId[item.id]);
-    this.isIndeterminate = this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) && !this.isAllDisplayDataChecked;
-    this.numberOfChecked = this.listOfAllData.filter(item => this.mapOfCheckedId[item.id]).length;
+    this.isAllDisplayDataChecked = this.listOfAllData.every(
+      item => this.mapOfCheckedId[item.id]
+    );
+    this.isIndeterminate =
+      this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) &&
+      !this.isAllDisplayDataChecked;
+    this.numberOfChecked = this.listOfAllData.filter(
+      item => this.mapOfCheckedId[item.id]
+    ).length;
   }
   checkItem(id: string, $event: any) {
     this.mapOfCheckedId[id] = $event;
@@ -137,9 +200,9 @@ export class SurveyRecipientsComponent implements OnInit {
   }
   showDeleteConfirm(surveyRecipientId?: string): void {
     this.modalService.confirm({
-      nzTitle: this.translateService.instant('admin.layout.DELETE_USER_TITLE'),
-      nzCancelText: this.translateService.instant('admin.layout.NO'),
-      nzOkText: this.translateService.instant('admin.layout.YES'),
+      nzTitle: this.translateService.instant("admin.layout.DELETE_USER_TITLE"),
+      nzCancelText: this.translateService.instant("admin.layout.NO"),
+      nzOkText: this.translateService.instant("admin.layout.YES"),
       nzOnOk: () => {
         if (surveyRecipientId) {
           return this.onDeleteSurveyRecipient(surveyRecipientId);
@@ -152,54 +215,66 @@ export class SurveyRecipientsComponent implements OnInit {
   closeForm(): void {
     this.visible = false;
   }
-  
+
   onDeleteSurveyRecipient(surveyRecipientId: string) {
     this.loaderService.display(true);
-    this.surveyRecipientService.deleteSurveyRecipient(surveyRecipientId).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
-        this.getSurveyRecipientList();
-      }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(this.translateService.instant(err.message));
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
+    this.surveyRecipientService
+      .deleteSurveyRecipient(surveyRecipientId)
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.nzMessageService.success(
+              this.translateService.instant(res.status.message)
+            );
+            this.getSurveyRecipientList();
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
+      );
   }
   onDeleteMultySurveyRecipient() {
     const surveyRecipientIds = _.keys(_.pickBy(this.mapOfCheckedId));
     this.loaderService.display(true);
-    this.surveyRecipientService.deleteMultySurveyRecipient({ surveyRecipientIds }).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
-        this.getSurveyRecipientList();
-      }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(this.translateService.instant(err.message));
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
+    this.surveyRecipientService
+      .deleteMultySurveyRecipient({ surveyRecipientIds })
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.nzMessageService.success(
+              this.translateService.instant(res.status.message)
+            );
+            this.getSurveyRecipientList();
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
+      );
   }
-  openForm(surveyRecipient: SurveyRecipient) {
-
-  }
+  openForm(surveyRecipient: SurveyRecipient) {}
   onExport(type: string) {
     const data = [];
     this.listOfAllData.forEach(row => {
       const intance = {};
       this.columns.forEach(col => {
-        intance[this.translateService.instant(col.header)] = row[col.id]; 
-      })
+        intance[this.translateService.instant(col.header)] = row[col.id];
+      });
       data.push(intance);
-    })
-    this.excelService.exportAsExcelFile(data, 'survey_recipients', type);
+    });
+    this.excelService.exportAsExcelFile(data, "survey_recipients", type);
   }
 }

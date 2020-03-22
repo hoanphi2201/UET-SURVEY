@@ -1,13 +1,25 @@
 <div class="container collectors">
-  <section class="compose-message-container" [class]="'step'+ currentStep">
+  <section class="compose-message-container" [class]="'step' + currentStep">
     <header>
-      <h1 id="edit-name" class="wds-type-page-title truncate">{{surveyCollectorDetail?.name}}</h1>
-      <h4><strong >{{'default.layout.STEP' | translate}} {{currentStep}} {{'default.layout.OF' | translate}} 3:</strong>
-        
+      <h1 id="edit-name" class="wds-type-page-title truncate">
+        {{ surveyCollectorDetail?.name }}
+      </h1>
+      <h4>
+        <strong
+          >{{ "default.layout.STEP" | translate }} {{ currentStep }}
+          {{ "default.layout.OF" | translate }} 3:</strong
+        >
+
         <ng-container [ngSwitch]="currentStep">
-            <ng-container *ngSwitchCase="1">{{'default.layout.COMPOSE_MESSAGE' | translate}}</ng-container>
-            <ng-container *ngSwitchCase="2">{{'default.layout.REVIEW_OPTIONS' | translate}} </ng-container>
-            <ng-container *ngSwitchCase="3">{{'default.layout.SCHEDULE' | translate}} </ng-container>
+          <ng-container *ngSwitchCase="1">{{
+            "default.layout.COMPOSE_MESSAGE" | translate
+          }}</ng-container>
+          <ng-container *ngSwitchCase="2"
+            >{{ "default.layout.REVIEW_OPTIONS" | translate }}
+          </ng-container>
+          <ng-container *ngSwitchCase="3"
+            >{{ "default.layout.SCHEDULE" | translate }}
+          </ng-container>
         </ng-container>
       </h4>
     </header>
@@ -16,26 +28,60 @@
         <form [formGroup]="formCompose">
           <article class="sendto">
             <header>
-              <h5>{{'default.layout.SEND_TO' | translate | uppercase}}: </h5>
+              <h5>{{ "default.layout.SEND_TO" | translate | uppercase }}:</h5>
             </header>
-            <nz-select formControlName="emails" [nzDropdownMatchSelectWidth]="false" [nzShowArrow]="false" nzMode="tags"  >
+            <nz-select
+              formControlName="emails"
+              [nzDropdownMatchSelectWidth]="false"
+              [nzShowArrow]="false"
+              nzMode="tags"
+            >
             </nz-select>
-            <field-error-display [displayError]="isFieldValid(formCompose, 'emails')" [errors]="fCompose.emails.errors" ></field-error-display>
+            <field-error-display
+              [displayError]="isFieldValid(formCompose, 'emails')"
+              [errors]="fCompose.emails.errors"
+            ></field-error-display>
           </article>
           <article id="compose-email" class="reading template">
             <header>
-              <h5><label class="sm-label" for="subject-text">{{'default.layout.SUBJECT' | translate | uppercase}}:</label></h5>
+              <h5>
+                <label class="sm-label" for="subject-text"
+                  >{{
+                    "default.layout.SUBJECT" | translate | uppercase
+                  }}:</label
+                >
+              </h5>
             </header>
-            <input formControlName="subject" nz-input autocomplete="password" type="text" />
-            <field-error-display [displayError]="isFieldValid(formCompose, 'subject')" [errors]="fCompose.subject.errors" ></field-error-display>
+            <input
+              formControlName="subject"
+              nz-input
+              autocomplete="password"
+              type="text"
+            />
+            <field-error-display
+              [displayError]="isFieldValid(formCompose, 'subject')"
+              [errors]="fCompose.subject.errors"
+            ></field-error-display>
             <header class="message-header">
-              <h5><label class="sm-label" for="subject-text">{{'default.layout.MESSAGE' | translate| uppercase}}:</label></h5>
+              <h5>
+                <label class="sm-label" for="subject-text"
+                  >{{
+                    "default.layout.MESSAGE" | translate | uppercase
+                  }}:</label
+                >
+              </h5>
             </header>
-            
+
             <div id="email-preview" width="100%" height="372">
               <div class="align-center">
-                <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%"
-                  style="font-family: Arial,Helvetica,sans-serif; max-width: 700px;">
+                <table
+                  border="0"
+                  cellpadding="0"
+                  cellspacing="0"
+                  align="center"
+                  width="100%"
+                  style="font-family: Arial,Helvetica,sans-serif; max-width: 700px;"
+                >
                   <tbody>
                     <tr bgcolor="#00BF6F">
                       <td colspan="5" height="40">&nbsp;</td>
@@ -43,10 +89,12 @@
                     <tr bgcolor="#00BF6F">
                       <td width="20">&nbsp;</td>
                       <td width="20">&nbsp;</td>
-                      <td align="center"
+                      <td
+                        align="center"
                         style="font-size: 29px; color:#FFF; font-weight: normal; letter-spacing: 1px; line-height: 1;
-                        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2); font-family: Arial,Helvetica,sans-serif;">
-                        {{surveyCollectorDetail?.surveyForm?.title}}
+                        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2); font-family: Arial,Helvetica,sans-serif;"
+                      >
+                        {{ surveyCollectorDetail?.surveyForm?.title }}
                       </td>
                       <td width="20">&nbsp;</td>
                       <td width="20">&nbsp;</td>
@@ -59,10 +107,25 @@
                     </tr>
                     <tr>
                       <td>&nbsp;</td>
-                      <td colspan="3" align="left" valign="top" style="color:#666666; font-size: 13px;">
+                      <td
+                        colspan="3"
+                        align="left"
+                        valign="top"
+                        style="color:#666666; font-size: 13px;"
+                      >
                         <p>
-                          <markdown-editor  formControlName="message" placeholder="brandingSettings.PLACEHOLDER_DESCRIPTION" [editable]="true" minHeight="180"></markdown-editor>
-                          <field-error-display [displayError]="isFieldValid(formCompose, 'message')" [errors]="fCompose.message.errors" ></field-error-display>
+                          <markdown-editor
+                            formControlName="message"
+                            placeholder="brandingSettings.PLACEHOLDER_DESCRIPTION"
+                            [editable]="true"
+                            minHeight="180"
+                          ></markdown-editor>
+                          <field-error-display
+                            [displayError]="
+                              isFieldValid(formCompose, 'message')
+                            "
+                            [errors]="fCompose.message.errors"
+                          ></field-error-display>
                         </p>
                       </td>
                       <td>&nbsp;</td>
@@ -73,12 +136,22 @@
                     <tr>
                       <td>&nbsp;</td>
                       <td colspan="3">
-                        <table border="0" cellpadding="0" cellspacing="0" align="center"
-                          style="background:#00BF6F; border-radius: 4px; border: 1px solid #BBBBBB; color:#FFFFFF; font-size:14px; letter-spacing: 1px; text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.8); padding: 10px 18px;">
+                        <table
+                          border="0"
+                          cellpadding="0"
+                          cellspacing="0"
+                          align="center"
+                          style="background:#00BF6F; border-radius: 4px; border: 1px solid #BBBBBB; color:#FFFFFF; font-size:14px; letter-spacing: 1px; text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.8); padding: 10px 18px;"
+                        >
                           <tbody>
                             <tr>
                               <td align="center" valign="center">
-                                <a href="[SurveyLink]" target="_blank" style="color:#FFFFFF; text-decoration:none;">Begin Survey</a>
+                                <a
+                                  href="[SurveyLink]"
+                                  target="_blank"
+                                  style="color:#FFFFFF; text-decoration:none;"
+                                  >Begin Survey</a
+                                >
                               </td>
                             </tr>
                           </tbody>
@@ -92,9 +165,22 @@
                     <tr valign="top" style="color: #666666;font-size: 10px;">
                       <td>&nbsp;</td>
                       <td valign="top" align="center" colspan="3">
-                        <p>Please do not forward this email as its survey link is unique to you. <br><a href="[PrivacyLink]"
-                            target="_blank" style="color: #333333; text-decoration: underline;">Privacy</a> | <a href="[OptOutLink]"
-                            target="_blank" style="color: #333333; text-decoration: underline;">Unsubscribe</a></p>
+                        <p>
+                          Please do not forward this email as its survey link is
+                          unique to you. <br /><a
+                            href="[PrivacyLink]"
+                            target="_blank"
+                            style="color: #333333; text-decoration: underline;"
+                            >Privacy</a
+                          >
+                          |
+                          <a
+                            href="[OptOutLink]"
+                            target="_blank"
+                            style="color: #333333; text-decoration: underline;"
+                            >Unsubscribe</a
+                          >
+                        </p>
                       </td>
                       <td>&nbsp;</td>
                     </tr>
@@ -106,11 +192,22 @@
                         <table width="100%" cellpadding="2">
                           <tbody>
                             <tr>
-                              <td width="45%" align="right" style="font-size: 10px; color: #999999;">Powered by</td>&nbsp;
+                              <td
+                                width="45%"
+                                align="right"
+                                style="font-size: 10px; color: #999999;"
+                              >
+                                Powered by
+                              </td>
+                              &nbsp;
                               <td width="55%" align="left">
-                                <img 
-                                  width="130" align="middle" height="25" alt="UetSurvey Logo"
-                                  src="./assets/images/logo/full-logo-green.png">
+                                <img
+                                  width="130"
+                                  align="middle"
+                                  height="25"
+                                  alt="UetSurvey Logo"
+                                  src="./assets/images/logo/full-logo-green.png"
+                                />
                               </td>
                             </tr>
                           </tbody>
@@ -128,8 +225,7 @@
         </form>
       </ng-container>
       <ng-container *ngSwitchCase="2">
-        <app-collector-options
-          [surveyCollectorDetail]="surveyCollectorDetail">
+        <app-collector-options [surveyCollectorDetail]="surveyCollectorDetail">
         </app-collector-options>
       </ng-container>
       <ng-container *ngSwitchCase="3">
@@ -139,19 +235,22 @@
               nzType="info"
               nzMessage="TIP! Whitelist UetSurvey."
               nzDescription="Add us to your email whitelist to make sure your colleagues can receive your survey. If you're sending to people with a different email domain than you, they may need to whitelist us too."
-              nzShowIcon>
+              nzShowIcon
+            >
             </nz-alert>
           </div>
           <div class="options options-send">
             <form [formGroup]="formSchedule">
-              <nz-radio-group
-                formControlName="sendDateEnabled">
+              <nz-radio-group formControlName="sendDateEnabled">
                 <label nz-radio [ngStyle]="styleRadio" [nzValue]="false">
-                    {{'default.layout.SEND_NOW' | translate}} 
+                  {{ "default.layout.SEND_NOW" | translate }}
                 </label>
-                
+
                 <label nz-radio [ngStyle]="styleRadio" [nzValue]="true">
-                    {{'default.layout.SCHEDULE_A_LATER_DATE_AND_TIME_TO_SEND' | translate}} 
+                  {{
+                    "default.layout.SCHEDULE_A_LATER_DATE_AND_TIME_TO_SEND"
+                      | translate
+                  }}
                 </label>
                 <ng-container *ngIf="fSchedule.sendDateEnabled.value === true">
                   <div class="child-radio-margin">
@@ -160,7 +259,10 @@
                       nzShowTime
                       formControlName="sendDate"
                       nzFormat="yyyy-MM-dd HH:mm:ss"
-                      [nzPlaceHolder]="'default.layout.SELECT_TIME_CLOSE' | translate">
+                      [nzPlaceHolder]="
+                        'default.layout.SELECT_TIME_CLOSE' | translate
+                      "
+                    >
                     </nz-date-picker>
                   </div>
                 </ng-container>
@@ -175,15 +277,20 @@
               <div class="divided">
                 <aside>
                   <p>
-                    <output id="total-recipients" class="sl_plural">{{emails?.length}}</output>
-                    <span class="wds-type-product-ui">{{'default.layout.RECIPIENTS' | translate}} </span>
+                    <output id="total-recipients" class="sl_plural">{{
+                      emails?.length
+                    }}</output>
+                    <span class="wds-type-product-ui"
+                      >{{ "default.layout.RECIPIENTS" | translate }}
+                    </span>
                   </p>
                 </aside>
                 <article>
                   <header>
                     <dl>
                       <dt><b>Sender Email Address:</b></dt>
-                      <dd><span class="notranslate"></span> via
+                      <dd>
+                        <span class="notranslate"></span> via
                         <span class="notranslate">UetSurvey.com</span>
                       </dd>
                     </dl>
@@ -203,37 +310,43 @@
                 </article>
               </div>
             </li>
-          
           </ul>
         </article>
       </ng-container>
     </ng-container>
-    
+
     <footer class="clearfix">
       <p *ngIf="surveyCollectorDetail && currentStep > 1" class="left">
-        <button 
+        <button
           (click)="backStep()"
-          nz-button 
-          nzType="default" 
-          [nzSize]="'large'">
+          nz-button
+          nzType="default"
+          [nzSize]="'large'"
+        >
           <i nz-icon nzType="arrow-left" nzTheme="outline"></i>
-          {{'default.layout.BACK' | translate}} 
+          {{ "default.layout.BACK" | translate }}
         </button>
       </p>
       <p *ngIf="surveyCollectorDetail" class="right">
-        <button 
-          [routerLink]="['/create', 'collector-responses', surveyCollectorDetail.surveyForm.id]" 
-          nz-button 
-          nzType="default" 
-          [nzSize]="'large'">
-          {{'default.layout.RESUME_LATER' | translate | uppercase}} 
+        <button
+          [routerLink]="[
+            '/create',
+            'collector-responses',
+            surveyCollectorDetail.surveyForm.id
+          ]"
+          nz-button
+          nzType="default"
+          [nzSize]="'large'"
+        >
+          {{ "default.layout.RESUME_LATER" | translate | uppercase }}
         </button>
-        <button 
+        <button
           (click)="nextStep()"
-          nz-button 
-          nzType="primary" 
-          [nzSize]="'large'">
-          {{'default.layout.NEXT' | translate | uppercase}}  
+          nz-button
+          nzType="primary"
+          [nzSize]="'large'"
+        >
+          {{ "default.layout.NEXT" | translate | uppercase }}
           <i nz-icon nzType="arrow-right" nzTheme="outline"></i>
         </button>
       </p>
@@ -243,6 +356,9 @@
 
 <ng-template #tplContentRecipientsRemoved>
   <div>
-    Your invitation currently has 0 recipients. This could happen for a number of reasons—your contact opted out of receiving email invitations from you, the email was already sent to the selected recipient(s), or you've entered an invalid email. Review what you've entered and try again.
+    Your invitation currently has 0 recipients. This could happen for a number
+    of reasons—your contact opted out of receiving email invitations from you,
+    the email was already sent to the selected recipient(s), or you've entered
+    an invalid email. Review what you've entered and try again.
   </div>
 </ng-template>

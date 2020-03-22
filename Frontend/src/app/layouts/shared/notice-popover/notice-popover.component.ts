@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Pagging } from '@app/core';
+import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
+import { Pagging } from "@app/core";
 interface TabInterface {
   type: string;
   title: string;
@@ -11,9 +11,9 @@ interface TabInterface {
   map?: Function;
 }
 @Component({
-  selector: 'app-notice-popover',
-  templateUrl: './notice-popover.component.html',
-  styleUrls: ['./notice-popover.component.less']
+  selector: "app-notice-popover",
+  templateUrl: "./notice-popover.component.html",
+  styleUrls: ["./notice-popover.component.less"]
 })
 export class NoticePopoverComponent implements OnInit {
   @Output() visibleChange = new EventEmitter();
@@ -23,42 +23,42 @@ export class NoticePopoverComponent implements OnInit {
   @Input() visible: boolean = false;
   @Input() pagging: Pagging;
   @Input() spinning: boolean = false;
-  @Input() trigger: string = 'click';
+  @Input() trigger: string = "click";
   @Input() innerClass: object = {};
 
   @Input() tabs: TabInterface[] = [
     {
-      type: 'notification',
-      title: 'Notifications',
+      type: "notification",
+      title: "Notifications",
       empty: {
-        image: '/assets/images/notification.svg',
-        text: 'Notifications'
+        image: "/assets/images/notification.svg",
+        text: "Notifications"
       },
       rows: []
     },
     {
-      type: 'messages',
-      title: 'Messages',
+      type: "messages",
+      title: "Messages",
       empty: {
-        image: '/assets/images/message.svg',
-        text: 'Message'
+        image: "/assets/images/message.svg",
+        text: "Message"
       },
       rows: []
     },
     {
-      type: 'event',
-      title: 'Events',
+      type: "event",
+      title: "Events",
       empty: {
-        image: '/assets/images/event.svg',
-        text: 'Events'
+        image: "/assets/images/event.svg",
+        text: "Events"
       },
       rows: [],
-      map: function (row: any) {
-        row['color'] = {
-          todo: 'magenta',
-          processing: 'blue',
-          urgent: 'red',
-          doing: 'gold'
+      map: function(row: any) {
+        row["color"] = {
+          todo: "magenta",
+          processing: "blue",
+          urgent: "red",
+          doing: "gold"
         }[row.status];
         return row;
       }
@@ -69,24 +69,28 @@ export class NoticePopoverComponent implements OnInit {
     return this.tabs.map(tab => tab.rows).reduce((x, y) => x.concat(y));
   }
   set data(rows: any[]) {
-    this.tabs.forEach(tab => (tab.rows = rows.filter(row => row.type == tab.type).map(row => (tab.map ? tab.map(row) : row))));
+    this.tabs.forEach(
+      tab =>
+        (tab.rows = rows
+          .filter(row => row.type == tab.type)
+          .map(row => (tab.map ? tab.map(row) : row)))
+    );
   }
-  ngOnInit() { }
+  ngOnInit() {}
   onAccept(surveySend: any) {
     this.action.emit({
       accept: true,
       surveySend
-    })
+    });
   }
-  onDeny(surveySend: any){
+  onDeny(surveySend: any) {
     this.action.emit({
       accept: false,
       surveySend
-    })
+    });
   }
 
   loadMoreNotification() {
     this.loadMore.emit(true);
   }
-  
 }

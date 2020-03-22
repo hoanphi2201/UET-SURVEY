@@ -1,9 +1,9 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.less']
+  selector: "app-layout",
+  templateUrl: "./layout.component.html",
+  styleUrls: ["./layout.component.less"]
 })
 export class LayoutComponent implements OnInit {
   isCollapsed = true;
@@ -17,7 +17,7 @@ export class LayoutComponent implements OnInit {
     footer: true
   };
   @Input() siderWidth: number = 256;
-  @Input() siderMode: string = 'side';
+  @Input() siderMode: string = "side";
   @Input() topMode: boolean = false;
   @Input() setting: any = {};
 
@@ -29,7 +29,5 @@ export class LayoutComponent implements OnInit {
     this.isCollapsed = val;
     this.collapsedChange.emit(this.isCollapsed);
   }
-  ngOnInit() { 
-    
-  }
+  ngOnInit() {}
 }

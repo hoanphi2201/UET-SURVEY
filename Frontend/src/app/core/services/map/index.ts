@@ -1,3 +1,3 @@
-export * from './mapConfig';
-export * from './styleConfig';
-export * from './styleParser.service';
+export * from "./mapConfig";
+export * from "./styleConfig";
+export * from "./styleParser.service";

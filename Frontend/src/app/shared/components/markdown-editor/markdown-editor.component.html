@@ -1,17 +1,29 @@
 <div #wrapper class="markdown-editor">
-  <div [ngClass]="{ 'view': true, 'editable': editable }">
-    <div class="output" [hidden]="editMode" #output [class.placeholder]="!content || content?.length === 0"
-      (click)="enterEdit()" [ngStyle]="{
-          'min-height.px': (minHeight !== undefined ? minHeight : defaultMinHeight)
-        }"></div>
+  <div [ngClass]="{ view: true, editable: editable }">
+    <div
+      class="output"
+      [hidden]="editMode"
+      #output
+      [class.placeholder]="!content || content?.length === 0"
+      (click)="enterEdit()"
+      [ngStyle]="{
+        'min-height.px': minHeight !== undefined ? minHeight : defaultMinHeight
+      }"
+    ></div>
     <div *ngIf="!editMode" class="pencil">
       <i class="fa fa-pencil" aria-hidden="true"></i>
     </div>
   </div>
   <form *ngIf="editMode" [formGroup]="templateForm" novalidate>
     <div class="editor">
-      <angular-markdown-editor [class]="'editor-area'" #input textareaId="{{_id}}" [options]="editorOptions" rows="12"
-        formControlName="body">
+      <angular-markdown-editor
+        [class]="'editor-area'"
+        #input
+        textareaId="{{ _id }}"
+        [options]="editorOptions"
+        rows="12"
+        formControlName="body"
+      >
       </angular-markdown-editor>
     </div>
   </form>

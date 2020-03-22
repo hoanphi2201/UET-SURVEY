@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { PageComponent } from './page.component';
+import { PageComponent } from "./page.component";
 
-describe('PageComponent', () => {
+describe("PageComponent", () => {
   let component: PageComponent;
   let fixture: ComponentFixture<PageComponent>;
 
@@ -21,7 +21,7 @@ describe('PageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

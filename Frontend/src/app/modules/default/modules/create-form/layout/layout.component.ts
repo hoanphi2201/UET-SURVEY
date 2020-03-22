@@ -1,19 +1,25 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { NzMessageService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
-import { DSurveyFormService, SurveyForm, IValidators } from '@app/core';
-import { FormGroup, FormBuilder, Validators, NgForm, FormGroupDirective } from '@angular/forms';
-import { Helpers, LoaderService } from '@app/shared';
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { NzMessageService } from "ng-zorro-antd";
+import { TranslateService } from "@ngx-translate/core";
+import { DSurveyFormService, SurveyForm, IValidators } from "@app/core";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  NgForm,
+  FormGroupDirective
+} from "@angular/forms";
+import { Helpers, LoaderService } from "@app/shared";
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  selector: "app-layout",
+  templateUrl: "./layout.component.html",
+  styleUrls: ["./layout.component.scss"]
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-  @ViewChild('formDirective', { static: false }) private formDirective: NgForm;
+  @ViewChild("formDirective", { static: false }) private formDirective: NgForm;
   surveyFormDetail: SurveyForm;
   visibleNzDrawer = false;
   buttonLoading = false;
@@ -27,7 +33,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private loaderService: LoaderService,
     private dSurveyFormService: DSurveyFormService,
     public router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.buildForm();
@@ -40,8 +46,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
   buildForm() {
     this.form = this.formBuilder.group({
-      title: ['', [Validators.required, IValidators.spaceStringValidator()]],
-      description: ['']
+      title: ["", [Validators.required, IValidators.spaceStringValidator()]],
+      description: [""]
     });
   }
   get f() {
@@ -87,21 +93,26 @@ export class LayoutComponent implements OnInit, OnDestroy {
         formData.value[key] = formData.value[key].trim();
       }
     });
-    return this.dSurveyFormService.updateSurveyForm(formData.value, this.surveyFormDetail.id).subscribe(res => {
-      this.nzMessageService.success(
-        this.translateService.instant(res.status.message)
+    return this.dSurveyFormService
+      .updateSurveyForm(formData.value, this.surveyFormDetail.id)
+      .subscribe(
+        res => {
+          this.nzMessageService.success(
+            this.translateService.instant(res.status.message)
+          );
+        },
+        err => {
+          this.buttonLoading = false;
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.buttonLoading = false;
+          this.loaderService.display(false);
+        }
       );
-    }, err => {
-      this.buttonLoading = false;
-      this.loaderService.display(false);
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
-      );
-    }, () => {
-      this.buttonLoading = false;
-      this.loaderService.display(false);
-    }
-    );
   }
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());

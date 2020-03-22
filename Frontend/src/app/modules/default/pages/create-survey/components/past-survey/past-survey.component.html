@@ -11,8 +11,9 @@
             class="sm-my-surveys-tab-all-button"
             nz-button
             nzType="default"
-            [ngClass]="{ secondary: currentTab === 'all' }">
-              {{ 'default.layout.ALL' | translate }}
+            [ngClass]="{ secondary: currentTab === 'all' }"
+          >
+            {{ "default.layout.ALL" | translate }}
           </button>
           <button
             (click)="onChangeTab('favorites')"
@@ -22,9 +23,10 @@
             class="sm-my-surveys-tab-all-button"
             nz-button
             nzType="default"
-            [ngClass]="{ secondary: currentTab === 'favorites' }">
+            [ngClass]="{ secondary: currentTab === 'favorites' }"
+          >
             <i nz-icon nzType="star" [nzTheme]="'fill'"></i>
-              {{ 'default.layout.FAVORITES' | translate }}
+            {{ "default.layout.FAVORITES" | translate }}
           </button>
         </div>
         <div class="sm-list-view-toggle">
@@ -37,8 +39,9 @@
               class="sm-list-view-toggle-grid-button"
               nz-button
               nzType="default"
-              [ngClass]="{ secondary: viewType === 'grid' }">
-                <i class="fa fa-th"></i>
+              [ngClass]="{ secondary: viewType === 'grid' }"
+            >
+              <i class="fa fa-th"></i>
             </button>
             <button
               (click)="onChangeViewType('list')"
@@ -48,8 +51,9 @@
               class="sm-list-view-toggle-grid-button"
               nz-button
               nzType="default"
-              [ngClass]="{ secondary: viewType === 'list' }">
-                <i class="fa fa-th-list"></i>
+              [ngClass]="{ secondary: viewType === 'list' }"
+            >
+              <i class="fa fa-th-list"></i>
             </button>
           </div>
         </div>
@@ -61,7 +65,9 @@
     <ng-container *ngIf="currentTab === 'all'; else favoritesTemplate">
       <div class="sm-my-surveys-tab-row">
         <div class="wds-flex wds-flex-y">
-          <span class="wds-type-section-title">{{ 'default.layout.RECENT' | translate }}</span>
+          <span class="wds-type-section-title">{{
+            "default.layout.RECENT" | translate
+          }}</span>
           <ng-container [ngSwitch]="viewType">
             <ng-container *ngSwitchCase="'grid'">
               <app-grid-survey
@@ -69,7 +75,8 @@
                 [pagging]="paggingRecent"
                 [filter]="filterRecent"
                 (loadMore)="loadMore($event)"
-                (previewSurvey)="openModalPreview($event)">
+                (previewSurvey)="openModalPreview($event)"
+              >
               </app-grid-survey>
             </ng-container>
             <ng-container *ngSwitchCase="'list'">
@@ -78,7 +85,8 @@
                 [pagging]="paggingRecent"
                 [filter]="filterRecent"
                 (loadMore)="loadMore($event)"
-                (previewSurvey)="openModalPreview($event)">
+                (previewSurvey)="openModalPreview($event)"
+              >
               </app-list-survey>
             </ng-container>
           </ng-container>
@@ -88,7 +96,7 @@
       <div class="sm-my-surveys-tab-row">
         <div class="wds-flex wds-flex-y">
           <span class="wds-type-section-title"
-            >{{ 'default.layout.ALL' | translate }}
+            >{{ "default.layout.ALL" | translate }}
           </span>
           <ng-container [ngSwitch]="viewType">
             <ng-container *ngSwitchCase="'grid'">
@@ -97,7 +105,8 @@
                 [pagging]="paggingAll"
                 [filter]="filterAll"
                 (loadMore)="loadMore($event)"
-                (previewSurvey)="openModalPreview($event)">
+                (previewSurvey)="openModalPreview($event)"
+              >
               </app-grid-survey>
             </ng-container>
             <ng-container *ngSwitchCase="'list'">
@@ -106,7 +115,8 @@
                 [pagging]="paggingAll"
                 [filter]="filterAll"
                 (loadMore)="loadMore($event)"
-                (previewSurvey)="openModalPreview($event)">
+                (previewSurvey)="openModalPreview($event)"
+              >
               </app-list-survey>
             </ng-container>
           </ng-container>
@@ -126,7 +136,8 @@
                     [pagging]="paggingFavorite"
                     [filter]="filterFavorite"
                     (loadMore)="loadMore($event)"
-                    (previewSurvey)="openModalPreview($event)">
+                    (previewSurvey)="openModalPreview($event)"
+                  >
                   </app-grid-survey>
                 </ng-container>
                 <ng-container *ngSwitchCase="'list'">
@@ -135,7 +146,8 @@
                     [pagging]="paggingFavorite"
                     [filter]="filterFavorite"
                     (loadMore)="loadMore($event)"
-                    (previewSurvey)="openModalPreview($event)">
+                    (previewSurvey)="openModalPreview($event)"
+                  >
                   </app-list-survey>
                 </ng-container>
               </ng-container>
@@ -151,7 +163,7 @@
       <div class="sm-my-surveys-tab-row">
         <div class="wds-flex wds-flex-y">
           <span class="wds-type-section-title"
-            >{{ 'default.layout.MY_SURVEYS' | translate }}
+            >{{ "default.layout.MY_SURVEYS" | translate }}
           </span>
           <ng-container [ngSwitch]="viewType">
             <ng-container *ngSwitchCase="'grid'">
@@ -161,7 +173,10 @@
                 [filter]="filterSearch"
                 (loadMore)="loadMore($event)"
                 (previewSurvey)="openModalPreview($event)"
-                [emptyDescription]="'default.layout.SORRY_WE_COULDN_FIND_ANYTHING_RELATED_TO'">
+                [emptyDescription]="
+                  'default.layout.SORRY_WE_COULDN_FIND_ANYTHING_RELATED_TO'
+                "
+              >
               </app-grid-survey>
             </ng-container>
             <ng-container *ngSwitchCase="'list'">
@@ -171,7 +186,10 @@
                 [filter]="filterASearch"
                 (loadMore)="loadMore($event)"
                 (previewSurvey)="openModalPreview($event)"
-                [emptyDescription]="'default.layout.SORRY_WE_COULDN_FIND_ANYTHING_RELATED_TO'">
+                [emptyDescription]="
+                  'default.layout.SORRY_WE_COULDN_FIND_ANYTHING_RELATED_TO'
+                "
+              >
               </app-list-survey>
             </ng-container>
           </ng-container>

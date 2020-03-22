@@ -1,63 +1,70 @@
-import { trigger, state, style, transition, animate, group } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+  group
+} from "@angular/animations";
 
 export const SlideInOutAnimation = [
-  trigger('slideInOut', [
+  trigger("slideInOut", [
     state(
-      'in',
+      "in",
       style({
-        'max-height': '500px',
-        opacity: '1',
-        visibility: 'visible'
+        "max-height": "500px",
+        opacity: "1",
+        visibility: "visible"
       })
     ),
     state(
-      'out',
+      "out",
       style({
-        'max-height': '0px',
-        opacity: '0',
-        visibility: 'hidden'
+        "max-height": "0px",
+        opacity: "0",
+        visibility: "hidden"
       })
     ),
-    transition('in => out', [
+    transition("in => out", [
       group([
         animate(
-          '400ms ease-in-out',
+          "400ms ease-in-out",
           style({
-            opacity: '0'
+            opacity: "0"
           })
         ),
         animate(
-          '600ms ease-in-out',
+          "600ms ease-in-out",
           style({
-            'max-height': '0px'
+            "max-height": "0px"
           })
         ),
         animate(
-          '700ms ease-in-out',
+          "700ms ease-in-out",
           style({
-            visibility: 'hidden'
+            visibility: "hidden"
           })
         )
       ])
     ]),
-    transition('out => in', [
+    transition("out => in", [
       group([
         animate(
-          '1ms ease-in-out',
+          "1ms ease-in-out",
           style({
-            visibility: 'visible'
+            visibility: "visible"
           })
         ),
         animate(
-          '600ms ease-in-out',
+          "600ms ease-in-out",
           style({
-            'max-height': '500px'
+            "max-height": "500px"
           })
         ),
         animate(
-          '800ms ease-in-out',
+          "800ms ease-in-out",
           style({
-            opacity: '1'
+            opacity: "1"
           })
         )
       ])

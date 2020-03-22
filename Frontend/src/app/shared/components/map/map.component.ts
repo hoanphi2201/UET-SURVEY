@@ -1,21 +1,38 @@
-import { Component, OnInit, ElementRef, Input, Output, EventEmitter, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  Input,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+  SimpleChanges,
+  OnChanges
+} from "@angular/core";
 
-import 'ol/ol.css';
-import { fromLonLat } from 'ol/proj';
-import MapBrowserEvent from 'ol/MapBrowserEvent';
-import MapEvent from 'ol/MapEvent';
-import RenderEvent from 'ol/render/Event';
-import ObjectEvent from 'ol/Object';
-import { bbox } from 'ol/loadingstrategy';
+import "ol/ol.css";
+import { fromLonLat } from "ol/proj";
+import MapBrowserEvent from "ol/MapBrowserEvent";
+import MapEvent from "ol/MapEvent";
+import RenderEvent from "ol/render/Event";
+import ObjectEvent from "ol/Object";
+import { bbox } from "ol/loadingstrategy";
 
-import { Zoom, ZoomToExtent, Rotate, MousePosition, ScaleLine, FullScreen } from 'ol/control.js';
-import Map from 'ol/Map.js';
-import View from 'ol/View.js';
-import { Tile, Group, Image, Vector as VectorLayer } from 'ol/layer.js';
-import { Cluster, OSM, Vector as VectorSource } from 'ol/source.js';
+import {
+  Zoom,
+  ZoomToExtent,
+  Rotate,
+  MousePosition,
+  ScaleLine,
+  FullScreen
+} from "ol/control.js";
+import Map from "ol/Map.js";
+import View from "ol/View.js";
+import { Tile, Group, Image, Vector as VectorLayer } from "ol/layer.js";
+import { Cluster, OSM, Vector as VectorSource } from "ol/source.js";
 
 @Component({
-  selector: 'app-map',
+  selector: "app-map",
   template: `
     <div [style.width]="width" [style.height]="height"></div>
     <ng-content></ng-content>
@@ -23,10 +40,10 @@ import { Cluster, OSM, Vector as VectorSource } from 'ol/source.js';
 })
 export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   public instance: Map;
-  public componentType = 'map';
+  public componentType = "map";
   @Input() config: any;
-  @Input() width = '100%';
-  @Input() height = '100%';
+  @Input() width = "100%";
+  @Input() height = "100%";
   @Input() pixelRatio: number;
   @Input() keyboardEventTarget: Element | string;
   @Input() loadTilesWhileAnimating: boolean;
@@ -47,7 +64,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   popupContent: any;
   centerMap: Array<number> = [];
   mapDefault = {
-    projection: 'EPSG:4326',
+    projection: "EPSG:4326",
     zoom: 4,
     mcenter: [0, 0]
   };
@@ -69,34 +86,34 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit() {
     this.LoadMap(this.config);
     this.instance.setTarget(this.host.nativeElement.firstElementChild);
-    this.instance.on('click', (event: MapBrowserEvent) =>
+    this.instance.on("click", (event: MapBrowserEvent) =>
       this.onclick.emit(event)
     );
-    this.instance.on('dblclick', (event: MapBrowserEvent) =>
+    this.instance.on("dblclick", (event: MapBrowserEvent) =>
       this.ondblclick.emit(event)
     );
-    this.instance.on('moveend', (event: MapEvent) =>
+    this.instance.on("moveend", (event: MapEvent) =>
       this.onmoveend.emit(event)
     );
-    this.instance.on('pointerdrag', (event: MapBrowserEvent) =>
+    this.instance.on("pointerdrag", (event: MapBrowserEvent) =>
       this.onpointerdrag.emit(event)
     );
-    this.instance.on('pointermove', (event: MapBrowserEvent) =>
+    this.instance.on("pointermove", (event: MapBrowserEvent) =>
       this.onpointermove.emit(event)
     );
-    this.instance.on('postcompose', (event: RenderEvent) =>
+    this.instance.on("postcompose", (event: RenderEvent) =>
       this.onpostcompose.emit(event)
     );
-    this.instance.on('postrender', (event: MapEvent) =>
+    this.instance.on("postrender", (event: MapEvent) =>
       this.onpostrender.emit(event)
     );
-    this.instance.on('precompose', (event: RenderEvent) =>
+    this.instance.on("precompose", (event: RenderEvent) =>
       this.onprecompose.emit(event)
     );
-    this.instance.on('propertychange', (event: ObjectEvent) =>
+    this.instance.on("propertychange", (event: ObjectEvent) =>
       this.onpropertychange.emit(event)
     );
-    this.instance.on('singleclick', (event: MapBrowserEvent) =>
+    this.instance.on("singleclick", (event: MapBrowserEvent) =>
       this.onsingleclick.emit(event)
     );
   }
@@ -129,11 +146,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
       groupLayers = groupLayers.concat(sub);
     }
     const _group = new Group({ layers: groupLayers });
-    _group.set('id', group.id);
-    _group.set('type', group.type);
+    _group.set("id", group.id);
+    _group.set("type", group.type);
 
     for (const key in group) {
-      if (typeof group[key] !== 'object') {
+      if (typeof group[key] !== "object") {
         _group.set(key, group[key]);
       }
     }
@@ -170,13 +187,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     switch (sourceType) {
-      case 'OSM':
+      case "OSM":
         oSource = new OSM();
         if (sourceUrl) {
           oSource.setUrl(sourceUrl);
         }
         break;
-      case 'ServerSource':
+      case "ServerSource":
         oSource = new VectorSource({
           strategy: bbox
         });
@@ -207,18 +224,18 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     switch (type) {
-      case 'Image':
+      case "Image":
         oLayer = new Image({ source: oSource });
         break;
-      case 'Tile':
+      case "Tile":
         oLayer = new Tile({ source: oSource });
         break;
-      case 'Vector':
+      case "Vector":
         oLayer = new VectorLayer({
           source: oSource
         });
         if (this.mapStyle[layerId]) {
-          const s = function (feature: any, resolution: any) {
+          const s = function(feature: any, resolution: any) {
             const styles = this.mapStyle[layerId];
             return styles[feature.getGeometry().getType()];
           };
@@ -227,7 +244,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
           // get style map from layer config
         }
         break;
-      case 'Cluster':
+      case "Cluster":
         const clusterSource = new Cluster({
           distance: parseInt(distance, 10),
           source: oSource
@@ -236,7 +253,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
           source: clusterSource
         });
         if (this.mapStyle[layerId]) {
-          const s = function (feature: any, resolution: any) {
+          const s = function(feature: any, resolution: any) {
             const styles = this.mapStyle[layerId];
             return styles[feature.getGeometry().getType()];
           };
@@ -251,26 +268,26 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
         oLayer.set(key, layerObj[key]);
       }
     }
-    if (typeof layerType !== 'undefined') {
-      oLayer.set('type', layerType);
+    if (typeof layerType !== "undefined") {
+      oLayer.set("type", layerType);
     }
-    if (typeof zIndex !== 'undefined') {
-      oLayer.set('zIndex', zIndex);
+    if (typeof zIndex !== "undefined") {
+      oLayer.set("zIndex", zIndex);
     }
     // set a layer name if given
-    if (typeof name !== 'undefined') {
-      oLayer.set('name', name);
+    if (typeof name !== "undefined") {
+      oLayer.set("name", name);
     }
     // set a layer title if given
-    if (typeof title !== 'undefined') {
-      oLayer.set('title', title);
+    if (typeof title !== "undefined") {
+      oLayer.set("title", title);
     }
-    if (typeof visible === 'boolean') {
+    if (typeof visible === "boolean") {
       oLayer.setVisible(visible);
     }
     // else
     if (layerId) {
-      oLayer.set('id', layerId);
+      oLayer.set("id", layerId);
     }
     return oLayer;
   }
@@ -305,93 +322,93 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
       this.mapDefault.projection = mapConfigInfo.defaultprojection;
     }
     if (mapConfigInfo.layerProjection) {
-      this.mapDefault['layerProjection'] = mapConfigInfo.layerProjection;
+      this.mapDefault["layerProjection"] = mapConfigInfo.layerProjection;
     }
     if (mapConfigInfo.target) {
-      this.mapDefault['target'] = mapConfigInfo.target;
+      this.mapDefault["target"] = mapConfigInfo.target;
     }
     if (mapConfigInfo.mcenter) {
-      this.mapDefault['mcenter'] = mapConfigInfo.mcenter;
+      this.mapDefault["mcenter"] = mapConfigInfo.mcenter;
     }
     if (mapConfigInfo.zoom) {
-      this.mapDefault['zoom'] = mapConfigInfo.zoom;
+      this.mapDefault["zoom"] = mapConfigInfo.zoom;
     }
     if (mapConfigInfo.maxZoom) {
-      this.mapDefault['maxZoom'] = mapConfigInfo.maxZoom;
+      this.mapDefault["maxZoom"] = mapConfigInfo.maxZoom;
     }
     if (mapConfigInfo.minZoom) {
-      this.mapDefault['minZoom'] = mapConfigInfo.minZoom;
+      this.mapDefault["minZoom"] = mapConfigInfo.minZoom;
     }
     if (mapConfigInfo.defaultZoom) {
-      this.mapDefault['defaultZoom'] = mapConfigInfo.defaultZoom;
+      this.mapDefault["defaultZoom"] = mapConfigInfo.defaultZoom;
     }
     let options = {};
     // defined map
-    if (this.mapDefault['maxZoom'] && this.mapDefault['minZoom']) {
+    if (this.mapDefault["maxZoom"] && this.mapDefault["minZoom"]) {
       options = {
         projection: this.mapDefault.projection,
-        center: fromLonLat(this.mapDefault['mcenter']),
-        zoom: this.mapDefault['zoom'],
-        maxZoom: this.mapDefault['maxZoom'],
-        minZoom: this.mapDefault['minZoom']
+        center: fromLonLat(this.mapDefault["mcenter"]),
+        zoom: this.mapDefault["zoom"],
+        maxZoom: this.mapDefault["maxZoom"],
+        minZoom: this.mapDefault["minZoom"]
       };
     } else {
       options = {
         projection: this.mapDefault.projection,
-        center: fromLonLat(this.mapDefault['mcenter']),
-        zoom: this.mapDefault['zoom']
+        center: fromLonLat(this.mapDefault["mcenter"]),
+        zoom: this.mapDefault["zoom"]
       };
     }
     if (
-      this.mapDefault['extend'] &&
-      Array.isArray(this.mapDefault['extend']) &&
-      this.mapDefault['extend'].length === 4
+      this.mapDefault["extend"] &&
+      Array.isArray(this.mapDefault["extend"]) &&
+      this.mapDefault["extend"].length === 4
     ) {
-      options['extend'] = this.mapDefault['extend'];
+      options["extend"] = this.mapDefault["extend"];
     }
     if (!this.instance) {
       this.instance = new Map({
-        target: this.mapDefault['target'],
+        target: this.mapDefault["target"],
         view: new View(options)
       });
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void { }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   setDefaultControls(map: any, controls: any) {
-    if (controls.indexOf('Zoom') > -1) {
+    if (controls.indexOf("Zoom") > -1) {
       map.addControl(new Zoom());
     }
-    if (controls.indexOf('ZoomToExtent') > -1) {
+    if (controls.indexOf("ZoomToExtent") > -1) {
       map.addControl(new ZoomToExtent());
     }
-    if (controls.indexOf('Rotate') > -1) {
+    if (controls.indexOf("Rotate") > -1) {
       map.addControl(new Rotate());
     }
-    if (controls.indexOf('FullScreen') > -1) {
+    if (controls.indexOf("FullScreen") > -1) {
       map.addControl(new FullScreen());
     }
-    if (controls.indexOf('Mouse Position') > -1) {
+    if (controls.indexOf("Mouse Position") > -1) {
       map.addControl(
         new MousePosition({
-          undefinedHTML: '&nbsp;',
-          target: document.getElementById('mouse-position'),
-          projection: this.mapDefault['layerProjection'],
-          coordinateFormat: function (coordinate: any) {
+          undefinedHTML: "&nbsp;",
+          target: document.getElementById("mouse-position"),
+          projection: this.mapDefault["layerProjection"],
+          coordinateFormat: function(coordinate: any) {
             return `${coordinate[0].toFixed(4)}, ${coordinate[1].toFixed(4)}`;
           }
         })
       );
     }
-    if (controls.indexOf('ScaleLine') > -1) {
+    if (controls.indexOf("ScaleLine") > -1) {
       map.addControl(new ScaleLine());
     }
   }
 
   getLayersRecursive(lyr: any, fn: any) {
     lyr.getLayers().forEach(
-      function (_lyr: any, idx: any, a: any) {
+      function(_lyr: any, idx: any, a: any) {
         fn(_lyr, idx, a);
         if (_lyr.getLayers) {
           this.getLayersRecursive(_lyr, fn);
@@ -404,8 +421,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     let findLayer;
     this.getLayersRecursive(
       this.instance,
-      function (l: any, idx: any, a: any) {
-        if (l.get('name') === layerId || l.get('id') === layerId) {
+      function(l: any, idx: any, a: any) {
+        if (l.get("name") === layerId || l.get("id") === layerId) {
           findLayer = l;
         }
       }.bind(this)
@@ -421,7 +438,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     const newLocal: any = this.getLayer(layername);
     newLocal
       .getSource()
-      .forEachFeatureIntersectingExtent(extent, function (
+      .forEachFeatureIntersectingExtent(extent, function(
         feature: any,
         layer: any
       ) {

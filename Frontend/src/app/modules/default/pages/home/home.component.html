@@ -4,33 +4,78 @@
       <nz-card [style.marginBottom.px]="24">
         <div nz-row>
           <div class="pbt-12 col-sm-12 col-md-5">
-            <button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menuFolder" nz-button class="select-folder" [nzSize]="'large'" nzType="default">
+            <button
+              nz-dropdown
+              nzTrigger="click"
+              [nzDropdownMenu]="menuFolder"
+              nz-button
+              class="select-folder"
+              [nzSize]="'large'"
+              nzType="default"
+            >
               {{ folderSelectTitle }}
               <i class="icon" nz-icon nzType="caret-down" nzTheme="outline"></i>
             </button>
-            <nz-dropdown-menu nzPlacement="bottomRight" #menuFolder="nzDropdownMenu">
+            <nz-dropdown-menu
+              nzPlacement="bottomRight"
+              #menuFolder="nzDropdownMenu"
+            >
               <div class="folders-menu">
                 <ul class="dropdown-folder-top" nz-menu>
                   <li nz-menu-item (click)="showSurveyInFolder('all')">
-                    {{ 'default.layout.ALL' | translate }}
-                    <i class="float-right" *ngIf="folderSelectId === 'all'" nz-icon nzType="check" nzTheme="outline"></i>
+                    {{ "default.layout.ALL" | translate }}
+                    <i
+                      class="float-right"
+                      *ngIf="folderSelectId === 'all'"
+                      nz-icon
+                      nzType="check"
+                      nzTheme="outline"
+                    ></i>
                   </li>
-                  <ng-container *ngFor="let surveyFolder of listOfAllSurveyFolder">
-                    <li nz-menu-item (click)="showSurveyInFolder(surveyFolder.id)">
+                  <ng-container
+                    *ngFor="let surveyFolder of listOfAllSurveyFolder"
+                  >
+                    <li
+                      nz-menu-item
+                      (click)="showSurveyInFolder(surveyFolder.id)"
+                    >
                       {{ surveyFolder.title }}
-                      <i class="float-right" *ngIf="folderSelectId === surveyFolder.id" nz-icon nzType="check" nzTheme="outline"></i>
+                      <i
+                        class="float-right"
+                        *ngIf="folderSelectId === surveyFolder.id"
+                        nz-icon
+                        nzType="check"
+                        nzTheme="outline"
+                      ></i>
                     </li>
                   </ng-container>
                 </ul>
                 <div class="buttons">
-                  <button (click)="openModal()" nz-button [nzSize]="'large'" nzType="default">
-                    {{'default.layout.MANAGE_FOLDERS' | translate | uppercase}}
+                  <button
+                    (click)="openModal()"
+                    nz-button
+                    [nzSize]="'large'"
+                    nzType="default"
+                  >
+                    {{
+                      "default.layout.MANAGE_FOLDERS" | translate | uppercase
+                    }}
                   </button>
                 </div>
               </div>
             </nz-dropdown-menu>
-            <button nz-button (click)="onShowMoveToFolder()" [nzSize]="'large'" nzType="default">
-              <i class="icon-folder" nz-icon [nzType]="showMoveToFolder ? 'folder-open' : 'folder'" nzTheme="outline"></i>
+            <button
+              nz-button
+              (click)="onShowMoveToFolder()"
+              [nzSize]="'large'"
+              nzType="default"
+            >
+              <i
+                class="icon-folder"
+                nz-icon
+                [nzType]="showMoveToFolder ? 'folder-open' : 'folder'"
+                nzTheme="outline"
+              ></i>
             </button>
           </div>
           <div class="pbt-12 col-sm-12 col-md-offset-2 col-md-5">
@@ -40,7 +85,8 @@
                 (keyup.enter)="search()"
                 type="text"
                 nz-input
-                placeholder="Search by survey name"/>
+                placeholder="Search by survey name"
+              />
             </nz-input-group>
             <ng-template #suffixIconSearch>
               <i nz-icon nzType="search"></i>
@@ -60,34 +106,70 @@
               (nzPageIndexChange)="pageIndexChange($event)"
               (nzPageSizeChange)="pageSizeChange($event)"
               [nzBordered]="true"
-              [nzTitle]="titleTemplate">
+              [nzTitle]="titleTemplate"
+            >
               <thead (nzSortChange)="sort($event)" nzSingleSort>
                 <tr *ngIf="columns.length > 0">
-                  <th>{{ 'default.layout.TABLE_NO' | translate | uppercase }}</th>
+                  <th>
+                    {{ "default.layout.TABLE_NO" | translate | uppercase }}
+                  </th>
                   <th
                     *ngIf="showMoveToFolder"
                     nzShowCheckbox
                     [(nzChecked)]="isAllDisplayDataChecked"
                     (nzCheckedChange)="checkAll($event)"
-                    [nzIndeterminate]="isIndeterminate"></th>
+                    [nzIndeterminate]="isIndeterminate"
+                  ></th>
                   <ng-container *ngIf="showMoveToFolder">
                     <th [nzAlign]="'left'" colspan="8">
-                      <button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menuMoveToFolder" [nzDisabled]="numberOfChecked <= 0" nz-button nzType="dashed">
+                      <button
+                        nz-dropdown
+                        nzTrigger="click"
+                        [nzDropdownMenu]="menuMoveToFolder"
+                        [nzDisabled]="numberOfChecked <= 0"
+                        nz-button
+                        nzType="dashed"
+                      >
                         Move to...
                         <i nz-icon nzType="caret-down" nzTheme="outline"></i>
                       </button>
-                      <nz-dropdown-menu class="move-to-menu" nzPlacement="bottomRight" #menuMoveToFolder="nzDropdownMenu">
-                        <ul id="#move-to-menu" class="dropdown-folder-top" nz-menu>
-                          <ng-container *ngFor="let surveyFolder of listOfAllSurveyFolder">
-                            <li nz-menu-item (click)="onMoveSurveyToFolder(surveyFolder.id)">
+                      <nz-dropdown-menu
+                        class="move-to-menu"
+                        nzPlacement="bottomRight"
+                        #menuMoveToFolder="nzDropdownMenu"
+                      >
+                        <ul
+                          id="#move-to-menu"
+                          class="dropdown-folder-top"
+                          nz-menu
+                        >
+                          <ng-container
+                            *ngFor="let surveyFolder of listOfAllSurveyFolder"
+                          >
+                            <li
+                              nz-menu-item
+                              (click)="onMoveSurveyToFolder(surveyFolder.id)"
+                            >
                               {{ surveyFolder.title }}
-                              <span class="float-right">{{surveyFolder.totalForm}}</span>
+                              <span class="float-right">{{
+                                surveyFolder.totalForm
+                              }}</span>
                             </li>
                           </ng-container>
                         </ul>
                         <div *ngIf="!newFolder" class="buttons">
-                          <button (click)="updateNewFolder(true)" nz-button nzType="default" class="secondary">
-                            + {{ 'default.layout.NEW_FOLDERS' | translate | uppercase }}
+                          <button
+                            (click)="updateNewFolder(true)"
+                            nz-button
+                            nzType="default"
+                            class="secondary"
+                          >
+                            +
+                            {{
+                              "default.layout.NEW_FOLDERS"
+                                | translate
+                                | uppercase
+                            }}
                           </button>
                         </div>
                         <div *ngIf="newFolder" class="add-folder-form">
@@ -95,14 +177,36 @@
                             <input
                               formControlName="title"
                               nz-input
-                              class="folder-name"/>
-                            <field-error-display [displayError]=" isFieldValid(addFolderForm, 'title') " [errors]="f.title.errors" ></field-error-display>
+                              class="folder-name"
+                            />
+                            <field-error-display
+                              [displayError]="
+                                isFieldValid(addFolderForm, 'title')
+                              "
+                              [errors]="f.title.errors"
+                            ></field-error-display>
                             <div>
-                              <button (click)="onAddNewFolder(addFolderForm)" nz-button nzType="primary">
-                                {{ 'default.layout.SAVE_AND_MOVE' | translate | uppercase }}
+                              <button
+                                (click)="onAddNewFolder(addFolderForm)"
+                                nz-button
+                                nzType="primary"
+                              >
+                                {{
+                                  "default.layout.SAVE_AND_MOVE"
+                                    | translate
+                                    | uppercase
+                                }}
                               </button>
-                              <button (click)="updateNewFolder(false)" nz-button nzType="default" >
-                                {{ 'default.layout.CANCEL' | translate | uppercase }}
+                              <button
+                                (click)="updateNewFolder(false)"
+                                nz-button
+                                nzType="default"
+                              >
+                                {{
+                                  "default.layout.CANCEL"
+                                    | translate
+                                    | uppercase
+                                }}
                               </button>
                             </div>
                           </form>
@@ -120,7 +224,10 @@
                         [nzSortKey]="column.id"
                         [nzShowFilter]="column.filter"
                         [nzFilters]="column.filter ? column.filter : []"
-                        (nzFilterChange)="filter($event, column.filterKey || column.id)">
+                        (nzFilterChange)="
+                          filter($event, column.filterKey || column.id)
+                        "
+                      >
                         {{ column.header | translate | uppercase }}
                         <i
                           *ngIf="column.search"
@@ -135,13 +242,14 @@
                           nzPlacement="bottomRight"
                           [nzClickHide]="false"
                           nzTableFilter
-                          (click)="searchKey = column.id">
+                          (click)="searchKey = column.id"
+                        >
                         </i>
                       </th>
                     </ng-container>
                   </ng-container>
                   <th *ngIf="!showMoveToFolder" [nzAlign]="'center'">
-                    {{ 'default.layout.MORE' | translate | uppercase }}
+                    {{ "default.layout.MORE" | translate | uppercase }}
                   </th>
                 </tr>
               </thead>
@@ -153,26 +261,37 @@
                     nzShowCheckbox
                     [(nzChecked)]="mapOfCheckedId[data.id]"
                     [nzDisabled]="data.disabled"
-                    (nzCheckedChange)="checkItem(data.id, $event)">
-                  </td>
+                    (nzCheckedChange)="checkItem(data.id, $event)"
+                  ></td>
                   <ng-container *ngFor="let column of columns">
-                    <td [nzAlign]="'center'" [ngClass]="column.className" *ngIf="!column.hidden">
+                    <td
+                      [nzAlign]="'center'"
+                      [ngClass]="column.className"
+                      *ngIf="!column.hidden"
+                    >
                       <ng-container [ngSwitch]="column.type">
                         <ng-container *ngSwitchCase="'text'">
                           <div
                             *ngIf="data[column.id]?.length > 40"
                             [nzTooltipTitle]="data[column.id]"
                             nzTooltipPlacement="top"
-                            nz-tooltip>
-                            <a *ngIf="column.action" [routerLink]="column.action.link(data.id)">
-                              {{ data[column.id] | summary : 40 }}
+                            nz-tooltip
+                          >
+                            <a
+                              *ngIf="column.action"
+                              [routerLink]="column.action.link(data.id)"
+                            >
+                              {{ data[column.id] | summary: 40 }}
                             </a>
                             <ng-container *ngIf="!column.action">
-                              {{ data[column.id] | summary : 40 }}
+                              {{ data[column.id] | summary: 40 }}
                             </ng-container>
                           </div>
                           <div *ngIf="data[column.id]?.length <= 40">
-                            <a *ngIf="column.action"  [routerLink]="column.action.link(data.id)">
+                            <a
+                              *ngIf="column.action"
+                              [routerLink]="column.action.link(data.id)"
+                            >
                               {{ data[column.id] }}
                             </a>
                             <ng-container *ngIf="!column.action">
@@ -180,18 +299,26 @@
                             </ng-container>
                           </div>
                           <div *ngIf="column.td_two">
-                            {{ 'default.layout.CREATED' | translate }}
-                            {{ data[column.td_two] | date: 'yyyy-MM-dd' }}
+                            {{ "default.layout.CREATED" | translate }}
+                            {{ data[column.td_two] | date: "yyyy-MM-dd" }}
                           </div>
                         </ng-container>
                         <ng-container *ngSwitchCase="'date'">
-                          <i nz-icon nzType="clock-circle" nzTheme="outline"></i>
-                          {{ data[column.id] | date: 'yyyy-MM-dd hh:mm' }}
+                          <i
+                            nz-icon
+                            nzType="clock-circle"
+                            nzTheme="outline"
+                          ></i>
+                          {{ data[column.id] | date: "yyyy-MM-dd hh:mm" }}
                         </ng-container>
                         <ng-container *ngSwitchCase="'action'">
                           <span class="action-icon">
                             <a [routerLink]="column.action.link(data.id)">
-                              <i nz-icon [nzType]="column?.action?.icon" nzTheme="outline"></i>
+                              <i
+                                nz-icon
+                                [nzType]="column?.action?.icon"
+                                nzTheme="outline"
+                              ></i>
                             </a>
                           </span>
                         </ng-container>
@@ -199,30 +326,67 @@
                     </td>
                   </ng-container>
                   <td [nzAlign]="'center'">
-                    <a [nzTrigger]="'click'" [nzDropdownMenu]="menuAction" [nzPlacement]="'bottomCenter'" nz-dropdown>
-                      <i nz-icon nzType="ellipsis" nzTheme="outline" class="icon-action"></i>
+                    <a
+                      [nzTrigger]="'click'"
+                      [nzDropdownMenu]="menuAction"
+                      [nzPlacement]="'bottomCenter'"
+                      nz-dropdown
+                    >
+                      <i
+                        nz-icon
+                        nzType="ellipsis"
+                        nzTheme="outline"
+                        class="icon-action"
+                      ></i>
                     </a>
                     <nz-dropdown-menu #menuAction="nzDropdownMenu">
                       <ul class="dropdown-action" nz-menu nzSelectable>
-                        <li (click)="onShowModalSendCopyTransfer(data, 'SEND_COPY')" nz-menu-item>
-                            <i class="fa fa-share"></i>&nbsp;
-                          {{'default.layout.SEND_A_COPY' | translate}} 
+                        <li
+                          (click)="
+                            onShowModalSendCopyTransfer(data, 'SEND_COPY')
+                          "
+                          nz-menu-item
+                        >
+                          <i class="fa fa-share"></i>&nbsp;
+                          {{ "default.layout.SEND_A_COPY" | translate }}
                         </li>
-                        <li (click)="onShowModalSendCopyTransfer(data, 'TRANSFER')" nz-menu-item>
-                            <i class="fa fa-paper-plane"></i>&nbsp;
-                          {{'default.layout.TRANSFER' | translate}} 
+                        <li
+                          (click)="
+                            onShowModalSendCopyTransfer(data, 'TRANSFER')
+                          "
+                          nz-menu-item
+                        >
+                          <i class="fa fa-paper-plane"></i>&nbsp;
+                          {{ "default.layout.TRANSFER" | translate }}
                         </li>
                         <li (click)="onMakeCopy(data)" nz-menu-item>
-                            <i nz-icon nzType="copy" nzTheme="outline"></i>
-                          {{'default.layout.MAKE_A_COPY' | translate}} 
+                          <i nz-icon nzType="copy" nzTheme="outline"></i>
+                          {{ "default.layout.MAKE_A_COPY" | translate }}
                         </li>
-                        <li (click)="showClearResponsesConfirm(data, tplContentClearResponsesForm)" nz-menu-item>
-                            <i nz-icon nzType="close-circle" nzTheme="outline"></i>
-                          {{'default.layout.CLEAR_RESPONSES' | translate}} 
+                        <li
+                          (click)="
+                            showClearResponsesConfirm(
+                              data,
+                              tplContentClearResponsesForm
+                            )
+                          "
+                          nz-menu-item
+                        >
+                          <i
+                            nz-icon
+                            nzType="close-circle"
+                            nzTheme="outline"
+                          ></i>
+                          {{ "default.layout.CLEAR_RESPONSES" | translate }}
                         </li>
-                        <li (click)="showDeleteConfirm(data, tplContentDeleteForm)" nz-menu-item>
-                            <i nz-icon nzType="delete" nzTheme="outline"></i>
-                          {{'default.layout.DELETE' | translate}} 
+                        <li
+                          (click)="
+                            showDeleteConfirm(data, tplContentDeleteForm)
+                          "
+                          nz-menu-item
+                        >
+                          <i nz-icon nzType="delete" nzTheme="outline"></i>
+                          {{ "default.layout.DELETE" | translate }}
                         </li>
                       </ul>
                     </nz-dropdown-menu>
@@ -231,7 +395,12 @@
               </tbody>
             </nz-table>
             <div class="buttons-ctnr">
-              <button [routerLink]="['/create-survey']" nz-button nzType="primary"> {{ 'header.sidebar.CREATE_SURVEY' | translate | uppercase }}
+              <button
+                [routerLink]="['/create-survey']"
+                nz-button
+                nzType="primary"
+              >
+                {{ "header.sidebar.CREATE_SURVEY" | translate | uppercase }}
               </button>
             </div>
           </div>
@@ -244,11 +413,11 @@
 <!-- Template content modal delele -->
 <ng-template #tplContentDeleteForm>
   <div>
-    {{ 'default.layout.SURVEY_TITLE' | translate }}:
+    {{ "default.layout.SURVEY_TITLE" | translate }}:
     {{ surveyFormDelete?.title }}
   </div>
   <div>
-    {{ 'default.layout.RESPONSES' | translate }}:
+    {{ "default.layout.RESPONSES" | translate }}:
     {{ surveyFormDelete?.response }}
   </div>
   <div class="delete-modal-warning" translate>
@@ -260,19 +429,19 @@
 <!-- Template content modal clear response -->
 <ng-template #tplContentClearResponsesForm>
   <div>
-    {{ 'default.layout.TITLE' | translate }}:
+    {{ "default.layout.TITLE" | translate }}:
     {{ surveyFormClearResponses?.title }}
   </div>
   <div>
-    {{ 'default.layout.DATE_CREATED' | translate }}:
-    {{ surveyFormClearResponses?.createdAt | date: 'medium' }}
+    {{ "default.layout.DATE_CREATED" | translate }}:
+    {{ surveyFormClearResponses?.createdAt | date: "medium" }}
   </div>
   <div>
-    {{ 'default.layout.DATE_MODIFIED' | translate }}:
-    {{ surveyFormClearResponses?.updatedAt | date: 'medium' }}
+    {{ "default.layout.DATE_MODIFIED" | translate }}:
+    {{ surveyFormClearResponses?.updatedAt | date: "medium" }}
   </div>
   <div>
-    {{ 'default.layout.NUMBER_OF_RESPONSES' | translate }}:
+    {{ "default.layout.NUMBER_OF_RESPONSES" | translate }}:
     {{ surveyFormClearResponses?.response }}
   </div>
 </ng-template>

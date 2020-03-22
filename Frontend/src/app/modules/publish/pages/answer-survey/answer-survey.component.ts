@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute, Params } from '@angular/router';
-import { LoaderService, Helpers } from '@app/shared';
-import { SurveyForm, SurveyCollector, VisitorsService, PSurveyCollectorService, PSurveyResponseService } from '@app/core';
-import { NzMessageService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
+import { Component, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
+import { ActivatedRoute, Params } from "@angular/router";
+import { LoaderService, Helpers } from "@app/shared";
+import {
+  SurveyForm,
+  SurveyCollector,
+  VisitorsService,
+  PSurveyCollectorService,
+  PSurveyResponseService
+} from "@app/core";
+import { NzMessageService } from "ng-zorro-antd";
+import { TranslateService } from "@ngx-translate/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-answer-survey',
-  templateUrl: './answer-survey.component.html',
-  styleUrls: ['./answer-survey.component.scss']
+  selector: "app-answer-survey",
+  templateUrl: "./answer-survey.component.html",
+  styleUrls: ["./answer-survey.component.scss"]
 })
 export class AnswerSurveyComponent implements OnInit {
   private subscriptions: Subscription[] = [];
@@ -36,7 +42,7 @@ export class AnswerSurveyComponent implements OnInit {
     private visitorsService: VisitorsService,
     private formBuilder: FormBuilder,
     private titleService: Title
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getIpAndGeoLocation();
@@ -51,7 +57,7 @@ export class AnswerSurveyComponent implements OnInit {
 
   getIpAndGeoLocation() {
     this.visitorsService.getIpAddress().subscribe(res => {
-      this.ipAddress = res['ip'];
+      this.ipAddress = res["ip"];
       this.visitorsService.getGeoLocation(this.ipAddress).subscribe(res => {
         this.geoLocation = res;
       });
@@ -60,21 +66,26 @@ export class AnswerSurveyComponent implements OnInit {
 
   getSurveyCollectorByUrl(url: string) {
     this.loaderService.display(true);
-    this.pSurveyCollectorService.getSurveyCollectorByUrl(url).subscribe(res => {
-      if (res.status.code === 200) {
-        this.surveyCollectorDetail = res.results[0];
-        if (this.surveyCollectorDetail.surveyForm) {
-          this.surveyFormDetail = this.surveyCollectorDetail.surveyForm;
-          this.titleService.setTitle('UetSurvey - ' + this.surveyFormDetail.title);
-          this.customFormByCollector();
+    this.pSurveyCollectorService.getSurveyCollectorByUrl(url).subscribe(
+      res => {
+        if (res.status.code === 200) {
+          this.surveyCollectorDetail = res.results[0];
+          if (this.surveyCollectorDetail.surveyForm) {
+            this.surveyFormDetail = this.surveyCollectorDetail.surveyForm;
+            this.titleService.setTitle(
+              "UetSurvey - " + this.surveyFormDetail.title
+            );
+            this.customFormByCollector();
+          }
         }
+      },
+      err => {
+        this.loaderService.display(false);
+        this.nzMessageService.error(this.translateService.instant(err.message));
+      },
+      () => {
+        this.loaderService.display(false);
       }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(this.translateService.instant(err.message));
-    }, () => {
-      this.loaderService.display(false);
-    }
     );
   }
   customFormByCollector() {
@@ -84,13 +95,18 @@ export class AnswerSurveyComponent implements OnInit {
     } else {
       this.isCorrectPassword = true;
     }
-    if (this.surveyCollectorDetail.thankYouMessage && this.surveyFormDetail.json) {
+    if (
+      this.surveyCollectorDetail.thankYouMessage &&
+      this.surveyFormDetail.json
+    ) {
       this.surveyFormDetail.json.completedHtml = `<h3>${this.surveyCollectorDetail.thankYouMessage}</h3>`;
     }
-    if (!this.surveyCollectorDetail.allowMultipleResponses && this.surveyFormDetail.json) {
+    if (
+      !this.surveyCollectorDetail.allowMultipleResponses &&
+      this.surveyFormDetail.json
+    ) {
       this.surveyFormDetail.json.cookieName = this.surveyCollectorDetail.url;
     }
-    
   }
 
   onSubmitSurveyResponse(json: any) {
@@ -110,22 +126,27 @@ export class AnswerSurveyComponent implements OnInit {
       collectorPassword: this.collectorPassword
     };
     this.loaderService.display(true);
-    this.pSurveyResponseService.addSurveySurveyResponse(surveyResponse).subscribe(res => {
-      if (res.status.code === 200) {
-        if (this.surveyCollectorDetail.displaySurveyResults) {
-          this.displaySurveyResults = true;
-          this.dataSurveyResults = json;
+    this.pSurveyResponseService
+      .addSurveySurveyResponse(surveyResponse)
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            if (this.surveyCollectorDetail.displaySurveyResults) {
+              this.displaySurveyResults = true;
+              this.dataSurveyResults = json;
+            }
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
         }
-      }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
       );
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
   }
 
   get f() {
@@ -138,7 +159,7 @@ export class AnswerSurveyComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.minLength(2)]]
+      password: ["", [Validators.required, Validators.minLength(2)]]
     });
   }
 
@@ -155,29 +176,33 @@ export class AnswerSurveyComponent implements OnInit {
         formData.value[key] = formData.value[key].trim();
       }
     });
-    const data = {...formData.value,
+    const data = {
+      ...formData.value,
       surveyCollectorId: this.surveyCollectorDetail.id
-    }
-    this.pSurveyCollectorService.compareSurveyCollectorPassword(data).subscribe(res => {
-      if (
-        res.status.code === 200 &&
-        res.results[0].id === this.surveyCollectorDetail.id
-      ) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
+    };
+    this.pSurveyCollectorService.compareSurveyCollectorPassword(data).subscribe(
+      res => {
+        if (
+          res.status.code === 200 &&
+          res.results[0].id === this.surveyCollectorDetail.id
+        ) {
+          this.nzMessageService.success(
+            this.translateService.instant(res.status.message)
+          );
+          this.isCorrectPassword = true;
+          this.collectorPassword = formData.value.password;
+        }
+      },
+      err => {
+        this.errorPasswordMessage = this.translateService.instant(
+          "default.layout.THE_PASSWORD_ENTERED_WAS_INCORRECT_PLEASE_CHECK_YOUR_DATA_AND_TRY_AGAIN"
         );
-        this.isCorrectPassword = true;
-        this.collectorPassword = formData.value.password;
+        this.isCorrectPassword = false;
+        this.loaderService.display(false);
+      },
+      () => {
+        this.loaderService.display(false);
       }
-    }, err => {
-      this.errorPasswordMessage = this.translateService.instant(
-        'default.layout.THE_PASSWORD_ENTERED_WAS_INCORRECT_PLEASE_CHECK_YOUR_DATA_AND_TRY_AGAIN'
-      );
-      this.isCorrectPassword = false;
-      this.loaderService.display(false);
-    }, () => {
-      this.loaderService.display(false);
-    }
     );
   }
 }

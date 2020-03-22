@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { SurveyFormService, SurveyForm } from '@app/core';
-import { LoaderService } from '@app/shared';
-import { NzMessageService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { SurveyFormService, SurveyForm } from "@app/core";
+import { LoaderService } from "@app/shared";
+import { NzMessageService } from "ng-zorro-antd";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
-  selector: 'app-survey-forms-creator',
-  templateUrl: './survey-forms-creator.component.html',
-  styleUrls: ['./survey-forms-creator.component.scss']
+  selector: "app-survey-forms-creator",
+  templateUrl: "./survey-forms-creator.component.html",
+  styleUrls: ["./survey-forms-creator.component.scss"]
 })
 export class SurveyFormsCreatorComponent implements OnInit, OnDestroy {
   subscription: Subscription;
@@ -25,7 +25,7 @@ export class SurveyFormsCreatorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.activatedRoute.params.subscribe(
       (params: Params) => {
-        this.getSurveyFormById(params['surveyFormId']);
+        this.getSurveyFormById(params["surveyFormId"]);
       }
     );
   }
@@ -39,10 +39,10 @@ export class SurveyFormsCreatorComponent implements OnInit, OnDestroy {
           } else {
             this.nzMessageService.warning(
               this.translateService.instant(
-                'admin.layout.SURVEY_FORM_NOT_EXIST'
+                "admin.layout.SURVEY_FORM_NOT_EXIST"
               )
             );
-            this.router.navigate(['/admin', 'survey-forms']);
+            this.router.navigate(["/admin", "survey-forms"]);
           }
         }
       },
@@ -60,7 +60,7 @@ export class SurveyFormsCreatorComponent implements OnInit, OnDestroy {
       return;
     }
     this.nzMessageService.loading(
-      this.translateService.instant('admin.layout.SAVING')
+      this.translateService.instant("admin.layout.SAVING")
     );
     return this.surveyFormService
       .updateSurveyForm({ json }, this.surveyFormDetail.id)
@@ -68,7 +68,7 @@ export class SurveyFormsCreatorComponent implements OnInit, OnDestroy {
         res => {
           if (res.status.code === 200) {
             this.nzMessageService.success(
-              this.translateService.instant('admin.layout.SAVED')
+              this.translateService.instant("admin.layout.SAVED")
             );
           }
         },

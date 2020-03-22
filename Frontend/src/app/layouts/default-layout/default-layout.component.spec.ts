@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { DefaultLayoutComponent } from './default-layout.component';
+import { DefaultLayoutComponent } from "./default-layout.component";
 
-describe('DefaultLayoutComponent', () => {
+describe("DefaultLayoutComponent", () => {
   let component: DefaultLayoutComponent;
   let fixture: ComponentFixture<DefaultLayoutComponent>;
 
@@ -21,7 +21,7 @@ describe('DefaultLayoutComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

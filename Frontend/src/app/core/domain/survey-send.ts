@@ -1,4 +1,4 @@
-import { SurveyForm } from './survey-form';
+import { SurveyForm } from "./survey-form";
 export interface SurveySend {
   id?: string;
   surveyFormId: string;

@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { RolesComponent } from './roles.component';
+import { RolesComponent } from "./roles.component";
 
-describe('RolesComponent', () => {
+describe("RolesComponent", () => {
   let component: RolesComponent;
   let fixture: ComponentFixture<RolesComponent>;
 
@@ -21,7 +21,7 @@ describe('RolesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -6,16 +6,16 @@ import {
   EventEmitter,
   TemplateRef,
   ContentChild
-} from '@angular/core';
-import { TableListColumn } from '@app/core';
+} from "@angular/core";
+import { TableListColumn } from "@app/core";
 
 @Component({
-  selector: 'app-title-table',
-  templateUrl: './title-table.component.html',
-  styleUrls: ['./title-table.component.scss']
+  selector: "app-title-table",
+  templateUrl: "./title-table.component.html",
+  styleUrls: ["./title-table.component.scss"]
 })
 export class TitleTableComponent implements OnInit {
-  @ContentChild('customerBottomActions', { static: false })
+  @ContentChild("customerBottomActions", { static: false })
   customerBottomActions: TemplateRef<any>;
   @Input() numberOfChecked: number;
   @Input() results: number = 0;
@@ -32,6 +32,6 @@ export class TitleTableComponent implements OnInit {
     column.hidden = !$event;
   }
   onExport(type: string) {
-    this.export.emit(type)
+    this.export.emit(type);
   }
 }

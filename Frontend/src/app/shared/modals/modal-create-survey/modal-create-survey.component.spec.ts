@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { ModalCreateSurveyComponent } from './modal-create-survey.component';
+import { ModalCreateSurveyComponent } from "./modal-create-survey.component";
 
-describe('ModalCreateSurveyComponent', () => {
+describe("ModalCreateSurveyComponent", () => {
   let component: ModalCreateSurveyComponent;
   let fixture: ComponentFixture<ModalCreateSurveyComponent>;
 
@@ -21,7 +21,7 @@ describe('ModalCreateSurveyComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

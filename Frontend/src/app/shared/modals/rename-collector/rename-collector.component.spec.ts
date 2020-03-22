@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { RenameCollectorComponent } from './rename-collector.component';
+import { RenameCollectorComponent } from "./rename-collector.component";
 
-describe('RenameCollectorComponent', () => {
+describe("RenameCollectorComponent", () => {
   let component: RenameCollectorComponent;
   let fixture: ComponentFixture<RenameCollectorComponent>;
 
@@ -21,7 +21,7 @@ describe('RenameCollectorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

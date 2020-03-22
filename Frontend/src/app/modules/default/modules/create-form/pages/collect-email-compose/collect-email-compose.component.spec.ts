@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { CollectEmailComposeComponent } from './collect-email-compose.component';
+import { CollectEmailComposeComponent } from "./collect-email-compose.component";
 
-describe('CollectEmailComposeComponent', () => {
+describe("CollectEmailComposeComponent", () => {
   let component: CollectEmailComposeComponent;
   let fixture: ComponentFixture<CollectEmailComposeComponent>;
 
@@ -21,7 +21,7 @@ describe('CollectEmailComposeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

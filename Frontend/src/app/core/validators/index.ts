@@ -1,1 +1,1 @@
-export * from './validator.class';
+export * from "./validator.class";

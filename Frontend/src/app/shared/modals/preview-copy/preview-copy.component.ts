@@ -1,14 +1,14 @@
-import { Router } from '@angular/router';
-import { SurveyForm, DSurveyFormService, AuthService, User } from '@app/core';
-import { Component, OnInit } from '@angular/core';
-import { NzModalService, NzMessageService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
-import { LoaderService } from '@app/shared/services';
+import { Router } from "@angular/router";
+import { SurveyForm, DSurveyFormService, AuthService, User } from "@app/core";
+import { Component, OnInit } from "@angular/core";
+import { NzModalService, NzMessageService } from "ng-zorro-antd";
+import { TranslateService } from "@ngx-translate/core";
+import { LoaderService } from "@app/shared/services";
 
 @Component({
-  selector: 'app-preview-copy',
-  templateUrl: './preview-copy.component.html',
-  styleUrls: ['./preview-copy.component.scss']
+  selector: "app-preview-copy",
+  templateUrl: "./preview-copy.component.html",
+  styleUrls: ["./preview-copy.component.scss"]
 })
 export class PreviewCopyComponent implements OnInit {
   surveyFormDetail: SurveyForm;
@@ -21,7 +21,7 @@ export class PreviewCopyComponent implements OnInit {
     private modalService: NzModalService,
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(userData => {
@@ -59,24 +59,29 @@ export class PreviewCopyComponent implements OnInit {
       return;
     }
     this.loaderService.display(true);
-    return this.dSurveyFormService.updateSurveyForm(survey, survey.id).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(
-            this.translateService.instant(res.status.message)
-          )
-        );
-        this.loaderService.display(false);
-      }
-    }, err => {
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
+    return this.dSurveyFormService
+      .updateSurveyForm(survey, survey.id)
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.nzMessageService.success(
+              this.translateService.instant(
+                this.translateService.instant(res.status.message)
+              )
+            );
+            this.loaderService.display(false);
+          }
+        },
+        err => {
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+          this.loaderService.display(false);
+        },
+        () => {
+          this.loaderService.display(false);
+        }
       );
-      this.loaderService.display(false);
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
   }
 
   onMakeCopy(surveyForm: SurveyForm) {
@@ -93,12 +98,14 @@ export class PreviewCopyComponent implements OnInit {
           this.nzMessageService.success(
             this.translateService.instant(res.status.message)
           );
-          this.router.navigate(['/create', 'design-survey', res.results[0].id]);
+          this.router.navigate(["/create", "design-survey", res.results[0].id]);
         }
-      }, err => {
+      },
+      err => {
         this.loaderService.display(false);
         this.nzMessageService.error(this.translateService.instant(err.message));
-      }, () => {
+      },
+      () => {
         this.loaderService.display(false);
       }
     );

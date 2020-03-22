@@ -5,19 +5,34 @@
         <div class="lang-list">
           <nz-button-group>
             <button class="secondary" nz-button>
-              {{ currentLanguage.abbr + ' ' + currentLanguage.text }}
+              {{ currentLanguage.abbr + " " + currentLanguage.text }}
             </button>
-            <button class="secondary" nz-button nz-dropdown [nzDropdownMenu]="langMenu" nzPlacement="bottomLeft">
+            <button
+              class="secondary"
+              nz-button
+              nz-dropdown
+              [nzDropdownMenu]="langMenu"
+              nzPlacement="bottomLeft"
+            >
               <i nz-icon nzType="caret-down" nzTheme="outline"></i>
             </button>
           </nz-button-group>
           <nz-dropdown-menu #langMenu="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item *ngFor="let item of langs" (click)="change(item.code)">
-                <span role="img" [attr.aria-label]="item.text" class="pr-xs">{{item.abbr}}</span>
+              <li
+                nz-menu-item
+                *ngFor="let item of langs"
+                (click)="change(item.code)"
+              >
+                <span role="img" [attr.aria-label]="item.text" class="pr-xs">{{
+                  item.abbr
+                }}</span>
                 <span class="c-menu-item-text">
                   <span class="menu-item-text">{{ item.text }}</span>
-                  <i *ngIf="item.code === currentLanguage.code" class="checked-icon fa fa-check"></i>
+                  <i
+                    *ngIf="item.code === currentLanguage.code"
+                    class="checked-icon fa fa-check"
+                  ></i>
                 </span>
               </li>
             </ul>

@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { SurveyForm, DSurveyFormService } from '@app/core';
-import { Params, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Title } from '@angular/platform-browser';
+import { Component, OnInit } from "@angular/core";
+import { SurveyForm, DSurveyFormService } from "@app/core";
+import { Params, ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
+import { Title } from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-preview-score',
-  templateUrl: './preview-score.component.html',
-  styleUrls: ['./preview-score.component.scss']
+  selector: "app-preview-score",
+  templateUrl: "./preview-score.component.html",
+  styleUrls: ["./preview-score.component.scss"]
 })
 export class PreviewScoreComponent implements OnInit {
   surveyFormDetail: SurveyForm;
@@ -31,7 +31,9 @@ export class PreviewScoreComponent implements OnInit {
       this.dSurveyFormService.getSurveyFormDetail().subscribe(res => {
         if (res) {
           this.surveyFormDetail = res;
-          this.titleService.setTitle('UetSurvey - Design - ' + this.surveyFormDetail.title);
+          this.titleService.setTitle(
+            "UetSurvey - Design - " + this.surveyFormDetail.title
+          );
           this.dSurveyFormService.setSurveyFormDetail(null);
         }
       })

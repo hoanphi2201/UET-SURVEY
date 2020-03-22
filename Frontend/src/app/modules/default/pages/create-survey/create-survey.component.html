@@ -2,29 +2,50 @@
   <div class="sm-create-survey">
     <div class="h-100 m-0 grid-fluid">
       <div class="row grid-row wds-flex m-0">
-        <div class="type-center wds-flex wds-flex-y p-t-6 sm-get-started-button-bar">
-          <div class="type-left wds-type-section-title sm-get-started-button-bar-heading">
-            {{ 'default.layout.CREATE_A_NEW_SURVEY' | translate }}
+        <div
+          class="type-center wds-flex wds-flex-y p-t-6 sm-get-started-button-bar"
+        >
+          <div
+            class="type-left wds-type-section-title sm-get-started-button-bar-heading"
+          >
+            {{ "default.layout.CREATE_A_NEW_SURVEY" | translate }}
           </div>
           <div class="type-center sm-get-started-button-bar-buttons p-t-2">
-            <button type="button" (click)="changeCreateType('past')" [ngClass]="{ selected: createType === 'past' }" class="m-t-2 m-b-1 sm-get-started-button-bar-button wds-button">
+            <button
+              type="button"
+              (click)="changeCreateType('past')"
+              [ngClass]="{ selected: createType === 'past' }"
+              class="m-t-2 m-b-1 sm-get-started-button-bar-button wds-button"
+            >
               <i nz-icon nzType="copy" nzTheme="outline"></i>
-              {{ 'default.layout.COPY_A_PAST_SURVEY' | translate }}
+              {{ "default.layout.COPY_A_PAST_SURVEY" | translate }}
             </button>
-            <button (click)="openModalScratch()" type="button" class="m-t-2 m-b-1 sm-get-started-button-bar-button wds-button">
+            <button
+              (click)="openModalScratch()"
+              type="button"
+              class="m-t-2 m-b-1 sm-get-started-button-bar-button wds-button"
+            >
               <i class="fa fa-file-o"></i>
-              {{ 'default.layout.START_FROM_SCRATCH' | translate }}
+              {{ "default.layout.START_FROM_SCRATCH" | translate }}
             </button>
-            <button type="button" (click)="changeCreateType('template')" [ngClass]="{ selected: createType === 'template' }" class="m-t-2 m-b-1 sm-get-started-button-bar-button wds-button">
+            <button
+              type="button"
+              (click)="changeCreateType('template')"
+              [ngClass]="{ selected: createType === 'template' }"
+              class="m-t-2 m-b-1 sm-get-started-button-bar-button wds-button"
+            >
               <i nz-icon nzType="diff" nzTheme="outline"></i>
-              {{ 'default.layout.START_FROM_TEMPLATE' | translate }}
+              {{ "default.layout.START_FROM_TEMPLATE" | translate }}
             </button>
           </div>
         </div>
         <div class="wds-flex h-100 wds-flex-y sm-explore-main-container">
-          <div *ngIf="createType === 'past'" class="wds-flex wds-flex-x wds-flex-between p-6 p-b-5 sm-explore-templates-heading">
+          <div
+            *ngIf="createType === 'past'"
+            class="wds-flex wds-flex-x wds-flex-between p-6 p-b-5 sm-explore-templates-heading"
+          >
             <div class="wds-type-section-title">
-              {{ 'default.layout.COPY_A_PAST_SURVEY' | translate }}
+              {{ "default.layout.COPY_A_PAST_SURVEY" | translate }}
             </div>
             <div class="wds-input-group">
               <nz-input-group [nzSize]="'large'" [nzSuffix]="suffixIconSearch">
@@ -32,23 +53,28 @@
                   #inputSearchPast
                   type="text"
                   nz-input
-                  [placeholder]="'default.layout.SEARCH_SURVEYS' | translate"/>
+                  [placeholder]="'default.layout.SEARCH_SURVEYS' | translate"
+                />
               </nz-input-group>
               <ng-template #suffixIconSearch>
                 <i nz-icon nzType="search"></i>
               </ng-template>
             </div>
           </div>
-          <div *ngIf="createType === 'template'" class="wds-flex wds-flex-x wds-flex-between p-6 p-b-5 sm-explore-templates-heading">
+          <div
+            *ngIf="createType === 'template'"
+            class="wds-flex wds-flex-x wds-flex-between p-6 p-b-5 sm-explore-templates-heading"
+          >
             <div class="wds-type-section-title">
-              {{ 'default.layout.EXPLORE_TEMPLATES' | translate }}
+              {{ "default.layout.EXPLORE_TEMPLATES" | translate }}
             </div>
             <div class="wds-input-group">
               <nz-input-group [nzSize]="'large'" [nzSuffix]="suffixIconSearch">
                 <input
                   type="text"
                   nz-input
-                  [placeholder]="'default.layout.SEARCH_TEMPLATE' | translate"/>
+                  [placeholder]="'default.layout.SEARCH_TEMPLATE' | translate"
+                />
               </nz-input-group>
               <ng-template #suffixIconSearch>
                 <i nz-icon nzType="search"></i>
@@ -60,10 +86,10 @@
             <div class="wds-flex wds-flex-y w-100 sm-explore-gallery">
               <app-past-survey
                 [searchValue]="searchPastValue"
-                *ngIf="createType === 'past'">
+                *ngIf="createType === 'past'"
+              >
               </app-past-survey>
-              <app-template-survey
-                *ngIf="createType === 'template'">
+              <app-template-survey *ngIf="createType === 'template'">
               </app-template-survey>
             </div>
           </div>

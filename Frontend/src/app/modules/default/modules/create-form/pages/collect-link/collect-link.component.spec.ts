@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { CollectLinkComponent } from './collect-link.component';
+import { CollectLinkComponent } from "./collect-link.component";
 
-describe('CollectLinkComponent', () => {
+describe("CollectLinkComponent", () => {
   let component: CollectLinkComponent;
   let fixture: ComponentFixture<CollectLinkComponent>;
 
@@ -21,7 +21,7 @@ describe('CollectLinkComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

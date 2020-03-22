@@ -1,1 +1,1 @@
-export * from './summary.pipe';
+export * from "./summary.pipe";

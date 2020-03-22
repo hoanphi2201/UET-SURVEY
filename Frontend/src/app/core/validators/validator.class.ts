@@ -1,18 +1,18 @@
-import { AbstractControl, FormControl } from '@angular/forms';
+import { AbstractControl, FormControl } from "@angular/forms";
 
 export class IValidators {
   static passwordMatchValidator(control: AbstractControl) {
-    const password: string = control.get('password').value;
-    const confirmPassword: string = control.get('confirmPassword').value;
+    const password: string = control.get("password").value;
+    const confirmPassword: string = control.get("confirmPassword").value;
     if (password !== confirmPassword) {
-      control.get('confirmPassword').setErrors({ NoPassswordMatch: true });
+      control.get("confirmPassword").setErrors({ NoPassswordMatch: true });
     }
   }
   static includeSpaceStringValidator() {
     return function(input: FormControl) {
       if (input.value) {
         for (let t = 0; t < input.value.length; t++) {
-          if (' '.indexOf(input.value[t]) >= 0) {
+          if (" ".indexOf(input.value[t]) >= 0) {
             return { validateIncludeSpaceString: true };
           }
         }
@@ -24,7 +24,7 @@ export class IValidators {
   static spaceStringValidator() {
     return function(input: FormControl) {
       if (input.value) {
-        return input.value.trim() === ''
+        return input.value.trim() === ""
           ? { validatespaceString: { valid: false } }
           : null;
       }
@@ -68,11 +68,13 @@ export class IValidators {
       const EMAIL_REGEXP = /^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
       if (input.value) {
         let arr_email = input.value;
-        arr_email = arr_email.map((inc: any) => {
-          return inc.trim();
-        }).filter((inc: any) => {
-          return inc !== '';
-        });
+        arr_email = arr_email
+          .map((inc: any) => {
+            return inc.trim();
+          })
+          .filter((inc: any) => {
+            return inc !== "";
+          });
         for (let i = 0; i < arr_email.length; i++) {
           if (arr_email.indexOf(arr_email[i]) !== i) {
             return { validateDuplicate: { valid: false } };

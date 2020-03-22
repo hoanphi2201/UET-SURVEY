@@ -1,18 +1,26 @@
-import { Component, OnInit, TemplateRef,  } from '@angular/core';
-import { FormGroup,  } from '@angular/forms';
-import { TableListColumn, Pagging, SurveyCollector, SurveyCollectorService, SurveyResponseService, Filter, ExcelService } from '@app/core';
-import { TranslateService } from '@ngx-translate/core';
-import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
-import { LoaderService, WindowresizeService, Helpers } from '@app/shared';
-import * as _ from 'lodash';
-import { OpenCollectorComponent } from '@app/shared/modals/open-collector/open-collector.component';
-import { CloseCollectorComponent } from '@app/shared/modals/close-collector/close-collector.component';
-import { RenameCollectorComponent } from '@app/shared/modals/rename-collector/rename-collector.component';
+import { Component, OnInit, TemplateRef } from "@angular/core";
+import { FormGroup } from "@angular/forms";
+import {
+  TableListColumn,
+  Pagging,
+  SurveyCollector,
+  SurveyCollectorService,
+  SurveyResponseService,
+  Filter,
+  ExcelService
+} from "@app/core";
+import { TranslateService } from "@ngx-translate/core";
+import { NzMessageService, NzModalService, NzModalRef } from "ng-zorro-antd";
+import { LoaderService, WindowresizeService, Helpers } from "@app/shared";
+import * as _ from "lodash";
+import { OpenCollectorComponent } from "@app/shared/modals/open-collector/open-collector.component";
+import { CloseCollectorComponent } from "@app/shared/modals/close-collector/close-collector.component";
+import { RenameCollectorComponent } from "@app/shared/modals/rename-collector/rename-collector.component";
 
 @Component({
-  selector: 'app-survey-collectors',
-  templateUrl: './survey-collectors.component.html',
-  styleUrls: ['./survey-collectors.component.scss']
+  selector: "app-survey-collectors",
+  templateUrl: "./survey-collectors.component.html",
+  styleUrls: ["./survey-collectors.component.scss"]
 })
 export class SurveyCollectorsComponent implements OnInit {
   listOfAllData: SurveyCollector[] = [];
@@ -30,11 +38,11 @@ export class SurveyCollectorsComponent implements OnInit {
     pageSize: 10
   };
   filter: Filter = {
-    searchKey: 'name',
-    searchValue: '',
-    sortField: 'createdAt',
-    sortType: 'desc',
-    filterKey: 'surveyFormId',
+    searchKey: "name",
+    searchValue: "",
+    sortField: "createdAt",
+    sortType: "desc",
+    filterKey: "surveyFormId",
     filterValue: []
   };
   surveyCollectorDelete: SurveyCollector;
@@ -49,7 +57,7 @@ export class SurveyCollectorsComponent implements OnInit {
     private windowresizeService: WindowresizeService,
     private surveyResponseService: SurveyResponseService,
     private excelService: ExcelService
-  ) { }
+  ) {}
   ngOnInit() {
     this.screenWidth = window.innerWidth;
     this.windowresizeService.getSize().subscribe(size => {
@@ -62,61 +70,60 @@ export class SurveyCollectorsComponent implements OnInit {
   }
   initTable() {
     this.columns = [
-      { id: 'id', type: 'text', hidden: true, header: 'admin.layout.ID' },
+      { id: "id", type: "text", hidden: true, header: "admin.layout.ID" },
       {
-        id: 'type',
-        type: 'icon',
+        id: "type",
+        type: "icon",
         action: {
           iconMap: (type: string) => {
             switch (type) {
-              case 'WEBLINK':
-                return 'link';
-              case 'EMAIL':
-                return 'mail';
+              case "WEBLINK":
+                return "link";
+              case "EMAIL":
+                return "mail";
               default:
-                return 'loading';
+                return "loading";
             }
           }
         },
         sortable: true,
-        header: 'default.layout.ICON'
+        header: "default.layout.ICON"
       },
-      {id: 'formName', type: 'text', header: 'admin.layout.SURVEY_FORM' },
+      { id: "formName", type: "text", header: "admin.layout.SURVEY_FORM" },
       {
-        id: 'name',
-        td_two: 'createdAt',
-        className: 'activity',
-        type: 'text',
+        id: "name",
+        td_two: "createdAt",
+        className: "activity",
+        type: "text",
         search: true,
         action: {
           link: (collectorId: string, type: string) => {
             switch (type) {
-              case 'WEBLINK':
+              case "WEBLINK":
                 return `/create/collector-responses/collector-link/${collectorId}`;
-              case 'EMAIL':
+              case "EMAIL":
                 return `/create/collector-responses/collector-email/manage/${collectorId}`;
               default:
-                return 'loading';
+                return "loading";
             }
-            
           }
         },
         sortable: true,
-        header: 'default.layout.TITLE'
+        header: "default.layout.TITLE"
       },
       {
-        id: 'status',
-        type: 'status',
+        id: "status",
+        type: "status",
         sortable: true,
         action: {
           classMap: (status: string) => {
             switch (status) {
-              case 'OPEN':
-                return 'open';
-              case 'CLOSED':
-                return 'closed';
+              case "OPEN":
+                return "open";
+              case "CLOSED":
+                return "closed";
               default:
-                return 'closed';
+                return "closed";
             }
           },
           doChangeStatus: (
@@ -124,97 +131,113 @@ export class SurveyCollectorsComponent implements OnInit {
             status: string
           ) => {
             switch (status) {
-              case 'OPEN':
+              case "OPEN":
                 this.showCloseCollectorModal(surveyCollector);
                 break;
-              case 'CLOSED':
+              case "CLOSED":
                 this.showOpenCollectorModal(surveyCollector);
                 break;
             }
           }
         },
-        header: 'default.layout.STATUS'
+        header: "default.layout.STATUS"
       },
       {
-        id: 'response',
-        type: 'text',
+        id: "response",
+        type: "text",
         sortable: true,
-        header: 'default.layout.RESPONSES'
+        header: "default.layout.RESPONSES"
       },
       {
-        id: 'createdAt',
-        type: 'date',
+        id: "createdAt",
+        type: "date",
         sortable: true,
-        header: 'admin.layout.DATE_CREATED'
+        header: "admin.layout.DATE_CREATED"
       },
       {
-        id: 'updatedAt',
-        type: 'date',
+        id: "updatedAt",
+        type: "date",
         sortable: true,
-        header: 'default.layout.DATE_MODIFIED'
+        header: "default.layout.DATE_MODIFIED"
       }
     ];
   }
   showCloseCollectorModal(surveyCollector: SurveyCollector): void {
     this.modalForm = this.modalService.create({
-      nzTitle: this.translateService.instant('default.layout.CLOSE_COLLECTOR'),
+      nzTitle: this.translateService.instant("default.layout.CLOSE_COLLECTOR"),
       nzFooter: null,
       nzContent: CloseCollectorComponent,
       nzCancelDisabled: true,
       nzMaskClosable: true,
       nzClosable: true,
       nzWidth: 700,
-      nzClassName: 'close-collector-dialog',
+      nzClassName: "close-collector-dialog",
       nzComponentParams: { surveyCollectorClose: surveyCollector }
     });
   }
   showOpenCollectorModal(surveyCollector: SurveyCollector): void {
     this.modalForm = this.modalService.create({
-      nzTitle: this.translateService.instant('default.layout.OPEN_COLLECTOR'),
+      nzTitle: this.translateService.instant("default.layout.OPEN_COLLECTOR"),
       nzFooter: null,
       nzContent: OpenCollectorComponent,
       nzCancelDisabled: true,
       nzMaskClosable: true,
       nzClosable: true,
       nzWidth: 700,
-      nzClassName: 'close-collector-dialog',
+      nzClassName: "close-collector-dialog",
       nzComponentParams: { surveyCollectorOpen: surveyCollector }
     });
   }
-  
+
   mapOptionsFilter(id: string, options: any) {
-    const column = this.columns.filter(col => col.filterKey === id || col.id === id)[0];
+    const column = this.columns.filter(
+      col => col.filterKey === id || col.id === id
+    )[0];
     if (column) {
       column.filter = options;
     }
   }
   getSurveyCollectorList() {
     this.loaderService.display(true);
-    this.surveyCollectorService.getSurveyCollectorList(this.pagging.page, this.pagging.pageSize, this.filter.sortField, this.filter.sortType, this.filter.searchKey, this.filter.searchValue, this.filter.filterKey, JSON.stringify(this.filter.filterValue)).subscribe(res => {
-      if (res.status.code === 200) {
-        this.listOfAllData = res.results.map(o => {
-          return  {...o, formName: o.surveyForm.title};
-        });
-        this.pagging.total = res.paging.total;
-        this.refreshStatus();
-      }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
+    this.surveyCollectorService
+      .getSurveyCollectorList(
+        this.pagging.page,
+        this.pagging.pageSize,
+        this.filter.sortField,
+        this.filter.sortType,
+        this.filter.searchKey,
+        this.filter.searchValue,
+        this.filter.filterKey,
+        JSON.stringify(this.filter.filterValue)
+      )
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.listOfAllData = res.results.map(o => {
+              return { ...o, formName: o.surveyForm.title };
+            });
+            this.pagging.total = res.paging.total;
+            this.refreshStatus();
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
       );
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
   }
-  
+
   sort(sort: { key: string; value: string }): void {
     this.filter.sortField = sort.key;
-    if (sort.value === 'ascend') {
-      this.filter.sortType = 'asc';
+    if (sort.value === "ascend") {
+      this.filter.sortType = "asc";
     } else {
-      this.filter.sortType = 'desc';
+      this.filter.sortType = "desc";
     }
     this.getSurveyCollectorList();
   }
@@ -222,8 +245,8 @@ export class SurveyCollectorsComponent implements OnInit {
     this.getSurveyCollectorList();
   }
   reset(): void {
-    this.filter.searchKey = '';
-    this.filter.searchValue = '';
+    this.filter.searchKey = "";
+    this.filter.searchValue = "";
     this.getSurveyCollectorList();
   }
   onFilter($event: any, key: string) {
@@ -238,9 +261,15 @@ export class SurveyCollectorsComponent implements OnInit {
     this.refreshStatus();
   }
   refreshStatus(): void {
-    this.isAllDisplayDataChecked = this.listOfAllData.every(item => this.mapOfCheckedId[item.id]);
-    this.isIndeterminate = this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) && !this.isAllDisplayDataChecked;
-    this.numberOfChecked = this.listOfAllData.filter(item => this.mapOfCheckedId[item.id]).length;
+    this.isAllDisplayDataChecked = this.listOfAllData.every(
+      item => this.mapOfCheckedId[item.id]
+    );
+    this.isIndeterminate =
+      this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) &&
+      !this.isAllDisplayDataChecked;
+    this.numberOfChecked = this.listOfAllData.filter(
+      item => this.mapOfCheckedId[item.id]
+    ).length;
   }
   checkItem(id: string, $event: any) {
     this.mapOfCheckedId[id] = $event;
@@ -254,17 +283,22 @@ export class SurveyCollectorsComponent implements OnInit {
     this.pagging.pageSize = $event;
     this.getSurveyCollectorList();
   }
-  
-  openForm(surveyCollector: SurveyCollector) {
 
-  }
+  openForm(surveyCollector: SurveyCollector) {}
 
-  showDeleteConfirm(surveyCollector: SurveyCollector, tplContent: TemplateRef<{}>): void {
+  showDeleteConfirm(
+    surveyCollector: SurveyCollector,
+    tplContent: TemplateRef<{}>
+  ): void {
     this.surveyCollectorDelete = surveyCollector;
     this.modalService.confirm({
-      nzTitle: this.translateService.instant('default.layout.ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_COLLECTOR'),
-      nzCancelText: this.translateService.instant('default.layout.CANCEL'),
-      nzOkText: this.translateService.instant('default.layout.DELETE_COLLECTOR'),
+      nzTitle: this.translateService.instant(
+        "default.layout.ARE_YOU_SURE_YOU_WANT_TO_DELETE_THIS_COLLECTOR"
+      ),
+      nzCancelText: this.translateService.instant("default.layout.CANCEL"),
+      nzOkText: this.translateService.instant(
+        "default.layout.DELETE_COLLECTOR"
+      ),
       nzContent: tplContent,
       nzOnOk: () => {
         if (surveyCollector) {
@@ -276,44 +310,56 @@ export class SurveyCollectorsComponent implements OnInit {
 
   private onDeleteSurveyCollector(surveyCollectorId: string) {
     this.loaderService.display(true);
-    this.surveyCollectorService.deleteSurveyCollector(surveyCollectorId).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
-        this.getSurveyCollectorList();
-      }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
+    this.surveyCollectorService
+      .deleteSurveyCollector(surveyCollectorId)
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.nzMessageService.success(
+              this.translateService.instant(res.status.message)
+            );
+            this.getSurveyCollectorList();
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
       );
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
   }
 
   showRenameCollectorModal(surveyCollector: SurveyCollector): void {
     this.modalForm = this.modalService.create({
-      nzTitle: this.translateService.instant('default.layout.EDIT_COLLECTOR_NICKNAME'),
+      nzTitle: this.translateService.instant(
+        "default.layout.EDIT_COLLECTOR_NICKNAME"
+      ),
       nzFooter: null,
       nzContent: RenameCollectorComponent,
       nzCancelDisabled: true,
       nzMaskClosable: true,
       nzClosable: true,
       nzWidth: 700,
-      nzClassName: 'rename-collector-dialog',
+      nzClassName: "rename-collector-dialog",
       nzComponentParams: { surveyCollectorRename: surveyCollector }
     });
   }
 
-  showClearResponsesConfirm(surveyCollector: SurveyCollector, tplContent: TemplateRef<{}>): void {
+  showClearResponsesConfirm(
+    surveyCollector: SurveyCollector,
+    tplContent: TemplateRef<{}>
+  ): void {
     this.surveyCollectorClearResponses = surveyCollector;
     this.modalService.confirm({
-      nzTitle: this.translateService.instant('default.layout.ARE_YOU_SURE_YOU_WANT_TO_CLEAR_ALL_THE_RESPONSES_IN_THIS_COLLECTOR'),
-      nzCancelText: this.translateService.instant('default.layout.CANCEL'),
-      nzOkText: this.translateService.instant('default.layout.CLEAR_RESPONSES'),
+      nzTitle: this.translateService.instant(
+        "default.layout.ARE_YOU_SURE_YOU_WANT_TO_CLEAR_ALL_THE_RESPONSES_IN_THIS_COLLECTOR"
+      ),
+      nzCancelText: this.translateService.instant("default.layout.CANCEL"),
+      nzOkText: this.translateService.instant("default.layout.CLEAR_RESPONSES"),
       nzContent: tplContent,
       nzOnOk: () => {
         if (surveyCollector) {
@@ -324,26 +370,33 @@ export class SurveyCollectorsComponent implements OnInit {
   }
   private clearResponsesByCollector(surveyCollectorId: string) {
     this.loaderService.display(true);
-    this.surveyResponseService.clearResponsesByCollector(surveyCollectorId).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(this.translateService.instant(res.status.message));
-        this.getSurveyCollectorList();
-      }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
+    this.surveyResponseService
+      .clearResponsesByCollector(surveyCollectorId)
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.nzMessageService.success(
+              this.translateService.instant(res.status.message)
+            );
+            this.getSurveyCollectorList();
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
       );
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
   }
   showDeleteMultyConfirm(): void {
     this.modalService.confirm({
-      nzTitle: this.translateService.instant('admin.layout.DELETE_USER_TITLE'),
-      nzCancelText: this.translateService.instant('admin.layout.NO'),
-      nzOkText: this.translateService.instant('admin.layout.YES'),
+      nzTitle: this.translateService.instant("admin.layout.DELETE_USER_TITLE"),
+      nzCancelText: this.translateService.instant("admin.layout.NO"),
+      nzOkText: this.translateService.instant("admin.layout.YES"),
       nzOnOk: () => {
         return this.onDeleteMultySurveyCollector();
       }
@@ -352,30 +405,37 @@ export class SurveyCollectorsComponent implements OnInit {
   onDeleteMultySurveyCollector() {
     const surveyCollectorIds = _.keys(_.pickBy(this.mapOfCheckedId));
     this.loaderService.display(true);
-    this.surveyCollectorService.deleteMultySurveyCollector({ surveyCollectorIds }).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
-        this.getSurveyCollectorList();
-      }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(this.translateService.instant(err.message));
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
+    this.surveyCollectorService
+      .deleteMultySurveyCollector({ surveyCollectorIds })
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.nzMessageService.success(
+              this.translateService.instant(res.status.message)
+            );
+            this.getSurveyCollectorList();
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
+      );
   }
   onExport(type: string) {
     const data = [];
     this.listOfAllData.forEach(row => {
       const intance = {};
       this.columns.forEach(col => {
-        intance[this.translateService.instant(col.header)] = row[col.id]; 
-      })
+        intance[this.translateService.instant(col.header)] = row[col.id];
+      });
       data.push(intance);
-    })
-    this.excelService.exportAsExcelFile(data, 'survey_collectors', type);
+    });
+    this.excelService.exportAsExcelFile(data, "survey_collectors", type);
   }
 }

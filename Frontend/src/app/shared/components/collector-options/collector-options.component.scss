@@ -1,20 +1,20 @@
 ::ng-deep .ant-collapse-header {
-    padding: 16px 16px 16px 40px !important;
+  padding: 16px 16px 16px 40px !important;
 }
 ::ng-deep .ant-collapse {
-    border-radius: 0px !important;
+  border-radius: 0px !important;
 }
 ::ng-deep .ant-collapse-item:last-child > .ant-collapse-content,
 ::ng-deep .ant-collapse > .ant-collapse-item:last-child,
 ::ng-deep .ant-collapse > .ant-collapse-item:last-child > .ant-collapse-header {
-    border-radius: 0px !important;
+  border-radius: 0px !important;
 }
 ::ng-deep .ant-collapse-header {
-    background: #fff;
+  background: #fff;
 }
 ::ng-deep .ant-collapse-content {
-    background-color: #edeeee;
+  background-color: #edeeee;
 }
 .child-radio-margin {
-    margin-left: 23px;
-  }
+  margin-left: 23px;
+}

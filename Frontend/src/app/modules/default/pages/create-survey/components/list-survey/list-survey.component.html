@@ -3,38 +3,62 @@
     <ng-container *ngFor="let survey of listOfAllData">
       <div class="wds-card sm-base-list-item sm-survey-card">
         <div class="row h-100 sm-base-list-item-container">
-          <div (click)="onPreviewCopy(survey)" class="wds-flex h-100   wds-flex-y-center sm-base-list-item-inner">
+          <div
+            (click)="onPreviewCopy(survey)"
+            class="wds-flex h-100   wds-flex-y-center sm-base-list-item-inner"
+          >
             <div class="wds-flex wds-flex-y">
-              <span class="wds-type-card-title sm-survey-card-title-text sm-truncate-multi-line" style="-webkit-line-clamp: 2;">3453454</span>
+              <span
+                class="wds-type-card-title sm-survey-card-title-text sm-truncate-multi-line"
+                style="-webkit-line-clamp: 2;"
+                >3453454</span
+              >
               <div class="wds-flex-nowrap">
                 <span class="wds-type-dark-muted wds-type-body-sm">
-                  {{ 'default.layout.CREATED' | translate }}:
-                  {{ survey.createdAt | date: 'dd/MM/yyyy' }} |
-                  {{ 'default.layout.MODIFIED' | translate }}:
-                  {{ survey.updatedAt | date: 'dd/MM/yyyy' }}
+                  {{ "default.layout.CREATED" | translate }}:
+                  {{ survey.createdAt | date: "dd/MM/yyyy" }} |
+                  {{ "default.layout.MODIFIED" | translate }}:
+                  {{ survey.updatedAt | date: "dd/MM/yyyy" }}
                 </span>
               </div>
             </div>
             <div class="sm-survey-card-actions">
-              <div class="wds-flex wds-flex-y wds-flex-x-center wds-flex-nowrap sm-survey-card-separator sm-survey-card-detail-section sm-survey-card-response-count">
+              <div
+                class="wds-flex wds-flex-y wds-flex-x-center wds-flex-nowrap sm-survey-card-separator sm-survey-card-detail-section sm-survey-card-response-count"
+              >
                 <span class="wds-type-dark-muted wds-type-section-title">
-                  {{ survey.response }}</span>
-                <span class="wds-type-dark-muted wds-type-body-sm" translate>default.layout.RESPONSES</span>
+                  {{ survey.response }}</span
+                >
+                <span class="wds-type-dark-muted wds-type-body-sm" translate
+                  >default.layout.RESPONSES</span
+                >
               </div>
-              <div class="wds-flex wds-flex-y wds-flex-x-center wds-flex-nowrap sm-survey-card-separator sm-survey-card-detail-section">
+              <div
+                class="wds-flex wds-flex-y wds-flex-x-center wds-flex-nowrap sm-survey-card-separator sm-survey-card-detail-section"
+              >
                 <span class="wds-type-dark-muted wds-type-section-title">
-                  {{ countQuestionSurvey(survey.json) }}</span>
-                <span class="wds-type-dark-muted wds-type-body-sm" translate>default.layout.QUESTIONS</span>
+                  {{ countQuestionSurvey(survey.json) }}</span
+                >
+                <span class="wds-type-dark-muted wds-type-body-sm" translate
+                  >default.layout.QUESTIONS</span
+                >
               </div>
-              <div class="wds-flex wds-flex-y wds-flex-x-center wds-flex-nowrap sm-survey-card-separator sm-survey-card-detail-section sm-survey-card-completion-time">
+              <div
+                class="wds-flex wds-flex-y wds-flex-x-center wds-flex-nowrap sm-survey-card-separator sm-survey-card-detail-section sm-survey-card-completion-time"
+              >
                 <span class="wds-type-dark-muted wds-type-section-title">
-                  {{ calculateTimeComplete(survey.json)}}</span>
+                  {{ calculateTimeComplete(survey.json) }}</span
+                >
                 <span class="wds-type-dark-muted wds-type-body-sm" translate>
                   default.layout.TYPICAL_TIME_SPENT
                 </span>
               </div>
-              <div class="wds-flex wds-flex-y wds-flex-x-center wds-flex-nowrap sm-survey-card-separator sm-survey-card-detail-section sm-survey-card-preview">
-                <span class="wds-type-dark-muted wds-type-section-title"><i nz-icon nzType="eye" nzTheme="outline"></i></span><br />
+              <div
+                class="wds-flex wds-flex-y wds-flex-x-center wds-flex-nowrap sm-survey-card-separator sm-survey-card-detail-section sm-survey-card-preview"
+              >
+                <span class="wds-type-dark-muted wds-type-section-title"
+                  ><i nz-icon nzType="eye" nzTheme="outline"></i></span
+                ><br />
                 <span class="wds-type-dark-muted wds-type-body-sm" translate>
                   default.layout.PREVIEW
                 </span>
@@ -46,12 +70,14 @@
             [nzTooltipTitle]="'default.layout.FAVORITES' | translate"
             nzTooltipPlacement="top"
             nz-tooltip
-            class="sm-survey-tile-badge-container">
+            class="sm-survey-tile-badge-container"
+          >
             <i
               [ngClass]="{ 'sm-survey-tile-badge-favorite': survey.isFavorite }"
               nz-icon
               nzType="star"
-              [nzTheme]="'fill'">
+              [nzTheme]="'fill'"
+            >
             </i>
           </div>
         </div>
@@ -64,17 +90,25 @@
       nzType="link"
       *ngIf="pagging?.total - pagging.pageSize * pagging.page > 0"
       (click)="loadMoreSurvey()"
-      class="wds-button-text">
-      {{ 'default.layout.VIEW' | translate }}
-      {{ pagging.pageSize * (pagging.page + 1) > pagging?.total ? pagging?.total - pagging.pageSize * pagging.page : pagging.pageSize}}
-      {{ 'default.layout.MORE' | translate | lowercase }}
+      class="wds-button-text"
+    >
+      {{ "default.layout.VIEW" | translate }}
+      {{
+        pagging.pageSize * (pagging.page + 1) > pagging?.total
+          ? pagging?.total - pagging.pageSize * pagging.page
+          : pagging.pageSize
+      }}
+      {{ "default.layout.MORE" | translate | lowercase }}
     </button>
   </div>
 </ng-container>
 
 <ng-template #emptyList>
   <div class="row">
-    <nz-empty [nzNotFoundImage]="'assets/images/empty.png'" [nzNotFoundContent]="contentTpl">
+    <nz-empty
+      [nzNotFoundImage]="'assets/images/empty.png'"
+      [nzNotFoundContent]="contentTpl"
+    >
       <ng-template #contentTpl>
         <span>{{ emptyDescription | translate }}</span>
       </ng-template>

@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import * as Survey from 'survey-angular';
-import * as SurveyAnalytics from 'survey-analytics';
-import { LoaderService } from '@app/shared/services';
+import { Component, OnInit, Input } from "@angular/core";
+import * as Survey from "survey-angular";
+import * as SurveyAnalytics from "survey-analytics";
+import { LoaderService } from "@app/shared/services";
 
 @Component({
-  selector: 'app-survey-analytics',
+  selector: "app-survey-analytics",
   template: `
     <div class="surveyAnalyticsContainer" id="surveyAnalyticsContainer"></div>
   `
@@ -12,7 +12,7 @@ import { LoaderService } from '@app/shared/services';
 export class SurveyAnalyticsComponent implements OnInit {
   @Input() json: any;
   @Input() data: any;
-  constructor(private loaderService: LoaderService) { }
+  constructor(private loaderService: LoaderService) {}
 
   ngOnInit() {
     setTimeout(() => {
@@ -22,14 +22,14 @@ export class SurveyAnalyticsComponent implements OnInit {
         const normalizedData = this.data.map(item => {
           survey.getAllQuestions().forEach(q => {
             if (!item[q.name]) {
-              item[q.name] = '';
+              item[q.name] = "";
             }
           });
           return item;
         });
 
         const visPanel = new SurveyAnalytics.VisualizationPanel(
-          document.getElementById('surveyAnalyticsContainer'),
+          document.getElementById("surveyAnalyticsContainer"),
           survey.getAllQuestions(),
           normalizedData
         );
@@ -37,7 +37,7 @@ export class SurveyAnalyticsComponent implements OnInit {
         this.loaderService.display(false);
       } catch (error) {
         this.loaderService.display(false);
-       }
+      }
     }, 100);
   }
 }

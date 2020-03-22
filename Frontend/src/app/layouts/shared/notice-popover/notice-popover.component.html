@@ -6,7 +6,8 @@
   nzPlacement="bottomRight"
   nzOverlayClassName="notice-popover"
   [nzVisible]="visible"
-  (nzVisibleChange)="visibleChange.emit($event)">
+  (nzVisibleChange)="visibleChange.emit($event)"
+>
   <nz-badge [nzCount]="pagging?.total">
     <ng-content></ng-content>
   </nz-badge>
@@ -14,7 +15,12 @@
     <nz-tabset>
       <nz-tab
         *ngFor="let tab of tabs"
-        nzTitle="{{ tab.title }} {{tab.rows.length ? '(' + tab.rows.length + '/' + pagging?.total + ')' : ''}}">
+        nzTitle="{{ tab.title }} {{
+          tab.rows.length
+            ? '(' + tab.rows.length + '/' + pagging?.total + ')'
+            : ''
+        }}"
+      >
         <nz-spin [nzSpinning]="spinning">
           <div class="notFound" *ngIf="!tab.rows.length">
             <img [src]="tab.empty.image" alt="not found" />
@@ -23,19 +29,22 @@
           <nz-list
             [nzDataSource]="tab.rows"
             [nzRenderItem]="item"
-            *ngIf="tab.rows.length">
+            *ngIf="tab.rows.length"
+          >
             <ng-template #item let-item>
               <nz-list-item [ngClass]="{ read: item.read }">
                 <nz-list-item-meta
                   [nzAvatar]="nzAvatar"
                   [nzTitle]="nzTitle"
-                  [nzDescription]="nzDescription">
+                  [nzDescription]="nzDescription"
+                >
                   <ng-template #nzAvatar>
                     <span class="iconElement">
                       <nz-avatar
                         [nzSize]="48"
                         nzIcon="user"
-                        [nzSrc]="item.avatar">
+                        [nzSrc]="item.avatar"
+                      >
                       </nz-avatar>
                     </span>
                   </ng-template>
@@ -44,8 +53,22 @@
                       <div [innerHTML]="item.title"></div>
                     </div>
                     <div class="buttons">
-                      <button (click)="onAccept(item.surveySend)" nz-button [nzSize]="'small'" nzType="primary">{{'default.layout.ACCEPT' | translate}}</button>
-                      <button (click)="onDeny(item.surveySend)" nz-button [nzSize]="'small'" nzType="default">{{'default.layout.DENY' | translate}} </button>
+                      <button
+                        (click)="onAccept(item.surveySend)"
+                        nz-button
+                        [nzSize]="'small'"
+                        nzType="primary"
+                      >
+                        {{ "default.layout.ACCEPT" | translate }}
+                      </button>
+                      <button
+                        (click)="onDeny(item.surveySend)"
+                        nz-button
+                        [nzSize]="'small'"
+                        nzType="default"
+                      >
+                        {{ "default.layout.DENY" | translate }}
+                      </button>
                     </div>
                   </ng-template>
                   <ng-template #nzDescription>

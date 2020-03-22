@@ -1,17 +1,17 @@
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { LoaderService } from '@app/shared/services';
-import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IValidators, DSurveyFormService, AuthService, User } from '@app/core';
-import { environment as env } from '@env/environment';
-import { Helpers } from '@app/shared/helpers';
+import { Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { LoaderService } from "@app/shared/services";
+import { NzMessageService, NzModalService } from "ng-zorro-antd";
+import { TranslateService } from "@ngx-translate/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { IValidators, DSurveyFormService, AuthService, User } from "@app/core";
+import { environment as env } from "@env/environment";
+import { Helpers } from "@app/shared/helpers";
 
 @Component({
-  selector: 'app-modal-create-survey',
-  templateUrl: './modal-create-survey.component.html',
-  styleUrls: ['./modal-create-survey.component.scss']
+  selector: "app-modal-create-survey",
+  templateUrl: "./modal-create-survey.component.html",
+  styleUrls: ["./modal-create-survey.component.scss"]
 })
 export class ModalCreateSurveyComponent implements OnInit {
   form: FormGroup;
@@ -27,7 +27,7 @@ export class ModalCreateSurveyComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private modalService: NzModalService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.buildForm();
@@ -39,8 +39,8 @@ export class ModalCreateSurveyComponent implements OnInit {
   }
   private buildForm() {
     this.form = this.formBuilder.group({
-      title: ['', [Validators.required, IValidators.spaceStringValidator()]],
-      description: [''],
+      title: ["", [Validators.required, IValidators.spaceStringValidator()]],
+      description: [""],
       category: [null]
     });
   }
@@ -63,29 +63,34 @@ export class ModalCreateSurveyComponent implements OnInit {
         formData.value[key] = formData.value[key].trim();
       }
     });
-    this.dSurveyFormService.addSurveyForm({...formData.value, userId: this.currentUser.id }).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
-        this.router.navigate([
-          '/create',
-          'design-survey',
-          res.results[0].id
-        ]);
-      }
-    }, err => {
-      this.loaderService.display(false);
-      this.buttonLoading = false;
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
+    this.dSurveyFormService
+      .addSurveyForm({ ...formData.value, userId: this.currentUser.id })
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.nzMessageService.success(
+              this.translateService.instant(res.status.message)
+            );
+            this.router.navigate([
+              "/create",
+              "design-survey",
+              res.results[0].id
+            ]);
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.buttonLoading = false;
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+          this.modalService.closeAll();
+        },
+        () => {
+          this.loaderService.display(false);
+          this.buttonLoading = false;
+          this.modalService.closeAll();
+        }
       );
-      this.modalService.closeAll();
-    }, () => {
-      this.loaderService.display(false);
-      this.buttonLoading = false;
-      this.modalService.closeAll();
-    }
-    );
   }
 }

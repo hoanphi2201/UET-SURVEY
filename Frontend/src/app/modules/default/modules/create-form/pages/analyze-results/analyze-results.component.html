@@ -1,15 +1,27 @@
 <div class="container">
   <nz-card [style.marginTop.px]="24" [style.marginBottom.px]="24">
-    <ng-container *ngIf="listOfAllDataSurveyResponse && listOfAllDataSurveyResponse.length > 0 && surveyFormDetail?.json;else loadingTpl">
+    <ng-container
+      *ngIf="
+        listOfAllDataSurveyResponse &&
+          listOfAllDataSurveyResponse.length > 0 &&
+          surveyFormDetail?.json;
+        else loadingTpl
+      "
+    >
       <nz-tabset (nzSelectedIndexChange)="confirmTabSwitch($event)">
-        <nz-tab [nzTitle]="'default.layout.STATISTIC_RESULTS' | translate | uppercase">
+        <nz-tab
+          [nzTitle]="'default.layout.STATISTIC_RESULTS' | translate | uppercase"
+        >
           <app-survey-analytics
             [data]="listOfAllDataSurveyResponse"
-            [json]="surveyFormDetail.json">
+            [json]="surveyFormDetail.json"
+          >
           </app-survey-analytics>
         </nz-tab>
         <nz-tab
-          [nzTitle]="'default.layout.STATISTIC_LOCATION_RESULTS' | translate | uppercase"
+          [nzTitle]="
+            'default.layout.STATISTIC_LOCATION_RESULTS' | translate | uppercase
+          "
         >
           <div data-role="mapcontent">
             <app-map
@@ -18,11 +30,16 @@
               [config]="configMap"
               (oncomponentsetup)="onComponentSetup()"
               (onpointermove)="onPointerMove($event)"
-              (onclick)="onMapClick($event)">
+              (onclick)="onMapClick($event)"
+            >
             </app-map>
           </div>
         </nz-tab>
-        <nz-tab [nzTitle]="'default.layout.INDIVIDUAL_RESPONSES' | translate | uppercase">
+        <nz-tab
+          [nzTitle]="
+            'default.layout.INDIVIDUAL_RESPONSES' | translate | uppercase
+          "
+        >
           <div class="analyze-nav-content">
             <button
               [nzTrigger]="'click'"
@@ -31,8 +48,11 @@
               nz-dropdown
               nz-button
               nzType="primary"
-              [nzSize]="'large'">
-                {{ 'default.layout.RESPONDENT' | translate }} #{{selectedIndex + 1}}
+              [nzSize]="'large'"
+            >
+              {{ "default.layout.RESPONDENT" | translate }} #{{
+                selectedIndex + 1
+              }}
               <i nz-icon nzType="caret-down" nzTheme="outline"></i>
             </button>
             <nz-dropdown-menu #menuCollectorType="nzDropdownMenu">
@@ -44,58 +64,81 @@
                       <nz-input-number
                         #index
                         [nzMin]="1"
-                        [nzMax]="listOfAllSurveyResponse.length">
+                        [nzMax]="listOfAllSurveyResponse.length"
+                      >
                       </nz-input-number>
                     </nz-form-control>
                   </nz-form-item>
                   <nz-form-item>
-                    <nz-form-label>of {{listOfAllSurveyResponse.length}}</nz-form-label>
+                    <nz-form-label
+                      >of {{ listOfAllSurveyResponse.length }}</nz-form-label
+                    >
                   </nz-form-item>
                   <nz-form-item>
-                      <nz-form-control>
-                        <button
-                          (click)="goto(index.value)"
-                          nz-button
-                          nzType="primary">
-                          Go 
-                        </button>
-                      </nz-form-control>
+                    <nz-form-control>
+                      <button
+                        (click)="goto(index.value)"
+                        nz-button
+                        nzType="primary"
+                      >
+                        Go
+                      </button>
+                    </nz-form-control>
                   </nz-form-item>
                 </form>
-                
-                
               </div>
             </nz-dropdown-menu>
             <button
-              nz-tooltip 
+              nz-tooltip
               [nzTooltipTitle]="'default.layout.PREVIOUS' | translate"
               (click)="pre()"
               nz-button
               nzType="primary"
-              [nzSize]="'large'" >
+              [nzSize]="'large'"
+            >
               <i nz-icon nzType="caret-left" nzTheme="outline"></i>
             </button>
             <button
-              nz-tooltip 
+              nz-tooltip
               [nzTooltipTitle]="'default.layout.NEXT' | translate"
               (click)="next()"
               nz-button
-              nzType="primary"    
-              [nzSize]="'large'">
+              nzType="primary"
+              [nzSize]="'large'"
+            >
               <i nz-icon nzType="caret-right" nzTheme="outline"></i>
             </button>
           </div>
           <div class="analyze-pages-content">
             <div class="respondent-window fadeable">
-              <nz-tabset id="preview-tab" [(nzSelectedIndex)]="selectedIndex" (nzSelectedIndexChange)="onChangeTabPreview($event)">
-                <nz-tab *ngFor=" let response of listOfAllSurveyResponse; let i = index">
+              <nz-tabset
+                id="preview-tab"
+                [(nzSelectedIndex)]="selectedIndex"
+                (nzSelectedIndexChange)="onChangeTabPreview($event)"
+              >
+                <nz-tab
+                  *ngFor="
+                    let response of listOfAllSurveyResponse;
+                    let i = index
+                  "
+                >
                   <div class="respondent">
-                    <div class="respondent-profile clearfix spacer-phm spacer-ptm sm-corner-a fadeable">
+                    <div
+                      class="respondent-profile clearfix spacer-phm spacer-ptm sm-corner-a fadeable"
+                    >
                       <div class="respondent-data">
-                        <h5 class="sm-label respondent-completion-status completed">{{'default.layout.COMPLETE' | translate | uppercase}} </h5>
+                        <h5
+                          class="sm-label respondent-completion-status completed"
+                        >
+                          {{
+                            "default.layout.COMPLETE" | translate | uppercase
+                          }}
+                        </h5>
                         <ul class="respondent-info-fields">
                           <li>
-                            <span class="sm-label respondent-info-label">{{'default.layout.COLLECTOR' | translate}}: </span>
+                            <span class="sm-label respondent-info-label"
+                              >{{ "default.layout.COLLECTOR" | translate }}:
+                            </span>
                             <span class="sm-label value">
                               {{ response.surveyCollector?.name }}
                             </span>
@@ -104,25 +147,33 @@
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label">{{'default.layout.STARTED' | translate}}: </span>
+                            <span class="sm-label respondent-info-label"
+                              >{{ "default.layout.STARTED" | translate }}:
+                            </span>
                             <span class="sm-label value">
-                              {{ response?.startTime | date: 'medium' }}
+                              {{ response?.startTime | date: "medium" }}
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label">{{'default.layout.LAST_MODIFIED' | translate}}: </span>
+                            <span class="sm-label respondent-info-label"
+                              >{{ "default.layout.LAST_MODIFIED" | translate }}:
+                            </span>
                             <span class="sm-label value">
-                              {{ response?.endTime | date: 'medium' }}
+                              {{ response?.endTime | date: "medium" }}
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label">{{'default.layout.TIME_SPENT' | translate}}: </span>
+                            <span class="sm-label respondent-info-label"
+                              >{{ "default.layout.TIME_SPENT" | translate }}:
+                            </span>
                             <span class="sm-label value">
                               {{ msToHMSTypicalTimeSpent(response.totalTime) }}
                             </span>
                           </li>
                           <li>
-                            <span class="sm-label respondent-info-label">{{'default.layout.IP_ADDRESS' | translate}} : </span>
+                            <span class="sm-label respondent-info-label"
+                              >{{ "default.layout.IP_ADDRESS" | translate }} :
+                            </span>
                             <span class="sm-label value">
                               {{ response.ipAddress }}
                             </span>
@@ -139,7 +190,8 @@
                 *ngIf="surveyResponsePreview"
                 [disabled]="true"
                 [data]="surveyResponsePreview?.json"
-                [json]="surveyResponsePreview?.surveyForm?.json">
+                [json]="surveyResponsePreview?.surveyForm?.json"
+              >
               </app-survey-response>
             </div>
           </div>
@@ -153,34 +205,43 @@
       <h3 class="no-content-title txt-shadow-lt">
         <div class="header-icon pictos">
           <i nz-icon nzType="warning" nzTheme="outline"></i>
-        </div> 
-        {{'default.layout.ADD_QUESTIONS_TO_YOUR_SURVEY' | translate}} 
+        </div>
+        {{ "default.layout.ADD_QUESTIONS_TO_YOUR_SURVEY" | translate }}
       </h3>
       <div class="button-bar">
         <button
           [routerLink]="['/create', 'design-survey', surveyFormDetail.id]"
           nz-button
           nzType="primary"
-          [nzSize]="'large'">
+          [nzSize]="'large'"
+        >
           <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
-          {{'default.layout.ADD_QUESTIONS' | translate}} 
+          {{ "default.layout.ADD_QUESTIONS" | translate }}
         </button>
       </div>
     </div>
-    <div *ngIf="surveyFormDetail && surveyFormDetail?.json && (!listOfAllDataSurveyResponse || listOfAllDataSurveyResponse?.length === 0)">
+    <div
+      *ngIf="
+        surveyFormDetail &&
+        surveyFormDetail?.json &&
+        (!listOfAllDataSurveyResponse ||
+          listOfAllDataSurveyResponse?.length === 0)
+      "
+    >
       <h3 class="no-content-title txt-shadow-lt">
         <div class="header-icon pictos">
           <i nz-icon nzType="warning" nzTheme="outline"></i>
-        </div> 
-        {{'default.layout.YOUR_SURVEY_HAS_NO_RESPONSES' | translate}} 
+        </div>
+        {{ "default.layout.YOUR_SURVEY_HAS_NO_RESPONSES" | translate }}
       </h3>
       <div class="button-bar">
         <button
           [routerLink]="['/create', 'collector-responses', surveyFormDetail.id]"
           nz-button
           nzType="primary"
-          [nzSize]="'large'">
-          {{'default.layout.COLLECT_RESPONSES' | translate}} 
+          [nzSize]="'large'"
+        >
+          {{ "default.layout.COLLECT_RESPONSES" | translate }}
         </button>
       </div>
     </div>

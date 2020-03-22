@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { SidebarComponent } from './sidebar.component';
+import { SidebarComponent } from "./sidebar.component";
 
-describe('SidebarComponent', () => {
+describe("SidebarComponent", () => {
   let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
 
@@ -21,7 +21,7 @@ describe('SidebarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

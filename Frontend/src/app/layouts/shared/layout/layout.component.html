@@ -9,13 +9,15 @@
       [nzVisible]="!collapsed"
       nzPlacement="left"
       (nzOnClose)="collapsed = true"
-      [nzBodyStyle]="{ padding: 0 }">
+      [nzBodyStyle]="{ padding: 0 }"
+    >
       <nz-layout>
         <nz-sider
           [nzWidth]="siderWidth"
           [nzTrigger]="null"
           [class.green]="setting?.theme == 'green'"
-          [class.light]="setting?.theme == 'light'">
+          [class.light]="setting?.theme == 'light'"
+        >
           <ng-container [ngTemplateOutlet]="sider"></ng-container>
         </nz-sider>
       </nz-layout>
@@ -28,7 +30,8 @@
       [nzWidth]="siderWidth"
       [nzTrigger]="null"
       [class.green]="setting?.theme == 'green'"
-      [class.light]="setting?.theme == 'light'">
+      [class.light]="setting?.theme == 'light'"
+    >
       <ng-container [ngTemplateOutlet]="sider"></ng-container>
     </nz-sider>
   </ng-container>

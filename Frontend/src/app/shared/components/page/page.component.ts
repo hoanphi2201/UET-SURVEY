@@ -1,26 +1,26 @@
-import { Component, OnInit, TemplateRef, Input } from '@angular/core';
-import { LayoutComponent } from '@app/layouts/shared/layout/layout.component';
-import { Title } from '@angular/platform-browser';
-import { WindowresizeService } from '@app/shared/services';
+import { Component, OnInit, TemplateRef, Input } from "@angular/core";
+import { LayoutComponent } from "@app/layouts/shared/layout/layout.component";
+import { Title } from "@angular/platform-browser";
+import { WindowresizeService } from "@app/shared/services";
 
 @Component({
-  selector: 'app-page',
-  templateUrl: './page.component.html',
-  styleUrls: ['./page.component.less'],
+  selector: "app-page",
+  templateUrl: "./page.component.html",
+  styleUrls: ["./page.component.less"],
   host: {
-    '[class.wide]': 'isWide',
-    '[attr.mode]': 'mode'
+    "[class.wide]": "isWide",
+    "[attr.mode]": "mode"
   }
 })
 export class PageComponent implements OnInit {
   screenHeight: number;
   private data = {
-    title: '',
+    title: "",
     region: { sider: false, header: false, content: true, footer: false }
   };
 
   @Input() header: TemplateRef<void> | null = null;
-  @Input() mode: string = 'layout';
+  @Input() mode: string = "layout";
 
   @Input()
   get title(): string {
@@ -43,7 +43,7 @@ export class PageComponent implements OnInit {
   }
 
   get isWide(): boolean {
-    return this.layout.setting.mode == 'top' && this.layout.setting.fixedWidth;
+    return this.layout.setting.mode == "top" && this.layout.setting.fixedWidth;
   }
 
   constructor(
@@ -61,7 +61,7 @@ export class PageComponent implements OnInit {
 
   ngAfterViewInit() {
     if (!this.title) {
-      this.title = '';
+      this.title = "";
     }
   }
 }

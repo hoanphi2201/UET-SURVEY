@@ -6,26 +6,42 @@
     default.layout.TRANSFER_THIS_SURVEY_AND_ITS_DATA_TO_ANOTHER_UETSURVEY_ACCOUNT_IT_WILL_BE_REMOVED_FROM_YOUR_ACCOUNT
   </div>
   <div class="copy-transfer-default heading">
-    <span class="title">{{surveyForm?.title}}</span>
+    <span class="title">{{ surveyForm?.title }}</span>
   </div>
   <form [formGroup]="form" nz-form>
     <div nz-row nzGutter="24">
       <div nz-col nzSpan="24">
         <nz-form-item>
-          <nz-form-label>{{ 'default.layout.USER_NAME' | translate }} </nz-form-label>
-          <nz-form-control [ngClass]="{ 'has-error': isFieldValid(form, 'to') }">
+          <nz-form-label
+            >{{ "default.layout.USER_NAME" | translate }}
+          </nz-form-label>
+          <nz-form-control
+            [ngClass]="{ 'has-error': isFieldValid(form, 'to') }"
+          >
             <input
               formControlName="to"
               nz-input
-              [placeholder]="'default.layout.ENTER_USER_NAME' | translate" />
+              [placeholder]="'default.layout.ENTER_USER_NAME' | translate"
+            />
           </nz-form-control>
-          <p *ngIf="sendType === 'SEND_COPY'" class="char-limit wds-type-product-ui wds-type-weight-regular" translate>
+          <p
+            *ngIf="sendType === 'SEND_COPY'"
+            class="char-limit wds-type-product-ui wds-type-weight-regular"
+            translate
+          >
             default.layout.ENTER_THE_USERNAME_OF_THE_ACCOUNT_YOU_WANT_TO_SEND_A_COPY_TO
           </p>
-          <p *ngIf="sendType === 'TRANSFER'" class="char-limit wds-type-product-ui wds-type-weight-regular" translate>
+          <p
+            *ngIf="sendType === 'TRANSFER'"
+            class="char-limit wds-type-product-ui wds-type-weight-regular"
+            translate
+          >
             default.layout.ENTER_THE_USERNAME_OF_THE_ACCOUNT_YOU_WANT_TO_TRANSFER
           </p>
-          <field-error-display [displayError]="isFieldValid(form, 'to')" [errors]="f.to.errors">
+          <field-error-display
+            [displayError]="isFieldValid(form, 'to')"
+            [errors]="f.to.errors"
+          >
           </field-error-display>
         </nz-form-item>
       </div>
@@ -39,6 +55,8 @@
   </button>
   <button (click)="onSend(form)" nz-button nzType="primary">
     <span *ngIf="sendType === 'SEND_COPY'" translate>default.layout.SEND</span>
-    <span *ngIf="sendType === 'TRANSFER'" translate>default.layout.TRANSFER</span>
+    <span *ngIf="sendType === 'TRANSFER'" translate
+      >default.layout.TRANSFER</span
+    >
   </button>
 </div>

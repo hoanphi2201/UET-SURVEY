@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { PreviewCopyComponent } from './preview-copy.component';
+import { PreviewCopyComponent } from "./preview-copy.component";
 
-describe('PreviewCopyComponent', () => {
+describe("PreviewCopyComponent", () => {
   let component: PreviewCopyComponent;
   let fixture: ComponentFixture<PreviewCopyComponent>;
 
@@ -21,7 +21,7 @@ describe('PreviewCopyComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

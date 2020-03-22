@@ -1,26 +1,33 @@
-import { Component, ElementRef, Input, OnChanges, ViewChild, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  ViewChild,
+  Output,
+  EventEmitter
+} from "@angular/core";
 declare const EXIF: any;
 
 type CropperState = { width: number; height: number; x: number; y: number };
 
 @Component({
-  selector: 'image-cropper',
-  templateUrl: 'image-cropper.component.html',
-  styleUrls: ['image-cropper.component.scss']
+  selector: "image-cropper",
+  templateUrl: "image-cropper.component.html",
+  styleUrls: ["image-cropper.component.scss"]
 })
 export class ImageCropperComponent implements OnChanges {
-
-  @Input() src = '';
+  @Input() src = "";
   @Input() targetWidth = 500;
   @Input() targetHeight = 500;
-  @Input() imageFormat = 'jpeg';
+  @Input() imageFormat = "jpeg";
   @Output() onError: EventEmitter<any> = new EventEmitter<any>();
-  @ViewChild('punchEl', {static: true}) punchEl: ElementRef;
-  @ViewChild('moveEl', {static: false}) moveEl: ElementRef;
-  @ViewChild('resizeEl', {static: false}) resizeEl: ElementRef;
-  @ViewChild('originalImageEl', {static: false}) originalImageEl: ElementRef;
+  @ViewChild("punchEl", { static: true }) punchEl: ElementRef;
+  @ViewChild("moveEl", { static: false }) moveEl: ElementRef;
+  @ViewChild("resizeEl", { static: false }) resizeEl: ElementRef;
+  @ViewChild("originalImageEl", { static: false }) originalImageEl: ElementRef;
 
-  orientedSrc = '';
+  orientedSrc = "";
 
   private touch: boolean;
 
@@ -32,31 +39,39 @@ export class ImageCropperComponent implements OnChanges {
   };
 
   private dragState: {
-    initialX: number,
-    initialY: number,
-    deltaX: number,
-    deltaY: number,
+    initialX: number;
+    initialY: number;
+    deltaX: number;
+    deltaY: number;
   };
 
   private resizeState: {
-    centerX: number,
-    centerY: number,
+    centerX: number;
+    centerY: number;
   };
 
   private originalElementScaledWidth: number;
   private originalElementScaledHeight: number;
 
-  private onmousemove = (event: MouseEvent) => { this.moveDuring(event); };
-  private onmouseup = (event: MouseEvent) => { this.moveEnd(event); };
-  private onresizemove = (event: MouseEvent) => { this.resizeDuring(event); };
-  private onresizeend = (event: MouseEvent) => { this.resizeEnd(event); };
+  private onmousemove = (event: MouseEvent) => {
+    this.moveDuring(event);
+  };
+  private onmouseup = (event: MouseEvent) => {
+    this.moveEnd(event);
+  };
+  private onresizemove = (event: MouseEvent) => {
+    this.resizeDuring(event);
+  };
+  private onresizeend = (event: MouseEvent) => {
+    this.resizeEnd(event);
+  };
 
   ngOnChanges() {
-    (<HTMLElement> this.punchEl.nativeElement).style.visibility = 'hidden';
+    (<HTMLElement>this.punchEl.nativeElement).style.visibility = "hidden";
 
     if (this.src) {
-      const canvas = document.createElement('canvas');
-      const ctx = <any>canvas.getContext('2d');
+      const canvas = document.createElement("canvas");
+      const ctx = <any>canvas.getContext("2d");
       const image = new Image();
       image.src = this.src;
       const exif = EXIF.readFromBinaryFile(this.base64ToArrayBuffer(this.src));
@@ -71,19 +86,19 @@ export class ImageCropperComponent implements OnChanges {
         }
         this.orientContextAccondingToImageOrientation(exif, canvas, ctx);
 
-        ctx.drawImage(
-          image,
-          0,
-          0);
-        this.orientedSrc = canvas.toDataURL('image/' + this.imageFormat);
+        ctx.drawImage(image, 0, 0);
+        this.orientedSrc = canvas.toDataURL("image/" + this.imageFormat);
         this.init();
       };
-      image.onerror = (e) => {
+      image.onerror = e => {
         this.onError.emit({
           event: e,
-          fileType: this.src.substring("data:".length, this.src.indexOf(";base64"))
+          fileType: this.src.substring(
+            "data:".length,
+            this.src.indexOf(";base64")
+          )
         });
-        console.error('Failed to load image', e);
+        console.error("Failed to load image", e);
       };
     }
   }
@@ -110,8 +125,8 @@ export class ImageCropperComponent implements OnChanges {
   }
 
   crop(): Promise<string> {
-    const canvas = document.createElement('canvas');
-    const ctx = <any>canvas.getContext('2d');
+    const canvas = document.createElement("canvas");
+    const ctx = <any>canvas.getContext("2d");
     canvas.width = this.targetWidth;
     canvas.height = this.targetHeight;
 
@@ -121,7 +136,8 @@ export class ImageCropperComponent implements OnChanges {
     return new Promise((resolve, reject) => {
       image.onload = () => {
         const scaleFactor = image.width / this.originalElementScaledWidth;
-        const scaleFactorCheck = image.height / this.originalElementScaledHeight;
+        const scaleFactorCheck =
+          image.height / this.originalElementScaledHeight;
         ctx.drawImage(
           image,
           this.cropperState.x * scaleFactor,
@@ -131,8 +147,9 @@ export class ImageCropperComponent implements OnChanges {
           0,
           0,
           this.targetWidth,
-          this.targetHeight);
-        resolve(canvas.toDataURL('image/' + this.imageFormat));
+          this.targetHeight
+        );
+        resolve(canvas.toDataURL("image/" + this.imageFormat));
       };
       image.onerror = e => reject(e);
     });
@@ -140,16 +157,26 @@ export class ImageCropperComponent implements OnChanges {
 
   private setHolePosition() {
     const hole = <HTMLDivElement>this.punchEl.nativeElement;
-    hole.setAttribute('style',
-      'top:' + this.cropperState.y + 'px;' +
-      'left:' + this.cropperState.x + 'px;' +
-      'width:' + this.cropperState.width + 'px;' +
-      'height:' + this.cropperState.height + 'px;');
+    hole.setAttribute(
+      "style",
+      "top:" +
+        this.cropperState.y +
+        "px;" +
+        "left:" +
+        this.cropperState.x +
+        "px;" +
+        "width:" +
+        this.cropperState.width +
+        "px;" +
+        "height:" +
+        this.cropperState.height +
+        "px;"
+    );
   }
 
   private setMovePosition() {
     const move = <HTMLDivElement>this.moveEl.nativeElement;
-    this.placeCircleOnCropCircle(move, - 3 * Math.PI / 4, 5.6);
+    this.placeCircleOnCropCircle(move, (-3 * Math.PI) / 4, 5.6);
   }
 
   private setResizePosition() {
@@ -157,14 +184,16 @@ export class ImageCropperComponent implements OnChanges {
     this.placeCircleOnCropCircle(resize, Math.PI / 4, 11.3);
   }
 
-  private placeCircleOnCropCircle(el: HTMLDivElement, angle: number, offset?: number) {
+  private placeCircleOnCropCircle(
+    el: HTMLDivElement,
+    angle: number,
+    offset?: number
+  ) {
     const holeRadius = this.cropperState.width / 2;
-    const elRadius = (el.offsetWidth / 2);
-    const x = holeRadius + (Math.cos(angle) * holeRadius) - elRadius - offset;
-    const y = holeRadius + (Math.sin(angle) * holeRadius) - elRadius - offset;
-    el.setAttribute('style',
-      'top:' + y + 'px;' +
-      'left:' + x + 'px;');
+    const elRadius = el.offsetWidth / 2;
+    const x = holeRadius + Math.cos(angle) * holeRadius - elRadius - offset;
+    const y = holeRadius + Math.sin(angle) * holeRadius - elRadius - offset;
+    el.setAttribute("style", "top:" + y + "px;" + "left:" + x + "px;");
   }
 
   moveStart(event: MouseEvent | TouchEvent, touch: boolean) {
@@ -181,11 +210,11 @@ export class ImageCropperComponent implements OnChanges {
 
     this.touch = touch;
     if (touch) {
-      document.body.addEventListener('touchmove', this.onmousemove, false);
-      document.body.addEventListener('touchend', this.onmouseup, false);
+      document.body.addEventListener("touchmove", this.onmousemove, false);
+      document.body.addEventListener("touchend", this.onmouseup, false);
     } else {
-      document.body.addEventListener('mousemove', this.onmousemove, false);
-      document.body.addEventListener('mouseup', this.onmouseup, false);
+      document.body.addEventListener("mousemove", this.onmousemove, false);
+      document.body.addEventListener("mouseup", this.onmouseup, false);
     }
   }
 
@@ -203,13 +232,21 @@ export class ImageCropperComponent implements OnChanges {
 
     if (this.cropperState.y < 0) {
       this.cropperState.y = 0;
-    } else if (this.cropperState.y + this.cropperState.height > this.originalElementScaledHeight) {
-      this.cropperState.y = this.originalElementScaledHeight - this.cropperState.height;
+    } else if (
+      this.cropperState.y + this.cropperState.height >
+      this.originalElementScaledHeight
+    ) {
+      this.cropperState.y =
+        this.originalElementScaledHeight - this.cropperState.height;
     }
     if (this.cropperState.x < 0) {
       this.cropperState.x = 0;
-    } else if (this.cropperState.x + this.cropperState.width > this.originalElementScaledWidth) {
-      this.cropperState.x = this.originalElementScaledWidth - this.cropperState.width;
+    } else if (
+      this.cropperState.x + this.cropperState.width >
+      this.originalElementScaledWidth
+    ) {
+      this.cropperState.x =
+        this.originalElementScaledWidth - this.cropperState.width;
     }
 
     this.redrawCropper();
@@ -221,11 +258,11 @@ export class ImageCropperComponent implements OnChanges {
     event.preventDefault();
     this.dragState = null;
     if (this.touch) {
-      document.body.removeEventListener('touchmove', this.onmousemove, false);
-      document.body.removeEventListener('touchend', this.onmouseup, false);
+      document.body.removeEventListener("touchmove", this.onmousemove, false);
+      document.body.removeEventListener("touchend", this.onmouseup, false);
     } else {
-      document.body.removeEventListener('mousemove', this.onmousemove, false);
-      document.body.removeEventListener('mouseup', this.onmouseup, false);
+      document.body.removeEventListener("mousemove", this.onmousemove, false);
+      document.body.removeEventListener("mouseup", this.onmouseup, false);
     }
   }
 
@@ -237,11 +274,11 @@ export class ImageCropperComponent implements OnChanges {
     };
     this.touch = touch;
     if (touch) {
-      document.body.addEventListener('touchmove', this.onresizemove, false);
-      document.body.addEventListener('touchend', this.onresizeend, false);
+      document.body.addEventListener("touchmove", this.onresizemove, false);
+      document.body.addEventListener("touchend", this.onresizeend, false);
     } else {
-      document.body.addEventListener('mousemove', this.onresizemove, false);
-      document.body.addEventListener('mouseup', this.onresizeend, false);
+      document.body.addEventListener("mousemove", this.onresizemove, false);
+      document.body.addEventListener("mouseup", this.onresizeend, false);
     }
   }
 
@@ -263,7 +300,12 @@ export class ImageCropperComponent implements OnChanges {
     const tmpX = this.resizeState.centerX - radius;
     const tmpY = this.resizeState.centerY - radius;
 
-    if (tmpY < 0 || tmpX < 0 || tmpY + tmpHeight > this.originalElementScaledHeight || tmpX + tmpWidth > this.originalElementScaledWidth) {
+    if (
+      tmpY < 0 ||
+      tmpX < 0 ||
+      tmpY + tmpHeight > this.originalElementScaledHeight ||
+      tmpX + tmpWidth > this.originalElementScaledWidth
+    ) {
       return;
     }
 
@@ -272,8 +314,6 @@ export class ImageCropperComponent implements OnChanges {
     this.cropperState.y = tmpY;
     this.cropperState.x = tmpX;
 
-
-
     this.redrawCropper();
   }
 
@@ -281,11 +321,11 @@ export class ImageCropperComponent implements OnChanges {
     this.resizeState = null;
     event.preventDefault();
     if (this.touch) {
-      document.body.removeEventListener('touchmove', this.onresizemove, false);
-      document.body.removeEventListener('touchend', this.onresizeend, false);
+      document.body.removeEventListener("touchmove", this.onresizemove, false);
+      document.body.removeEventListener("touchend", this.onresizeend, false);
     } else {
-      document.body.removeEventListener('mousemove', this.onresizemove, false);
-      document.body.removeEventListener('mouseup', this.onresizeend, false);
+      document.body.removeEventListener("mousemove", this.onresizemove, false);
+      document.body.removeEventListener("mouseup", this.onresizeend, false);
     }
   }
 
@@ -303,7 +343,7 @@ export class ImageCropperComponent implements OnChanges {
   }
 
   private base64ToArrayBuffer(base64: string) {
-    base64 = base64.replace(/^data\:([^\;]+)\;base64,/gmi, '');
+    base64 = base64.replace(/^data\:([^\;]+)\;base64,/gim, "");
     const binaryString = atob(base64);
     const len = binaryString.length;
     const bytes = new Uint8Array(len);
@@ -314,7 +354,7 @@ export class ImageCropperComponent implements OnChanges {
   }
 
   private orientContextAccondingToImageOrientation(exif, canvas, ctx: any) {
-    switch (exif.Orientation){
+    switch (exif.Orientation) {
       case 3:
         // 180° rotate left
         ctx.translate(canvas.width, canvas.height);
@@ -332,5 +372,4 @@ export class ImageCropperComponent implements OnChanges {
         break;
     }
   }
-
 }

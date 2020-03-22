@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import * as io from 'socket.io-client';
-import { Observable } from 'rxjs';
-import { environment as env } from '@env/environment';
+import { Injectable } from "@angular/core";
+import * as io from "socket.io-client";
+import { Observable } from "rxjs";
+import { environment as env } from "@env/environment";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class RealtimeService {
   private socket;
-  constructor() { }
+  constructor() {}
   public initSocket(): void {
     this.socket = io(env.serverRootUrl);
   }

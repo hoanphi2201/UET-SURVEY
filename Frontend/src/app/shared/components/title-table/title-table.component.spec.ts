@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { TitleTableComponent } from './title-table.component';
+import { TitleTableComponent } from "./title-table.component";
 
-describe('TitleTableComponent', () => {
+describe("TitleTableComponent", () => {
   let component: TitleTableComponent;
   let fixture: ComponentFixture<TitleTableComponent>;
 
@@ -21,7 +21,7 @@ describe('TitleTableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

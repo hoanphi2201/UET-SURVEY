@@ -2,18 +2,28 @@
   [(collapsed)]="layout.collapsed"
   [siderMode]="layout.siderMode"
   [topMode]="layout.topMode()"
-  [setting]="layout.setting">
+  [setting]="layout.setting"
+>
   <ng-container sider>
     <div class="logo" [class.light]="layout.setting.theme == 'light'">
       <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active">
-        <img *ngIf="layout.setting.theme == 'light'" src="./assets/images/logo/logo-green.png" alt="Image Logo" />
-        <img *ngIf="layout.setting.theme !== 'light'" src="./assets/images/logo/logo-white.png" alt="Image Logo" />
+        <img
+          *ngIf="layout.setting.theme == 'light'"
+          src="./assets/images/logo/logo-green.png"
+          alt="Image Logo"
+        />
+        <img
+          *ngIf="layout.setting.theme !== 'light'"
+          src="./assets/images/logo/logo-white.png"
+          alt="Image Logo"
+        />
         <h1>Uet Survey</h1>
       </a>
     </div>
     <app-sidebar
       [data]="menu"
-      [inlineCollapsed]="layout.siderMode == 'over' ? false : layout.collapsed">
+      [inlineCollapsed]="layout.siderMode == 'over' ? false : layout.collapsed"
+    >
     </app-sidebar>
   </ng-container>
 
@@ -24,14 +34,23 @@
           nz-icon
           class="anticon trigger"
           [nzType]="layout.collapsed ? 'menu-unfold' : 'menu-fold'"
-          (click)="layout.collapsed = !layout.collapsed">
+          (click)="layout.collapsed = !layout.collapsed"
+        >
         </i>
       </ng-container>
-      <ng-container left *ngIf="layout.topMode()"> 
+      <ng-container left *ngIf="layout.topMode()">
         <a [routerLink]="['/dashboard']">
           <div class="logo">
-            <img *ngIf="layout.setting.theme == 'light'" src="./assets/images/logo/logo-green.png" alt="Image Logo" />
-            <img *ngIf="layout.setting.theme !== 'light'" src="./assets/images/logo/logo-white.png" alt="Image Logo" />
+            <img
+              *ngIf="layout.setting.theme == 'light'"
+              src="./assets/images/logo/logo-green.png"
+              alt="Image Logo"
+            />
+            <img
+              *ngIf="layout.setting.theme !== 'light'"
+              src="./assets/images/logo/logo-white.png"
+              alt="Image Logo"
+            />
           </div>
         </a>
         <app-sidebar [data]="menu" mode="horizontal"></app-sidebar>
@@ -42,33 +61,50 @@
           [data]="notice.data"
           [innerClass]="{ action: true, notice: true }"
           (clear)="notice.clear($event)"
-          (visibleChange)="notice.visibleChange($event)">
+          (visibleChange)="notice.visibleChange($event)"
+        >
           <i nz-icon nzType="bell" nzTheme="outline"></i>
         </app-notice-popover>
         <span nz-dropdown class="action account" [nzDropdownMenu]="menuUser">
-            <nz-avatar [nzSize]="36" [nzSrc]="avatarUrl" nzIcon="user"></nz-avatar>
-          <span class="name" *ngIf="currentUser && viewFullName && viewFullName.length <= 10">
+          <nz-avatar
+            [nzSize]="36"
+            [nzSrc]="avatarUrl"
+            nzIcon="user"
+          ></nz-avatar>
+          <span
+            class="name"
+            *ngIf="currentUser && viewFullName && viewFullName.length <= 10"
+          >
             <ng-container>
-                {{ viewFullName }}
+              {{ viewFullName }}
             </ng-container>
           </span>
-          <span nzTooltipPlacement="top" [nzTooltipTitle]="viewFullName" nz-tooltip class="name" *ngIf="currentUser && viewFullName && viewFullName.length > 10">
+          <span
+            nzTooltipPlacement="top"
+            [nzTooltipTitle]="viewFullName"
+            nz-tooltip
+            class="name"
+            *ngIf="currentUser && viewFullName && viewFullName.length > 10"
+          >
             <ng-container>
-                {{ viewFullName | summary : 10  }}
+              {{ viewFullName | summary: 10 }}
             </ng-container>
           </span>
         </span>
         <nz-dropdown-menu nzPlacement="bottomRight" #menuUser="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item routerLink="/account/center">
-              <i nz-icon nzType="user"></i>{{'default.layout.MY_ACCOUNT' | translate}} 
+              <i nz-icon nzType="user"></i
+              >{{ "default.layout.MY_ACCOUNT" | translate }}
             </li>
             <li nz-menu-item routerLink="/account/setting">
-              <i nz-icon nzType="setting"></i>{{'default.layout.SETTING' | translate}} 
+              <i nz-icon nzType="setting"></i
+              >{{ "default.layout.SETTING" | translate }}
             </li>
             <li nz-menu-divider></li>
             <li nz-menu-item (click)="logout()">
-              <i nz-icon nzType="logout"></i>{{'default.layout.LOGOUT' | translate}} 
+              <i nz-icon nzType="logout"></i
+              >{{ "default.layout.LOGOUT" | translate }}
             </li>
           </ul>
         </nz-dropdown-menu>
@@ -76,12 +112,14 @@
           nzTrigger="click"
           nz-dropdown
           class="action account"
-          [nzDropdownMenu]="menuConfig">
+          [nzDropdownMenu]="menuConfig"
+        >
           <i nz-icon style="font-size: 20px;" nzType="appstore"></i>
         </span>
         <nz-dropdown-menu
           nzPlacement="bottomCenter"
-          #menuConfig="nzDropdownMenu">
+          #menuConfig="nzDropdownMenu"
+        >
           <ul nz-menu>
             <li nz-menu-item>
               <header-fullscreen></header-fullscreen>
@@ -96,7 +134,8 @@
         </nz-dropdown-menu>
         <app-setting-drawer
           [(setting)]="layout.setting"
-          [innerClass]="{ action: true, setting: true }">
+          [innerClass]="{ action: true, setting: true }"
+        >
           <i nz-icon nzType="setting"></i>
         </app-setting-drawer>
       </ng-container>

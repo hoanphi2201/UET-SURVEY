@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { TemplateSurveyComponent } from './template-survey.component';
+import { TemplateSurveyComponent } from "./template-survey.component";
 
-describe('TemplateSurveyComponent', () => {
+describe("TemplateSurveyComponent", () => {
   let component: TemplateSurveyComponent;
   let fixture: ComponentFixture<TemplateSurveyComponent>;
 
@@ -21,7 +21,7 @@ describe('TemplateSurveyComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

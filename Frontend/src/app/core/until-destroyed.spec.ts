@@ -1,7 +1,7 @@
-import { OnInit, OnDestroy } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { OnInit, OnDestroy } from "@angular/core";
+import { Subject, Subscription } from "rxjs";
 
-import { untilDestroyed } from './until-destroyed';
+import { untilDestroyed } from "./until-destroyed";
 
 function createObserver() {
   return {
@@ -11,8 +11,8 @@ function createObserver() {
   };
 }
 
-describe('untilDestroyed', () => {
-  it('should not destroy other instances', () => {
+describe("untilDestroyed", () => {
+  it("should not destroy other instances", () => {
     // Arrange
     const spy = createObserver();
     const spy2 = createObserver();
@@ -41,7 +41,7 @@ describe('untilDestroyed', () => {
     expect(spy2.complete).toHaveBeenCalledTimes(1);
   });
 
-  it('should work with multiple observables', () => {
+  it("should work with multiple observables", () => {
     // Arrange
     const spy = createObserver();
     const spy2 = createObserver();
@@ -65,13 +65,13 @@ describe('untilDestroyed', () => {
     expect(spy3.complete).toHaveBeenCalledTimes(1);
   });
 
-  it('should work with classes that are not components', () => {
+  it("should work with classes that are not components", () => {
     // Arrange
     const spy = createObserver();
 
     // Act
     class Test {
-      obs = new Subject().pipe(untilDestroyed(this, 'destroy')).subscribe(spy);
+      obs = new Subject().pipe(untilDestroyed(this, "destroy")).subscribe(spy);
 
       destroy() {}
     }
@@ -82,7 +82,7 @@ describe('untilDestroyed', () => {
     expect(spy.complete).toHaveBeenCalledTimes(1);
   });
 
-  it('should unsubscribe from anywhere', () => {
+  it("should unsubscribe from anywhere", () => {
     // Arrange
     const spy = createObserver();
     const spy2 = createObserver();
@@ -113,7 +113,7 @@ describe('untilDestroyed', () => {
     expect(spy3.complete).toHaveBeenCalledTimes(1);
   });
 
-  it('should throw when destroy method doesnt exist', () => {
+  it("should throw when destroy method doesnt exist", () => {
     // Arrange
     const spy = createObserver();
 
@@ -125,7 +125,7 @@ describe('untilDestroyed', () => {
     expect(() => new LoginComponent()).toThrow();
   });
 
-  it('should not throw when destroy method is implemented on super class', () => {
+  it("should not throw when destroy method is implemented on super class", () => {
     // Arrange
     const spy = createObserver();
 
@@ -141,7 +141,7 @@ describe('untilDestroyed', () => {
     expect(() => new B()).not.toThrow();
   });
 
-  it('should work with subclass', () => {
+  it("should work with subclass", () => {
     // Arrange
     const spy = createObserver();
 

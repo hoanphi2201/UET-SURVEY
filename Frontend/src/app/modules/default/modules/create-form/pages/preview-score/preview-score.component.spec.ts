@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { PreviewScoreComponent } from './preview-score.component';
+import { PreviewScoreComponent } from "./preview-score.component";
 
-describe('PreviewScoreComponent', () => {
+describe("PreviewScoreComponent", () => {
   let component: PreviewScoreComponent;
   let fixture: ComponentFixture<PreviewScoreComponent>;
 
@@ -21,7 +21,7 @@ describe('PreviewScoreComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

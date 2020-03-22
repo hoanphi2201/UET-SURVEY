@@ -1,32 +1,46 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Validators, FormBuilder, FormGroup, NgForm, FormGroupDirective } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-import { LoaderService, WindowresizeService, Helpers } from '@app/shared';
-import { UserGrant, TableListColumn, Pagging, UserGrantService, User, UserService, ExcelService } from '@app/core';
-import { environment as env } from '@env/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { debounceTime, switchMap, map } from 'rxjs/operators';
-import * as _ from 'lodash';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import {
+  Validators,
+  FormBuilder,
+  FormGroup,
+  NgForm,
+  FormGroupDirective
+} from "@angular/forms";
+import { TranslateService } from "@ngx-translate/core";
+import { NzMessageService, NzModalService } from "ng-zorro-antd";
+import { LoaderService, WindowresizeService, Helpers } from "@app/shared";
+import {
+  UserGrant,
+  TableListColumn,
+  Pagging,
+  UserGrantService,
+  User,
+  UserService,
+  ExcelService
+} from "@app/core";
+import { environment as env } from "@env/environment";
+import { BehaviorSubject, Observable } from "rxjs";
+import { debounceTime, switchMap, map } from "rxjs/operators";
+import * as _ from "lodash";
 
 @Component({
-  selector: 'app-user-grants',
-  templateUrl: './user-grants.component.html',
-  styleUrls: ['./user-grants.component.scss']
+  selector: "app-user-grants",
+  templateUrl: "./user-grants.component.html",
+  styleUrls: ["./user-grants.component.scss"]
 })
 export class UserGrantsComponent implements OnInit {
-  @ViewChild('formDirective', { static: false }) private formDirective: NgForm;
-  searchChange$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  @ViewChild("formDirective", { static: false }) private formDirective: NgForm;
+  searchChange$: BehaviorSubject<string> = new BehaviorSubject<string>("");
   form: FormGroup;
   listOfAllData: UserGrant[] = [];
   listOfUser: any;
   listOfAllTable: any[] = [];
-  sortField: string | null = 'id';
-  sortType: string | null = 'asc';
-  filterKey = '';
+  sortField: string | null = "id";
+  sortType: string | null = "asc";
+  filterKey = "";
   filterValue: any[] = [];
-  searchKey = '';
-  searchValue = '';
+  searchKey = "";
+  searchValue = "";
   isAllDisplayDataChecked = false;
   isIndeterminate = false;
   mapOfCheckedId: { [key: string]: boolean } = {};
@@ -52,7 +66,7 @@ export class UserGrantsComponent implements OnInit {
     private userService: UserService,
     private windowresizeService: WindowresizeService,
     private excelService: ExcelService
-  ) { }
+  ) {}
   ngOnInit() {
     this.screenWidth = window.innerWidth;
     this.windowresizeService.getSize().subscribe(size => {
@@ -90,23 +104,41 @@ export class UserGrantsComponent implements OnInit {
   initTable() {
     // tslint:disable-next-line:max-line-length
     this.columns = [
-      { id: 'id', type: 'text', hidden: true, header: 'admin.layout.ID' },
-      { id: 'userName', type: 'text', header: 'admin.layout.USER' },
-      { id: 'tableName', type: 'text', sortable: true, filter: this.listOfAllTable, header: 'admin.layout.TABLE_NAME' },
-      { id: 'recordId', type: 'text', header: 'admin.layout.RECORD_ID' },
-      { id: 'canView', type: 'checkbox', header: 'admin.layout.CAN_VIEW' },
-      { id: 'canInsert', type: 'checkbox', header: 'admin.layout.CAN_INSERT' },
-      { id: 'canUpdate', type: 'checkbox', header: 'admin.layout.CAN_UPDATE' },
-      { id: 'canDelete', type: 'checkbox', header: 'admin.layout.CAN_DELETE' },
-      { id: 'createdAt', type: 'date', sortable: true, hidden: true, header: 'admin.layout.CREATED_AT' },
-      { id: 'createdAt', type: 'date', sortable: true, hidden: true, header: 'admin.layout.UPDATED_AT' }
+      { id: "id", type: "text", hidden: true, header: "admin.layout.ID" },
+      { id: "userName", type: "text", header: "admin.layout.USER" },
+      {
+        id: "tableName",
+        type: "text",
+        sortable: true,
+        filter: this.listOfAllTable,
+        header: "admin.layout.TABLE_NAME"
+      },
+      { id: "recordId", type: "text", header: "admin.layout.RECORD_ID" },
+      { id: "canView", type: "checkbox", header: "admin.layout.CAN_VIEW" },
+      { id: "canInsert", type: "checkbox", header: "admin.layout.CAN_INSERT" },
+      { id: "canUpdate", type: "checkbox", header: "admin.layout.CAN_UPDATE" },
+      { id: "canDelete", type: "checkbox", header: "admin.layout.CAN_DELETE" },
+      {
+        id: "createdAt",
+        type: "date",
+        sortable: true,
+        hidden: true,
+        header: "admin.layout.CREATED_AT"
+      },
+      {
+        id: "createdAt",
+        type: "date",
+        sortable: true,
+        hidden: true,
+        header: "admin.layout.UPDATED_AT"
+      }
     ];
   }
   buildForm() {
     this.form = this.formBuilder.group({
-      tableName: ['', [Validators.required]],
-      userId: ['', [Validators.required]],
-      recordId: ['', [Validators.required]],
+      tableName: ["", [Validators.required]],
+      userId: ["", [Validators.required]],
+      recordId: ["", [Validators.required]],
       canView: [false],
       canInsert: [false],
       canUpdate: [false],
@@ -115,33 +147,47 @@ export class UserGrantsComponent implements OnInit {
   }
   getUserGrantList() {
     this.loaderService.display(true);
-    this.userGrantService.getUserGrantList(this.pagging.page, this.pagging.pageSize, this.sortField, this.sortType, this.searchKey, this.searchValue, this.filterKey, JSON.stringify(this.filterValue)).subscribe(res => {
-      if (res.status.code === 200) {
-        this.listOfAllData = res.results.map((o: any) => {
-          return {...o,  userName: o.user.userName };
-        });
-        this.pagging.total = res.paging.total;
-        this.refreshStatus();
-      }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
+    this.userGrantService
+      .getUserGrantList(
+        this.pagging.page,
+        this.pagging.pageSize,
+        this.sortField,
+        this.sortType,
+        this.searchKey,
+        this.searchValue,
+        this.filterKey,
+        JSON.stringify(this.filterValue)
+      )
+      .subscribe(
+        res => {
+          if (res.status.code === 200) {
+            this.listOfAllData = res.results.map((o: any) => {
+              return { ...o, userName: o.user.userName };
+            });
+            this.pagging.total = res.paging.total;
+            this.refreshStatus();
+          }
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
       );
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
   }
   get f() {
     return this.form.controls;
   }
   sort(sort: { key: string; value: string }): void {
     this.sortField = sort.key;
-    if (sort.value === 'ascend') {
-      this.sortType = 'asc';
+    if (sort.value === "ascend") {
+      this.sortType = "asc";
     } else {
-      this.sortType = 'desc';
+      this.sortType = "desc";
     }
     this.getUserGrantList();
   }
@@ -149,8 +195,8 @@ export class UserGrantsComponent implements OnInit {
     this.getUserGrantList();
   }
   reset(): void {
-    this.searchKey = '';
-    this.searchValue = '';
+    this.searchKey = "";
+    this.searchValue = "";
     this.getUserGrantList();
   }
   filter($event: any, key: string) {
@@ -165,9 +211,15 @@ export class UserGrantsComponent implements OnInit {
     this.refreshStatus();
   }
   refreshStatus(): void {
-    this.isAllDisplayDataChecked = this.listOfAllData.every(item => this.mapOfCheckedId[item.id]);
-    this.isIndeterminate = this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) && !this.isAllDisplayDataChecked;
-    this.numberOfChecked = this.listOfAllData.filter(item => this.mapOfCheckedId[item.id]).length;
+    this.isAllDisplayDataChecked = this.listOfAllData.every(
+      item => this.mapOfCheckedId[item.id]
+    );
+    this.isIndeterminate =
+      this.listOfAllData.some(item => this.mapOfCheckedId[item.id]) &&
+      !this.isAllDisplayDataChecked;
+    this.numberOfChecked = this.listOfAllData.filter(
+      item => this.mapOfCheckedId[item.id]
+    ).length;
   }
   checkItem(id: string, $event: any) {
     this.mapOfCheckedId[id] = $event;
@@ -183,9 +235,9 @@ export class UserGrantsComponent implements OnInit {
   }
   showDeleteConfirm(userGrantId?: string): void {
     this.modalService.confirm({
-      nzTitle: this.translateService.instant('admin.layout.ROLE_GRANT_TITLE'),
-      nzCancelText: this.translateService.instant('admin.layout.NO'),
-      nzOkText: this.translateService.instant('admin.layout.YES'),
+      nzTitle: this.translateService.instant("admin.layout.ROLE_GRANT_TITLE"),
+      nzCancelText: this.translateService.instant("admin.layout.NO"),
+      nzOkText: this.translateService.instant("admin.layout.YES"),
       nzOnOk: () => {
         if (userGrantId) {
           return this.onDeleteUserGrant(userGrantId);
@@ -201,7 +253,7 @@ export class UserGrantsComponent implements OnInit {
     this.selectedEdit.user = {} as User;
     if (userGrant) {
       this.editing = true;
-      this.selectedEdit = {...userGrant}
+      this.selectedEdit = { ...userGrant };
     }
   }
   closeForm(): void {
@@ -218,54 +270,63 @@ export class UserGrantsComponent implements OnInit {
   }
   onDeleteUserGrant(userGrantId: string) {
     this.loaderService.display(true);
-    this.userGrantService.deleteUserGrant(userGrantId).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
-        this.getUserGrantList();
+    this.userGrantService.deleteUserGrant(userGrantId).subscribe(
+      res => {
+        if (res.status.code === 200) {
+          this.nzMessageService.success(
+            this.translateService.instant(res.status.message)
+          );
+          this.getUserGrantList();
+        }
+      },
+      err => {
+        this.loaderService.display(false);
+        this.nzMessageService.error(this.translateService.instant(err.message));
+      },
+      () => {
+        this.loaderService.display(false);
       }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(this.translateService.instant(err.message));
-    }, () => {
-      this.loaderService.display(false);
-    }
     );
   }
   onDeleteMultyUserGrant() {
     const userGrantIds = _.keys(_.pickBy(this.mapOfCheckedId));
     this.loaderService.display(true);
-    this.userGrantService.deleteMultyUserGrant({ userGrantIds }).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
-        this.getUserGrantList();
+    this.userGrantService.deleteMultyUserGrant({ userGrantIds }).subscribe(
+      res => {
+        if (res.status.code === 200) {
+          this.nzMessageService.success(
+            this.translateService.instant(res.status.message)
+          );
+          this.getUserGrantList();
+        }
+      },
+      err => {
+        this.loaderService.display(false);
+        this.nzMessageService.error(this.translateService.instant(err.message));
+      },
+      () => {
+        this.loaderService.display(false);
       }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(this.translateService.instant(err.message));
-    }, () => {
-      this.loaderService.display(false);
-    }
     );
   }
   onUpdateAction(userGrantId: string, actionKey: string) {
     this.loaderService.display(true);
-    this.userGrantService.updateAction(userGrantId, actionKey).subscribe(res => {
-      if (res.status.code === 200) {
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
-        this.getUserGrantList();
+    this.userGrantService.updateAction(userGrantId, actionKey).subscribe(
+      res => {
+        if (res.status.code === 200) {
+          this.nzMessageService.success(
+            this.translateService.instant(res.status.message)
+          );
+          this.getUserGrantList();
+        }
+      },
+      err => {
+        this.loaderService.display(false);
+        this.nzMessageService.error(this.translateService.instant(err.message));
+      },
+      () => {
+        this.loaderService.display(false);
       }
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(this.translateService.instant(err.message));
-    }, () => {
-      this.loaderService.display(false);
-    }
     );
   }
   onAddUserGrant(formData: any, formDirective: FormGroupDirective) {
@@ -280,35 +341,43 @@ export class UserGrantsComponent implements OnInit {
       }
     });
     if (!this.editing) {
-      return this.userGrantService.addUserGrant(formData.value).subscribe(res => {
-        this.resetFormAfterSubmit(formDirective);
-        this.nzMessageService.success(
-          this.translateService.instant(res.status.message)
-        );
-      }, err => {
-        this.loaderService.display(false);
-        this.nzMessageService.error(
-          this.translateService.instant(err.message)
-        );
-      }, () => {
-        this.loaderService.display(false);
-      }
+      return this.userGrantService.addUserGrant(formData.value).subscribe(
+        res => {
+          this.resetFormAfterSubmit(formDirective);
+          this.nzMessageService.success(
+            this.translateService.instant(res.status.message)
+          );
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
       );
     }
-    return this.userGrantService.updateUserGrant(formData.value, this.selectedEdit.id).subscribe(res => {
-      this.resetFormAfterSubmit(formDirective);
-      this.nzMessageService.success(
-        this.translateService.instant(res.status.message)
+    return this.userGrantService
+      .updateUserGrant(formData.value, this.selectedEdit.id)
+      .subscribe(
+        res => {
+          this.resetFormAfterSubmit(formDirective);
+          this.nzMessageService.success(
+            this.translateService.instant(res.status.message)
+          );
+        },
+        err => {
+          this.loaderService.display(false);
+          this.nzMessageService.error(
+            this.translateService.instant(err.message)
+          );
+        },
+        () => {
+          this.loaderService.display(false);
+        }
       );
-    }, err => {
-      this.loaderService.display(false);
-      this.nzMessageService.error(
-        this.translateService.instant(err.message)
-      );
-    }, () => {
-      this.loaderService.display(false);
-    }
-    );
   }
   onSearch(value: string): void {
     this.isLoading = true;
@@ -322,10 +391,10 @@ export class UserGrantsComponent implements OnInit {
     this.listOfAllData.forEach(row => {
       const intance = {};
       this.columns.forEach(col => {
-        intance[this.translateService.instant(col.header)] = row[col.id]; 
-      })
+        intance[this.translateService.instant(col.header)] = row[col.id];
+      });
       data.push(intance);
-    })
-    this.excelService.exportAsExcelFile(data, 'user_grants', type);
+    });
+    this.excelService.exportAsExcelFile(data, "user_grants", type);
   }
 }

@@ -1,6 +1,6 @@
 export const styleConfig = [
   {
-    LayerId: 'Disaster',
+    LayerId: "Disaster",
     Rule: [
       {
         style: {

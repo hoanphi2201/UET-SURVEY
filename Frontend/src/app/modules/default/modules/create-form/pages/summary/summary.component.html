@@ -2,75 +2,107 @@
   <div class="wds-pane">
     <div class="wds-pane-body">
       <div class="sm-survey-progress-bar progress-panel">
-          <div style="position: relative; display: inline-block; width: 100%; overflow-x: auto;">
-            <hr class="dotted-line" style="left: 18%; width: 30%;" />
-            <hr class="dotted-line " style="left: 54%; width: 30%;" />
-            <ul class="progress-badges-list">
-              <ng-template #completeTemplate let-item>
-                <li class="progress-badge-item active">
-                  <div class="active-badge" style="display: inline-block;">
+        <div
+          style="position: relative; display: inline-block; width: 100%; overflow-x: auto;"
+        >
+          <hr class="dotted-line" style="left: 18%; width: 30%;" />
+          <hr class="dotted-line " style="left: 54%; width: 30%;" />
+          <ul class="progress-badges-list">
+            <ng-template #completeTemplate let-item>
+              <li class="progress-badge-item active">
+                <div class="active-badge" style="display: inline-block;">
+                  <div class="circle">
+                    <span class="smf-icon" style="cursor: inherit;">
+                      <i nz-icon nzType="check" nzTheme="outline"></i>
+                    </span>
+                  </div>
+                  <div class="c-label" translate>{{ item.title }}</div>
+                </div>
+              </li>
+            </ng-template>
+            <ng-container
+              *ngTemplateOutlet="
+                displayPageSurvey ? completeTemplate : completeAddQuestion;
+                context: {
+                  $implicit: { title: 'default.layout.ADD_QUESTIONS' }
+                }
+              "
+            >
+            </ng-container>
+            <ng-template #completeAddQuestion let-item>
+              <li class="progress-badge-item">
+                <a (click)="showProfile(0)">
+                  <div style="display: inline-block;">
                     <div class="circle">
                       <span class="smf-icon" style="cursor: inherit;">
-                        <i nz-icon nzType="check" nzTheme="outline"></i>
+                        <i class="fa fa-pencil-square-o"></i>
                       </span>
                     </div>
-                    <div class="c-label" translate>{{ item.title }}</div>
+                    <div class="c-label" translate>
+                      default.layout.ADD_QUESTIONS
+                    </div>
                   </div>
-                </li>
-              </ng-template>
-              <ng-container *ngTemplateOutlet="displayPageSurvey ? completeTemplate : completeAddQuestion; context: {$implicit: { title: 'default.layout.ADD_QUESTIONS' }}">
-              </ng-container>
-              <ng-template #completeAddQuestion let-item>
-                <li class="progress-badge-item">
-                  <a (click)="showProfile(0)">
-                    <div style="display: inline-block;">
-                      <div class="circle">
-                        <span class="smf-icon" style="cursor: inherit;">
-                          <i class="fa fa-pencil-square-o"></i>
-                        </span>
-                      </div>
-                      <div class="c-label" translate>default.layout.ADD_QUESTIONS</div>
-                    </div>
-                  </a>
-                </li>
-              </ng-template>
+                </a>
+              </li>
+            </ng-template>
 
-              <ng-container *ngTemplateOutlet="listOfAllSurveyCollect.length > 0 ?  completeTemplate : completeGoToCollect; context: {$implicit: { title: 'default.layout.GO_TO_COLLECT' }}">
-              </ng-container>
-              <ng-template #completeGoToCollect let-item>
-                <li class="progress-badge-item">
-                  <a (click)="showProfile(0)">
-                    <div style="display: inline-block;">
-                      <div class="circle">
-                        <span class="smf-icon" style="cursor: inherit;">
-                          <i class="fa fa-paper-plane-o"></i>
-                        </span>
-                      </div>
-                      <div class="c-label" translate>default.layout.GO_TO_COLLECT</div>
+            <ng-container
+              *ngTemplateOutlet="
+                listOfAllSurveyCollect.length > 0
+                  ? completeTemplate
+                  : completeGoToCollect;
+                context: {
+                  $implicit: { title: 'default.layout.GO_TO_COLLECT' }
+                }
+              "
+            >
+            </ng-container>
+            <ng-template #completeGoToCollect let-item>
+              <li class="progress-badge-item">
+                <a (click)="showProfile(0)">
+                  <div style="display: inline-block;">
+                    <div class="circle">
+                      <span class="smf-icon" style="cursor: inherit;">
+                        <i class="fa fa-paper-plane-o"></i>
+                      </span>
                     </div>
-                  </a>
-                </li>
-              </ng-template>
-              
-              <ng-container *ngTemplateOutlet="surveyFormDetail?.response > 0 ? completeTemplate : completeAnalyzeResults; context: {$implicit: { title: 'default.layout.ANALYZE_YOUR_RESULTS' }}">
-              </ng-container>
-              <ng-template #completeAnalyzeResults let-item>
-                <li class="progress-badge-item">
-                  <a (click)="showProfile(0)">
-                    <div style="display: inline-block;">
-                      <div class="circle">
-                        <span class="smf-icon" style="cursor: inherit;">
-                          <i class="fa fa-bar-chart"></i>
-                        </span>
-                      </div>
-                      <div class="c-label" translate>default.layout.ANALYZE_YOUR_RESULTS</div>
+                    <div class="c-label" translate>
+                      default.layout.GO_TO_COLLECT
                     </div>
-                  </a>
-                </li>
-              </ng-template>
-              
-            </ul>
-          </div>
+                  </div>
+                </a>
+              </li>
+            </ng-template>
+
+            <ng-container
+              *ngTemplateOutlet="
+                surveyFormDetail?.response > 0
+                  ? completeTemplate
+                  : completeAnalyzeResults;
+                context: {
+                  $implicit: { title: 'default.layout.ANALYZE_YOUR_RESULTS' }
+                }
+              "
+            >
+            </ng-container>
+            <ng-template #completeAnalyzeResults let-item>
+              <li class="progress-badge-item">
+                <a (click)="showProfile(0)">
+                  <div style="display: inline-block;">
+                    <div class="circle">
+                      <span class="smf-icon" style="cursor: inherit;">
+                        <i class="fa fa-bar-chart"></i>
+                      </span>
+                    </div>
+                    <div class="c-label" translate>
+                      default.layout.ANALYZE_YOUR_RESULTS
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ng-template>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -79,7 +111,9 @@
 <div class="summary-grid">
   <div class="row">
     <div class="col-6 col-md-3">
-      <div class="summary-card-title" translate>default.layout.SURVEY_DESIGN</div>
+      <div class="summary-card-title" translate>
+        default.layout.SURVEY_DESIGN
+      </div>
       <div class="card">
         <div class="item-summary">
           <div class="survey-info-header">
@@ -87,8 +121,8 @@
               {{ surveyFormDetail?.title }}
             </div>
             <span class="type-body-sm">
-              {{ 'default.layout.CREATED_ON' | translate }}
-              {{ surveyFormDetail?.createdAt | date: 'dd/MM/yyyy' }}
+              {{ "default.layout.CREATED_ON" | translate }}
+              {{ surveyFormDetail?.createdAt | date: "dd/MM/yyyy" }}
             </span>
           </div>
           <div class="survey-info-stats w-100">
@@ -99,7 +133,7 @@
                 </div>
               </div>
               <span class="survey-info-stats-cell-label text-sm">
-                {{ 'default.layout.PAGES' | translate }}
+                {{ "default.layout.PAGES" | translate }}
               </span>
             </div>
             <div class="survey-info-stats-cell w-50">
@@ -109,58 +143,82 @@
                 </div>
               </div>
               <span class="survey-info-stats-cell-label text-sm">
-                {{ 'default.layout.QUESTIONS' | translate }}
+                {{ "default.layout.QUESTIONS" | translate }}
               </span>
             </div>
           </div>
         </div>
         <div class="item-text">
-          <span class="text-sm"><span>{{ 'default.layout.SURVEY_LANGUAGE' | translate }}:<b>English</b></span></span>
+          <span class="text-sm"
+            ><span
+              >{{ "default.layout.SURVEY_LANGUAGE" | translate }}:<b
+                >English</b
+              ></span
+            ></span
+          >
         </div>
         <div class="item-text">
-          <span class="text-sm"><span>{{ 'default.layout.THEME' | translate }}: <b>Simple</b></span></span>
+          <span class="text-sm"
+            ><span
+              >{{ "default.layout.THEME" | translate }}: <b>Simple</b></span
+            ></span
+          >
         </div>
         <div class="item-action">
           <ul *ngIf="surveyFormDetail" class="action-list">
             <li class="action-list-item">
-              <a [routerLink]="['/create', 'design-survey', surveyFormDetail.id]" class="action-item">
+              <a
+                [routerLink]="['/create', 'design-survey', surveyFormDetail.id]"
+                class="action-item"
+              >
                 <div class="addon">
                   <i class="fa fa-pencil-square-o"></i>
                 </div>
                 <span class="item-label">
-                  {{ 'default.layout.EDIT_DESIGN' | translate | uppercase }}
+                  {{ "default.layout.EDIT_DESIGN" | translate | uppercase }}
                 </span>
               </a>
             </li>
             <li class="action-list-item">
-              <a [routerLink]="['/create', 'preview-score', surveyFormDetail.id]" class="action-item">
+              <a
+                [routerLink]="['/create', 'preview-score', surveyFormDetail.id]"
+                class="action-item"
+              >
                 <div class="addon">
                   <i class="fa fa-link"></i>
                 </div>
                 <span class="item-label">
-                  {{ 'default.layout.PREVIEW_SURVEY' | translate | uppercase }}
+                  {{ "default.layout.PREVIEW_SURVEY" | translate | uppercase }}
                 </span>
               </a>
             </li>
           </ul>
         </div>
       </div>
-      <div class="summary-card-title">{{ 'default.layout.DID_YOU_KNOW' | translate }}?</div>
+      <div class="summary-card-title">
+        {{ "default.layout.DID_YOU_KNOW" | translate }}?
+      </div>
       <div class="card">
         <div class="mod-body">
           <div class="ucs-img-wrapper">
             <a href="#">
-              <img src="assets/images/DidYouNo.svg" class="ucs-benchmarks-img-no-bq"/>
+              <img
+                src="assets/images/DidYouNo.svg"
+                class="ucs-benchmarks-img-no-bq"
+              />
             </a>
           </div>
           <div class="ucs-description">
             <p>
-              {{ 'default.layout.BENCHMARKS_ALLOWS_YOU_TO_COMPARE_YOUR_RESULTS_TO_INDUSTRY_LEADERS_AND_GET_THE_CONTEXT_YOU_NEED_TO'| translate}}:
+              {{
+                "default.layout.BENCHMARKS_ALLOWS_YOU_TO_COMPARE_YOUR_RESULTS_TO_INDUSTRY_LEADERS_AND_GET_THE_CONTEXT_YOU_NEED_TO"
+                  | translate
+              }}:
             </p>
           </div>
           <div class="ucs-footer">
             <button nz-button nzType="default">
-              {{ 'default.layout.LEARN_HOW' | translate }}
+              {{ "default.layout.LEARN_HOW" | translate }}
             </button>
           </div>
         </div>
@@ -169,7 +227,9 @@
     <div class="col-6 col-md-9">
       <div class="row">
         <div class="col-md-6">
-          <div class="summary-card-title inline-block" translate>default.layout.RESPONSES_AND_STATUS</div>
+          <div class="summary-card-title inline-block" translate>
+            default.layout.RESPONSES_AND_STATUS
+          </div>
         </div>
         <div class="col-md-6">
           <button
@@ -177,34 +237,47 @@
             [routerLink]="['/create', 'analyze-results', surveyFormDetail.id]"
             class="btn-analyze-result"
             nz-button
-            nzType="primary">
-             {{ 'default.layout.ANALYZE_RESULTS' | translate | uppercase }}
+            nzType="primary"
+          >
+            {{ "default.layout.ANALYZE_RESULTS" | translate | uppercase }}
           </button>
         </div>
       </div>
       <div class="row">
         <div class="sm-mt-12 col-sm-6 col-md-4">
           <nz-card>
-            <span>{{ 'default.layout.TOTAL_RESPONSES' | translate | uppercase }}</span>
+            <span>{{
+              "default.layout.TOTAL_RESPONSES" | translate | uppercase
+            }}</span>
             <div class="summary-card-title">
-              <a class="status-card-response-count" href="#">{{surveyFormDetail?.response ? surveyFormDetail?.response : 0 }}</a>
+              <a class="status-card-response-count" href="#">{{
+                surveyFormDetail?.response ? surveyFormDetail?.response : 0
+              }}</a>
             </div>
           </nz-card>
         </div>
         <div class="sm-mt-12 col-sm-6 col-md-4">
           <nz-card>
             <div class="item-label-container">
-              <span class="item-label-text">{{ 'default.layout.SURVEY_STATUS' | translate | uppercase }}
+              <span class="item-label-text"
+                >{{ "default.layout.SURVEY_STATUS" | translate | uppercase }}
               </span>
               <nz-badge
                 class="indicator-draft"
-                [nzColor]="surveyFormDetail?.status === 'DRAFT' ? '#f05b24' : '#00bf6f'"
+                [nzColor]="
+                  surveyFormDetail?.status === 'DRAFT' ? '#f05b24' : '#00bf6f'
+                "
               ></nz-badge>
             </div>
             <div class="summary-card-title">
               <a
                 class="overall-status"
-                [ngClass]="surveyFormDetail?.status === 'DRAFT' ? 'status-draft' : 'status-open'">
+                [ngClass]="
+                  surveyFormDetail?.status === 'DRAFT'
+                    ? 'status-draft'
+                    : 'status-open'
+                "
+              >
                 {{ surveyFormDetail?.status }}
               </a>
             </div>
@@ -212,11 +285,13 @@
         </div>
         <div class="sm-mt-12 col-sm-12 col-md-4">
           <nz-card>
-            <span>{{ 'default.layout.NOTIFICATIONS' | translate | uppercase }}</span>
+            <span>{{
+              "default.layout.NOTIFICATIONS" | translate | uppercase
+            }}</span>
             <div class="response-alerts-status">
               <div class="response-alerts-status-text">Only you</div>
               <span class="popout-clickable">
-                <a >Edit</a>
+                <a>Edit</a>
               </span>
             </div>
           </nz-card>
@@ -224,7 +299,9 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="summary-card-title" translate>default.layout.COLLECTORS</div>
+          <div class="summary-card-title" translate>
+            default.layout.COLLECTORS
+          </div>
           <ng-container *ngFor="let collect of listOfAllSurveyCollect">
             <div class="card collector-card">
               <div class="card-body">
@@ -232,41 +309,55 @@
                   <div class="responses-count">{{ collect.response }}</div>
                   <div class="responses-label">
                     <span class="responses-label-title">
-                      <span>{{'default.layout.RESPONSES' | translate | uppercase}}
-                        <br />{{ 'default.layout.COLLECTED' | translate }}
-                      </span> 
+                      <span
+                        >{{
+                          "default.layout.RESPONSES" | translate | uppercase
+                        }}
+                        <br />{{ "default.layout.COLLECTED" | translate }}
+                      </span>
                     </span>
                   </div>
                 </div>
                 <div class="collector-card-info">
                   <div class="card-title collector-card-title">
-                    <a [routerLink]="getLinkCollecttor(collect.id, collect.type)">{{ collect.name }}</a>
+                    <a
+                      [routerLink]="getLinkCollecttor(collect.id, collect.type)"
+                      >{{ collect.name }}</a
+                    >
                   </div>
                   <div class="collector-date-created">
                     <span class="collector-date-created-title">
-                      {{ 'default.layout.CREATED' | translate }}:
-                      {{ collect.createdAt | date: 'yyyy-MM-dd' }}
+                      {{ "default.layout.CREATED" | translate }}:
+                      {{ collect.createdAt | date: "yyyy-MM-dd" }}
                     </span>
                   </div>
                 </div>
                 <div class="card-status">
                   <span
                     [ngClass]="collect.status === 'OPEN' ? 'open' : 'closed'"
-                    class="status-badge-primary">
+                    class="status-badge-primary"
+                  >
                     {{ collect.status }}
                   </span>
                 </div>
               </div>
             </div>
           </ng-container>
-          <ng-container *ngIf="listOfAllSurveyCollect.length > 0; else createCollectorTpl">
+          <ng-container
+            *ngIf="listOfAllSurveyCollect.length > 0; else createCollectorTpl"
+          >
             <button
               *ngIf="surveyFormDetail"
-              [routerLink]="['/create', 'collector-responses', surveyFormDetail.id]"
+              [routerLink]="[
+                '/create',
+                'collector-responses',
+                surveyFormDetail.id
+              ]"
               nz-button
               nzType="link"
-              class="wds-button-text">
-              {{ 'default.layout.VIEW_MORE' | translate }}
+              class="wds-button-text"
+            >
+              {{ "default.layout.VIEW_MORE" | translate }}
             </button>
           </ng-container>
 
@@ -276,10 +367,19 @@
               <div class="button-holder">
                 <button
                   *ngIf="surveyFormDetail"
-                  [routerLink]="['/create', 'collector-responses', surveyFormDetail.id]"
+                  [routerLink]="[
+                    '/create',
+                    'collector-responses',
+                    surveyFormDetail.id
+                  ]"
                   nz-button
-                  nzType="primary">
-                  {{ 'default.layout.CREATE_SURVEY_COLLECTOR' | translate | uppercase}}
+                  nzType="primary"
+                >
+                  {{
+                    "default.layout.CREATE_SURVEY_COLLECTOR"
+                      | translate
+                      | uppercase
+                  }}
                 </button>
               </div>
             </div>

@@ -1,23 +1,28 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
-import * as Survey from 'survey-angular';
-import * as widgets from 'surveyjs-widgets';
-import 'inputmask/dist/inputmask/phone-codes/phone.js';
+import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
+import * as Survey from "survey-angular";
+import * as widgets from "surveyjs-widgets";
+import "inputmask/dist/inputmask/phone-codes/phone.js";
 
 widgets.jquerybarrating(Survey);
 widgets.jqueryuidatepicker(Survey);
 
 @Component({
-  selector: 'app-survey-response',
+  selector: "app-survey-response",
   template: `
     <div id="surveyResponseElement"></div>
   `
 })
 export class SurveyResponseComponent implements OnInit {
   @Input() disabled: boolean = false;
-  @Input('json') json: any;
-  @Input('data') data: any;
+  @Input("json") json: any;
+  @Input("data") data: any;
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.json && changes.json.currentValue && changes.data && changes.data.currentValue) {
+    if (
+      changes.json &&
+      changes.json.currentValue &&
+      changes.data &&
+      changes.data.currentValue
+    ) {
       this.setTheme();
       const surveyModel = new Survey.Model(this.json);
 
@@ -25,29 +30,34 @@ export class SurveyResponseComponent implements OnInit {
         surveyModel.data = this.data;
       }
       if (this.disabled) {
-        surveyModel.mode = 'display';
+        surveyModel.mode = "display";
       }
       surveyModel.showTitle = false;
-      Survey.SurveyNG.render('surveyResponseElement', { model: surveyModel });
+      Survey.SurveyNG.render("surveyResponseElement", { model: surveyModel });
     }
   }
-  ngOnInit() { }
+  ngOnInit() {}
 
   setTheme() {
-    const mainColor = '#00bf6f';
-    const mainHoverColor = '#6fe06f';
-    const textColor = '#4a4a4a';
-    const headerColor = '#001629';
-    const headerBackgroundColor = '#4a4a4a';
-    const bodyContainerBackgroundColor = '#f8f8f8';
+    const mainColor = "#00bf6f";
+    const mainHoverColor = "#6fe06f";
+    const textColor = "#4a4a4a";
+    const headerColor = "#001629";
+    const headerBackgroundColor = "#4a4a4a";
+    const bodyContainerBackgroundColor = "#f8f8f8";
 
-    const defaultThemeColorsSurvey = Survey.StylesManager.ThemeColors['default'];
-    defaultThemeColorsSurvey['$main-color'] = mainColor;
-    defaultThemeColorsSurvey['$main-hover-color'] = mainHoverColor;
-    defaultThemeColorsSurvey['$text-color'] = textColor;
-    defaultThemeColorsSurvey['$header-color'] = headerColor;
-    defaultThemeColorsSurvey['$header-background-color'] = headerBackgroundColor;
-    defaultThemeColorsSurvey['$body-container-background-color'] = bodyContainerBackgroundColor;
+    const defaultThemeColorsSurvey =
+      Survey.StylesManager.ThemeColors["default"];
+    defaultThemeColorsSurvey["$main-color"] = mainColor;
+    defaultThemeColorsSurvey["$main-hover-color"] = mainHoverColor;
+    defaultThemeColorsSurvey["$text-color"] = textColor;
+    defaultThemeColorsSurvey["$header-color"] = headerColor;
+    defaultThemeColorsSurvey[
+      "$header-background-color"
+    ] = headerBackgroundColor;
+    defaultThemeColorsSurvey[
+      "$body-container-background-color"
+    ] = bodyContainerBackgroundColor;
 
     Survey.StylesManager.applyTheme();
   }

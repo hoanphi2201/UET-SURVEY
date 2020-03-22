@@ -35,7 +35,7 @@
   <nz-divider nzType="vertical"></nz-divider>
   <div class="number-in-list">
     <span class="highlighted-text">{{ results }}</span>
-    <span> {{ 'admin.layout.RESULTS' | translate }} </span>
+    <span> {{ "admin.layout.RESULTS" | translate }} </span>
   </div>
   <div class="pull-right buttons">
     <button
@@ -53,11 +53,11 @@
       <ul nz-menu nzSelectable>
         <li (click)="onExport('.xlsx')" nz-menu-item>
           <i nz-icon nzType="file-excel" nzTheme="outline"></i>
-          {{ 'admin.layout.DOWNLOAD_EXCEL' | translate }}
+          {{ "admin.layout.DOWNLOAD_EXCEL" | translate }}
         </li>
         <li (click)="onExport('.csv')" nz-menu-item>
           <i nz-icon nzType="file-excel" nzTheme="outline"></i>
-          {{ 'admin.layout.DOWNLOAD_CSV' | translate }}
+          {{ "admin.layout.DOWNLOAD_CSV" | translate }}
         </li>
       </ul>
     </nz-dropdown-menu>

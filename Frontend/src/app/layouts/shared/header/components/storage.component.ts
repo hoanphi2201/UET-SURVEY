@@ -1,13 +1,19 @@
-import {Component,HostListener,ChangeDetectionStrategy } from '@angular/core';
-import { NzModalService, NzMessageService } from 'ng-zorro-antd';
+import {
+  Component,
+  HostListener,
+  ChangeDetectionStrategy
+} from "@angular/core";
+import { NzModalService, NzMessageService } from "ng-zorro-antd";
 
 @Component({
-  selector: 'header-storage',
+  selector: "header-storage",
   template: `
-    <i nz-icon nzType="tool"></i>{{ 'header.sidebar.MENU_CLEAR_LOCAL_STORAGE' | translate }}`,
+    <i nz-icon nzType="tool"></i
+    >{{ "header.sidebar.MENU_CLEAR_LOCAL_STORAGE" | translate }}
+  `,
   // tslint:disable-next-line: no-host-metadata-property
   host: {
-    '[class.d-block]': 'true'
+    "[class.d-block]": "true"
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -17,13 +23,13 @@ export class StorageComponent {
     private messageSrv: NzMessageService
   ) {}
 
-  @HostListener('click')
+  @HostListener("click")
   _click() {
     this.modalSrv.confirm({
-      nzTitle: 'Make sure clear all local storage?',
+      nzTitle: "Make sure clear all local storage?",
       nzOnOk: () => {
         localStorage.clear();
-        this.messageSrv.success('Clear Finished!');
+        this.messageSrv.success("Clear Finished!");
       }
     });
   }

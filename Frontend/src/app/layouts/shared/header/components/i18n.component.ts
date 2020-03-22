@@ -1,13 +1,13 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { I18nService } from '@app/core';
-import { environment as env } from '@env/environment';
+import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
+import { I18nService } from "@app/core";
+import { environment as env } from "@env/environment";
 
 @Component({
-  selector: 'header-i18n',
+  selector: "header-i18n",
   template: `
     <div nz-dropdown [nzDropdownMenu]="langMenu" nzPlacement="bottomRight">
       <i nz-icon nzType="global"></i>
-      {{ 'header.sidebar.MENU_LANG' | translate }}
+      {{ "header.sidebar.MENU_LANG" | translate }}
       <i nz-icon nzType="down"></i>
     </div>
     <nz-dropdown-menu #langMenu="nzDropdownMenu">
@@ -45,7 +45,9 @@ export class I18nComponent implements OnInit {
     this.change(this.currentLanguage.code);
   }
   getCurrentLanguage() {
-    this.currentLanguage = this.langs.filter(o => o.code === this.i18nService.getCurrentLanguage())[0];
+    this.currentLanguage = this.langs.filter(
+      o => o.code === this.i18nService.getCurrentLanguage()
+    )[0];
   }
   change(lang: string) {
     this.i18nService.language = lang;

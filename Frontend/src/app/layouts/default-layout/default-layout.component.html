@@ -2,7 +2,8 @@
   [(collapsed)]="layout.collapsed"
   [siderMode]="layout.siderMode"
   [topMode]="layout.topMode()"
-  [setting]="layout.setting">
+  [setting]="layout.setting"
+>
   <ng-container sider>
     <div class="logo" [class.light]="layout.setting.theme == 'light'">
       <a [routerLink]="['/dashboard']">
@@ -12,7 +13,8 @@
     </div>
     <app-sidebar
       [data]="menu"
-      [inlineCollapsed]="layout.siderMode == 'over' ? false : layout.collapsed">
+      [inlineCollapsed]="layout.siderMode == 'over' ? false : layout.collapsed"
+    >
     </app-sidebar>
   </ng-container>
 
@@ -23,7 +25,8 @@
           nz-icon
           class="anticon trigger"
           [nzType]="layout.collapsed ? 'menu-unfold' : 'menu-fold'"
-          (click)="layout.collapsed = !layout.collapsed">
+          (click)="layout.collapsed = !layout.collapsed"
+        >
         </i>
       </ng-container>
       <ng-container left *ngIf="layout.topMode()">
@@ -39,8 +42,9 @@
           [routerLink]="['/create-survey']"
           class="alt"
           nz-button
-          nzType="default">
-          {{ 'header.sidebar.CREATE_SURVEY' | translate | uppercase }}
+          nzType="default"
+        >
+          {{ "header.sidebar.CREATE_SURVEY" | translate | uppercase }}
         </button>
         <app-notice-popover
           [spinning]="notification.spinning"
@@ -49,36 +53,58 @@
           [innerClass]="{ action: true, notice: true }"
           (action)="onHandleAction($event)"
           (loadMore)="loadMore()"
-          (visibleChange)="notification.visibleChange($event)">
+          (visibleChange)="notification.visibleChange($event)"
+        >
           <i nz-icon nzType="bell" nzTheme="outline"></i>
         </app-notice-popover>
         <span nz-dropdown class="action account" [nzDropdownMenu]="menuUser">
-          <nz-avatar [nzSize]="36" [nzSrc]="avatarUrl" nzIcon="user"></nz-avatar>
-          <span class="name" *ngIf="currentUser && viewFullName && viewFullName.length <= 10">
+          <nz-avatar
+            [nzSize]="36"
+            [nzSrc]="avatarUrl"
+            nzIcon="user"
+          ></nz-avatar>
+          <span
+            class="name"
+            *ngIf="currentUser && viewFullName && viewFullName.length <= 10"
+          >
             <ng-container>
-                {{ viewFullName }}
+              {{ viewFullName }}
             </ng-container>
           </span>
-          <span nzTooltipPlacement="top" [nzTooltipTitle]="viewFullName" nz-tooltip class="name" *ngIf="currentUser && viewFullName && viewFullName.length > 10">
+          <span
+            nzTooltipPlacement="top"
+            [nzTooltipTitle]="viewFullName"
+            nz-tooltip
+            class="name"
+            *ngIf="currentUser && viewFullName && viewFullName.length > 10"
+          >
             <ng-container>
-                {{ viewFullName | summary : 10  }}
+              {{ viewFullName | summary: 10 }}
             </ng-container>
           </span>
         </span>
         <nz-dropdown-menu nzPlacement="bottomRight" #menuUser="nzDropdownMenu">
           <ul nz-menu>
             <li nz-menu-item routerLink="/account/center">
-              <i nz-icon nzType="user"></i>{{'default.layout.MY_ACCOUNT' | translate}} 
+              <i nz-icon nzType="user"></i
+              >{{ "default.layout.MY_ACCOUNT" | translate }}
             </li>
             <li nz-menu-item routerLink="/account/setting">
-              <i nz-icon nzType="setting"></i>{{'default.layout.SETTING' | translate}} 
+              <i nz-icon nzType="setting"></i
+              >{{ "default.layout.SETTING" | translate }}
             </li>
-            <li *ngIf="currentUser?.role?.roleAcp" nz-menu-item routerLink="/admin/dashboard">
-              <i nz-icon nzType="qrcode" nzTheme="outline"></i>{{'default.layout.SYSTEM_ADMIN' | translate}} 
+            <li
+              *ngIf="currentUser?.role?.roleAcp"
+              nz-menu-item
+              routerLink="/admin/dashboard"
+            >
+              <i nz-icon nzType="qrcode" nzTheme="outline"></i
+              >{{ "default.layout.SYSTEM_ADMIN" | translate }}
             </li>
             <li nz-menu-divider></li>
             <li nz-menu-item (click)="logout()">
-              <i nz-icon nzType="logout"></i>{{'default.layout.LOGOUT' | translate}} 
+              <i nz-icon nzType="logout"></i
+              >{{ "default.layout.LOGOUT" | translate }}
             </li>
           </ul>
         </nz-dropdown-menu>
@@ -86,10 +112,14 @@
           nzTrigger="click"
           nz-dropdown
           class="action account header-right"
-          [nzDropdownMenu]="menuConfig">
+          [nzDropdownMenu]="menuConfig"
+        >
           <i nz-icon style="font-size: 20px;" nzType="appstore"></i>
         </span>
-        <nz-dropdown-menu nzPlacement="bottomCenter" #menuConfig="nzDropdownMenu">
+        <nz-dropdown-menu
+          nzPlacement="bottomCenter"
+          #menuConfig="nzDropdownMenu"
+        >
           <ul nz-menu>
             <li nz-menu-item>
               <header-fullscreen></header-fullscreen>

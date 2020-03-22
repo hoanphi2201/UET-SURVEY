@@ -1,10 +1,20 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpSentEvent, HttpHeaderResponse, HttpProgressEvent, HttpResponse, HttpUserEvent, HttpErrorResponse } from '@angular/common/http';
-import { AuthService } from '../authentication/auth.service';
-import { Observable, throwError, BehaviorSubject, of } from 'rxjs';
-import { catchError, filter, take, switchMap, finalize } from 'rxjs/operators';
-import { LoaderService } from '@app/shared/services';
-import { environment as env } from '@env/environment';
+import { Injectable } from "@angular/core";
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpSentEvent,
+  HttpHeaderResponse,
+  HttpProgressEvent,
+  HttpResponse,
+  HttpUserEvent,
+  HttpErrorResponse
+} from "@angular/common/http";
+import { AuthService } from "../authentication/auth.service";
+import { Observable, throwError, BehaviorSubject, of } from "rxjs";
+import { catchError, filter, take, switchMap, finalize } from "rxjs/operators";
+import { LoaderService } from "@app/shared/services";
+import { environment as env } from "@env/environment";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -16,10 +26,24 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(
     public authService: AuthService,
     private loaderService: LoaderService
-  ) { }
+  ) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<| HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
-    if (this.authService.getJwtToken() && (request.url.includes(env.serverAdminUrl) || request.url.includes(env.serverDefaultUrl) || request.url.includes(env.serverPublishUrl))) {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<
+    | HttpSentEvent
+    | HttpHeaderResponse
+    | HttpProgressEvent
+    | HttpResponse<any>
+    | HttpUserEvent<any>
+  > {
+    if (
+      this.authService.getJwtToken() &&
+      (request.url.includes(env.serverAdminUrl) ||
+        request.url.includes(env.serverDefaultUrl) ||
+        request.url.includes(env.serverPublishUrl))
+    ) {
       request = this.addToken(request, this.authService.getJwtToken());
     }
     return next.handle(request).pipe(
@@ -83,6 +107,6 @@ export class TokenInterceptor implements HttpInterceptor {
 
   logoutUser() {
     this.authService.logout();
-    return throwError('');
+    return throwError("");
   }
 }

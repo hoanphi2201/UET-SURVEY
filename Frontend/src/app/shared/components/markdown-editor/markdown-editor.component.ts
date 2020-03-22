@@ -1,38 +1,55 @@
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import {
-  Component, Input, OnChanges, SimpleChanges, ViewChild, ElementRef, EventEmitter, Output, forwardRef, OnInit, ViewEncapsulation, HostListener
-} from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { EditorOption, EditorInstance, AngularMarkdownEditorComponent } from 'angular-markdown-editor';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MarkdownService } from 'ngx-markdown';
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+  EventEmitter,
+  Output,
+  forwardRef,
+  OnInit,
+  ViewEncapsulation,
+  HostListener
+} from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import {
+  EditorOption,
+  EditorInstance,
+  AngularMarkdownEditorComponent
+} from "angular-markdown-editor";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { MarkdownService } from "ngx-markdown";
 @Component({
-  selector: 'markdown-editor',
-  templateUrl: 'markdown-editor.component.html',
+  selector: "markdown-editor",
+  templateUrl: "markdown-editor.component.html",
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['markdown-editor.component.scss'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => MarkdownEditorComponent),
-    multi: true
-  }]
+  styleUrls: ["markdown-editor.component.scss"],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MarkdownEditorComponent),
+      multi: true
+    }
+  ]
 })
-export class MarkdownEditorComponent implements OnChanges, ControlValueAccessor, OnInit {
-
-  @HostListener('blur') onBlur() {
+export class MarkdownEditorComponent
+  implements OnChanges, ControlValueAccessor, OnInit {
+  @HostListener("blur") onBlur() {
     if (this.input) {
       this.input.elm.nativeElement.focus();
     }
   }
-  @HostListener('document:click') onClick() {
-    setTimeout(() => { }, 10);
+  @HostListener("document:click") onClick() {
+    setTimeout(() => {}, 10);
   }
-  @ViewChild('wrapper', { static: false }) wrapper: ElementRef;
-  @ViewChild('output', { static: true }) output: ElementRef;
-  @ViewChild('input', { static: false }) input: AngularMarkdownEditorComponent;
+  @ViewChild("wrapper", { static: false }) wrapper: ElementRef;
+  @ViewChild("output", { static: true }) output: ElementRef;
+  @ViewChild("input", { static: false }) input: AngularMarkdownEditorComponent;
   @Input() content: string;
   @Input() editable = true;
-  @Input() placeholder = 'shared.ADD_TEXT';
+  @Input() placeholder = "shared.ADD_TEXT";
   @Input() autoHeight: boolean = true;
   @Input() minHeight: number = 150;
   @Input() maxHeight: number = 400;
@@ -50,7 +67,12 @@ export class MarkdownEditorComponent implements OnChanges, ControlValueAccessor,
   editorOptions: EditorOption;
   templateForm: FormGroup;
   _id: string;
-  constructor(private element: ElementRef, private translateService: TranslateService, private fb: FormBuilder, private markdownService: MarkdownService) { }
+  constructor(
+    private element: ElementRef,
+    private translateService: TranslateService,
+    private fb: FormBuilder,
+    private markdownService: MarkdownService
+  ) {}
 
   ngOnInit(): void {
     this.initEditor();
@@ -61,7 +83,10 @@ export class MarkdownEditorComponent implements OnChanges, ControlValueAccessor,
     if (!this.maxHeight) {
       this.maxHeight = this.defaultMaxHeight;
     }
-    this._id = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
+    this._id = Math.random()
+      .toString(36)
+      .replace(/[^a-z]+/g, "")
+      .substr(2, 10);
 
     this.translateService.onLangChange.subscribe((result: any) => {
       this.convert();
@@ -69,7 +94,7 @@ export class MarkdownEditorComponent implements OnChanges, ControlValueAccessor,
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.content = this.content ? this.content : '';
+    this.content = this.content ? this.content : "";
     if (this.output) {
       this.convert();
     }
@@ -95,14 +120,14 @@ export class MarkdownEditorComponent implements OnChanges, ControlValueAccessor,
     }
   }
 
-  setDisabledState?(isDisabled: boolean): void { }
+  setDisabledState?(isDisabled: boolean): void {}
 
   enterEdit(): void {
     if (!this.editable) {
       return;
     }
     this.focus.emit();
-    this.element.nativeElement.classList.add('edit-mode');
+    this.element.nativeElement.classList.add("edit-mode");
     this.editMode = true;
     setTimeout(() => {
       this.input.elm.nativeElement.focus();
@@ -118,29 +143,33 @@ export class MarkdownEditorComponent implements OnChanges, ControlValueAccessor,
         return;
       }
       // Reset field height
-      this.input.elm.nativeElement.style.height = 'inherit';
+      this.input.elm.nativeElement.style.height = "inherit";
 
       // Get the computed styles for the element
       var computed = window.getComputedStyle(this.input.elm.nativeElement);
 
       // Calculate the height
-      var _height = parseInt(computed.getPropertyValue('border-top-width'), 10)
-        + parseInt(computed.getPropertyValue('padding-top'), 10)
-        + this.input.elm.nativeElement.scrollHeight
-        + parseInt(computed.getPropertyValue('padding-bottom'), 10)
-        + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
+      var _height =
+        parseInt(computed.getPropertyValue("border-top-width"), 10) +
+        parseInt(computed.getPropertyValue("padding-top"), 10) +
+        this.input.elm.nativeElement.scrollHeight +
+        parseInt(computed.getPropertyValue("padding-bottom"), 10) +
+        parseInt(computed.getPropertyValue("border-bottom-width"), 10);
 
       let maxHeight = this.maxHeight;
       if (this.maxHeight) {
         maxHeight = Math.min(_height, this.maxHeight);
       }
-      this.input.elm.nativeElement.setAttribute('style', `height: ${Math.max(maxHeight, this.minHeight) + 'px'};`);
-    })
+      this.input.elm.nativeElement.setAttribute(
+        "style",
+        `height: ${Math.max(maxHeight, this.minHeight) + "px"};`
+      );
+    });
   }
 
   exitEdit(): void {
     this.blur.emit();
-    (<HTMLElement>this.element.nativeElement).classList.remove('edit-mode');
+    (<HTMLElement>this.element.nativeElement).classList.remove("edit-mode");
     if (this.touchListener) {
       this.touchListener();
     }
@@ -173,7 +202,7 @@ export class MarkdownEditorComponent implements OnChanges, ControlValueAccessor,
 
   private convert(): void {
     const content = this.content;
-    let placeholderContent = '';
+    let placeholderContent = "";
     if (!content && this.placeholder && this.placeholder.length > 0) {
       placeholderContent = this.translateService.instant(this.placeholder);
     }
@@ -184,20 +213,20 @@ export class MarkdownEditorComponent implements OnChanges, ControlValueAccessor,
   private initEditor(): void {
     this.editorOptions = {
       autofocus: false,
-      iconlibrary: 'fa',
+      iconlibrary: "fa",
       savable: false,
       hiddenButtons: ["cmdPreview"],
       fullscreen: {
         enable: false,
         icons: null
       },
-      height: 'vertical',
-      onFullscreenExit: (e) => this.hidePreview(e),
-      onShow: (e) => {
-        this.bsEditorInstance = e
+      height: "vertical",
+      onFullscreenExit: e => this.hidePreview(e),
+      onShow: e => {
+        this.bsEditorInstance = e;
       },
-      onBlur: (e) => this.exitEdit(),
-      parser: (val) => this.parse(val)
+      onBlur: e => this.exitEdit(),
+      parser: val => this.parse(val)
     };
 
     this.buildForm(this.content);
@@ -223,5 +252,4 @@ export class MarkdownEditorComponent implements OnChanges, ControlValueAccessor,
       this.markdownService.highlight();
     });
   }
-
 }

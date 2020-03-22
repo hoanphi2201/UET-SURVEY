@@ -3,7 +3,7 @@
  * See docs/coding-guide/e2e-tests.md for more info.
  */
 
-import { browser, element, by } from 'protractor';
+import { browser, element, by } from "protractor";
 
 export class LoginPage {
   userNameField = element(by.css('input[formControlName="userName"]'));
@@ -11,8 +11,8 @@ export class LoginPage {
   loginButton = element(by.css('button[type="submit"]'));
 
   async login() {
-    await this.userNameField.sendKeys('test');
-    await this.passwordField.sendKeys('123');
+    await this.userNameField.sendKeys("test");
+    await this.passwordField.sendKeys("123");
     await this.loginButton.click();
   }
 }

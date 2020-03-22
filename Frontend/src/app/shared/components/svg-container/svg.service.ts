@@ -1,7 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { SvgContainerComponent, SvgTemplateMetadata } from './svg-container.component';
-import { clone } from 'lodash';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import {
+  SvgContainerComponent,
+  SvgTemplateMetadata
+} from "./svg-container.component";
+import { clone } from "lodash";
 
 export interface SvgTemplate extends SvgTemplateMetadata {
   clone?: SVGElement;
@@ -9,7 +12,6 @@ export interface SvgTemplate extends SvgTemplateMetadata {
 
 @Injectable()
 export class SvgService {
-
   private library = new Map<String, SvgTemplateMetadata>();
   private ongoingReqs = new Map<String, Promise<any>>();
   private container: SvgContainerComponent;
@@ -39,7 +41,8 @@ export class SvgService {
   }
 
   private downloadSvg(url: string) {
-    return this.httpClient.get(url, {responseType: 'text'})
+    return this.httpClient
+      .get(url, { responseType: "text" })
       .toPromise()
       .then(responseText => {
         const id = this.getId(url);
@@ -51,7 +54,6 @@ export class SvgService {
   }
 
   private getId(url: string) {
-    return url.replace(/.+\/(.+).svg/, '$1') + new Date().getTime();
+    return url.replace(/.+\/(.+).svg/, "$1") + new Date().getTime();
   }
-
 }

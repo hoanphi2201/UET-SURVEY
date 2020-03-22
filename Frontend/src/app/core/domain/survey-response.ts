@@ -1,5 +1,5 @@
-import { SurveyCollector } from './survey-collector';
-import { SurveyForm } from './survey-form';
+import { SurveyCollector } from "./survey-collector";
+import { SurveyForm } from "./survey-form";
 export interface SurveyResponse {
   id: string;
   surveyFormId: string;

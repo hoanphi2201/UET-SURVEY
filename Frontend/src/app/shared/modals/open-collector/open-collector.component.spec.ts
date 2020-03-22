@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
 
-import { OpenCollectorComponent } from './open-collector.component';
+import { OpenCollectorComponent } from "./open-collector.component";
 
-describe('OpenCollectorComponent', () => {
+describe("OpenCollectorComponent", () => {
   let component: OpenCollectorComponent;
   let fixture: ComponentFixture<OpenCollectorComponent>;
 
@@ -21,7 +21,7 @@ describe('OpenCollectorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

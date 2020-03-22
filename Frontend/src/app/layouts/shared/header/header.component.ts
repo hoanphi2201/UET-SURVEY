@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { LayoutComponent } from '../layout/layout.component';
+import { Component, OnInit } from "@angular/core";
+import { LayoutComponent } from "../layout/layout.component";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.less']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.less"]
 })
 export class HeaderComponent implements OnInit {
   get setting() {
@@ -15,6 +15,6 @@ export class HeaderComponent implements OnInit {
     return this.layout.topMode;
   }
 
-  constructor(private layout: LayoutComponent) { }
-  ngOnInit() { }
+  constructor(private layout: LayoutComponent) {}
+  ngOnInit() {}
 }
