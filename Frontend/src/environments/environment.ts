@@ -9,12 +9,12 @@
 // Note that as usual, any environment variables you expose through it will end up in your
 // bundle, and you should not use it for any sensitive information like passwords or keys.
 // import { env } from './.env';
-const serverRootUrl = "http://localhost:8080";
+const serverRootUrl = "http://34.87.104.165:8081";
 export const environment = {
   production: false,
   hmr: false,
   version: "0.0.1-dev",
-  clientUrl: "http://localhost:4200",
+  clientUrl: "http://uetsurvey.xyz",
   serverRootUrl: serverRootUrl,
   serverAdminUrl: serverRootUrl + "/api/v1/admin",
   serverDefaultUrl: serverRootUrl + "/api/v1/default",

@@ -10,4 +10,5 @@ export interface SurveyForm {
   isFavorite?: boolean;
   json: any;
   user: User;
+  updatedAt: Date;
 }
