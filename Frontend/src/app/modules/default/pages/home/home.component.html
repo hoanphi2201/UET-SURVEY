@@ -1,4 +1,4 @@
-<app-page [header]="header" [title]="'Welcome to SurveyUet!'">
+<app-page [title]="'Welcome to SurveyUet!'">
   <div class="container">
     <div class="row">
       <nz-card [style.marginBottom.px]="24">
@@ -106,7 +106,6 @@
               (nzPageIndexChange)="pageIndexChange($event)"
               (nzPageSizeChange)="pageSizeChange($event)"
               [nzBordered]="true"
-              [nzTitle]="titleTemplate"
             >
               <thead (nzSortChange)="sort($event)" nzSingleSort>
                 <tr *ngIf="columns.length > 0">

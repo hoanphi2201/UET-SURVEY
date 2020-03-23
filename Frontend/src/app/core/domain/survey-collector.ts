@@ -27,4 +27,5 @@ export interface SurveyCollector {
   passwordLabel?: string;
   passwordRequiredMessage?: string;
   passwordRequiredErrorMessage?: string;
+  createdAt?: Date;
 }

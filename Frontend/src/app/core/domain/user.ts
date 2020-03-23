@@ -14,6 +14,8 @@ export interface User {
   organization?: Organization;
   accountComplete: boolean;
   avatar?: string;
+  jobRoleView?: string;
+  organizationLocationView?: string;
 }
 export interface Organization {
   organizationType?: string;

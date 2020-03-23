@@ -58,4 +58,7 @@ export class OpenCollectorComponent implements OnInit {
         }
       );
   }
+  onCancel() {
+    this.modalService.closeAll();
+  }
 }

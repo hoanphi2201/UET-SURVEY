@@ -84,9 +84,7 @@
                         [nzTotal]="pagging.total"
                         [nzFrontPagination]="false"
                         (nzPageIndexChange)="pageIndexChange($event)"
-                        (nzPageSizeChange)="pageSizeChange($event)"
                         [nzBordered]="true"
-                        [nzTitle]="titleTemplate"
                       >
                         <thead (nzSortChange)="sort($event)" nzSingleSort>
                           <tr *ngIf="columns.length > 0">

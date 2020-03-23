@@ -11,4 +11,6 @@ export interface SurveyForm {
   json: any;
   user: User;
   updatedAt: Date;
+  response?: any;
+  createdAt?: Date;
 }
