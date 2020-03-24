@@ -1,10 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
 import * as Survey from "survey-angular";
-import * as widgets from "surveyjs-widgets";
 import "inputmask/dist/inputmask/phone-codes/phone.js";
-
-widgets.jquerybarrating(Survey);
-widgets.jqueryuidatepicker(Survey);
 
 @Component({
   selector: "app-survey-response",

@@ -9,16 +9,10 @@ import {
 } from "@angular/core";
 import * as SurveyCreator from "survey-creator";
 import * as Survey from "survey-angular";
-import * as widgets from "surveyjs-widgets";
-import * as SurveyKo from "survey-knockout";
-
-widgets.jquerybarrating(Survey);
-widgets.jqueryuidatepicker(Survey);
 
 import "inputmask/dist/inputmask/phone-codes/phone.js";
 import { NzModalService } from "ng-zorro-antd";
 import { TranslateService } from "@ngx-translate/core";
-import { LoaderService } from "@app/shared/services";
 @Component({
   selector: "survey-creator",
   template: `
