@@ -3,7 +3,6 @@ import * as Survey from "survey-angular";
 import * as SurveyPDF from "survey-pdf";
 import "inputmask/dist/inputmask/phone-codes/phone.js";
 
-
 @Component({
   selector: "app-survey",
   template: `

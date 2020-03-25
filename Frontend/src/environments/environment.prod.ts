@@ -1,4 +1,4 @@
-const serverRootUrl = "http://34.87.104.165:8081";
+const serverRootUrl = "http://104.198.239.76:8081";
 export const environment = {
   production: false,
   hmr: false,
